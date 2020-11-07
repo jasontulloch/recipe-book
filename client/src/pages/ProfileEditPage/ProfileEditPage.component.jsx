@@ -15,7 +15,7 @@ const ProfileEditPage = ({ location, history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [isVegan, setIsVegan] = useState('')
+  let [isVegan, setIsVegan] = useState(false)
   const [bio, setBio] = useState('')
   const [message, setMessage] = useState(null)
 
@@ -28,7 +28,10 @@ const ProfileEditPage = ({ location, history }) => {
   const { chefInfo } = chefLogin
 
   const chefUpdateProfile = useSelector(state => state.chefUpdateProfile)
-  const { success } = chefUpdateProfile
+  const {
+    success,
+    chefInfo: chefInfoUpdate
+  } = chefUpdateProfile
 
   useEffect(() => {
     if(!chefInfo) {
@@ -73,6 +76,24 @@ const ProfileEditPage = ({ location, history }) => {
   //const handleCheck = () => {
   //  setIsVegan(!isVegan)
   //}
+  //console.log(isVegan)
+
+  const handleCheck = () => {
+    if (chef.isVegan === false) {
+      setIsVegan(true)
+      console.log(isVegan)
+    } else if (chef.isVegan === true) {
+      setIsVegan(false)
+      chef.isVegan = false
+      chefInfo.isVegan = false
+      chefLogin.isVegan = false
+      //chefInfoUpdate.isVegan = false
+      isVegan = false
+      // Code below is what isn't updating
+      //chefUpdateProfile.chefInfo.isVegan = false
+      //console.log(isVegan)
+    }
+  }
 
   console.log(isVegan)
 
@@ -159,7 +180,7 @@ const ProfileEditPage = ({ location, history }) => {
               <Form.Check
                 label='Vegan?'
                 checked={isVegan}
-                onChange={(e) => setIsVegan(e.target.checked)}
+                onChange={handleCheck}
               />
             </Form.Group>
 
@@ -184,10 +205,7 @@ const ProfileEditPage = ({ location, history }) => {
           Update
         </Button>
       </Form>
-
-
     </FormContainer>
-
   )
 }
 
