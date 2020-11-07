@@ -70,8 +70,12 @@ const ProfileEditPage = ({ location, history }) => {
 
   //const isVegan = chef.diets[0].isVegan
   //const isVegetarian = chef.diets[0].isVegetarian
+  //const handleCheck = () => {
+  //  setIsVegan(!isVegan)
+  //}
 
   console.log(isVegan)
+
 
   return (
     <FormContainer className="profileEditPage">
@@ -153,10 +157,9 @@ const ProfileEditPage = ({ location, history }) => {
           <Tab eventKey='chef-detail' title="Chef Detail">
             <Form.Group controlId='isVegan'>
               <Form.Check
-                type='checkbox'
                 label='Vegan?'
                 checked={isVegan}
-                onClick={(e) => setIsVegan(e.target.checked)}
+                onChange={(e) => setIsVegan(e.target.checked)}
               />
             </Form.Group>
 
@@ -173,6 +176,7 @@ const ProfileEditPage = ({ location, history }) => {
               </Form.Control>
               <Form.Text className='muted'>Your bio will be public</Form.Text>
             </Form.Group>
+
           </Tab>
         </Tabs>
 
