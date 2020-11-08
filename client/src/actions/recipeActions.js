@@ -81,6 +81,11 @@ export const updateRecipe = (recipe) => async (dispatch, getState) => {
       payload: data
     })
 
+    dispatch({
+      type: RECIPE_DETAILS_SUCCESS,
+      payload: data
+    })
+
   } catch (error) {
     dispatch({
       type: RECIPE_UPDATE_FAILURE,

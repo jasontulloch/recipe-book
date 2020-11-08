@@ -8,3 +8,21 @@
   content: "Step #" counter(elementcounter);
   counter-increment: elementcounter;
 }
+
+.stepTableSection {
+  width: 90%;
+}
+
+.stepList {
+  margin-bottom: -25px;
+}
+/*
+.deleteIndividualStep {
+  float: right;
+  width: 10%;
+}
+
+.stepsFormGroup {
+  width: 90%;
+}
+*/

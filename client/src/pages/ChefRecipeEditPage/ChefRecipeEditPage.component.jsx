@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Form, Button, Tabs, Tab } from 'react-bootstrap';
+import { Form, Button, Tabs, Tab, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
-import { listRecipeDetails, updateRecipe } from '../../actions/recipeActions';
+import { listRecipeDetails, updateRecipe, deleteRecipe } from '../../actions/recipeActions';
 import { RECIPE_UPDATE_RESET } from '../../constants/recipeConstants';
 
 import './ChefRecipeEditPage.styles.scss';
@@ -72,6 +72,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
     }
   }
 
+  //
+  const removeStepHandler = (e) => {
+    let arrayItem = e.target.value
+    let indexPosition = steps.indexOf(arrayItem)
+    let newSteps = steps.splice(indexPosition, 1)
+    setSteps([...steps])
+  }
+
   return (
     <div>
       <Link to='/myrecipes' className='btn btn-light my-3'>
@@ -130,32 +138,47 @@ const ChefRecipeEditPage = ({ match, history }) => {
               <Form.Group controlId='recipeSteps'>
                 <ol className="stepListOrder">
                   {steps.map((step, index) => (
-                    <li className="stepList">
-                      <Form.Group controlId='steps'>
-                        <Form.Control
-                          key='index'
-                          type='text'
-                          placeholder=''
-                          value={step}
-                          onChange={(e) => {
-                            steps[index] = e.target.value;
-                            setSteps([...steps])
-                          }}
-                        >
-                        </Form.Control>
-                      </Form.Group>
-                    </li>
+                    <Table>
+                      <li className="stepList">
+                        <td className="stepTableSection">
+                          <Form.Group controlId='steps' className='stepsFormGroup'>
+                            <Form.Control
+                              key='index'
+                              type='text'
+                              placeholder=''
+                              value={step}
+                              onChange={(e) => {
+                                steps[index] = e.target.value;
+                                setSteps([...steps])
+                              }}
+                            >
+                            </Form.Control>
+                          </Form.Group>
+                        </td>
+                        <td>
+                          <Button
+                            variant='danger'
+                            className='deleteIndividualStep btn-sm'
+                            value={step}
+                            onClick={removeStepHandler}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </li>
+                    </Table>
                   ))}
                   <Form.Label>Add a new step</Form.Label>
                   <Form.Group controlId='newStep'>
                     <Form.Control
+                      key='index'
                       type='text'
                       placeholder='Enter next recipe step'
                       onKeyPress={addStep}
                     >
                     </Form.Control>
                   </Form.Group>
-                  <Form.Text className='muted'>Note: New step will not save unless you click UPDATE.</Form.Text>
+                  <Form.Text className='muted'>Note: Hit enter to add the new step and update to save.</Form.Text>
                 </ol>
               </Form.Group>
             </Tab>

@@ -17,49 +17,13 @@ const recipeSchema = mongoose.Schema(
       type: String,
       required: true
     },
-    steps : {
+    steps: {
       type: Array,
       default: []
     },
-    ingredient_1: {
-      type: String,
-      required: true
-    },
-    ingredient_2: {
-      type: String,
-      required: false
-    },
-    ingredient_3: {
-      type: String,
-      required: false
-    },
-    ingredient_4: {
-      type: String,
-      required: false
-    },
-    ingredient_5: {
-      type: String,
-      required: false
-    },
-    ingredient_6: {
-      type: String,
-      required: false
-    },
-    ingredient_7: {
-      type: String,
-      required: false
-    },
-    ingredient_8: {
-      type: String,
-      required: false
-    },
-    ingredient_9: {
-      type: String,
-      required: false
-    },
-    ingredient_10: {
-      type: String,
-      required: false
+    ingredients: {
+      type: Array,
+      default: []
     },
     country: {
       type: String,
