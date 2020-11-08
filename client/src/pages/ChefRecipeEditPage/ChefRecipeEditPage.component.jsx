@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form, Button, Tabs, Tab, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
+import Message from '../../components/Message/Message.component';
 import { listRecipeDetails, updateRecipe, deleteRecipe } from '../../actions/recipeActions';
 import { RECIPE_UPDATE_RESET } from '../../constants/recipeConstants';
 
@@ -17,6 +18,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [cook_time, setCookTime] = useState(30)
   const [serving_size, setServingSize] = useState(4)
   const [steps, setSteps] = useState([])
+  const [message, setMessage] = useState('')
 
   const dispatch = useDispatch()
 
@@ -72,13 +74,32 @@ const ChefRecipeEditPage = ({ match, history }) => {
     }
   }
 
-  //
-  const removeStepHandler = (e) => {
-    let arrayItem = e.target.value
-    let indexPosition = steps.indexOf(arrayItem)
-    let newSteps = steps.splice(indexPosition, 1)
+  const addStepBetween = (e) => {
+    e.preventDefault()
+    let currentArrayItem = e.target.value
+    let indexPosition = steps.indexOf(currentArrayItem)
+    let newSteps = steps.splice(indexPosition, 0, 'Step placeholder')
     setSteps([...steps])
   }
+
+  const removeStepHandler = (e) => {
+    e.preventDefault()
+    let arrayItem = e.target.value
+    let indexPosition = steps.indexOf(arrayItem)
+    if (indexPosition === -1 || indexPosition === undefined) {
+      setMessage('Trouble deleting a step? Try again (or wait a few seconds), our server just needs to update!')
+      setTimeout(function() {
+        setMessage('')
+      }, 3000)
+      arrayItem = e.target.value
+      indexPosition = steps.indexOf(arrayItem)
+    } else {
+      let newSteps = steps.splice(indexPosition, 1)
+      setSteps([...steps])
+    }
+  }
+
+  console.log(message)
 
   return (
     <div>
@@ -86,6 +107,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
         Go Back
       </Link>
       <FormContainer>
+        {message !== '' && (
+          <Message variant='danger'>{message}</Message>
+        )}
         <h1>Edit Recipe: {recipe_name}</h1>
         <Form onSubmit={submitHandler}>
           <Tabs id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
@@ -162,7 +186,15 @@ const ChefRecipeEditPage = ({ match, history }) => {
                             value={step}
                             onClick={removeStepHandler}
                           >
-                            Delete
+                            <i className='fas fa-trash'></i>
+                          </Button>
+                          <Button
+                            variant='warning'
+                            className='deleteIndividualStep btn-sm'
+                            value={step}
+                            onClick={addStepBetween}
+                          >
+                            <i className='fas fa-plus'></i>
                           </Button>
                         </td>
                       </li>
@@ -178,7 +210,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     >
                     </Form.Control>
                   </Form.Group>
-                  <Form.Text className='muted'>Note: Hit enter to add the new step and update to save.</Form.Text>
+                  <Form.Text className='muted'>Note: Hit enter to add the new step and the update button below to save.</Form.Text>
                 </ol>
               </Form.Group>
             </Tab>
