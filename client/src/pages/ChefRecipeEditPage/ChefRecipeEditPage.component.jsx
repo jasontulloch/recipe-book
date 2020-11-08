@@ -33,7 +33,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   useEffect(() => {
     if(successUpdate) {
       dispatch({ type: RECIPE_UPDATE_RESET })
-      history.push('/myrecipes')
+      //history.push('/myrecipes')
     } else {
       if(!recipe.recipe_name || recipe._id !== recipeId) {
         dispatch(listRecipeDetails(recipeId))
@@ -62,6 +62,15 @@ const ChefRecipeEditPage = ({ match, history }) => {
   }
 
   const [key, setKey] = useState('recipeDetails')
+  const newStepInput = document
+
+  const addStep = (e) => {
+    if (e.which === 13) {
+      e.preventDefault()
+      setSteps([...steps, e.target.value])
+      document.getElementById('newStep').value = ''
+    }
+  }
 
   return (
     <div>
@@ -142,10 +151,11 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Control
                       type='text'
                       placeholder='Enter next recipe step'
-                      onChange={(e) => setSteps(e.target.value)}
+                      onKeyPress={addStep}
                     >
                     </Form.Control>
                   </Form.Group>
+                  <Form.Text className='muted'>Note: New step will not save unless you click UPDATE.</Form.Text>
                 </ol>
               </Form.Group>
             </Tab>
