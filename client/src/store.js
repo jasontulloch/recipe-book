@@ -7,12 +7,24 @@ import {
   chefDetailsReducer,
   chefUpdateProfileReducer,
 } from './reducers/chefReducers';
+import {
+  recipeListReducer,
+  recipeDetailsReducer,
+  recipeUpdateReducer,
+  recipeCreateReducer,
+  recipeDeleteReducer,
+} from './reducers/recipeReducers';
 
 const reducer = combineReducers({
   chefLogin: chefLoginReducer,
   chefRegister: chefRegisterReducer,
   chefDetails: chefDetailsReducer,
   chefUpdateProfile: chefUpdateProfileReducer,
+  recipeList: recipeListReducer,
+  recipeDetails: recipeDetailsReducer,
+  recipeUpdate: recipeUpdateReducer,
+  recipeCreate: recipeCreateReducer,
+  recipeDelete: recipeDeleteReducer,
 })
 
 const chefInfoFromStorage = localStorage.getItem('chefInfo')

@@ -2,7 +2,7 @@ const recipes = [
   {
     recipe_name: 'Chickn Parm',
     recipe_cover_image: '/images/chickn_parm.jpg',
-    step_1: 'Cook the damn thing',
+    steps: ['Cook the damn thing', 'What we do next', 'hi there'],
     ingredient_1: 'Chickn',
     country: 'Italy',
     cook_time: '60',

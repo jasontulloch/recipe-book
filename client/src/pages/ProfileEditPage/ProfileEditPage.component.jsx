@@ -77,6 +77,7 @@ const ProfileEditPage = ({ location, history }) => {
   //  setIsVegan(!isVegan)
   //}
   //console.log(isVegan)
+  console.log(chef)
 
   const handleCheck = () => {
     if (chef.isVegan === false) {
@@ -96,6 +97,7 @@ const ProfileEditPage = ({ location, history }) => {
   }
 
   console.log(isVegan)
+  console.log(first_name)
 
 
   return (

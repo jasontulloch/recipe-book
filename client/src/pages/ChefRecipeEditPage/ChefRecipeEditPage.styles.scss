@@ -1,0 +1,10 @@
+.stepListOrder {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
+}
+
+.stepList:before {
+  content: "Step #" counter(elementcounter);
+  counter-increment: elementcounter;
+}

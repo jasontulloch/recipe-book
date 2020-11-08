@@ -17,45 +17,9 @@ const recipeSchema = mongoose.Schema(
       type: String,
       required: true
     },
-    step_1: {
-      type: String,
-      required: true
-    },
-    step_2: {
-      type: String,
-      required: false
-    },
-    step_3: {
-      type: String,
-      required: false
-    },
-    step_4: {
-      type: String,
-      required: false
-    },
-    step_5: {
-      type: String,
-      required: false
-    },
-    step_6: {
-      type: String,
-      required: false
-    },
-    step_7: {
-      type: String,
-      required: false
-    },
-    step_8: {
-      type: String,
-      required: false
-    },
-    step_9: {
-      type: String,
-      required: false
-    },
-    step_10: {
-      type: String,
-      required: false
+    steps : {
+      type: Array,
+      default: []
     },
     ingredient_1: {
       type: String,

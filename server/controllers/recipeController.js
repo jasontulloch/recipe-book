@@ -47,7 +47,7 @@ const createRecipe = asyncHandler(async (req, res) => {
     chef: req.chef._id,
     recipe_name: 'Sample recipe',
     recipe_cover_image: '/images/sample.jpg',
-    step_1: 'Please enter at least 1 step',
+    steps: ['Please enter at least 1 step'],
     ingredient_1: 'Please enter at least 1 ingredient',
     country: 'n/a',
     cook_time: 60,
@@ -58,4 +58,31 @@ const createRecipe = asyncHandler(async (req, res) => {
   res.status(201).json(createdRecipe)
 })
 
-export { getRecipes, getRecipeById, deleteRecipe, createRecipe }
+const updateRecipe = asyncHandler(async (req, res) => {
+  const {
+    recipe_name,
+    country,
+    cook_time,
+    serving_size,
+    steps
+  } = req. body
+
+  const recipe = await Recipe.findById(req.params.id)
+
+  if(recipe) {
+    recipe.recipe_name = recipe_name
+    recipe.country = country
+    recipe.cook_time = cook_time
+    recipe.serving_size = serving_size
+    recipe.steps = steps
+
+    const updatedRecipe = await recipe.save()
+    res.json(updatedRecipe)
+
+  } else {
+      res.status(404)
+      throw new Error('Recipe not found')
+  }
+})
+
+export { getRecipes, getRecipeById, deleteRecipe, createRecipe, updateRecipe }

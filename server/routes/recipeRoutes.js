@@ -4,6 +4,7 @@ import {
   getRecipeById,
   deleteRecipe,
   createRecipe,
+  updateRecipe,
 } from '../controllers/recipeController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
@@ -15,5 +16,6 @@ router.route('/')
 router.route('/:id')
   .get(getRecipeById)
   .delete(protect, deleteRecipe)
+  .put(protect, updateRecipe)
 
 export default router;

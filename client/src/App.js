@@ -9,7 +9,8 @@ import HomePage from './pages/HomePage/HomePage.component';
 import LoginPage from './pages/LoginPage/LoginPage.component';
 import RegisterPage from './pages/RegisterPage/RegisterPage.component';
 import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage.component';
-
+import ChefRecipesListPage from './pages/ChefRecipesListPage/ChefRecipesListPage.component';
+import ChefRecipeEditPage from './pages/ChefRecipeEditPage/ChefRecipeEditPage.component';
 
 const App = () => {
   return (
@@ -20,6 +21,8 @@ const App = () => {
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfileEditPage} />
+          <Route path='/myrecipes' component={ChefRecipesListPage} exact />
+          <Route path='/myrecipes/:id/edit' component={ChefRecipeEditPage} exact />
           <Route path='/' component={HomePage} exact />
         </Container>
       </main>
