@@ -64,7 +64,17 @@ const updateRecipe = asyncHandler(async (req, res) => {
     country,
     cook_time,
     serving_size,
-    steps
+    steps,
+    ingredients,
+    isVegan,
+    isVegetarian,
+    isGlutenFree,
+    isKetogenic,
+    isDairy,
+    isEgg,
+    isNuts,
+    isShellfish,
+    isSoy
   } = req. body
 
   const recipe = await Recipe.findById(req.params.id)
@@ -75,6 +85,16 @@ const updateRecipe = asyncHandler(async (req, res) => {
     recipe.cook_time = cook_time
     recipe.serving_size = serving_size
     recipe.steps = steps
+    recipe.ingredients = ingredients
+    recipe.isVegan = isVegan
+    recipe.isVegetarian = isVegetarian
+    recipe.isGlutenFree = isGlutenFree
+    recipe.isKetogenic = isKetogenic
+    recipe.isDairy = isDairy
+    recipe.isEgg = isEgg
+    recipe.isNuts = isNuts
+    recipe.isShellfish = isShellfish
+    recipe.isSoy = isSoy
 
     const updatedRecipe = await recipe.save()
     res.json(updatedRecipe)

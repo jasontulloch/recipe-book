@@ -16,13 +16,31 @@
 .stepList {
   margin-bottom: -25px;
 }
-/*
-.deleteIndividualStep {
-  float: right;
-  width: 10%;
+
+.ingredientListOrder {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
 }
 
-.stepsFormGroup {
+.ingredientList:before {
+  content: "Ingredient #" counter(elementcounter);
+  counter-increment: elementcounter;
+}
+
+.ingredientTableSection {
   width: 90%;
 }
-*/
+
+.ingredientList {
+  margin-bottom: -25px;
+}
+
+.dietsAndAllerginsGroup {
+  display: inline-block;
+  padding: 5px;
+}
+
+.allerginsLabel {
+  margin-top: 10px;
+}

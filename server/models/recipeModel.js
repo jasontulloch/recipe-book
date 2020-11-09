@@ -57,32 +57,50 @@ const recipeSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    diets: [{
-      isVegan: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isVegetarian: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isGlutenFree: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isKetogenic: {
-        type: Boolean,
-        required: true,
-        default: false
-      }
-    }],
-    allergin: {
-      type: mongoose.Schema.Types.ObjectId,
-      require: true,
-      ref: 'Allergin'
+    isVegan: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isVegetarian: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isGlutenFree: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isKetogenic: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isDairy: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isEgg: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isNuts: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isShellfish: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isSoy: {
+      type: Boolean,
+      required: true,
+      default: false
     },
   }, {
     timestamps: true,

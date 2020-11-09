@@ -9,14 +9,8 @@ const recipes = [
     serving_size: '4',
     isPremium: 'false',
     isPublished: 'false',
-    diets: [{
-      isVegan: true,
-    }],
-    allergins: [
-      {
-        isDairy: false
-      }
-    ]
+    isVegan: true,
+    isDairy: true,
   }
 ]
 

@@ -81,6 +81,7 @@ const ChefRecipesListPage = ({ match , history }) => {
             <thead>
               <tr>
                 <th>RECIPE NAME</th>
+                <th>RATING</th>
                 <th>COUNTRY</th>
                 <th>COOK TIME</th>
                 <th>SERVING SIZE</th>
@@ -92,6 +93,7 @@ const ChefRecipesListPage = ({ match , history }) => {
               {recipes.map(recipe => (
                 <tr key={recipe.id}>
                   <td>{recipe.recipe_name}</td>
+                  <td>{recipe.rating}</td>
                   <td>{recipe.country}</td>
                   <td>{recipe.cook_time}</td>
                   <td>{recipe.serving_size}</td>

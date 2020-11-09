@@ -18,7 +18,19 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [cook_time, setCookTime] = useState(30)
   const [serving_size, setServingSize] = useState(4)
   const [steps, setSteps] = useState([])
-  const [message, setMessage] = useState('')
+  const [ingredients, setIngredients] = useState([])
+  const [isVegan, setIsVegan] = useState(false)
+  const [isVegetarian, setIsVegetarian] = useState(false)
+  const [isGlutenFree, setIsGlutenFree] = useState(false)
+  const [isKetogenic, setIsKetogenic] = useState(false)
+  const [isDairy, setIsDairy] = useState(false)
+  const [isEgg, setIsEgg] = useState(false)
+  const [isNuts, setIsNuts] = useState(false)
+  const [isShellfish, setIsShellfish] = useState(false)
+  const [isSoy, setIsSoy] = useState(false)
+
+  const [warningMessage, setWarningMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   const dispatch = useDispatch()
 
@@ -45,12 +57,26 @@ const ChefRecipeEditPage = ({ match, history }) => {
         setCookTime(recipe.cook_time)
         setServingSize(recipe.serving_size)
         setSteps(recipe.steps)
+        setIngredients(recipe.ingredients)
+        setIsVegan(recipe.isVegan)
+        setIsVegetarian(recipe.isVegetarian)
+        setIsGlutenFree(recipe.isGlutenFree)
+        setIsKetogenic(recipe.isKetogenic)
+        setIsDairy(recipe.isDairy)
+        setIsEgg(recipe.isEgg)
+        setIsNuts(recipe.isNuts)
+        setIsShellfish(recipe.isShellfish)
+        setIsSoy(recipe.isSoy)
       }
     }
   }, [dispatch, history, recipeId, recipe, successUpdate])
 
   const submitHandler = (e) => {
     e.preventDefault()
+    setSuccessMessage('Recipe has successfully updated!')
+    setTimeout(function() {
+      setSuccessMessage('')
+    }, 3000)
     dispatch(
       updateRecipe({
         _id: recipeId,
@@ -58,19 +84,36 @@ const ChefRecipeEditPage = ({ match, history }) => {
         country,
         cook_time,
         serving_size,
-        steps
+        steps,
+        ingredients,
+        isVegan,
+        isVegetarian,
+        isGlutenFree,
+        isKetogenic,
+        isDairy,
+        isEgg,
+        isNuts,
+        isShellfish,
+        isSoy,
       })
     )
   }
 
   const [key, setKey] = useState('recipeDetails')
-  const newStepInput = document
 
   const addStep = (e) => {
     if (e.which === 13) {
       e.preventDefault()
       setSteps([...steps, e.target.value])
       document.getElementById('newStep').value = ''
+    }
+  }
+
+  const addIngredient = (e) => {
+    if (e.which === 13) {
+      e.preventDefault()
+      setIngredients([...ingredients, e.target.value])
+      document.getElementById('newIngredient').value = ''
     }
   }
 
@@ -82,14 +125,22 @@ const ChefRecipeEditPage = ({ match, history }) => {
     setSteps([...steps])
   }
 
+  const addIngredientBetween = (e) => {
+    e.preventDefault()
+    let currentArrayItem = e.target.value
+    let indexPosition = ingredients.indexOf(currentArrayItem)
+    let newIngredients = ingredients.splice(indexPosition, 0, 'Ingredient placeholder')
+    setIngredients([...ingredients])
+  }
+
   const removeStepHandler = (e) => {
     e.preventDefault()
     let arrayItem = e.target.value
     let indexPosition = steps.indexOf(arrayItem)
     if (indexPosition === -1 || indexPosition === undefined) {
-      setMessage('Trouble deleting a step? Try again (or wait a few seconds), our server just needs to update!')
+      setWarningMessage('Trouble deleting a step? Try again (or wait a few seconds), our server just needs to update!')
       setTimeout(function() {
-        setMessage('')
+        setWarningMessage('')
       }, 3000)
       arrayItem = e.target.value
       indexPosition = steps.indexOf(arrayItem)
@@ -99,7 +150,22 @@ const ChefRecipeEditPage = ({ match, history }) => {
     }
   }
 
-  console.log(message)
+  const removeIngredientHandler = (e) => {
+    e.preventDefault()
+    let arrayItem = e.target.value
+    let indexPosition = ingredients.indexOf(arrayItem)
+    if (indexPosition === -1 || indexPosition === undefined) {
+      setWarningMessage('Trouble deleting an ingredient? Try again (or wait a few seconds), our server just needs to update!')
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 3000)
+      arrayItem = e.target.value
+      indexPosition = ingredients.indexOf(arrayItem)
+    } else {
+      let newIngredients = ingredients.splice(indexPosition, 1)
+      setIngredients([...ingredients])
+    }
+  }
 
   return (
     <div>
@@ -107,8 +173,11 @@ const ChefRecipeEditPage = ({ match, history }) => {
         Go Back
       </Link>
       <FormContainer>
-        {message !== '' && (
-          <Message variant='danger'>{message}</Message>
+        {warningMessage !== '' && (
+          <Message variant='danger'>{warningMessage}</Message>
+        )}
+        {successMessage !== '' && (
+          <Message variant='success'>{successMessage}</Message>
         )}
         <h1>Edit Recipe: {recipe_name}</h1>
         <Form onSubmit={submitHandler}>
@@ -212,6 +281,141 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   </Form.Group>
                   <Form.Text className='muted'>Note: Hit enter to add the new step and the update button below to save.</Form.Text>
                 </ol>
+              </Form.Group>
+            </Tab>
+            <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
+              <Form.Group controlId='recipeIngredients'>
+                <ol className="ingredientListOrder">
+                  {ingredients.map((ingredient, index) => (
+                    <Table>
+                      <li className="ingredientList">
+                        <td className="ingredientTableSection">
+                          <Form.Group controlId='ingredients' className='ingredientsFormGroup'>
+                            <Form.Control
+                              key='index'
+                              type='text'
+                              placeholder=''
+                              value={ingredient}
+                              onChange={(e) => {
+                                ingredients[index] = e.target.value;
+                                setIngredients([...ingredients])
+                              }}
+                            >
+                            </Form.Control>
+                          </Form.Group>
+                        </td>
+                        <td>
+                          <Button
+                            variant='danger'
+                            className='deleteIndividualIngredient btn-sm'
+                            value={ingredient}
+                            onClick={removeIngredientHandler}
+                          >
+                            <i className='fas fa-trash'></i>
+                          </Button>
+                          <Button
+                            variant='warning'
+                            className='deleteIndividualIngredient btn-sm'
+                            value={ingredient}
+                            onClick={addIngredientBetween}
+                          >
+                            <i className='fas fa-plus'></i>
+                          </Button>
+                        </td>
+                      </li>
+                    </Table>
+                  ))}
+                  <Form.Label>Add another ingredient</Form.Label>
+                  <Form.Group controlId='newIngredient'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='Enter another ingredient'
+                      onKeyPress={addIngredient}
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                  <Form.Text className='muted'>Note: Hit enter to add the new ingredient and the update button below to save.</Form.Text>
+                </ol>
+              </Form.Group>
+            </Tab>
+            <Tab eventKey='recipeDietsAndAllergins' title="Recipe Diets & Allergins">
+              <Form.Label className='dietsLabel'>Diets</Form.Label>
+              <br />
+              <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Vegan?'
+                  checked={isVegan}
+                  onChange={(e) => setIsVegan(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Vegetarian?'
+                  checked={isVegetarian}
+                  onChange={(e) => setIsVegetarian(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Gluten Free?'
+                  checked={isGlutenFree}
+                  onChange={(e) => setIsGlutenFree(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Ketogenic?'
+                  checked={isKetogenic}
+                  onChange={(e) => setIsKetogenic(e.target.checked)}
+                />
+              </Form.Group>
+              <br />
+              <Form.Label className='allerginsLabel'>Allergins</Form.Label>
+              <br />
+              <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Contains Dairy?'
+                  checked={isDairy}
+                  onChange={(e) => setIsDairy(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Contains Egg?'
+                  checked={isEgg}
+                  onChange={(e) => setIsEgg(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Contains Nuts?'
+                  checked={isNuts}
+                  onChange={(e) => setIsNuts(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Contains Shellfish?'
+                  checked={isShellfish}
+                  onChange={(e) => setIsShellfish(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Contains Soy?'
+                  checked={isSoy}
+                  onChange={(e) => setIsSoy(e.target.checked)}
+                />
               </Form.Group>
             </Tab>
           </Tabs>
