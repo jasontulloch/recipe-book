@@ -9,6 +9,7 @@ import { listRecipeDetails, updateRecipe, deleteRecipe } from '../../actions/rec
 import { RECIPE_UPDATE_RESET } from '../../constants/recipeConstants';
 
 import './ChefRecipeEditPage.styles.scss';
+import Countries from '../../lists/countries';
 
 const ChefRecipeEditPage = ({ match, history }) => {
   const recipeId = match.params.id
@@ -195,19 +196,19 @@ const ChefRecipeEditPage = ({ match, history }) => {
               </Form.Group>
               <Form.Group controlId='country'>
                 <Form.Label>Country of Origin</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Select country of origin or n/a'
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                >
+                <Form.Control as='select' onChange={(e) => setCountry(e.target.value)}>
+                  {Countries.map((country) =>
+                    <option key={country[0]} value={country[1]}>
+                      {country[1]}
+                    </option>
+                  )}
                 </Form.Control>
                 <Form.Text className='muted'>Help users find your recipe. Not certain? Select n/a.</Form.Text>
               </Form.Group>
               <Form.Group controlId='cookTime'>
                 <Form.Label>Cook Time</Form.Label>
                 <Form.Control
-                  type='text'
+                  type='number'
                   placeholder='Enter estimated cook time'
                   value={cook_time}
                   onChange={(e) => setCookTime(e.target.value)}
@@ -218,7 +219,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
               <Form.Group controlId='servingSize'>
                 <Form.Label>Serving Size</Form.Label>
                 <Form.Control
-                  type='text'
+                  type='number'
                   placeholder='How many servings does your recipe have?'
                   value={serving_size}
                   onChange={(e) => setServingSize(e.target.value)}
