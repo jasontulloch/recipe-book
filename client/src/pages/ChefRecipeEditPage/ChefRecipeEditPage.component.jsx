@@ -113,8 +113,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const addIngredient = (e) => {
     if (e.which === 13) {
       e.preventDefault()
-      setIngredients([...ingredients, e.target.value])
-      document.getElementById('newIngredient').value = ''
+      setIngredients([...ingredients, ['Q', 'M', 'I']])
+      //setIngredients([...ingredients, e.target.value])
+      //document.getElementById('newIngredient').value = ''
     }
   }
 
@@ -161,10 +162,16 @@ const ChefRecipeEditPage = ({ match, history }) => {
     e.preventDefault()
     let arrayItem = e.target.value
     console.log(arrayItem)
-    let indexPosition = ingredients.indexOf(arrayItem)
-    console.log(indexPosition)
-    let newIngredients = ingredients.splice(arrayItem, 1)
-    setIngredients([...ingredients])
+    if (arrayItem === -1 || arrayItem === undefined) {
+      setWarningMessage('Trouble deleting an ingredient? Try again (or wait a few seconds), our server just needs to update!')
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 3000)
+      arrayItem = e.target.value
+    } else {
+      let newIngredients = ingredients.splice(arrayItem, 1)
+      setIngredients([...ingredients])
+    }
   }
 
   return (
@@ -366,8 +373,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Control
                       key='index'
                       type='text'
-                      placeholder='e.g. .25'
-                      onChange={addIngredient}
+                      placeholder='1/4'
+                      onKeyPress={addIngredient}
                     >
                     </Form.Control>
                   </Form.Group>
@@ -377,8 +384,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Control
                       key='index'
                       type='text'
-                      placeholder='e.g. Cup'
-                      onChange={addIngredient}
+                      placeholder='Cup'
+                      onKeyPress={addIngredient}
                     >
                     </Form.Control>
                   </Form.Group>
@@ -389,7 +396,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       key='index'
                       type='text'
                       placeholder='Enter new ingredient'
-                      onChange={addIngredient}
+                      onKeyPress={addIngredient}
                     >
                     </Form.Control>
                   </Form.Group>
