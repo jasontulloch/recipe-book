@@ -15,7 +15,16 @@ const ProfileEditPage = ({ location, history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  let [isVegan, setIsVegan] = useState(false)
+  const [isVegan, setIsVegan] = useState(false)
+  const [isVegetarian, setIsVegetarian] = useState(false)
+  const [isGlutenFree, setIsGlutenFree] = useState(false)
+  const [isKetogenic, setIsKetogenic] = useState(false)
+  const [isDairy, setIsDairy] = useState(false)
+  const [isEgg, setIsEgg] = useState(false)
+  const [isNuts, setIsNuts] = useState(false)
+  const [isShellfish, setIsShellfish] = useState(false)
+  const [isSoy, setIsSoy] = useState(false)
+  const [isWheat, setIsWheat] = useState(false)
   const [bio, setBio] = useState('')
   const [message, setMessage] = useState(null)
 
@@ -47,9 +56,18 @@ const ProfileEditPage = ({ location, history }) => {
         setEmail(chef.email)
         setBio(chef.bio)
         setIsVegan(chef.isVegan)
+        setIsVegetarian(chef.isVegetarian)
+        setIsGlutenFree(chef.isGlutenFree)
+        setIsKetogenic(chef.isKetogenic)
+        setIsDairy(chef.isDairy)
+        setIsEgg(chef.isEgg)
+        setIsNuts(chef.isNuts)
+        setIsShellfish(chef.isShellfish)
+        setIsSoy(chef.isSoy)
+        setIsWheat(chef.isWheat)
       }
     }
-  }, [dispatch, history, chefInfo, chef, success])
+  }, [dispatch, history, chefLogin, chefInfo, chef, success])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -57,48 +75,28 @@ const ProfileEditPage = ({ location, history }) => {
       setMessage('Passwords do not match')
     } else {
       dispatch(updateChefProfile({
-        id: chef._id,
+        _id: chef._id,
         first_name,
         last_name,
         username,
         email,
         password,
         bio,
-        isVegan
+        isVegan,
+        isVegetarian,
+        isGlutenFree,
+        isKetogenic,
+        isDairy,
+        isEgg,
+        isNuts,
+        isShellfish,
+        isSoy,
+        isWheat,
       }))
     }
   }
 
   const [key, setKey] = useState('auth')
-
-  //const isVegan = chef.diets[0].isVegan
-  //const isVegetarian = chef.diets[0].isVegetarian
-  //const handleCheck = () => {
-  //  setIsVegan(!isVegan)
-  //}
-  //console.log(isVegan)
-  console.log(chef)
-
-  const handleCheck = () => {
-    if (chef.isVegan === false) {
-      setIsVegan(true)
-      console.log(isVegan)
-    } else if (chef.isVegan === true) {
-      setIsVegan(false)
-      chef.isVegan = false
-      chefInfo.isVegan = false
-      chefLogin.isVegan = false
-      //chefInfoUpdate.isVegan = false
-      isVegan = false
-      // Code below is what isn't updating
-      //chefUpdateProfile.chefInfo.isVegan = false
-      //console.log(isVegan)
-    }
-  }
-
-  console.log(isVegan)
-  console.log(first_name)
-
 
   return (
     <FormContainer className="profileEditPage">
@@ -178,13 +176,91 @@ const ProfileEditPage = ({ location, history }) => {
             </Form.Group>
           </Tab>
           <Tab eventKey='chef-detail' title="Chef Detail">
-            <Form.Group controlId='isVegan'>
+            <Form.Label className='dietsLabel'>Diets</Form.Label>
+            <br />
+            <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
               <Form.Check
+                inline
                 label='Vegan?'
                 checked={isVegan}
-                onChange={handleCheck}
+                onChange={(e) => setIsVegan(e.target.checked)}
               />
             </Form.Group>
+            <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
+              <Form.Check
+                inline
+                label='Vegetarian?'
+                checked={isVegetarian}
+                onChange={(e) => setIsVegetarian(e.target.checked)}
+              />
+            </Form.Group>
+            <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
+              <Form.Check
+                inline
+                label='Gluten Free?'
+                checked={isGlutenFree}
+                onChange={(e) => setIsGlutenFree(e.target.checked)}
+              />
+            </Form.Group>
+            <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
+              <Form.Check
+                inline
+                label='Ketogenic?'
+                checked={isKetogenic}
+                onChange={(e) => setIsKetogenic(e.target.checked)}
+              />
+            </Form.Group>
+            <br />
+              <Form.Label className='allerginsLabel'>Allergins</Form.Label>
+              <br />
+              <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Dairy?'
+                  checked={isDairy}
+                  onChange={(e) => setIsDairy(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Egg?'
+                  checked={isEgg}
+                  onChange={(e) => setIsEgg(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Nuts?'
+                  checked={isNuts}
+                  onChange={(e) => setIsNuts(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Shellfish?'
+                  checked={isShellfish}
+                  onChange={(e) => setIsShellfish(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Soy?'
+                  checked={isSoy}
+                  onChange={(e) => setIsSoy(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Wheat?'
+                  checked={isWheat}
+                  onChange={(e) => setIsWheat(e.target.checked)}
+                />
+              </Form.Group>
 
             <Form.Group controlId='bio'>
               <Form.Label>Chef Bio</Form.Label>

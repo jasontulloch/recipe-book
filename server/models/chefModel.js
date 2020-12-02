@@ -49,38 +49,36 @@ const chefSchema = mongoose.Schema(
       required: true,
       default: false
     },
-    allergins: [{
-      isDairy: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isEgg: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isNuts: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isShellfish: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isSoy: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      isWheat: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-    }],
+    isDairy: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isEgg: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isNuts: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isShellfish: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isSoy: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isWheat: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     isPremium: {
       type: Boolean,
       required: true,

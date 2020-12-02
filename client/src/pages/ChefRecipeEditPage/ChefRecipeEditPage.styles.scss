@@ -28,8 +28,17 @@
   counter-increment: elementcounter;
 }
 
-.ingredientTableSection {
-  width: 90%;
+.ingredientTable {
+  width: 100%;
+}
+.ingredientTableSectionAmount {
+  width: 15%;
+}
+.ingredientTableSectionMeasurement {
+  width: 15%;
+}
+.ingredientsTableSectionIngredient{
+  width: 60%;
 }
 
 .ingredientList {

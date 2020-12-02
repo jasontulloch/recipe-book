@@ -121,16 +121,22 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const addStepBetween = (e) => {
     e.preventDefault()
     let currentArrayItem = e.target.value
+    console.log(currentArrayItem)
     let indexPosition = steps.indexOf(currentArrayItem)
+    console.log(indexPosition)
     let newSteps = steps.splice(indexPosition, 0, 'Step placeholder')
+    console.log(newSteps)
     setSteps([...steps])
   }
 
   const addIngredientBetween = (e) => {
     e.preventDefault()
     let currentArrayItem = e.target.value
+    console.log(currentArrayItem)
     let indexPosition = ingredients.indexOf(currentArrayItem)
-    let newIngredients = ingredients.splice(indexPosition, 0, 'Ingredient placeholder')
+    console.log(indexPosition)
+    let newIngredients = ingredients.splice(indexPosition, 0, ['Q', 'M', 'I'])
+    console.log(newIngredients)
     setIngredients([...ingredients])
   }
 
@@ -154,18 +160,11 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const removeIngredientHandler = (e) => {
     e.preventDefault()
     let arrayItem = e.target.value
+    console.log(arrayItem)
     let indexPosition = ingredients.indexOf(arrayItem)
-    if (indexPosition === -1 || indexPosition === undefined) {
-      setWarningMessage('Trouble deleting an ingredient? Try again (or wait a few seconds), our server just needs to update!')
-      setTimeout(function() {
-        setWarningMessage('')
-      }, 3000)
-      arrayItem = e.target.value
-      indexPosition = ingredients.indexOf(arrayItem)
-    } else {
-      let newIngredients = ingredients.splice(indexPosition, 1)
-      setIngredients([...ingredients])
-    }
+    console.log(indexPosition)
+    let newIngredients = ingredients.splice(arrayItem, 1)
+    setIngredients([...ingredients])
   }
 
   return (
@@ -286,58 +285,118 @@ const ChefRecipeEditPage = ({ match, history }) => {
             </Tab>
             <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
               <Form.Group controlId='recipeIngredients'>
-                <ol className="ingredientListOrder">
+                <Table className='ingredientTable'>
+                  <thead class='ingredientTableHeaders'>
+                    <th>Quantity</th>
+                    <th>Measurement</th>
+                    <th>Ingredient</th>
+                  </thead>
                   {ingredients.map((ingredient, index) => (
-                    <Table>
-                      <li className="ingredientList">
-                        <td className="ingredientTableSection">
-                          <Form.Group controlId='ingredients' className='ingredientsFormGroup'>
-                            <Form.Control
-                              key='index'
-                              type='text'
-                              placeholder=''
-                              value={ingredient}
-                              onChange={(e) => {
-                                ingredients[index] = e.target.value;
-                                setIngredients([...ingredients])
-                              }}
-                            >
-                            </Form.Control>
-                          </Form.Group>
-                        </td>
-                        <td>
-                          <Button
-                            variant='danger'
-                            className='deleteIndividualIngredient btn-sm'
-                            value={ingredient}
-                            onClick={removeIngredientHandler}
+                    <tbody>
+                      <td className="ingredientTableSectionAmount">
+                        <Form.Group controlId='ingredients' className='ingredientsFormGroupAmount'>
+                          <Form.Control
+                            key='index'
+                            type='text'
+                            placeholder=''
+                            value={ingredient[0]}
+                            onChange={(e) => {
+                              ingredients[index][0] = e.target.value;
+                              setIngredients([...ingredients])
+                            }}
                           >
-                            <i className='fas fa-trash'></i>
-                          </Button>
-                          <Button
-                            variant='warning'
-                            className='deleteIndividualIngredient btn-sm'
-                            value={ingredient}
-                            onClick={addIngredientBetween}
+                          </Form.Control>
+                        </Form.Group>
+                      </td>
+                      <td className="ingredientTableSectionMeasurement">
+                        <Form.Group controlId='ingredients' className='ingredientsFormGroupMeasurement'>
+                          <Form.Control
+                            key='index'
+                            type='text'
+                            placeholder=''
+                            value={ingredient[1]}
+                            onChange={(e) => {
+                              ingredients[index][1] = e.target.value;
+                              setIngredients([...ingredients])
+                            }}
                           >
-                            <i className='fas fa-plus'></i>
-                          </Button>
-                        </td>
-                      </li>
-                    </Table>
+                          </Form.Control>
+                        </Form.Group>
+                      </td>
+                      <td className="ingredientTableSectionIngredient">
+                        <Form.Group controlId='ingredients' className='ingredientsFormGroupIngredient'>
+                          <Form.Control
+                            key='index'
+                            type='text'
+                            placeholder=''
+                            value={ingredient[2]}
+                            onChange={(e) => {
+                              ingredients[index][2] = e.target.value;
+                              setIngredients([...ingredients])
+                            }}
+                          >
+                          </Form.Control>
+                        </Form.Group>
+                      </td>
+                      <td>
+                        <Button
+                          variant='danger'
+                          className='deleteIndividualIngredient btn-sm'
+                          value={index}
+                          onClick={removeIngredientHandler}
+                        >
+                          <i className='fas fa-trash'></i>
+                        </Button>
+                        <Button
+                          variant='warning'
+                          className='deleteIndividualIngredient btn-sm'
+                          value={ingredient}
+                          onClick={addIngredientBetween}
+                        >
+                          <i className='fas fa-plus'></i>
+                        </Button>
+                      </td>
+                    </tbody>
                   ))}
-                  <Form.Label>Add another ingredient</Form.Label>
-                  <Form.Group controlId='newIngredient'>
+                </Table>
+              <Form.Label>Add another ingredient</Form.Label>
+              <Table className='newIngredientTable'>
+                <td className='ingredientTableSectionAmount'>
+                  <Form.Group controlId='newIngredientQuantity'>
                     <Form.Control
                       key='index'
                       type='text'
-                      placeholder='Enter another ingredient'
-                      onKeyPress={addIngredient}
+                      placeholder='e.g. .25'
+                      onChange={addIngredient}
                     >
                     </Form.Control>
                   </Form.Group>
-                  <Form.Text className='muted'>Note: Hit enter to add the new ingredient and the update button below to save.</Form.Text>
-                </ol>
+                </td>
+                <td className='ingredientTableSectionMeasurement'>
+                  <Form.Group controlId='newIngredientMeasurement'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='e.g. Cup'
+                      onChange={addIngredient}
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </td>
+                <td className='ingredientsTableSectionIngredient'>
+                  <Form.Group controlId='newIngredientIngredient'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='Enter new ingredient'
+                      onChange={addIngredient}
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </td>
+                <td></td>
+              </Table>
+              <Form.Text className='muted'>Note: Hit enter to add the new ingredient and the update button below to save.</Form.Text>
               </Form.Group>
             </Tab>
             <Tab eventKey='recipeDietsAndAllergins' title="Recipe Diets & Allergins">

@@ -9,12 +9,8 @@ const chefs = [
     password: bcrypt.hashSync('123456', 10),
     isAdmin: true,
     isPremium: true,
-    diets: [{
-      isVegan: true,
-    }],
-    allergins: [{
-      isDairy: false,
-    }]
+    isVegan: true,
+    isDairy: true,
   }
 ]
 export default chefs;

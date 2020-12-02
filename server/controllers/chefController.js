@@ -22,6 +22,12 @@ const authChef = asyncHandler(async (req, res) => {
       isVegetarian: chef.isVegetarian,
       isGlutenFree: chef.isGlutenFree,
       isKetogenic: chef.isKetogenic,
+      isDairy: chef.isDairy,
+      isEgg: chef.isEgg,
+      isNuts: chef.isNuts,
+      isShellfish: chef.isShellfish,
+      isSoy: chef.isSoy,
+      isWheat: chef.isWheat,
       isPremium: chef.isPremium,
       isAdmin: chef.isAdmin,
       token: generateToken(chef._id),
@@ -94,7 +100,16 @@ const getChefProfile = asyncHandler(async (req, res) => {
       username: chef.username,
       email: chef.email,
       bio: chef.bio,
-      isVegan: chef.isVegan
+      isVegan: chef.isVegan,
+      isVegetarian: chef.isVegetarian,
+      isGlutenFree: chef.isGlutenFree,
+      isKetogenic: chef.isKetogenic,
+      isDairy: chef.isDairy,
+      isEgg: chef.isEgg,
+      isNuts: chef.isNuts,
+      isShellfish: chef.isShellfish,
+      isSoy: chef.isSoy,
+      isWheat: chef.isWheat,
     })
   } else {
     res.status(404)
@@ -106,7 +121,21 @@ const getChefProfile = asyncHandler(async (req, res) => {
 // @route PUT /api/chefs/profile
 // @access Private
 const updateChefProfile = asyncHandler(async (req, res) => {
+  const {
+    isVegan,
+    isVegetarian,
+    isGlutenFree,
+    isKetogenic,
+    isDairy,
+    isEgg,
+    isNuts,
+    isShellfish,
+    isSoy,
+    isWheat,
+  } = req.body
+
   const chef = await Chef.findById(req.chef._id)
+
 
   if(chef) {
     chef.first_name = req.body.first_name || chef.first_name
@@ -114,7 +143,16 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.username = req.body.username || chef.username
     chef.email = req.body.email || chef.email
     chef.bio = req.body.bio || chef.bio
-    chef.isVegan = req.body.isVegan || chef.isVegan
+    chef.isVegan = isVegan
+    chef.isVegetarian = isVegetarian
+    chef.isGlutenFree = isGlutenFree
+    chef.isKetogenic = isKetogenic
+    chef.isDairy = isDairy
+    chef.isEgg = isEgg
+    chef.isNuts = isNuts
+    chef.isShellfish = isShellfish
+    chef.isSoy = isSoy
+    chef.isWheat = isWheat
 
     if (req.body.password) {
       chef.password = req.body.password
@@ -130,6 +168,15 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       email: updatedChef.email,
       bio: updatedChef.bio,
       isVegan: updatedChef.isVegan,
+      isVegetarian: updatedChef.isVegetarian,
+      isGlutenFree: updatedChef.isGlutenFree,
+      isKetogenic: updatedChef.isKetogenic,
+      isDairy: updatedChef.isDairy,
+      isEgg: updatedChef.isEgg,
+      isNuts: updatedChef.isNuts,
+      isShellfish: updatedChef.isShellfish,
+      isSoy: updatedChef.isSoy,
+      isWheat: updatedChef.isWheat,
       token: generateToken(updatedChef._id),
     })
 
