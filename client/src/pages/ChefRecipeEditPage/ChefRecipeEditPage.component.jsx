@@ -113,9 +113,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const addIngredient = (e) => {
     if (e.which === 13) {
       e.preventDefault()
-      setIngredients([...ingredients, ['Q', 'M', 'I']])
-      //setIngredients([...ingredients, e.target.value])
-      //document.getElementById('newIngredient').value = ''
+      setIngredients([...ingredients, ['', '', e.target.value]])
+      document.getElementById('newIngredient').value = ''
     }
   }
 
@@ -368,35 +367,15 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   ))}
                 </Table>
               <Form.Label>Add another ingredient</Form.Label>
+              <Form.Text className='muted'>Note: You will set the quantity and measurement next.</Form.Text>
               <Table className='newIngredientTable'>
-                <td className='ingredientTableSectionAmount'>
-                  <Form.Group controlId='newIngredientQuantity'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='1/4'
-                      onKeyPress={addIngredient}
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </td>
-                <td className='ingredientTableSectionMeasurement'>
-                  <Form.Group controlId='newIngredientMeasurement'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='Cup'
-                      onKeyPress={addIngredient}
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </td>
                 <td className='ingredientsTableSectionIngredient'>
-                  <Form.Group controlId='newIngredientIngredient'>
+                  <Form.Group controlId='newIngredient'>
                     <Form.Control
                       key='index'
                       type='text'
                       placeholder='Enter new ingredient'
+                      required
                       onKeyPress={addIngredient}
                     >
                     </Form.Control>
