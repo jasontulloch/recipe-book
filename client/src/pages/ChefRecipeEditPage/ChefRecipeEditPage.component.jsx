@@ -134,9 +134,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
     e.preventDefault()
     let currentArrayItem = e.target.value
     console.log(currentArrayItem)
-    let indexPosition = ingredients.indexOf(currentArrayItem)
-    console.log(indexPosition)
-    let newIngredients = ingredients.splice(indexPosition, 0, ['Q', 'M', 'I'])
+    let newIngredients = ingredients.splice(currentArrayItem, 0, ['', '', ''])
     console.log(newIngredients)
     setIngredients([...ingredients])
   }
@@ -305,7 +303,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           <Form.Control
                             key='index'
                             type='text'
-                            placeholder=''
+                            placeholder='1/4'
+                            required
                             value={ingredient[0]}
                             onChange={(e) => {
                               ingredients[index][0] = e.target.value;
@@ -320,7 +319,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           <Form.Control
                             key='index'
                             type='text'
-                            placeholder=''
+                            placeholder='Cup'
+                            required
                             value={ingredient[1]}
                             onChange={(e) => {
                               ingredients[index][1] = e.target.value;
@@ -335,7 +335,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           <Form.Control
                             key='index'
                             type='text'
-                            placeholder=''
+                            placeholder='Enter ingredient here'
+                            required
                             value={ingredient[2]}
                             onChange={(e) => {
                               ingredients[index][2] = e.target.value;
@@ -357,7 +358,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         <Button
                           variant='warning'
                           className='deleteIndividualIngredient btn-sm'
-                          value={ingredient}
+                          value={index}
                           onClick={addIngredientBetween}
                         >
                           <i className='fas fa-plus'></i>
