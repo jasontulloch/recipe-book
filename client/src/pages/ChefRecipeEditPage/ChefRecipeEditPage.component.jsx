@@ -10,6 +10,8 @@ import { RECIPE_UPDATE_RESET } from '../../constants/recipeConstants';
 
 import './ChefRecipeEditPage.styles.scss';
 import Countries from '../../lists/countries';
+import Measurements from '../../lists/measurements';
+import Quantities from '../../lists/quantities';
 
 const ChefRecipeEditPage = ({ match, history }) => {
   const recipeId = match.params.id
@@ -199,9 +201,13 @@ const ChefRecipeEditPage = ({ match, history }) => {
               </Form.Group>
               <Form.Group controlId='country'>
                 <Form.Label>Country of Origin</Form.Label>
-                <Form.Control as='select' onChange={(e) => setCountry(e.target.value)}>
+                <Form.Control
+                  as='select'
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                >
                   {Countries.map((country) =>
-                    <option key={country[0]} value={country[1]}>
+                    <option key={country[0]}>
                       {country[1]}
                     </option>
                   )}
@@ -300,32 +306,34 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       <td className="ingredientTableSectionAmount">
                         <Form.Group controlId='ingredients' className='ingredientsFormGroupAmount'>
                           <Form.Control
-                            key='index'
-                            type='text'
-                            placeholder='1/4'
-                            required
+                            as='select'
                             value={ingredient[0]}
                             onChange={(e) => {
                               ingredients[index][0] = e.target.value;
                               setIngredients([...ingredients])
-                            }}
-                          >
+                            }}>
+                            {Quantities.map((quantity) =>
+                              <option key={quantity[0]}>
+                                {quantity[1]}
+                              </option>
+                            )}
                           </Form.Control>
                         </Form.Group>
                       </td>
                       <td className="ingredientTableSectionMeasurement">
                         <Form.Group controlId='ingredients' className='ingredientsFormGroupMeasurement'>
                           <Form.Control
-                            key='index'
-                            type='text'
-                            placeholder='Cup'
-                            required
+                            as='select'
                             value={ingredient[1]}
                             onChange={(e) => {
                               ingredients[index][1] = e.target.value;
                               setIngredients([...ingredients])
-                            }}
-                          >
+                            }}>
+                            {Measurements.map((measurement) =>
+                              <option key={measurement[0]}>
+                                {measurement[1]}
+                              </option>
+                            )}
                           </Form.Control>
                         </Form.Group>
                       </td>
@@ -375,7 +383,6 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       key='index'
                       type='text'
                       placeholder='Enter new ingredient'
-                      required
                       onKeyPress={addIngredient}
                     >
                     </Form.Control>
