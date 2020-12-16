@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import Comment from './commentModel.js';
-import Allergin from './allerginModel.js';
+import voteSchema from './voteModel.js';
 
 const recipeSchema = mongoose.Schema(
   {
@@ -41,16 +40,6 @@ const recipeSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false
-    },
-    rating: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    numComments: {
-      type: Number,
-      required: true,
-      default: 0
     },
     isPublished: {
       type: Boolean,
@@ -101,6 +90,12 @@ const recipeSchema = mongoose.Schema(
       type: Boolean,
       required: true,
       default: false
+    },
+    votes: [voteSchema],
+    netVotes: {
+      type: Number,
+      required: true,
+      default: 0,
     },
   }, {
     timestamps: true,

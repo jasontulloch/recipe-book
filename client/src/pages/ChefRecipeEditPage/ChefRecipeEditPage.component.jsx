@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Form, Button, Tabs, Tab, Table } from 'react-bootstrap';
+import { Form, Button, Tabs, Tab, Table, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
 import Message from '../../components/Message/Message.component';
@@ -31,6 +31,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [isNuts, setIsNuts] = useState(false)
   const [isShellfish, setIsShellfish] = useState(false)
   const [isSoy, setIsSoy] = useState(false)
+  const [recipe_cover_image, setRecipeCoverImage] = useState('')
+  const [uploading, setUploading] = useState(false)
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -70,9 +72,33 @@ const ChefRecipeEditPage = ({ match, history }) => {
         setIsNuts(recipe.isNuts)
         setIsShellfish(recipe.isShellfish)
         setIsSoy(recipe.isSoy)
+        setRecipeCoverImage(recipe.recipe_cover_image)
       }
     }
   }, [dispatch, history, recipeId, recipe, successUpdate])
+
+  const uploadFileHandler = async(e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+
+      const { data } = await axios.post('/api/upload', formData, config)
+
+      setRecipeCoverImage(data)
+      setUploading(false)
+    } catch (error) {
+      console.error(error)
+      setUploading(false)
+    }
+  }
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -98,6 +124,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         isNuts,
         isShellfish,
         isSoy,
+        recipe_cover_image
       })
     )
   }
@@ -470,6 +497,24 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   checked={isSoy}
                   onChange={(e) => setIsSoy(e.target.checked)}
                 />
+              </Form.Group>
+            </Tab>
+            <Tab eventKey='recipeImages' title="Recipe Images">
+              <Form.Group controlId='coverImage' className='imagesGroup'>
+                <Form.Label>Cover Image</Form.Label>
+                  <FormContainer>
+                    <Image
+                      className="recipeCoverImage"
+                      src={recipe_cover_image}
+                      rounded
+                    />
+                </FormContainer>
+                <Form.File
+                  id='cover-image-file'
+                  label='Choose Cover Image'
+                  custom
+                  onChange={uploadFileHandler}
+                ></Form.File>
               </Form.Group>
             </Tab>
           </Tabs>

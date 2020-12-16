@@ -11,6 +11,8 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.component';
 import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage.component';
 import ChefRecipesListPage from './pages/ChefRecipesListPage/ChefRecipesListPage.component';
 import ChefRecipeEditPage from './pages/ChefRecipeEditPage/ChefRecipeEditPage.component';
+import AllRecipesPage from './pages/AllRecipesPage/AllRecipesPage.component';
+import IndividualRecipePage from './pages/IndividualRecipePage/IndividualRecipePage.component';
 
 const App = () => {
   return (
@@ -23,6 +25,8 @@ const App = () => {
           <Route path='/profile' component={ProfileEditPage} />
           <Route path='/myrecipes' component={ChefRecipesListPage} exact />
           <Route path='/myrecipes/:id/edit' component={ChefRecipeEditPage} exact />
+          <Route path='/recipes' component={AllRecipesPage} exact />
+          <Route path='/recipe/:id' component={IndividualRecipePage} exact />
           <Route path='/' component={HomePage} exact />
         </Container>
       </main>

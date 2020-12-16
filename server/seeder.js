@@ -3,10 +3,8 @@ import dotenv from "dotenv";
 import colors from "colors";
 import chefs from "./data/chefs.js";
 import recipes from "./data/recipes.js";
-import allergins from "./data/allergins.js";
 import Chef from "./models/chefModel.js";
 import Recipe from "./models/recipeModel.js";
-import Allergin from "./models/allerginModel.js";
 import connectDB from "./config/db.js";
 
 dotenv.config();
@@ -17,19 +15,16 @@ const importData = async () => {
   try {
     await Recipe.deleteMany();
     await Chef.deleteMany();
-    await Allergin.deleteMany();
 
     const createdChefs = await Chef.insertMany(chefs);
-    const createdAllergins = await Allergin.insertMany(allergins)
 
     const adminChef = createdChefs[0]._id;
-    const adminAllergin = createdAllergins[0]._id;
 
     const sampleRecipes = recipes.map(recipe => {
       return {
         ...recipe,
-        chef: adminChef,
-        allergin: adminAllergin };
+        chef: adminChef
+      };
     });
 
     await Recipe.insertMany(sampleRecipes);

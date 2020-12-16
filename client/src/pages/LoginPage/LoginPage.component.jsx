@@ -15,7 +15,7 @@ const LoginPage = ({ location, history }) => {
   const chefLogin = useSelector(state => state.chefLogin)
   const { loading, error, chefInfo } = chefLogin
 
-  const redirect = location.search ? location.search.split('=')[1] : '/'
+  const redirect = location.search ? location.search.split('=')[1] : '/recipes'
 
   useEffect(() => {
     if (chefInfo) {

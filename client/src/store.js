@@ -13,6 +13,9 @@ import {
   recipeUpdateReducer,
   recipeCreateReducer,
   recipeDeleteReducer,
+  recipeUpvoteCreateReducer,
+  recipeDownvoteCreateReducer,
+  recipeSaveReducer,
 } from './reducers/recipeReducers';
 
 const reducer = combineReducers({
@@ -25,6 +28,9 @@ const reducer = combineReducers({
   recipeUpdate: recipeUpdateReducer,
   recipeCreate: recipeCreateReducer,
   recipeDelete: recipeDeleteReducer,
+  recipeUpvoteCreate: recipeUpvoteCreateReducer,
+  recipeDownvoteCreate: recipeDownvoteCreateReducer,
+  recipeSave: recipeSaveReducer,
 })
 
 const chefInfoFromStorage = localStorage.getItem('chefInfo')

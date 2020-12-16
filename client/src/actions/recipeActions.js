@@ -14,7 +14,16 @@ import {
   RECIPE_CREATE_FAILURE,
   RECIPE_UPDATE_REQUEST,
   RECIPE_UPDATE_SUCCESS,
-  RECIPE_UPDATE_FAILURE
+  RECIPE_UPDATE_FAILURE,
+  RECIPE_CREATE_UPVOTE_REQUEST,
+  RECIPE_CREATE_UPVOTE_SUCCESS,
+  RECIPE_CREATE_UPVOTE_FAILURE,
+  RECIPE_CREATE_DOWNVOTE_REQUEST,
+  RECIPE_CREATE_DOWNVOTE_SUCCESS,
+  RECIPE_CREATE_DOWNVOTE_FAILURE,
+  RECIPE_SAVE_REQUEST,
+  RECIPE_SAVE_SUCCESS,
+  RECIPE_SAVE_FAILURE,
 } from '../constants/recipeConstants';
 
 export const listRecipes = () => async (dispatch) => {
@@ -151,6 +160,114 @@ export const deleteRecipe = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: RECIPE_DELETE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const createRecipeUpvote = (recipeId, vote) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_CREATE_UPVOTE_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.post(
+      `/api/recipes/${recipeId}/upvotes`,
+      vote,
+      config
+    )
+
+    dispatch({
+      type: RECIPE_CREATE_UPVOTE_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: RECIPE_CREATE_UPVOTE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const createRecipeDownvote = (recipeId, vote) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_CREATE_DOWNVOTE_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.post(
+      `/api/recipes/${recipeId}/downvotes`,
+      vote,
+      config
+    )
+
+    dispatch({
+      type: RECIPE_CREATE_DOWNVOTE_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: RECIPE_CREATE_DOWNVOTE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const saveRecipe = (recipeId, recipe) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_SAVE_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.post(
+      `/api/recipes/${recipeId}/save`,
+      recipe,
+      config
+    )
+
+    dispatch({
+      type: RECIPE_SAVE_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: RECIPE_SAVE_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

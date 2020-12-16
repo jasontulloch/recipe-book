@@ -10,7 +10,8 @@ const recipes = [
     isPremium: 'false',
     isPublished: 'false',
     isVegan: true,
-    isDairy: true,
+    isDairy: true
+
   }
 ]
 
