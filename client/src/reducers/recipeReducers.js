@@ -2,6 +2,9 @@ import {
   RECIPE_LIST_REQUEST,
   RECIPE_LIST_SUCCESS,
   RECIPE_LIST_FAILURE,
+  RECIPE_MYLIST_REQUEST,
+  RECIPE_MYLIST_SUCCESS,
+  RECIPE_MYLIST_FAILURE,
   RECIPE_DETAILS_REQUEST,
   RECIPE_DETAILS_SUCCESS,
   RECIPE_DETAILS_FAILURE,
@@ -28,6 +31,13 @@ import {
   RECIPE_SAVE_SUCCESS,
   RECIPE_SAVE_FAILURE,
   RECIPE_SAVE_RESET,
+  RECIPE_UNSAVE_REQUEST,
+  RECIPE_UNSAVE_SUCCESS,
+  RECIPE_UNSAVE_FAILURE,
+  RECIPE_UNSAVE_RESET,
+  RECIPE_MYSAVED_REQUEST,
+  RECIPE_MYSAVED_SUCCESS,
+  RECIPE_MYSAVED_FAILURE,
 } from '../constants/recipeConstants';
 
 export const recipeListReducer = (state = { recipes: [] }, action) => {
@@ -37,6 +47,32 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
     case RECIPE_LIST_SUCCESS:
       return { loading: false, recipes: action.payload }
     case RECIPE_LIST_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+export const recipeMyListReducer = (state = { myRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_MYLIST_REQUEST:
+      return { loading: true, myRecipes: [] }
+    case RECIPE_MYLIST_SUCCESS:
+      return { loading: false, myRecipes: action.payload }
+    case RECIPE_MYLIST_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+export const recipeMySavedReducer = (state = { savedRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_MYSAVED_REQUEST:
+      return { loading: true, savedRecipes: [] }
+    case RECIPE_MYSAVED_SUCCESS:
+      return { loading: false, savedRecipes: action.payload }
+    case RECIPE_MYSAVED_FAILURE:
       return { loading: false, error: action.payload}
     default:
       return state
@@ -138,6 +174,21 @@ export const recipeSaveReducer = (state = {}, action) => {
     case RECIPE_SAVE_FAILURE:
       return { loading: false, error: action.payload }
     case RECIPE_SAVE_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const recipeUnsaveReducer = (state = {}, action) => {
+  switch (action.type) {
+    case RECIPE_UNSAVE_REQUEST:
+      return { loading: true }
+    case RECIPE_UNSAVE_SUCCESS:
+      return { loading: false, success: true }
+    case RECIPE_UNSAVE_FAILURE:
+      return { loading: false, error: action.payload }
+    case RECIPE_UNSAVE_RESET:
       return {}
     default:
       return state

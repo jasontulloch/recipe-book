@@ -24,6 +24,15 @@ import {
   RECIPE_SAVE_REQUEST,
   RECIPE_SAVE_SUCCESS,
   RECIPE_SAVE_FAILURE,
+  RECIPE_UNSAVE_REQUEST,
+  RECIPE_UNSAVE_SUCCESS,
+  RECIPE_UNSAVE_FAILURE,
+  RECIPE_MYLIST_REQUEST,
+  RECIPE_MYLIST_SUCCESS,
+  RECIPE_MYLIST_FAILURE,
+  RECIPE_MYSAVED_REQUEST,
+  RECIPE_MYSAVED_SUCCESS,
+  RECIPE_MYSAVED_FAILURE,
 } from '../constants/recipeConstants';
 
 export const listRecipes = () => async (dispatch) => {
@@ -39,6 +48,66 @@ export const listRecipes = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: RECIPE_LIST_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listMyRecipes = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: RECIPE_MYLIST_REQUEST })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    const { data } = await axios.get('/api/recipes/myrecipes', config)
+
+    dispatch({
+      type: RECIPE_MYLIST_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_MYLIST_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listMySavedRecipes = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: RECIPE_MYSAVED_REQUEST })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    const { data } = await axios.get('/api/recipes/savedrecipes', config)
+
+    dispatch({
+      type: RECIPE_MYSAVED_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_MYSAVED_FAILURE,
       payload:
         error.response && error.response.data.message
         ? error.response.data.message
@@ -268,6 +337,41 @@ export const saveRecipe = (recipeId, recipe) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: RECIPE_SAVE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const unsaveRecipe = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_UNSAVE_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.delete(
+      `/api/recipes/${id}/save`,
+      config
+    )
+
+    dispatch({
+      type: RECIPE_UNSAVE_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: RECIPE_UNSAVE_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

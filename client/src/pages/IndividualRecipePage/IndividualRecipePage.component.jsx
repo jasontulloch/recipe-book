@@ -6,11 +6,13 @@ import {
   listRecipeDetails,
   createRecipeUpvote,
   createRecipeDownvote,
-  saveRecipe
+  saveRecipe,
+  unsaveRecipe,
 } from '../../actions/recipeActions';
 import { RECIPE_CREATE_UPVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_CREATE_DOWNVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_RESET } from '../../constants/recipeConstants';
+import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 
 import './IndividualRecipePage.styles.scss';
 
@@ -18,14 +20,12 @@ const IndividualRecipePage = ({ history, match }) => {
 
   const [vote, setVote] = useState(0)
   const [save, setSave] = useState('')
+  const [unsave, setUnsave] = useState('')
 
   const dispatch = useDispatch()
 
   const recipeDetails = useSelector(state => state.recipeDetails)
   const { loading, error, recipe } = recipeDetails
-
-  const chefLogin = useSelector(state => state.chefLogin)
-  const { chefInfo } = chefLogin
 
   const recipeUpvoteCreate = useSelector(state => state.recipeUpvoteCreate)
   const {
@@ -45,6 +45,25 @@ const IndividualRecipePage = ({ history, match }) => {
     error: errorRecipeSave
   } = recipeSave
 
+  const recipeUnsave = useSelector(state => state.recipeUnsave)
+  const {
+    success: successRecipeUnsave,
+    error: errorRecipeUnsave
+  } = recipeUnsave
+
+  const chefLogin = useSelector(state => state.chefLogin)
+  const { chefInfo } = chefLogin
+
+  // Currently works but may need to go to a different recipe to reset Recipe ID
+  // Appears to set to TRUE even if not the case when you leave
+  // In the actual handlers, if there is an error they will toggle
+  // Not the best solution but works overall
+  const [isRecipeSaved, setIsRecipeSaved] = useState(
+    Boolean(chefInfo.savedRecipes.find(function(chefRecipe) {
+      return chefRecipe._id === recipe._id
+    }))
+  )
+
   useEffect(() => {
     if(successRecipeUpvote) {
       alert('Upvoted Casted')
@@ -59,10 +78,24 @@ const IndividualRecipePage = ({ history, match }) => {
     if(successRecipeSave) {
       alert('Recipe saved')
       setSave('')
+      setIsRecipeSaved(true)
       dispatch({ type: RECIPE_SAVE_RESET })
     }
+    if(successRecipeUnsave) {
+      alert('Recipe removed')
+      setUnsave('')
+      setIsRecipeSaved(false)
+      dispatch({ type: RECIPE_UNSAVE_RESET })
+    }
     dispatch(listRecipeDetails(match.params.id))
-  }, [dispatch, match, successRecipeUpvote, successRecipeDownvote, successRecipeSave])
+  }, [
+    dispatch,
+    match,
+    successRecipeUpvote,
+    successRecipeDownvote,
+    successRecipeSave,
+    successRecipeUnsave
+  ])
 
   const upvoteHandler = (e) => {
     e.preventDefault()
@@ -78,11 +111,26 @@ const IndividualRecipePage = ({ history, match }) => {
     }))
   }
 
+  // If statemet is temporarily, just lets me click the button and if error will toggle to unsave
   const saveHandler = (e) => {
     e.preventDefault()
     dispatch(saveRecipe(match.params.id, {
       save
     }))
+    if(errorRecipeSave) {
+      setIsRecipeSaved(true)
+    }
+  }
+
+  // If statemet is temporarily, just lets me click the button and if error will toggle to save
+  const unsaveHandler = (e) => {
+    e.preventDefault()
+    dispatch(unsaveRecipe(match.params.id, {
+      unsave
+    }))
+    if(errorRecipeUnsave) {
+      setIsRecipeSaved(false)
+    }
   }
 
   return (
@@ -116,12 +164,26 @@ const IndividualRecipePage = ({ history, match }) => {
                 </Button>
               </Form>
               <h1>Ranking: {recipe.netVotes}</h1>
-              Click to save:
-              <Form onSubmit={saveHandler}>
-                <Button type='submit' onClick={(e) => setSave('')}>
-                  <span className='upvote-btn'></span>
-                </Button>
-              </Form>
+              {isRecipeSaved
+              ? (
+                <div>
+                  <h1>Remove Saved Recipe:</h1>
+                  <Form onSubmit={unsaveHandler}>
+                    <Button type='submit' onClick={(e) => setUnsave('')}>
+                      <span className='downvote-btn'></span>
+                    </Button>
+                  </Form>
+                </div>
+              ) : (
+                <div>
+                  <h1>Save Recipe:</h1>
+                  <Form onSubmit={saveHandler}>
+                    <Button type='submit' onClick={(e) => setSave('')}>
+                      <span className='upvote-btn'></span>
+                    </Button>
+                  </Form>
+                </div>
+              )}
             </Col>
           </Row>
         </div>

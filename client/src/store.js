@@ -9,6 +9,7 @@ import {
 } from './reducers/chefReducers';
 import {
   recipeListReducer,
+  recipeMyListReducer,
   recipeDetailsReducer,
   recipeUpdateReducer,
   recipeCreateReducer,
@@ -16,6 +17,8 @@ import {
   recipeUpvoteCreateReducer,
   recipeDownvoteCreateReducer,
   recipeSaveReducer,
+  recipeUnsaveReducer,
+  recipeMySavedReducer,
 } from './reducers/recipeReducers';
 
 const reducer = combineReducers({
@@ -24,6 +27,7 @@ const reducer = combineReducers({
   chefDetails: chefDetailsReducer,
   chefUpdateProfile: chefUpdateProfileReducer,
   recipeList: recipeListReducer,
+  recipeMyList: recipeMyListReducer,
   recipeDetails: recipeDetailsReducer,
   recipeUpdate: recipeUpdateReducer,
   recipeCreate: recipeCreateReducer,
@@ -31,6 +35,8 @@ const reducer = combineReducers({
   recipeUpvoteCreate: recipeUpvoteCreateReducer,
   recipeDownvoteCreate: recipeDownvoteCreateReducer,
   recipeSave: recipeSaveReducer,
+  recipeUnsave: recipeUnsaveReducer,
+  recipeMySaved: recipeMySavedReducer,
 })
 
 const chefInfoFromStorage = localStorage.getItem('chefInfo')

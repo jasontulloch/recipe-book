@@ -1,13 +1,16 @@
 import express from 'express';
 import {
   getRecipes,
+  getMyRecipes,
+  getMySavedRecipes,
   getRecipeById,
   deleteRecipe,
   createRecipe,
   updateRecipe,
   createRecipeUpvote,
   createRecipeDownvote,
-  saveRecipe
+  saveRecipe,
+  unsaveRecipe,
 } from '../controllers/recipeController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
@@ -16,12 +19,17 @@ const router = express.Router();
 router.route('/')
   .get(getRecipes)
   .post(protect, createRecipe)
+router.route('/myrecipes')
+  .get(protect, getMyRecipes)
+router.route('/savedrecipes')
+  .get(protect, getMySavedRecipes)
 router.route('/:id/upvotes')
   .post(protect, createRecipeUpvote)
 router.route('/:id/downvotes')
   .post(protect, createRecipeDownvote)
 router.route('/:id/save')
-  .post(protect, saveRecipe)  
+  .post(protect, saveRecipe)
+  .delete(protect, unsaveRecipe)
 router.route('/:id')
   .get(getRecipeById)
   .delete(protect, deleteRecipe)

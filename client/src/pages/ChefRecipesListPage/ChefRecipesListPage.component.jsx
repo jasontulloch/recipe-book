@@ -3,7 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  listRecipes,
+  listMyRecipes,
   createRecipe,
   deleteRecipe,
 } from '../../actions/recipeActions';
@@ -13,8 +13,8 @@ const ChefRecipesListPage = ({ match , history }) => {
 
   const dispatch = useDispatch()
 
-  const recipeList = useSelector(state => state.recipeList)
-  const { loading, error, recipes } = recipeList
+  const recipeMyList = useSelector(state => state.recipeMyList)
+  const { loading, error, myRecipes } = recipeMyList
 
   const recipeCreate = useSelector(state => state.recipeCreate)
   const {
@@ -44,7 +44,7 @@ const ChefRecipesListPage = ({ match , history }) => {
     if(successCreate) {
       history.push(`/myrecipes/${createdRecipe._id}/edit`)
     } else {
-      dispatch(listRecipes())
+      dispatch(listMyRecipes())
     }
   }, [
     dispatch,
@@ -90,10 +90,10 @@ const ChefRecipesListPage = ({ match , history }) => {
               </tr>
             </thead>
             <tbody>
-              {recipes.map(recipe => (
+              {myRecipes.map(recipe => (
                 <tr key={recipe.id}>
                   <td>{recipe.recipe_name}</td>
-                  <td>{recipe.rating}</td>
+                  <td>{recipe.netVotes}</td>
                   <td>{recipe.country}</td>
                   <td>{recipe.cook_time}</td>
                   <td>{recipe.serving_size}</td>

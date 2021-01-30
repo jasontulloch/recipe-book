@@ -49,10 +49,15 @@ const ChefRecipeEditPage = ({ match, history }) => {
     success: successUpdate
   } = recipeUpdate
 
+  const chefLogin = useSelector(state => state.chefLogin)
+  const { chefInfo } = chefLogin
+
   useEffect(() => {
+    if (recipe.chef !== chefInfo._id) {
+      history.push('/myrecipes')
+    }
     if(successUpdate) {
       dispatch({ type: RECIPE_UPDATE_RESET })
-      //history.push('/myrecipes')
     } else {
       if(!recipe.recipe_name || recipe._id !== recipeId) {
         dispatch(listRecipeDetails(recipeId))

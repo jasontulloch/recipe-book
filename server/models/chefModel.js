@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import myRecipeSchema from './myRecipeModel.js';
 import savedRecipeSchema from './savedRecipeModel.js';
 
 const chefSchema = mongoose.Schema(
@@ -90,6 +91,7 @@ const chefSchema = mongoose.Schema(
       required: true,
       default: false
     },
+    myRecipes: [myRecipeSchema],
     savedRecipes: [savedRecipeSchema]
   }, {
     timestamps: true,

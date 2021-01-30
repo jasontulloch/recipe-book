@@ -1,9 +1,10 @@
 import React, { useState, useEffect, setState } from 'react';
-import { Form, Button, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { Form, Button, Row, Col, Tabs, Tab, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
 import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
+import { listMySavedRecipes } from '../../actions/recipeActions';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
 
 import './ProfileEditPage.styles.scss';
@@ -41,6 +42,11 @@ const ProfileEditPage = ({ location, history }) => {
     success,
     chefInfo: chefInfoUpdate
   } = chefUpdateProfile
+
+  const recipeMySaved = useSelector(state => state.recipeMySaved)
+  const { loadingMySaved, errorMySaved, savedRecipes } = recipeMySaved
+
+  console.log(recipeMySaved)
 
   useEffect(() => {
     if(!chefInfo) {

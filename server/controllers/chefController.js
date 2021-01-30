@@ -30,6 +30,8 @@ const authChef = asyncHandler(async (req, res) => {
       isWheat: chef.isWheat,
       isPremium: chef.isPremium,
       isAdmin: chef.isAdmin,
+      savedRecipes: chef.savedRecipes,
+      myRecipes: chef.myRecipes,
       token: generateToken(chef._id),
     })
   } else {
@@ -110,6 +112,8 @@ const getChefProfile = asyncHandler(async (req, res) => {
       isShellfish: chef.isShellfish,
       isSoy: chef.isSoy,
       isWheat: chef.isWheat,
+      savedRecipes: chef.savedRecipes,
+      myRecipes: chef.myRecipes,
     })
   } else {
     res.status(404)
@@ -131,7 +135,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     isNuts,
     isShellfish,
     isSoy,
-    isWheat,
+    isWheat
   } = req.body
 
   const chef = await Chef.findById(req.chef._id)

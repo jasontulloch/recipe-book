@@ -10,6 +10,46 @@ const getRecipes = asyncHandler(async (req, res) => {
   res.json(recipes)
 })
 
+// @description Fetch my recipes
+// @route GET /api/recipe/myrecipes
+// @access Private
+const getMyRecipes = asyncHandler(async (req, res) => {
+  // Returns all recipes
+  const recipes = await Recipe.find({})
+  // Returns the current chef
+  const chef = await Chef.findById(req.chef._id)
+  // Returns all distinct values as an array
+  const myRecipesId = await [... new Set(chef.myRecipes.map(id => id._id))]
+  // Convert the array values to a string
+  const myRecipesIdToString = myRecipesId.toString()
+  // Filter all recipes to find the ones that match the array of string IDs
+  const myRecipes = recipes.filter(function(recipe) {
+    return myRecipesIdToString.indexOf(recipe._id) !== -1
+  })
+  // Returns the filtered array as a JSON object
+  res.json(myRecipes)
+})
+
+// @description Fetch my saved recipes
+// @route GET /api/recipe/savedrecipes
+// @access Private
+const getMySavedRecipes = asyncHandler(async (req, res) => {
+  // Returns all recipes
+  const recipes = await Recipe.find({})
+  // Returns the current chef
+  const chef = await Chef.findById(req.chef._id)
+  // Returns all distinct values as an array
+  const mySavedRecipesId = await [... new Set(chef.savedRecipes.map(id => id._id))]
+  // Convert the array values to a string
+  const mySavedRecipesIdToString = mySavedRecipesId.toString()
+  // Filter all recipes to find the ones that match the array of string IDs
+  const mySavedRecipes = recipes.filter(function(recipe) {
+    return mySavedRecipesIdToString.indexOf(recipe._id) !== -1
+  })
+  // Returns the filtered array as a JSON object
+  res.json(mySavedRecipes)
+})
+
 // matching the Recipe Model Id with whats in the URL
 // @description Fetch single recipe
 // @route GET /api/recipe/:id
@@ -30,9 +70,20 @@ const getRecipeById = asyncHandler(async (req, res) => {
 // @access Private
 const deleteRecipe = asyncHandler(async (req, res) => {
   const recipe = await Recipe.findById(req.params.id)
+  const chef = await Chef.findById(req.chef._id)
 
   if(recipe) {
     await recipe.remove()
+
+    const removeFromMyRecipes = chef.myRecipes.find(
+      r => (r._id.toString() === recipe._id.toString())
+    )
+
+    if(removeFromMyRecipes) {
+        chef.myRecipes.remove(recipe._id)
+        await chef.save()
+    }
+
     res.json({ message: 'Recipe removed'})
   } else {
     res.status(404)
@@ -57,6 +108,25 @@ const createRecipe = asyncHandler(async (req, res) => {
 
   const createdRecipe = await recipe.save()
   res.status(201).json(createdRecipe)
+
+  const chef = await Chef.findById(req.chef._id)
+  if(recipe) {
+    const alreadyInMyRecipes = chef.myRecipes.find(
+      r => (r._id.toString() === recipe._id.toString())
+    )
+
+    if(alreadyInMyRecipes) {
+      res.status(400)
+      throw new Error('Recipe has already been created')
+    }
+
+    chef.myRecipes.push(recipe._id)
+    await chef.save()
+
+  } else {
+    res.status(400)
+    throw new Error('Recipe not created')
+  }
 })
 
 // @description Update a recipe
@@ -243,13 +313,43 @@ const saveRecipe = asyncHandler(async (req, res) => {
   }
 })
 
+// @description Unsave a recipe
+// @route DELETE /api/recipes/:id/save
+// @access Private
+const unsaveRecipe = asyncHandler(async (req, res) => {
+  // Find current recipe
+  const recipe = await Recipe.findById(req.params.id)
+  // Find current chef
+  const chef = await Chef.findById(req.chef._id)
+  // Returns all distinct values as an array
+  const savedRecipesId = await [... new Set(chef.savedRecipes.map(id => id._id))]
+  // Convert the array values to a string
+  const savedRecipesIdToString = savedRecipesId.toString()
+  // Filter all saved recipes in array to find the one that matches the current recipe ID
+  const unsaveRecipe = chef.savedRecipes.find(
+    r => (r._id.toString() === recipe._id.toString())
+  )
+
+  if(unsaveRecipe) {
+    await chef.savedRecipes.remove(unsaveRecipe)
+    await chef.save()
+    res.json({ message: 'Recipe removed'})
+  } else {
+    res.status(404)
+    throw new Error('Recipe not found')
+  }
+})
+
 export {
   getRecipes,
+  getMyRecipes,
+  getMySavedRecipes,
   getRecipeById,
   deleteRecipe,
   createRecipe,
   updateRecipe,
   createRecipeUpvote,
   createRecipeDownvote,
-  saveRecipe
+  saveRecipe,
+  unsaveRecipe,
 }
