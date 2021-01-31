@@ -17,3 +17,14 @@
   background: url('http://i.stack.imgur.com/iqN2k.png');
   background-position: 0 2px;
 }
+
+.individualRecipeStepListOrder {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
+}
+
+.individualRecipeStepList:before {
+  content: "Step #" counter(elementcounter);
+  counter-increment: elementcounter;
+}
