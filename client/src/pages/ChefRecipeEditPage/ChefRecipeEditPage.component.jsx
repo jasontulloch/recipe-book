@@ -96,6 +96,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
       }
 
       const { data } = await axios.post('/api/upload', formData, config)
+      console.log(file.name)
 
       setRecipeCoverImage(data)
       setUploading(false)
@@ -516,6 +517,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                 </FormContainer>
                 <Form.File
                   id='cover-image-file'
+                  name='image'
                   label='Choose Cover Image'
                   custom
                   onChange={uploadFileHandler}

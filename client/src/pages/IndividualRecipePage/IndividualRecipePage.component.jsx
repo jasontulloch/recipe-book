@@ -219,13 +219,14 @@ const IndividualRecipePage = ({ history, match }) => {
   // Merge quantities and measurement arrays
   const newIngredientAndMeasurementArray = quantitiesArray.map((e, i) => e + " " + measurementArray[i])
   // Adjust quantities and measurements to be readible with Unitz Library
-  const merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, ['gal', 'qt', 'pt', 'c', 'tbsp', 'tsp', 'oz']))
+  const merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, ['gal', 'c', 'tbsp', 'tsp']))
+  const mergeNew = merge.map(function(x){return x.replace('Item', '')})
   // Return array of only the recipe's items
   const itemArray = recipeIngredients.map((item) =>
     item[2]
   )
   // Merge quantities / measurement array w Item
-  const final = merge.map((e, i) => e + " " + itemArray[i])
+  const final = mergeNew.map((e, i) => e + " " + itemArray[i])
 
   return (
     <div>

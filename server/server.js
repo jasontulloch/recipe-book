@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import path from 'path';
 import morgan from 'morgan';
+import cors from 'cors';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './config/db.js';
 
@@ -39,6 +40,7 @@ if(process.env.NODE_ENV === 'production') {
   })
 }
 
+// Save images locally - delete later
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use(notFound)
@@ -50,3 +52,5 @@ app.listen(
   PORT,
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold)
 );
+
+app.use(cors());
