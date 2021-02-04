@@ -9,7 +9,8 @@ import connectDB from './config/db.js';
 
 import recipeRoutes from './routes/recipeRoutes.js';
 import chefRoutes from './routes/chefRoutes.js';
-import uploadRoutes from './routes/uploadRoutes.js';
+//import uploadRoutes from './routes/uploadRoutes.js';
+import uploadAWSRoutes from './routes/uploadAWSRoutes.js';
 
 dotenv.config();
 
@@ -25,7 +26,8 @@ app.use(express.json());
 
 app.use('/api/recipes', recipeRoutes)
 app.use('/api/chefs', chefRoutes)
-app.use('/api/upload', uploadRoutes)
+app.use('/api/uploadAWS', uploadAWSRoutes)
+//app.use('/api/upload', uploadRoutes)
 
 const __dirname = path.resolve()
 

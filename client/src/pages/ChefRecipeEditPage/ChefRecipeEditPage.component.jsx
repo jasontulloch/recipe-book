@@ -85,7 +85,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const uploadFileHandler = async(e) => {
     const file = e.target.files[0]
     const formData = new FormData()
-    formData.append('image', file)
+    formData.append('recipe_cover_image', file)
     setUploading(true)
 
     try {
@@ -95,8 +95,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         }
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
-      console.log(file.name)
+      const { data } = await axios.put(`/api/uploadAWS/${match.params.id}`, formData, config)
 
       setRecipeCoverImage(data)
       setUploading(false)
@@ -517,7 +516,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                 </FormContainer>
                 <Form.File
                   id='cover-image-file'
-                  name='image'
+                  name='recipe_cover_image'
                   label='Choose Cover Image'
                   custom
                   onChange={uploadFileHandler}

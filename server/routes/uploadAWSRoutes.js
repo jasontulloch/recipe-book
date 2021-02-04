@@ -1,42 +1,106 @@
 import express from 'express';
-import AWS, { S3 } from 'aws-sdk';
-import fs from 'fs';
-import FileType from 'file-type';
-import multiparty from 'multiparty';
+import aws from 'aws-sdk';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
+import path from 'path';
+//import cors from 'cors';
+//import Recipe from '../models/recipeModel.js';
+//import dotenv from 'dotenv';
+//import { default as mongodb } from 'mongodb';
+//const MongoClient = mongodb.MongoClient;
+//import asyncHandler from 'express-async-handler';
+import {
+  uploadRecipeCoverImage,
+} from '../controllers/uploadController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+const router = express.Router();
+
+//router.use(cors());
+
+aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  region: 'us-west-2',
+  signatureVersion: 'v4'
+})
 
-const s3 = new AWS.S3();
+const s3 = new aws.S3()
 
-const uploadFile = (buffer, name, type) => {
-  const params = {
-    ACL: 'public-read',
-    Body: buffer,
-    Bucket: process.env.S3_BUCKET,
-    ContentType: type.mime,
-    Key: `${name}.${type.ext}`,
-  };
-  return s3.upload(params).promise();
-};
+function checkFileType(file, cb) {
+  const filetypes = /jpg|jpeg|png/
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
+  const mimetype = filetypes.test(file.mimetype)
 
-app.post('/test-upload', (request, response) => {
-  const form = new multiparty.Form();
-  form.parse(request, async (error, fields, files) => {
-    if (error) {
-      return response.status(500).send(error);
-    };
-    try {
-      const path = files.file[0].path;
-      const buffer = fs.readFileSync(path);
-      const type = await FileType.fromBuffer(buffer);
-      const fileName = `bucketFolder/${Date.now().toString()}`;
-      const data = await uploadFile(buffer, fileName, type);
-      return response.status(200).send(data);
-    } catch (error) {
-      return response.status(500).send(err)
-    }
-  });
-});
+  if(extname && mimetype) {
+    return cb(null, true)
+  } else {
+    cb('Images only!')
+  }
+}
+
+const upload = multer({
+  limits: { fileSize: 2000000 },
+  fileFilter: function(req, file, cb) {
+    checkFileType(file, cb)
+  },
+  storage: multerS3({
+    s3: s3,
+    bucket: 'recipebook-recipe-cover-images',
+    acl: "public-read",
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString() + '-' + file.originalname);
+    },
+  }),
+})
+
+const singleUpload = upload.any()
+
+router.route('/:id')
+  .put(singleUpload, protect, uploadRecipeCoverImage)
+
+//dotenv.config();
+
+//const uri = process.env.MONGO_URI
+
+
+
+//router.post('/:id', function (req, res) {
+//  const uid = req.params.id;
+
+//  const getRecipeById = asyncHandler(async (req, res) => {
+//    const recipe = await Recipe.findById(req.params.id)
+
+//    if (recipe) {
+//      res.json(recipe)
+//    } else {
+//    res.status(404)
+//      throw new Error('Recipe not found')
+//    }
+//  })
+//})
+
+//singleUpload(req, res, function (err) {
+//  if (err) {
+//    return res.json({
+//    success: false,
+//      errors: {
+//        title: "Image Upload Error",
+//        detail: err.message,
+//        error: err,
+//      },
+//    });
+//  }
+
+//  let update = { profilePicture: req.file.location };
+
+//  User.findByIdAndUpdate(uid, update, { new: true })
+//    .then((user) => res.status(200).json({ success: true, user: user }))
+//    .catch((err) => res.status(400).json({ success: false, error: err }));
+//});
+
+
+export default router;
