@@ -60,7 +60,7 @@ const upload = multer({
 const singleUpload = upload.any()
 
 router.route('/:id')
-  .put(singleUpload, protect, uploadRecipeCoverImage)
+  .put(singleUpload, uploadRecipeCoverImage)
 
 //dotenv.config();
 

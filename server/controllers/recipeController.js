@@ -6,8 +6,16 @@ import Chef from '../models/chefModel.js';
 // @route GET /api/recipes
 // @access Public
 const getRecipes = asyncHandler(async (req, res) => {
+  const pageSize = 4
+  const page = Number(req.query.pageNumber) || 1
+
+  const count = await Recipe.countDocuments({})
+
   const recipes = await Recipe.find({})
-  res.json(recipes)
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @description Fetch my recipes

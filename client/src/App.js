@@ -31,6 +31,7 @@ const App = () => {
           <Route path='/savedrecipes/:id' component={ChefSavedRecipesDeletePage} exact />
           <Route path='/recipes' component={AllRecipesPage} exact />
           <Route path='/recipe/:id' component={IndividualRecipePage} exact />
+          <Route path='/recipes/page/:pageNumber' component={AllRecipesPage} />
           <Route path='/' component={HomePage} exact />
         </Container>
       </main>

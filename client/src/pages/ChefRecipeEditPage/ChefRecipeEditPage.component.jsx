@@ -53,9 +53,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const { chefInfo } = chefLogin
 
   useEffect(() => {
-    if (recipe.chef !== chefInfo._id) {
-      history.push('/myrecipes')
-    }
+    //if (recipe.chef !== chefInfo._id) {
+    //  history.push('/myrecipes')
+    //}
     if(successUpdate) {
       dispatch({ type: RECIPE_UPDATE_RESET })
     } else {
@@ -98,6 +98,10 @@ const ChefRecipeEditPage = ({ match, history }) => {
       const { data } = await axios.put(`/api/uploadAWS/${match.params.id}`, formData, config)
 
       setRecipeCoverImage(data)
+      setSuccessMessage('Recipe cover photo successfully uploaded!')
+      setTimeout(function() {
+        setSuccessMessage('')
+      }, 3000)
       setUploading(false)
     } catch (error) {
       console.error(error)
