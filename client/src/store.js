@@ -9,6 +9,7 @@ import {
 } from './reducers/chefReducers';
 import {
   recipeListReducer,
+  recipeListAdvancedSearchReducer,
   recipeMyListReducer,
   recipeDetailsReducer,
   recipeUpdateReducer,
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   chefDetails: chefDetailsReducer,
   chefUpdateProfile: chefUpdateProfileReducer,
   recipeList: recipeListReducer,
+  recipeListAdvancedSearch: recipeListAdvancedSearchReducer,
   recipeMyList: recipeMyListReducer,
   recipeDetails: recipeDetailsReducer,
   recipeUpdate: recipeUpdateReducer,

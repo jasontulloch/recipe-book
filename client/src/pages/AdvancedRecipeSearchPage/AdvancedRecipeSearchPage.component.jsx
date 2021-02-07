@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-const SearchBox = ({ history }) => {
+const AdvancedRecipeSearchPage = ({ history }) => {
   const [keywordRecipeName, setKeywordRecipeName] = useState('')
-
-  const dispatch = useDispatch()
+  const [keywordCountry, setKeywordCountry] = useState('')
 
   const submitHandler = (e) => {
     e.preventDefault()
-    if(keywordRecipeName.trim()) {
-      history.push(`/recipes/search/keywordRecipeName=${keywordRecipeName}`)
-      // Need to set keyword recipe name to another variable and then clear
+    if(keywordRecipeName.trim() || keywordCountry.trim()) {
+      history.push('/recipes/advanced-search-results')
     } else {
       history.push('/recipes')
     }
@@ -22,9 +19,16 @@ const SearchBox = ({ history }) => {
       <Form onSubmit={submitHandler} inline>
         <Form.Control
           type='text'
-          name='q'
+          name='keywordRecipeName'
           onChange={(e) => setKeywordRecipeName(e.target.value)}
           placeholder='Search Recipes...'
+          className='mr-sm-2 ml-sm-5'
+        ></Form.Control>
+        <Form.Control
+          type='text'
+          name='keywordCountry'
+          onChange={(e) => setKeywordCountry(e.target.value)}
+          placeholder='Search by Country...'
           className='mr-sm-2 ml-sm-5'
         ></Form.Control>
         <Button type='submit' variant='outline-success' className='p-2'>
@@ -35,4 +39,4 @@ const SearchBox = ({ history }) => {
   )
 }
 
-export default SearchBox;
+export default AdvancedRecipeSearchPage;

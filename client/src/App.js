@@ -14,6 +14,8 @@ import ChefRecipeEditPage from './pages/ChefRecipeEditPage/ChefRecipeEditPage.co
 import ChefSavedRecipesListPage from './pages/ChefSavedRecipesListPage/ChefSavedRecipesListPage.component';
 import ChefSavedRecipesDeletePage from './pages/ChefSavedRecipesDeletePage/ChefSavedRecipesDeletePage.component';
 import AllRecipesPage from './pages/AllRecipesPage/AllRecipesPage.component';
+import AdvancedRecipeSearchPage from './pages/AdvancedRecipeSearchPage/AdvancedRecipeSearchPage.component';
+import AdvancedRecipeSearchResultsPage from './pages/AdvancedRecipeSearchResultsPage/AdvancedRecipeSearchResultsPage.component';
 import IndividualRecipePage from './pages/IndividualRecipePage/IndividualRecipePage.component';
 
 const App = () => {
@@ -30,8 +32,11 @@ const App = () => {
           <Route path='/savedrecipes' component={ChefSavedRecipesListPage} exact />
           <Route path='/savedrecipes/:id' component={ChefSavedRecipesDeletePage} exact />
           <Route path='/recipes' component={AllRecipesPage} exact />
+          <Route path='/recipes/advanced-search' component={AdvancedRecipeSearchPage} exact />
           <Route path='/recipe/:id' component={IndividualRecipePage} exact />
           <Route path='/recipes/page/:pageNumber' component={AllRecipesPage} />
+          <Route path='/recipes/advanced-search-results' component={AdvancedRecipeSearchResultsPage} />
+          <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName' component={AllRecipesPage} />
           <Route path='/' component={HomePage} exact />
         </Container>
       </main>

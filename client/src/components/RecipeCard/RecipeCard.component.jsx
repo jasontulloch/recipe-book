@@ -7,7 +7,7 @@ const RecipeCard = ({ recipe }) => {
     <div>
 
     <Link to={`/recipe/${recipe._id}`}>
-      <Card className="text-white" style={{ height: '20em' }}>
+      <Card className="text-white mb-4" style={{ height: '20em' }}>
         <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{ height: '100%' }}/>
         <Card.ImgOverlay>
           <Card.Title>{recipe.recipe_name}</Card.Title>

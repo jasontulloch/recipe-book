@@ -2,6 +2,9 @@ import {
   RECIPE_LIST_REQUEST,
   RECIPE_LIST_SUCCESS,
   RECIPE_LIST_FAILURE,
+  RECIPE_LIST_ADVANCED_SEARCH_REQUEST,
+  RECIPE_LIST_ADVANCED_SEARCH_SUCCESS,
+  RECIPE_LIST_ADVANCED_SEARCH_FAILURE,
   RECIPE_MYLIST_REQUEST,
   RECIPE_MYLIST_SUCCESS,
   RECIPE_MYLIST_FAILURE,
@@ -52,6 +55,22 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
         page: action.payload.page
       }
     case RECIPE_LIST_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+export const recipeListAdvancedSearchReducer = (state = { advancedSearchRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_ADVANCED_SEARCH_REQUEST:
+      return { loading: true, advancedSearchRecipes: [] }
+    case RECIPE_LIST_ADVANCED_SEARCH_SUCCESS:
+      return {
+        loading: false,
+        advancedSearchRecipes: action.payload.advancedSearchRecipes,
+      }
+    case RECIPE_LIST_ADVANCED_SEARCH_FAILURE:
       return { loading: false, error: action.payload}
     default:
       return state

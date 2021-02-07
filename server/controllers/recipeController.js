@@ -9,14 +9,61 @@ const getRecipes = asyncHandler(async (req, res) => {
   const pageSize = 4
   const page = Number(req.query.pageNumber) || 1
 
-  const count = await Recipe.countDocuments({})
+  // If there is a keyword query, then return
+  // regex will let us take partial searches (e.g. "pizz")
+  // options 'i' is case insensitive
+  const keywordRecipeName = req.query.keywordRecipeName ? {
+    recipe_name: {
+      $regex: req.query.keywordRecipeName,
+      $options: 'i'
+    }
+  } : {}
 
-  const recipes = await Recipe.find({})
+  const count = await Recipe.countDocuments({ ...keywordRecipeName })
+
+  const recipes = await Recipe.find({ ...keywordRecipeName })
     .limit(pageSize)
     .skip(pageSize * (page - 1))
 
   res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
 })
+
+// @description Fetch all recipes (advanced search)
+// @route GET /api/recipes/search
+// @access Public
+const getRecipesAdvancedSearch = asyncHandler(async (req, res) => {
+  //const pageSize = 4
+  //const page = Number(req.query.pageNumber) || 1
+
+  const recipes = await Recipe.find({ })
+
+  const keywordRecipeName = [req.query.keywordRecipeName]
+  const keywordRecipeNameClean = keywordRecipeName.toString().toLowerCase().trim()
+
+  const newRecipeNameRecipes = recipes.filter(function(recipe) {
+    return recipe.recipe_name.toLowerCase().includes(keywordRecipeNameClean)
+  })
+
+  const keywordCountry = [req.query.Country]
+  const keywordCountryClean = keywordCountry.toString().toLowerCase().trim()
+
+  const advancedSearchRecipes = newRecipeNameRecipes.filter(function(recipe) {
+    return recipe.country.toLowerCase().includes(keywordCountryClean)
+  })
+
+  //Note we only need the image and maybe a few other pieces (don't get full recipe)
+
+  //const finalSearch = newCountryRecipes
+  //  .limit(pageSize)
+  //  .skip(pageSize * (page - 1))
+
+  // Note: This is how you count, below
+  //const count = newCountryRecipes.length
+
+  //res.json({ newCountryRecipes, page, pages: Math.ceil(count / pageSize) })
+  res.json({ advancedSearchRecipes })
+})
+
 
 // @description Fetch my recipes
 // @route GET /api/recipe/myrecipes
@@ -350,6 +397,7 @@ const unsaveRecipe = asyncHandler(async (req, res) => {
 
 export {
   getRecipes,
+  getRecipesAdvancedSearch,
   getMyRecipes,
   getMySavedRecipes,
   getRecipeById,

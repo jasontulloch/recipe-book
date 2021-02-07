@@ -3,6 +3,9 @@ import {
   RECIPE_LIST_REQUEST,
   RECIPE_LIST_SUCCESS,
   RECIPE_LIST_FAILURE,
+  RECIPE_LIST_ADVANCED_SEARCH_REQUEST,
+  RECIPE_LIST_ADVANCED_SEARCH_SUCCESS,
+  RECIPE_LIST_ADVANCED_SEARCH_FAILURE,
   RECIPE_DETAILS_REQUEST,
   RECIPE_DETAILS_SUCCESS,
   RECIPE_DETAILS_FAILURE,
@@ -35,12 +38,12 @@ import {
   RECIPE_MYSAVED_FAILURE,
 } from '../constants/recipeConstants';
 
-export const listRecipes = (keyword = '', pageNumber = '') => async (dispatch) => {
+export const listRecipes = (keywordRecipeName = '', pageNumber = '') => async (dispatch) => {
   try {
     dispatch({ type: RECIPE_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes?keyword=${keyword}&pageNumber=${pageNumber}`
+      `/api/recipes?keywordRecipeName=${keywordRecipeName}&pageNumber=${pageNumber}`
     )
 
     dispatch({
@@ -50,6 +53,29 @@ export const listRecipes = (keyword = '', pageNumber = '') => async (dispatch) =
   } catch (error) {
     dispatch({
       type: RECIPE_LIST_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listAdvancedSearchRecipes = () => async (dispatch) => {
+  try {
+    dispatch({ type: RECIPE_LIST_ADVANCED_SEARCH_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/advanced-search-results`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_ADVANCED_SEARCH_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_ADVANCED_SEARCH_FAILURE,
       payload:
         error.response && error.response.data.message
         ? error.response.data.message
