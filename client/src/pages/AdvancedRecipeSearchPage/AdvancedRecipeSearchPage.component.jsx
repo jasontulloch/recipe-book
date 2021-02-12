@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const AdvancedRecipeSearchPage = ({ history }) => {
-  const [keywordRecipeName, setKeywordRecipeName] = useState("")
-  const [keywordCountry, setKeywordCountry] = useState("")
+  const [keywordRecipeName, setKeywordRecipeName] = useState('')
+  const [keywordCountry, setKeywordCountry] = useState('')
 
   const submitHandler = (e) => {
     e.preventDefault()

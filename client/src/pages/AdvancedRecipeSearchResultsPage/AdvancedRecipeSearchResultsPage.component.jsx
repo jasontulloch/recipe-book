@@ -11,21 +11,21 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   //This needs to match the route in the App.js file
   const keywordRecipeName = match.params.keywordRecipeName
   const keywordCountry = match.params.keywordCountry
-  const pageNumber = match.params.pageNumber || 1
-  const urlBaseRecipes = true
+  //const pageNumber = match.params.pageNumber || 1
+  //const urlBaseRecipes = true
 
   const dispatch = useDispatch()
 
   const recipeListAdvancedSearch = useSelector(state => state.recipeListAdvancedSearch)
-  const { loading, error, recipes, page, pages } = recipeListAdvancedSearch
+  const { loading, error, recipes } = recipeListAdvancedSearch
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
-    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry, pageNumber))
-  }, [dispatch, keywordRecipeName, keywordCountry, pageNumber])
+    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry ))
+  }, [dispatch, keywordRecipeName, keywordCountry ])
 
   return (
     <div>
@@ -38,13 +38,6 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
             </Col>
           ))}
         </Row>
-        <Paginate
-          urlBaseRecipes={urlBaseRecipes}
-          pages={pages}
-          page={page}
-          keywordRecipeName={keywordRecipeName ? keywordRecipeName : ''}
-          keywordCountry={keywordCountry ? keywordCountry : ''}
-        />
       </div>
     </div>
   )

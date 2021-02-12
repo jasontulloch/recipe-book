@@ -61,12 +61,12 @@ export const listRecipes = (keywordRecipeName = '', pageNumber = '') => async (d
   }
 }
 
-export const listAdvancedSearchRecipes = (keywordRecipeName = '', keywordCountry = '', pageNumber = '') => async (dispatch) => {
+export const listAdvancedSearchRecipes = (keywordRecipeName = '', keywordCountry = '') => async (dispatch) => {
   try {
     dispatch({ type: RECIPE_LIST_ADVANCED_SEARCH_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&pageNumber=${pageNumber}`
+      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}`
     )
 
     dispatch({

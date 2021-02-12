@@ -35,20 +35,20 @@ const getRecipesAdvancedSearch = asyncHandler(async (req, res) => {
   //const pageSize = 4
   //const page = Number(req.query.pageNumber) || 1
 
-  //const recipesInitial = await Recipe.find({ })
+  const recipesInitial = await Recipe.find({ })
 
-  //const keywordRecipeName = [req.query.keywordRecipeName]
-  //const keywordRecipeNameClean = keywordRecipeName.toString().toLowerCase().trim()
-  //const keywordCountry = [req.query.keywordCountry]
-  //const keywordCountryClean = keywordCountry.toString().toLowerCase().trim()
+  const keywordRecipeName = [req.query.keywordRecipeName]
+  const keywordRecipeNameClean = keywordRecipeName.toString().toLowerCase().trim()
+  const keywordCountry = [req.query.keywordCountry]
+  const keywordCountryClean = keywordCountry.toString().toLowerCase().trim()
 
-  //const newRecipeNameRecipes = recipesInitial.filter(function(recipe) {
-  //  return recipe.recipe_name.toLowerCase().includes(keywordRecipeNameClean)
-  //})
+  const newRecipeNameRecipes = recipesInitial.filter(function(recipe) {
+    return recipe.recipe_name.toLowerCase().includes(keywordRecipeNameClean)
+  })
 
-  //const recipes = newRecipeNameRecipes.filter(function(recipe) {
-  //  return recipe.country.toLowerCase().includes(keywordCountryClean)
-  //})
+  const recipes = newRecipeNameRecipes.filter(function(recipe) {
+    return recipe.country.toLowerCase().includes(keywordCountryClean)
+  })
 
   //const recipes = recipesInitial.filter(function(recipe) {
   //  return (
@@ -88,39 +88,42 @@ const getRecipesAdvancedSearch = asyncHandler(async (req, res) => {
   //  }
   //} : {}
 
-  //const recipes = await Recipe.find({
-  //  $and: [
-  //    {...keywordRecipeName},
-  //    {...keywordCountry}
-  //  ]
-  //})
   const pageSize = 4
   const page = Number(req.query.pageNumber) || 1
 
   // If there is a keyword query, then return
   // regex will let us take partial searches (e.g. "pizz")
   // options 'i' is case insensitive
-  const keywordRecipeName = req.query.keywordRecipeName ? {
-    recipe_name: {
-      $regex: req.query.keywordRecipeName,
-      $options: 'i'
-    }
-  } : {}
+  //const keywordRecipeName = req.query.keywordRecipeName ? {
+  //  recipe_name: {
+  //    $regex: req.query.keywordRecipeName,
+  //    $options: 'i'
+  // }
+  //} : {}
 
-  const keywordCountry = req.query.keywordCountry ? {
-    country: {
-      $regex: req.query.keywordCountry,
-      $options: 'i'
-    }
-  } : {}
+  //const keywordCountry = req.query.keywordCountry ? {
+  //  country: {
+  //    $regex: req.query.keywordCountry,
+  //    $options: 'i'
+  //  }
+  //} : {}
 
-  const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
+  //const recipes = await Recipe.find({
+  //  $and: [
+  //    {...keywordRecipeName},
+  //    {...keywordCountry}
+  //  ]
+  //})
 
-  const recipes = await Recipe.find({ ...keywordRecipeName }).find({ ...keywordCountry })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
+  res.json({recipes})
 
-    res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
+  //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
+
+  //const recipes = await Recipe.find({ ...keywordRecipeName }).find({ ...keywordCountry })
+  //  .limit(pageSize)
+  //  .skip(pageSize * (page - 1))
+
+  //  res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
 
 })
 

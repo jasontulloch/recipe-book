@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import './PancakeLoader.styles.scss';
 
 const PancakeLoader = ({ children }) => {
-  const [loaderDelay, setLoaderDelay] = useState(true)
-
-  setTimeout(() => setLoaderDelay(false), 3000)
 
   return (
     <div className="pancakeLoader-container">
