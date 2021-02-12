@@ -24,6 +24,23 @@ const IndividualRecipePage = ({ history, match }) => {
   const [save, setSave] = useState('')
   const [unsave, setUnsave] = useState('')
   const [servingSize, setServingSize] = useState(4)
+  const [isMetric, setIsMetric] = useState(false)
+  const [useTeaspoons, setUseTeaspoons] = useState(false)
+  const [useTablespoons, setUseTablespoons] = useState(false)
+  const [useFluidOunces, setUseFluidOunces] = useState(false)
+  const [useCups, setUseCups] = useState(false)
+  const [usePints, setUsePints] = useState(false)
+  const [useQuarts, setUseQuarts] = useState(false)
+  const [useGallons, setUseGallons] = useState(false)
+  const [useOunces, setUseOunces] = useState(false)
+  const [usePounds, setUsePounds] = useState(false)
+  const [useInches, setUseInches] = useState(false)
+  const [useMillilitres, setUseMillilitres] = useState(false)
+  const [useLitres, setUseLitres] = useState(false)
+  const [useGrams, setUseGrams] = useState(false)
+  const [useKilograms, setUseKilograms] = useState(false)
+  const [useCentimetres, setUseCentimetres] = useState(false)
+  const [useMillimetres, setUseMillimetres] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -97,7 +114,8 @@ const IndividualRecipePage = ({ history, match }) => {
     successRecipeUpvote,
     successRecipeDownvote,
     successRecipeSave,
-    successRecipeUnsave
+    successRecipeUnsave,
+    isMetric
   ])
 
   const upvoteHandler = (e) => {
@@ -198,7 +216,59 @@ const IndividualRecipePage = ({ history, match }) => {
     }
   }
 
-  console.log(servingSize)
+  // Build custom array of imperial standards based on whether chef wants to use them
+  const imperialStandards = []
+  if (chefInfo.useTeaspoons === true) {
+    imperialStandards.push('tsp')
+  }
+  if (chefInfo.useTablespoons === true) {
+    imperialStandards.push('tbsp')
+  }
+  if (chefInfo.useFluidOunces === true) {
+    imperialStandards.push('fl-oz')
+  }
+  if (chefInfo.useCups === true) {
+    imperialStandards.push('c')
+  }
+  if (chefInfo.usePints === true) {
+    imperialStandards.push('pt')
+  }
+  if (chefInfo.useQuarts === true) {
+    imperialStandards.push('qt')
+  }
+  if (chefInfo.useGallons === true) {
+    imperialStandards.push('gal')
+  }
+  if (chefInfo.useOunces === true) {
+    imperialStandards.push('oz')
+  }
+  if (chefInfo.usePounds === true) {
+    imperialStandards.push('lb')
+  }
+  if (chefInfo.useInches === true) {
+    imperialStandards.push('in')
+  }
+
+  // Build custom array of metric standards based on whether chef wants to use them
+  const metricStandards = []
+  if (chefInfo.useMillilitres === true) {
+    metricStandards.push('ml')
+  }
+  if (chefInfo.useLitres === true) {
+    metricStandards.push('l')
+  }
+  if (chefInfo.useGrams === true) {
+    metricStandards.push('g')
+  }
+  if (chefInfo.useKilograms === true) {
+    metricStandards.push('kg')
+  }
+  if (chefInfo.useCentimetres === true) {
+    metricStandards.push('cm')
+  }
+  if (chefInfo.useMillimetres === true) {
+    metricStandards.push('mm')
+  }
 
   // Note this will occassionally crash due to the React mapping before loading array
   // Return array of the recipe's ingredients (which includes quantity, measurement and amount)
@@ -219,7 +289,13 @@ const IndividualRecipePage = ({ history, match }) => {
   // Merge quantities and measurement arrays
   const newIngredientAndMeasurementArray = quantitiesArray.map((e, i) => e + " " + measurementArray[i])
   // Adjust quantities and measurements to be readible with Unitz Library
-  const merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, ['gal', 'c', 'tbsp', 'tsp']))
+  let merge = []
+  if (isMetric === false) {
+    merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, imperialStandards))
+  } else {
+    merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, metricStandards))
+  }
+  //const merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, ['gal', 'c', 'tbsp', 'tsp']))
   const mergeNew = merge.map(function(x){return x.replace('Item', '')})
   // Return array of only the recipe's items
   const itemArray = recipeIngredients.map((item) =>
@@ -273,6 +349,12 @@ const IndividualRecipePage = ({ history, match }) => {
                     required
                   >
                   </Form.Control>
+                  <Form.Check
+                    inline
+                    label='Metric?'
+                    checked={isMetric}
+                    onChange={(e) => setIsMetric(e.target.checked)}
+                  />
                 </Col>
               </Form.Group>
             </Col>

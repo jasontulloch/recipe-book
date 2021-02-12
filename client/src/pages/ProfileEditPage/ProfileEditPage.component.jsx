@@ -26,6 +26,23 @@ const ProfileEditPage = ({ location, history }) => {
   const [isShellfish, setIsShellfish] = useState(false)
   const [isSoy, setIsSoy] = useState(false)
   const [isWheat, setIsWheat] = useState(false)
+  const [isMetric, setIsMetric] = useState(false)
+  const [useTeaspoons, setUseTeaspoons] = useState(false)
+  const [useTablespoons, setUseTablespoons] = useState(false)
+  const [useFluidOunces, setUseFluidOunces] = useState(false)
+  const [useCups, setUseCups] = useState(false)
+  const [usePints, setUsePints] = useState(false)
+  const [useQuarts, setUseQuarts] = useState(false)
+  const [useGallons, setUseGallons] = useState(false)
+  const [useOunces, setUseOunces] = useState(false)
+  const [usePounds, setUsePounds] = useState(false)
+  const [useInches, setUseInches] = useState(false)
+  const [useMillilitres, setUseMillilitres] = useState(false)
+  const [useLitres, setUseLitres] = useState(false)
+  const [useGrams, setUseGrams] = useState(false)
+  const [useKilograms, setUseKilograms] = useState(false)
+  const [useCentimetres, setUseCentimetres] = useState(false)
+  const [useMillimetres, setUseMillimetres] = useState(false)
   const [bio, setBio] = useState('')
   const [message, setMessage] = useState(null)
 
@@ -71,6 +88,23 @@ const ProfileEditPage = ({ location, history }) => {
         setIsShellfish(chef.isShellfish)
         setIsSoy(chef.isSoy)
         setIsWheat(chef.isWheat)
+        setIsMetric(chef.isMetric)
+        setUseTeaspoons(chef.useTeaspoons)
+        setUseTablespoons(chef.useTablespoons)
+        setUseFluidOunces(chef.useFluidOunces)
+        setUseCups(chef.useCups)
+        setUsePints(chef.usePints)
+        setUseQuarts(chef.useQuarts)
+        setUseGallons(chef.useGallons)
+        setUseOunces(chef.useOunces)
+        setUsePounds(chef.usePounds)
+        setUseInches(chef.useInches)
+        setUseMillilitres(chef.useMillilitres)
+        setUseLitres(chef.useLitres)
+        setUseGrams(chef.useGrams)
+        setUseKilograms(chef.useKilograms)
+        setUseCentimetres(chef.useCentimetres)
+        setUseMillimetres(chef.useMillimetres)
       }
     }
   }, [dispatch, history, chefLogin, chefInfo, chef, success])
@@ -98,6 +132,23 @@ const ProfileEditPage = ({ location, history }) => {
         isShellfish,
         isSoy,
         isWheat,
+        isMetric,
+        useTeaspoons,
+        useTablespoons,
+        useFluidOunces,
+        useCups,
+        usePints,
+        useQuarts,
+        useGallons,
+        useOunces,
+        usePounds,
+        useInches,
+        useMillilitres,
+        useLitres,
+        useGrams,
+        useKilograms,
+        useCentimetres,
+        useMillimetres,
       }))
     }
   }
@@ -267,7 +318,148 @@ const ProfileEditPage = ({ location, history }) => {
                   onChange={(e) => setIsWheat(e.target.checked)}
                 />
               </Form.Group>
-
+            <br />
+              <Form.Label className='allerginsLabel'>Measurement (Imperial / US System)</Form.Label>
+              <br />
+              <Form.Group controlId='useTeaspoons' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Teaspoons?'
+                  checked={useTeaspoons}
+                  onChange={(e) => setUseTeaspoons(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='useTablespoons' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Tablespoons?'
+                  checked={useTablespoons}
+                  onChange={(e) => setUseTablespoons(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='useFluidOunces' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Fluid Ounces?'
+                  checked={useFluidOunces}
+                  onChange={(e) => setUseFluidOunces(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='useCups' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Cups?'
+                  checked={useCups}
+                  onChange={(e) => setUseCups(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='usePints' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Pints?'
+                  checked={usePints}
+                  onChange={(e) => setUsePints(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='useQuarts' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Quarts?'
+                  checked={useQuarts}
+                  onChange={(e) => setUseQuarts(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='useGallons' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Gallons?'
+                  checked={useGallons}
+                  onChange={(e) => setUseGallons(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='useOunces' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Ounces?'
+                  checked={useOunces}
+                  onChange={(e) => setUseOunces(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='usePounds' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Pounds?'
+                  checked={usePounds}
+                  onChange={(e) => setUsePounds(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Group controlId='useInches' className='measurementsGroup'>
+                <Form.Check
+                  inline
+                  label='Use Inches?'
+                  checked={useInches}
+                  onChange={(e) => setUseInches(e.target.checked)}
+                />
+              </Form.Group>
+              <br />
+                <Form.Label className='allerginsLabel'>Measurement (Metric System)</Form.Label>
+                <br />
+                <Form.Group controlId='isMetric' className='measurementsMetricToggleGroup'>
+                  <Form.Check
+                    inline
+                    label='Use the metric system on default?'
+                    checked={isMetric}
+                    onChange={(e) => setIsMetric(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='useMillilitres' className='measurementsGroup'>
+                  <Form.Check
+                    inline
+                    label='Use Millilitres?'
+                    checked={useMillilitres}
+                    onChange={(e) => setUseMillilitres(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='useLitres' className='measurementsGroup'>
+                  <Form.Check
+                    inline
+                    label='Use Litres?'
+                    checked={useLitres}
+                    onChange={(e) => setUseLitres(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='useGrams' className='measurementsGroup'>
+                  <Form.Check
+                    inline
+                    label='Use Grams?'
+                    checked={useGrams}
+                    onChange={(e) => setUseGrams(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='useKilograms' className='measurementsGroup'>
+                  <Form.Check
+                    inline
+                    label='Use Kilograms?'
+                    checked={useKilograms}
+                    onChange={(e) => setUseKilograms(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='useCentimetres' className='measurementsGroup'>
+                  <Form.Check
+                    inline
+                    label='Use Centimetres?'
+                    checked={useCentimetres}
+                    onChange={(e) => setUseCentimetres(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='useMillimetres' className='measurementsGroup'>
+                  <Form.Check
+                    inline
+                    label='Use Millimetres?'
+                    checked={useMillimetres}
+                    onChange={(e) => setUseMillimetres(e.target.checked)}
+                  />
+                </Form.Group>
             <Form.Group controlId='bio'>
               <Form.Label>Chef Bio</Form.Label>
               <Form.Control

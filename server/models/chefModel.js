@@ -81,6 +81,91 @@ const chefSchema = mongoose.Schema(
       required: true,
       default: false
     },
+    isMetric: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    useTeaspoons: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useTablespoons: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useFluidOunces: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    useCups: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    usePints: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    useQuarts: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    useGallons: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    useOunces: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    usePounds: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useInches: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useMillilitres: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useLitres: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useGrams: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useKilograms: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useCentimetres: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    useMillimetres: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
     isPremium: {
       type: Boolean,
       required: true,

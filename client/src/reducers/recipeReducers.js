@@ -61,14 +61,16 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
   }
 }
 
-export const recipeListAdvancedSearchReducer = (state = { advancedSearchRecipes: [] }, action) => {
+export const recipeListAdvancedSearchReducer = (state = { recipes: [] }, action) => {
   switch (action.type) {
     case RECIPE_LIST_ADVANCED_SEARCH_REQUEST:
-      return { loading: true, advancedSearchRecipes: [] }
+      return { loading: true, recipes: [] }
     case RECIPE_LIST_ADVANCED_SEARCH_SUCCESS:
       return {
         loading: false,
-        advancedSearchRecipes: action.payload.advancedSearchRecipes,
+        recipes: action.payload.recipes,
+        pages: action.payload.pages,
+        page: action.payload.page
       }
     case RECIPE_LIST_ADVANCED_SEARCH_FAILURE:
       return { loading: false, error: action.payload}

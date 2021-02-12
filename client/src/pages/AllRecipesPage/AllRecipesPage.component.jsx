@@ -25,6 +25,8 @@ const HomeScreen = ({ match }) => {
     dispatch(listRecipes(keywordRecipeName, pageNumber))
   }, [dispatch, keywordRecipeName, pageNumber])
 
+  console.log(match.params.keywordRecipeName)
+
   return (
     <div>
       <h1>Latest Recipes</h1>

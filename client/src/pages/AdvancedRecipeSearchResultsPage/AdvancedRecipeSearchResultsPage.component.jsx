@@ -8,31 +8,43 @@ import Paginate from '../../components/Paginate/Paginate.component';
 
 
 const AdvancedRecipeSearchResultsPage = ({ match }) => {
+  //This needs to match the route in the App.js file
+  const keywordRecipeName = match.params.keywordRecipeName
+  const keywordCountry = match.params.keywordCountry
+  const pageNumber = match.params.pageNumber || 1
+  const urlBaseRecipes = true
 
   const dispatch = useDispatch()
 
   const recipeListAdvancedSearch = useSelector(state => state.recipeListAdvancedSearch)
-  const { loading, error, advancedSearchRecipes } = recipeListAdvancedSearch
+  const { loading, error, recipes, page, pages } = recipeListAdvancedSearch
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
-  // This is firing off the action to get products in state
+  //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
-    dispatch(listAdvancedSearchRecipes())
-  }, [dispatch])
+    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry, pageNumber))
+  }, [dispatch, keywordRecipeName, keywordCountry, pageNumber])
 
   return (
     <div>
       <h1>Custom Searched Recipes</h1>
       <div>
         <Row>
-          {advancedSearchRecipes.map((recipe) => (
+          {recipes.recipes && recipes.recipes.map((recipe) => (
             <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>
               <RecipeCard recipe={recipe} />
             </Col>
           ))}
         </Row>
+        <Paginate
+          urlBaseRecipes={urlBaseRecipes}
+          pages={pages}
+          page={page}
+          keywordRecipeName={keywordRecipeName ? keywordRecipeName : ''}
+          keywordCountry={keywordCountry ? keywordCountry : ''}
+        />
       </div>
     </div>
   )
