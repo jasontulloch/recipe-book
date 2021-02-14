@@ -315,7 +315,7 @@ const IndividualRecipePage = ({ history, match }) => {
     <div>
       <Row>
         <Col md={10}>
-          <Row>
+          <Row style={{ height: '50px' }}>
           {(isRecipeSaved) ? (
             <Form onSubmit={unsaveHandler}>
               <Form.Group>
@@ -401,22 +401,20 @@ const IndividualRecipePage = ({ history, match }) => {
           </Row>
         </Col>
         <Col md={2}>
-          <Link className="btn btn-light" to='/recipes'>
+          <Link className="btn btn-light" to='/recipes' style={{ paddingTop: 0, paddingBottom: 0 }}>
             Go Back
           </Link>
         </Col>
       </Row>
-      <Row>
-        <Col md={4} className='fluid'>
-          <h3>Cook Time: {time_convert(recipe.cook_time)}</h3>
+      <Row style={{ height: '40px' }}>
+        <Col md={4} className='fluid' style={{ paddingLeft: 0 }}>
+          <h4>Cook Time: {time_convert(recipe.cook_time)}</h4>
         </Col>
         <Col md={4} className='fluid'>
           <Form.Group as={Row} controlId='cookTime'>
-            <Form.Label column sm="8">
-              <h3>Serving Size:</h3>
-            </Form.Label>
-            <Col sm="4">
-              <Form.Control
+            <h4 style= {{ marginRight: '5px' }}>Serving Size:</h4>
+            <Form.Control
+                style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '12px', width: '40px', height: '25px'}}
                 type='number'
                 min={1}
                 max={20}
@@ -426,46 +424,38 @@ const IndividualRecipePage = ({ history, match }) => {
                 onKeyDown={handleKeypress}
                 required
               >
-              </Form.Control>
-              <Form.Check
-                inline
-                label='Metric?'
-                checked={isMetric}
-                onChange={(e) => setIsMetric(e.target.checked)}
-              />
-            </Col>
+            </Form.Control>
+            <Form.Check
+              style={{ padding: '5px', width: '40px', height: '25px'}}
+              inline
+              label='Metric?'
+              checked={isMetric}
+              onChange={(e) => setIsMetric(e.target.checked)}
+            />
           </Form.Group>
         </Col>
-        <Col md={4}>
-          <h3>Country: {recipe.country}</h3>
+        <Col md={4} style={{ paddingRight: 0 }}>
+          <h4>Country: {recipe.country}</h4>
         </Col>
       </Row>
           <Row>
-                <h3>
-                  {Diets.length > 0 && 'Diets: '}
-                  {new Intl.ListFormat().format(Diets)}
-                </h3>
+            <h4>
+              {Diets.length > 0 && 'Diets: '}
+              {new Intl.ListFormat().format(Diets)}
+            </h4>
           </Row>
           <Row>
-                <h3>
-                  {Allergins.length > 0 && 'Allergins: '}
-                  {new Intl.ListFormat().format(Allergins)}
-                </h3>
+            <h4>
+              {Allergins.length > 0 && 'Allergins: '}
+              {new Intl.ListFormat().format(Allergins)}
+            </h4>
           </Row>
-          <Row>
-            <Col md={6} className=''>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>Steps</h3>
-                </ListGroup.Item>
-              </ListGroup>
+          <Row style={{ paddingTop: '15px', textAlign: 'center' }}>
+            <Col md={6}>
+              <h4>Steps</h4>
             </Col>
             <Col md={6}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>Ingredients</h3>
-                </ListGroup.Item>
-              </ListGroup>
+              <h4>Ingredients</h4>
             </Col>
           </Row>
 
@@ -485,49 +475,8 @@ const IndividualRecipePage = ({ history, match }) => {
               </ol>
             </Col>
           </Row>
-          <Row>
-            <Col md={3}>
-              {(isRecipeSaved) ? (
-                <Form onSubmit={unsaveHandler}>
-                  <Form.Group>
-                    <OverlayTrigger
-                      placement='right'
-                      overlay={
-                        <Tooltip id={'tooltip-right'}>
-                          Remove recipe from your recipe book
-                        </Tooltip>
-                      }
-                    >
-                      <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
-                        <FaTimes style={{ marginLeft: '5px'}}/>
-                      </Button>
-                    </OverlayTrigger>
-                  </Form.Group>
-                </Form>
-              ) : (
-                <Form onSubmit={saveHandler}>
-                  <Form.Group>
-                    <OverlayTrigger
-                      placement='right'
-                      overlay={
-                        <Tooltip id={'tooltip-right'}>
-                          Save recipe to your recipe book
-                        </Tooltip>
-                      }
-                    >
-                      <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
-                        <FaBookMedical style={{ marginLeft: '5px'}}/>
-                      </Button>
-                    </OverlayTrigger>
-                  </Form.Group>
-                </Form>
-              )}
-            </Col>
-          </Row>
     </div>
   )
 }
-
-//<Image src={recipe.recipe_cover_image} alt={recipe.recipe_name} fluid></Image>
 
 export default IndividualRecipePage;

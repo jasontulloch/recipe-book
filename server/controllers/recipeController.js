@@ -111,7 +111,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
 
   const recipes = await Recipe.find({
     //and below is finding both (don't technically need the and)
-    $or: [
+    $and: [
       {...keywordRecipeName},
       {...keywordCountry}
     ],

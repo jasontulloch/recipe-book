@@ -10,8 +10,12 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    if(keywordRecipeName.trim() || keywordCountry.trim()) {
+    if(keywordRecipeName.trim() && keywordCountry.trim()) {
       history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}`)
+    } else if (!keywordCountry.trim()) {
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}`)
+    } else if (!keywordRecipeName.trim()) {
+      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}`)
     } else {
       history.push('/recipes')
     }

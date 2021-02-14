@@ -17,15 +17,15 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const dispatch = useDispatch()
 
   const recipeListAdvancedSearch = useSelector(state => state.recipeListAdvancedSearch)
-  const { loading, error, recipes, page, pages } = recipeListAdvancedSearch
+  const { loading, error, recipes } = recipeListAdvancedSearch
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
-    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry, pageNumber ))
-  }, [dispatch, keywordRecipeName, keywordCountry, pageNumber ])
+    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry ))
+  }, [dispatch, keywordRecipeName, keywordCountry ])
 
   console.log(match)
 

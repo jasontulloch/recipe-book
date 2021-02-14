@@ -35,6 +35,8 @@ const App = () => {
           <Route path='/recipes/advanced-search' component={AdvancedRecipeSearchPage} exact />
           <Route path='/recipe/:id' component={IndividualRecipePage} exact />
           <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName/keywordCountry=:keywordCountry' component={AdvancedRecipeSearchResultsPage} />
+          <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName' component={AdvancedRecipeSearchResultsPage} />
+          <Route path='/recipes/advanced-search-results/keywordCountry=:keywordCountry' component={AdvancedRecipeSearchResultsPage} />
           <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName' component={AllRecipesPage} />
           <Route path='/' component={HomePage} exact />
         </Container>
