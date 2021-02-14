@@ -11,6 +11,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   //This needs to match the route in the App.js file
   const keywordRecipeName = match.params.keywordRecipeName || ''
   const keywordCountry = match.params.keywordCountry || ''
+  const keywordChefName = match.params.keywordChefName || ''
   const pageNumber = match.params.pageNumber || 1
   const urlBaseRecipes = true
 
@@ -24,8 +25,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
 
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
-    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry ))
-  }, [dispatch, keywordRecipeName, keywordCountry ])
+    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry, keywordChefName ))
+  }, [dispatch, keywordRecipeName, keywordCountry, keywordChefName ])
 
   console.log(match)
 

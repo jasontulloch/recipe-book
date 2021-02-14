@@ -34,10 +34,14 @@ const App = () => {
           <Route path='/recipes' component={AllRecipesPage} exact />
           <Route path='/recipes/advanced-search' component={AdvancedRecipeSearchPage} exact />
           <Route path='/recipe/:id' component={IndividualRecipePage} exact />
-          <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName/keywordCountry=:keywordCountry' component={AdvancedRecipeSearchResultsPage} />
-          <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName' component={AdvancedRecipeSearchResultsPage} />
-          <Route path='/recipes/advanced-search-results/keywordCountry=:keywordCountry' component={AdvancedRecipeSearchResultsPage} />
           <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName' component={AllRecipesPage} />
+          <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordCountry=:keywordCountry' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordChefName=:keywordChefName' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName/keywordCountry=:keywordCountry' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName/keywordChefName=:keywordChefName' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordCountry=:keywordCountry/keywordChefName=:keywordChefName' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordRecipeName=:keywordRecipeName/keywordCountry=:keywordCountry/keywordChefName=:keywordChefName' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/' component={HomePage} exact />
         </Container>
       </main>

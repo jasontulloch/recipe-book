@@ -79,7 +79,7 @@ const IndividualRecipePage = ({ history, match }) => {
     doesVoteExist = recipe.votes.find(function(chefVote) {
       return chefVote.chef === chefInfo._id
     })
-    if (doesVoteExist.rating === 1) {
+    if (doesVoteExist && doesVoteExist.rating === 1) {
       doesVoteExist = false
     } else {
       doesVoteExist = true

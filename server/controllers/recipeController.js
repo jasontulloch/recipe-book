@@ -89,8 +89,28 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
-  const pageSize = 4
-  const page = Number(req.query.pageNumber) || 1
+  //const keywordCookTime = req.query.keywordCookTime ? {
+  //  cook_time: {
+  //    $eq: req.query.keywordCookTime
+  //  }
+  //} : {}
+
+  const keywordChefName = [req.query.keywordChefName]
+  const keywordChefNameClean = keywordChefName.toString().toLowerCase().trim()
+  const chefs = await Chef.find({ })
+  const findChef = chefs.filter(function(chef) {
+    return chef.first_name.toLowerCase().includes(keywordChefNameClean)
+  })
+  const findChefId = findChef.map(id => id._id)
+
+  const keywordChefId = findChefId ? {
+    chef: {
+      $eq: findChefId
+    }
+  } : {}
+
+  //const pageSize = 4
+  //const page = Number(req.query.pageNumber) || 1
 
   // If there is a keyword query, then return
   // regex will let us take partial searches (e.g. "pizz")
@@ -113,15 +133,14 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     //and below is finding both (don't technically need the and)
     $and: [
       {...keywordRecipeName},
-      {...keywordCountry}
+      {...keywordCountry},
+      {...keywordChefId}
     ],
   })
 
   //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
 
   res.json({ recipes })
-
-  console.log(recipes)
 
   //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
 
