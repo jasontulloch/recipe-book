@@ -3,9 +3,10 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-const AdvancedRecipeSearchPage = ({ history }) => {
+const AdvancedRecipeSearchPage = ({ history, match }) => {
   const [keywordRecipeName, setKeywordRecipeName] = useState('')
   const [keywordCountry, setKeywordCountry] = useState('')
+  //const pageNumber = match.params.pageNumber || 1
 
   const submitHandler = (e) => {
     e.preventDefault()

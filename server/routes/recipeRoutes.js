@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   getRecipes,
-  getRecipesAdvancedSearch,
+  getRecipesAdvancedSearchAll,
   getMyRecipes,
   getMySavedRecipes,
   getRecipeById,
@@ -21,7 +21,7 @@ router.route('/')
   .get(getRecipes)
   .post(protect, createRecipe)
 router.route('/advanced-search-results')
-  .get(getRecipesAdvancedSearch)
+  .get(getRecipesAdvancedSearchAll)
 router.route('/myrecipes')
   .get(protect, getMyRecipes)
 router.route('/savedrecipes')

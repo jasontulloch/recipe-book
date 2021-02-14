@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Card, Button, Form, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import {
   listRecipeDetails,
   createRecipeUpvote,
@@ -13,10 +13,9 @@ import { RECIPE_CREATE_UPVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_CREATE_DOWNVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
-
 import Unitz from 'unitz'
-
 import './IndividualRecipePage.styles.scss';
+import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes } from 'react-icons/fa';
 
 const IndividualRecipePage = ({ history, match }) => {
 
@@ -74,35 +73,47 @@ const IndividualRecipePage = ({ history, match }) => {
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
-  // Currently works but may need to go to a different recipe to reset Recipe ID
-  // Appears to set to TRUE even if not the case when you leave
-  // In the actual handlers, if there is an error they will toggle
-  // Not the best solution but works overall
-  const [isRecipeSaved, setIsRecipeSaved] = useState(
-    Boolean(chefInfo.savedRecipes.find(function(chefRecipe) {
+  // Set up to toggle like and dislike button
+  let doesVoteExist = Boolean
+  if (recipe.votes) {
+    doesVoteExist = recipe.votes.find(function(chefVote) {
+      return chefVote.chef === chefInfo._id
+    })
+    if (doesVoteExist.rating === 1) {
+      doesVoteExist = false
+    } else {
+      doesVoteExist = true
+    }
+  }
+  const [showLikeBtn, setShowLikeBtn] = useState(doesVoteExist)
+
+  let wasSaved = Boolean
+  if (chefInfo.savedRecipes && recipe) {
+    wasSaved = Boolean(chefInfo.savedRecipes.find(function(chefRecipe) {
       return chefRecipe._id === recipe._id
     }))
-  )
+  }
+
+  const [isRecipeSaved, setIsRecipeSaved] = useState(wasSaved)
+  console.log(isRecipeSaved)
 
   useEffect(() => {
     if(successRecipeUpvote) {
-      alert('Upvoted Casted')
       setVote(0)
+      setShowLikeBtn(false)
       dispatch({ type: RECIPE_CREATE_UPVOTE_RESET })
     }
     if(successRecipeDownvote) {
-      alert('Downvote Casted')
       setVote(0)
+      setShowLikeBtn(true)
       dispatch({ type: RECIPE_CREATE_DOWNVOTE_RESET })
     }
     if(successRecipeSave) {
-      alert('Recipe saved')
       setSave('')
       setIsRecipeSaved(true)
       dispatch({ type: RECIPE_SAVE_RESET })
     }
     if(successRecipeUnsave) {
-      alert('Recipe removed')
       setUnsave('')
       setIsRecipeSaved(false)
       dispatch({ type: RECIPE_UNSAVE_RESET })
@@ -138,9 +149,7 @@ const IndividualRecipePage = ({ history, match }) => {
     dispatch(saveRecipe(match.params.id, {
       save
     }))
-    if(errorRecipeSave) {
-      setIsRecipeSaved(true)
-    }
+    setIsRecipeSaved(true)
   }
 
   // If statemet is temporarily, just lets me click the button and if error will toggle to save
@@ -149,9 +158,7 @@ const IndividualRecipePage = ({ history, match }) => {
     dispatch(unsaveRecipe(match.params.id, {
       unsave
     }))
-    if(errorRecipeUnsave) {
-      setIsRecipeSaved(false)
-    }
+    setIsRecipeSaved(false)
   }
 
   const Diets = []
@@ -306,85 +313,144 @@ const IndividualRecipePage = ({ history, match }) => {
 
   return (
     <div>
+      <Row>
+        <Col md={10}>
           <Row>
-            <Col md={6}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h1>{recipe.recipe_name}</h1>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={6}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <Link className="btn btn-light my-3" to='/recipes'>
-                    Go Back
-                  </Link>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={4} className='fluid'>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>Cook Time: {time_convert(recipe.cook_time)}</h3>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={4} className='fluid'>
-              <Form.Group as={Row} controlId='cookTime'>
-                <Form.Label column sm="8">
-                  <h3>Serving Size:</h3>
-                </Form.Label>
-                <Col sm="4">
-                  <Form.Control
-                    type='number'
-                    min={1}
-                    max={20}
-                    step={1}
-                    value={servingSize}
-                    onChange={(e) => setServingSize(e.target.value)}
-                    onKeyDown={handleKeypress}
-                    required
-                  >
-                  </Form.Control>
-                  <Form.Check
-                    inline
-                    label='Metric?'
-                    checked={isMetric}
-                    onChange={(e) => setIsMetric(e.target.checked)}
-                  />
-                </Col>
+          {(isRecipeSaved) ? (
+            <Form onSubmit={unsaveHandler}>
+              <Form.Group>
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Remove recipe from your recipe book
+                    </Tooltip>
+                  }
+                >
+                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
+                    <FaTimes />
+                  </Button>
+                </OverlayTrigger>
               </Form.Group>
-            </Col>
-            <Col md={4}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>Country: {recipe.country}</h3>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
+            </Form>
+          ) : (
+            <Form onSubmit={saveHandler}>
+              <Form.Group>
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Save recipe to your recipe book
+                    </Tooltip>
+                  }
+                >
+                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
+                    <FaBookMedical />
+                  </Button>
+                </OverlayTrigger>
+              </Form.Group>
+            </Form>
+          )}
+          {(showLikeBtn || doesVoteExist) ? (
+            <Form onSubmit={upvoteHandler}>
+              <Form.Group as={Row}>
+                <Form.Label>
+                  <h1 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h1>
+                </Form.Label>
+                <Form.Label>
+                  <p style={{ marginTop: '7px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
+                </Form.Label>
+                <OverlayTrigger
+                  placement='right'
+                  overlay={
+                    <Tooltip id={'tooltip-right'}>
+                      Upvote recipe... This will not save the recipe
+                    </Tooltip>
+                  }
+                >
+                  <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setVote(1)}>
+                    <FaThumbsUp style={{ marginLeft: '5px'}}/>
+                  </Button>
+                </OverlayTrigger>
+              </Form.Group>
+            </Form>
+          ) : (
+            <Form onSubmit={downvoteHandler}>
+              <Form.Group as={Row}>
+                <Form.Label>
+                  <h1 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h1>
+                </Form.Label>
+                <Form.Label>
+                  <p style={{ marginTop: '7px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
+                </Form.Label>
+                <OverlayTrigger
+                  placement='right'
+                  overlay={
+                    <Tooltip id={'tooltip-right'}>
+                      Downvote recipe
+                    </Tooltip>
+                  }
+                >
+                  <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setVote(-1)}>
+                    <FaThumbsDown style={{ marginLeft: '5px'}}/>
+                  </Button>
+                </OverlayTrigger>
+              </Form.Group>
+            </Form>
+          )}
           </Row>
+        </Col>
+        <Col md={2}>
+          <Link className="btn btn-light" to='/recipes'>
+            Go Back
+          </Link>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={4} className='fluid'>
+          <h3>Cook Time: {time_convert(recipe.cook_time)}</h3>
+        </Col>
+        <Col md={4} className='fluid'>
+          <Form.Group as={Row} controlId='cookTime'>
+            <Form.Label column sm="8">
+              <h3>Serving Size:</h3>
+            </Form.Label>
+            <Col sm="4">
+              <Form.Control
+                type='number'
+                min={1}
+                max={20}
+                step={1}
+                value={servingSize}
+                onChange={(e) => setServingSize(e.target.value)}
+                onKeyDown={handleKeypress}
+                required
+              >
+              </Form.Control>
+              <Form.Check
+                inline
+                label='Metric?'
+                checked={isMetric}
+                onChange={(e) => setIsMetric(e.target.checked)}
+              />
+            </Col>
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <h3>Country: {recipe.country}</h3>
+        </Col>
+      </Row>
           <Row>
-            <ListGroup variant='flush'>
-              <ListGroup.Item>
                 <h3>
                   {Diets.length > 0 && 'Diets: '}
                   {new Intl.ListFormat().format(Diets)}
                 </h3>
-              </ListGroup.Item>
-            </ListGroup>
           </Row>
           <Row>
-            <ListGroup variant='flush'>
-              <ListGroup.Item>
                 <h3>
                   {Allergins.length > 0 && 'Allergins: '}
                   {new Intl.ListFormat().format(Allergins)}
                 </h3>
-              </ListGroup.Item>
-            </ListGroup>
           </Row>
           <Row>
             <Col md={6} className=''>
@@ -421,38 +487,40 @@ const IndividualRecipePage = ({ history, match }) => {
           </Row>
           <Row>
             <Col md={3}>
-              Click to upvote:
-              <Form onSubmit={upvoteHandler}>
-                <Button type='submit' onClick={(e) => setVote(1)}>
-                  <span className='upvote-btn'></span>
-                </Button>
-              </Form>
-              Click to downvote:
-              <Form onSubmit={downvoteHandler}>
-                <Button type='submit' onClick={(e) => setVote(-1)}>
-                  <span className='downvote-btn'></span>
-                </Button>
-              </Form>
-              <h1>Ranking: {recipe.netVotes}</h1>
-              {isRecipeSaved
-              ? (
-                <div>
-                  <h1>Remove Saved Recipe:</h1>
-                  <Form onSubmit={unsaveHandler}>
-                    <Button type='submit' onClick={(e) => setUnsave('')}>
-                      <span className='downvote-btn'></span>
-                    </Button>
-                  </Form>
-                </div>
+              {(isRecipeSaved) ? (
+                <Form onSubmit={unsaveHandler}>
+                  <Form.Group>
+                    <OverlayTrigger
+                      placement='right'
+                      overlay={
+                        <Tooltip id={'tooltip-right'}>
+                          Remove recipe from your recipe book
+                        </Tooltip>
+                      }
+                    >
+                      <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
+                        <FaTimes style={{ marginLeft: '5px'}}/>
+                      </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
               ) : (
-                <div>
-                  <h1>Save Recipe:</h1>
-                  <Form onSubmit={saveHandler}>
-                    <Button type='submit' onClick={(e) => setSave('')}>
-                      <span className='upvote-btn'></span>
-                    </Button>
-                  </Form>
-                </div>
+                <Form onSubmit={saveHandler}>
+                  <Form.Group>
+                    <OverlayTrigger
+                      placement='right'
+                      overlay={
+                        <Tooltip id={'tooltip-right'}>
+                          Save recipe to your recipe book
+                        </Tooltip>
+                      }
+                    >
+                      <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
+                        <FaBookMedical style={{ marginLeft: '5px'}}/>
+                      </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
               )}
             </Col>
           </Row>

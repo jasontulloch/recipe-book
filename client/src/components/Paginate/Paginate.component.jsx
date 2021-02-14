@@ -12,7 +12,7 @@ const Paginate = ({ pages, page, urlBaseRecipes, keywordRecipeName='', keywordCo
             to={
               urlBaseRecipes
                 ? (`/recipes/page/${x+1}`)
-                : `/recipes/search/${keywordRecipeName}/${keywordCountry}/page/${x+1}`
+                : `/recipes/search/keywordRecipeName=${keywordRecipeName}/page/${x+1}`
             }
           >
             <Pagination.Item active={x+1 === page}>{x+1}</Pagination.Item>

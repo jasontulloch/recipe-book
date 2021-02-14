@@ -22,33 +22,34 @@ const getRecipes = asyncHandler(async (req, res) => {
   const count = await Recipe.countDocuments({ ...keywordRecipeName })
 
   const recipes = await Recipe.find({ ...keywordRecipeName })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
+    //.limit(pageSize)
+    //.skip(pageSize * (page - 1))
 
-  res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
+  res.json({ recipes })
+  //res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @description Fetch all recipes (advanced search)
 // @route GET /api/recipes/search
 // @access Public
-const getRecipesAdvancedSearch = asyncHandler(async (req, res) => {
+const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
   //const pageSize = 4
   //const page = Number(req.query.pageNumber) || 1
 
-  const recipesInitial = await Recipe.find({ })
+  //const recipesInitial = await Recipe.find({ })
 
-  const keywordRecipeName = [req.query.keywordRecipeName]
-  const keywordRecipeNameClean = keywordRecipeName.toString().toLowerCase().trim()
-  const keywordCountry = [req.query.keywordCountry]
-  const keywordCountryClean = keywordCountry.toString().toLowerCase().trim()
+  //const keywordRecipeName = [req.query.keywordRecipeName]
+  //const keywordRecipeNameClean = keywordRecipeName.toString().toLowerCase().trim()
+  //const keywordCountry = [req.query.keywordCountry]
+  //const keywordCountryClean = keywordCountry.toString().toLowerCase().trim()
 
-  const newRecipeNameRecipes = recipesInitial.filter(function(recipe) {
-    return recipe.recipe_name.toLowerCase().includes(keywordRecipeNameClean)
-  })
+  //const newRecipeNameRecipes = recipesInitial.filter(function(recipe) {
+  //  return recipe.recipe_name.toLowerCase().includes(keywordRecipeNameClean)
+  //})
 
-  const recipes = newRecipeNameRecipes.filter(function(recipe) {
-    return recipe.country.toLowerCase().includes(keywordCountryClean)
-  })
+  //const recipes = newRecipeNameRecipes.filter(function(recipe) {
+  //  return recipe.country.toLowerCase().includes(keywordCountryClean)
+  //})
 
   //const recipes = recipesInitial.filter(function(recipe) {
   //  return (
@@ -74,19 +75,19 @@ const getRecipesAdvancedSearch = asyncHandler(async (req, res) => {
   // Note: This is how you count, below
   //const count = newCountryRecipes.length
 
-  //const keywordRecipeName = req.query.keywordRecipeName ? {
-  //  recipe_name: {
-  //    $regex: req.query.keywordRecipeName,
-  //    $options: 'i'
-  //  }
-  //} : {}
+  const keywordRecipeName = req.query.keywordRecipeName ? {
+    recipe_name: {
+      $regex: req.query.keywordRecipeName,
+      $options: 'i'
+    }
+  } : {}
 
-  //const keywordCountry = req.query.keywordCountry ? {
-  //  country: {
-  //    $regex: req.query.keywordCountry,
-  //    $options: 'i'
-  //  }
-  //} : {}
+  const keywordCountry = req.query.keywordCountry ? {
+    country: {
+      $regex: req.query.keywordCountry,
+      $options: 'i'
+    }
+  } : {}
 
   const pageSize = 4
   const page = Number(req.query.pageNumber) || 1
@@ -108,14 +109,19 @@ const getRecipesAdvancedSearch = asyncHandler(async (req, res) => {
   //  }
   //} : {}
 
-  //const recipes = await Recipe.find({
-  //  $and: [
-  //    {...keywordRecipeName},
-  //    {...keywordCountry}
-  //  ]
-  //})
+  const recipes = await Recipe.find({
+    //and below is finding both (don't technically need the and)
+    $or: [
+      {...keywordRecipeName},
+      {...keywordCountry}
+    ],
+  })
 
-  res.json({recipes})
+  //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
+
+  res.json({ recipes })
+
+  console.log(recipes)
 
   //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
 
@@ -460,7 +466,7 @@ const unsaveRecipe = asyncHandler(async (req, res) => {
 
 export {
   getRecipes,
-  getRecipesAdvancedSearch,
+  getRecipesAdvancedSearchAll,
   getMyRecipes,
   getMySavedRecipes,
   getRecipeById,

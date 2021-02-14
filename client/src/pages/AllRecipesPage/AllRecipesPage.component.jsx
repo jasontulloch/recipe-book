@@ -11,21 +11,21 @@ import Message from '../../components/Message/Message.component';
 
 const HomeScreen = ({ match }) => {
   const keywordRecipeName = match.params.keywordRecipeName
-  const pageNumber = match.params.pageNumber || 1
-  const urlBaseRecipes = true
+  //const pageNumber = match.params.pageNumber || 1
+  //const urlBaseRecipes = true
 
   const dispatch = useDispatch()
 
   const recipeList = useSelector(state => state.recipeList)
-  const { loading, error, recipes, page, pages } = recipeList
+  const { loading, error, recipes } = recipeList
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
   // This is firing off the action to get products in state
   useEffect(() => {
-    dispatch(listRecipes(keywordRecipeName, pageNumber))
-  }, [dispatch, keywordRecipeName, pageNumber])
+    dispatch(listRecipes(keywordRecipeName ))
+  }, [dispatch, keywordRecipeName ])
 
   const [initialLoader, setInitialLoader] = useState(true)
   if (loading !== true) {
@@ -48,12 +48,6 @@ const HomeScreen = ({ match }) => {
               </Col>
             ))}
           </Row>
-          <Paginate
-            urlBaseRecipes={urlBaseRecipes}
-            pages={pages}
-            page={page}
-            keywordRecipeName={keywordRecipeName ? keywordRecipeName : ''}
-          />
         </div>
       )}
     </div>
