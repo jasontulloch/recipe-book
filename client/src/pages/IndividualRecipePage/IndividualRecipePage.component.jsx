@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Image, ListGroup, Card, Button, Form, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+  Tooltip,
+  OverlayTrigger
+} from 'react-bootstrap';
 import {
   listRecipeDetails,
   createRecipeUpvote,
@@ -16,6 +26,7 @@ import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 import Unitz from 'unitz'
 import './IndividualRecipePage.styles.scss';
 import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes } from 'react-icons/fa';
+import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
 
 const IndividualRecipePage = ({ history, match }) => {
 
@@ -473,6 +484,11 @@ const IndividualRecipePage = ({ history, match }) => {
                   <li>{obj}</li>
                 ))}
               </ol>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} style={{textAlign: 'center'}}>
+              <RecipeImagesModal recipe={recipe}/>
             </Col>
           </Row>
     </div>

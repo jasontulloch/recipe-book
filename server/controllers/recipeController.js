@@ -96,16 +96,19 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
   //} : {}
 
   const keywordChefName = [req.query.keywordChefName]
-  const keywordChefNameClean = keywordChefName.toString().toLowerCase().trim()
+  let keywordChefNameClean = ''
+  if (keywordChefName && req.query.keywordChefName.length > 0) {
+    keywordChefNameClean = keywordChefName.toString().toLowerCase().trim()
+  }
   const chefs = await Chef.find({ })
   const findChef = chefs.filter(function(chef) {
-    return chef.first_name.toLowerCase().includes(keywordChefNameClean)
+    return chef.username.toLowerCase().includes(keywordChefNameClean)
   })
   const findChefId = findChef.map(id => id._id)
 
   const keywordChefId = findChefId ? {
     chef: {
-      $eq: findChefId
+      $in: findChefId
     }
   } : {}
 

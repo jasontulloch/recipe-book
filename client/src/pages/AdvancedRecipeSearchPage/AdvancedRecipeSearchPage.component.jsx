@@ -52,7 +52,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
           type='text'
           name='keywordChefName'
           onChange={(e) => setKeywordChefName(e.target.value)}
-          placeholder='Search by chef name...'
+          placeholder='Search by chef username...'
           className='mr-sm-2 ml-sm-5'
         ></Form.Control>
         <Button type='submit' variant='outline-success' className='p-2'>

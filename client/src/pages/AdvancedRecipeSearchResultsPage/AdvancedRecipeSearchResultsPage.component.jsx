@@ -28,8 +28,6 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry, keywordChefName ))
   }, [dispatch, keywordRecipeName, keywordCountry, keywordChefName ])
 
-  console.log(match)
-
   return (
     <div>
       <h1>Custom Searched Recipes</h1>
