@@ -7,27 +7,30 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   const [keywordRecipeName, setKeywordRecipeName] = useState('')
   const [keywordCountry, setKeywordCountry] = useState('')
   const [keywordChefName, setKeywordChefName] = useState('')
-  //const [keywordCookTime, setKeywordCookTime] = useState('')
+  const [keywordCookTimeMin, setKeywordCookTimeMin] = useState(0)
+  const [keywordCookTimeMax, setKeywordCookTimeMax] = useState(60)
   //const pageNumber = match.params.pageNumber || 1
 
   const submitHandler = (e) => {
     e.preventDefault()
     if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}`)
+      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}`)
+      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordChefName=${keywordChefName}`)
+      history.push(`/recipes/advanced-search-results/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
+    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim()) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     } else {
-      history.push('/recipes')
+      history.push(`/recipes/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
     }
   }
 
@@ -60,6 +63,31 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
           placeholder='Search by chef username...'
           className='mr-sm-2 ml-sm-5'
         ></Form.Control>
+        <Form.Label>I want to cook between</Form.Label>
+        <Form.Control
+          type='number'
+          name='keywordCookTimeMin'
+          onChange={(e) => setKeywordCookTimeMin(e.target.value)}
+          placeholder='Minimum time'
+          required
+          min='0'
+          max='359'
+          value={keywordCookTimeMin}
+          className='mr-sm-2 ml-sm-5'
+        ></Form.Control>
+        <Form.Label>and</Form.Label>
+        <Form.Control
+          type='number'
+          name='keywordCookTimeMax'
+          onChange={(e) => setKeywordCookTimeMax(e.target.value)}
+          placeholder='Maximum time'
+          required
+          min='0'
+          max='360'
+          value={keywordCookTimeMax}
+          className='mr-sm-2 ml-sm-5'
+        ></Form.Control>
+        <Form.Label>minutes</Form.Label>
         <Button type='submit' variant='outline-success' className='p-2'>
           Search
         </Button>

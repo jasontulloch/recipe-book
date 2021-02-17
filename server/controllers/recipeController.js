@@ -89,11 +89,17 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
-  //const keywordCookTime = req.query.keywordCookTime ? {
-  //  cook_time: {
-  //    $eq: req.query.keywordCookTime
-  //  }
-  //} : {}
+  const keywordCookTimeMin = req.query.keywordCookTimeMin ? {
+    cook_time: {
+      $gte: req.query.keywordCookTimeMin
+    }
+  } : {}
+
+  const keywordCookTimeMax = req.query.keywordCookTimeMax ? {
+    cook_time: {
+      $lte: req.query.keywordCookTimeMax
+    }
+  } : {}
 
   const keywordChefName = [req.query.keywordChefName]
   let keywordChefNameClean = ''
@@ -137,7 +143,9 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     $and: [
       {...keywordRecipeName},
       {...keywordCountry},
-      {...keywordChefId}
+      {...keywordChefId},
+      {...keywordCookTimeMin},
+      {...keywordCookTimeMax}
     ],
   })
 

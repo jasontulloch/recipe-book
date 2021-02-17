@@ -12,6 +12,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const keywordRecipeName = match.params.keywordRecipeName || ''
   const keywordCountry = match.params.keywordCountry || ''
   const keywordChefName = match.params.keywordChefName || ''
+  const keywordCookTimeMin = match.params.keywordCookTimeMin || ''
+  const keywordCookTimeMax = match.params.keywordCookTimeMax || ''
   const pageNumber = match.params.pageNumber || 1
   const urlBaseRecipes = true
 
@@ -25,8 +27,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
 
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
-    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry, keywordChefName ))
-  }, [dispatch, keywordRecipeName, keywordCountry, keywordChefName ])
+    dispatch(listAdvancedSearchRecipes(keywordRecipeName, keywordCountry, keywordChefName, keywordCookTimeMin, keywordCookTimeMax ))
+  }, [dispatch, keywordRecipeName, keywordCountry, keywordChefName, keywordCookTimeMin, keywordCookTimeMax ])
 
   return (
     <div>

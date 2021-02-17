@@ -1,5 +1,5 @@
 const Countries = [
-  ["1", "n/a"],
+  ["1", ""],
   ["2", "India"],
   ["3", "Italy"],
   ["4", "Myanmar"],
