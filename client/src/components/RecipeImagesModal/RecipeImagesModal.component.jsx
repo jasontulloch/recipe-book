@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Carousel } from 'react-bootstrap';
+import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
-const RecipeImagesModal = ({ recipe }) => {
+const RecipeImagesModal = ({ recipe, loading }) => {
   // Set variable to display / hide modal
   const [modalShow, setModalShow] = React.useState(false);
-
-  console.log(recipe)
+  // Initializing loader for timeout
+  const [initialLoader, setInitialLoader] = useState(true)
+  if (loading !== true) {
+    setTimeout(() => setInitialLoader(false), 3000)
+  }
 
   return (
     <div>
@@ -17,15 +21,19 @@ const RecipeImagesModal = ({ recipe }) => {
         show={modalShow}
         onHide={() => setModalShow(false)}
       >
-        <Carousel>
-          <Carousel.Item>
-            <img
-              className='w-100'
-              src={recipe.recipe_cover_image}
-              alt='First Slide'
-            />
-          </Carousel.Item>
-        </Carousel>
+        {initialLoader ?  (
+          <PancakeLoader>Fetching {recipe.recipe_name} images...</PancakeLoader>
+        ) : (
+          <Carousel>
+            <Carousel.Item>
+              <img
+                className='w-100'
+                src={recipe.recipe_cover_image}
+                alt='First Slide'
+              />
+            </Carousel.Item>
+          </Carousel>
+        )}
       </Modal>
     </div>
   )

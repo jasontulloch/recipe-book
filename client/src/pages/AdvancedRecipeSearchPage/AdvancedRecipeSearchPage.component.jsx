@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Countries from '../../lists/countries';
 
 const AdvancedRecipeSearchPage = ({ history, match }) => {
   const [keywordRecipeName, setKeywordRecipeName] = useState('')
@@ -41,13 +41,18 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
           placeholder='Search by recipe name...'
           className='mr-sm-2 ml-sm-5'
         ></Form.Control>
+        <Form.Label>Country of Origin</Form.Label>
         <Form.Control
-          type='text'
-          name='keywordCountry'
+          as='select'
+          value={keywordCountry}
           onChange={(e) => setKeywordCountry(e.target.value)}
-          placeholder='Search by country...'
-          className='mr-sm-2 ml-sm-5'
-        ></Form.Control>
+        >
+          {Countries.map((country) =>
+            <option key={country[0]}>
+              {country[1]}
+            </option>
+          )}
+        </Form.Control>
         <Form.Control
           type='text'
           name='keywordChefName'
