@@ -38,7 +38,7 @@ import {
   RECIPE_MYSAVED_FAILURE,
 } from '../constants/recipeConstants';
 
-export const listRecipes = (keywordRecipeName = '',) => async (dispatch) => {
+export const listRecipes = (keywordRecipeName = '') => async (dispatch) => {
   try {
     dispatch({ type: RECIPE_LIST_REQUEST })
 
@@ -66,14 +66,16 @@ export const listAdvancedSearchRecipes = (
   keywordCountry = '',
   keywordChefName = '',
   keywordCookTimeMin = '',
-  keywordCookTimeMax = ''
+  keywordCookTimeMax = '',
+  keywordIsVegan = '',
+  keywordIsVegetarian = ''
 ) => async (dispatch) => {
 
   try {
     dispatch({ type: RECIPE_LIST_ADVANCED_SEARCH_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}`
+      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}`
     )
 
     dispatch({

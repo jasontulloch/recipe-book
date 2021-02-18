@@ -33,39 +33,6 @@ const getRecipes = asyncHandler(async (req, res) => {
 // @route GET /api/recipes/search
 // @access Public
 const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
-  //const pageSize = 4
-  //const page = Number(req.query.pageNumber) || 1
-
-  //const recipesInitial = await Recipe.find({ })
-
-  //const keywordRecipeName = [req.query.keywordRecipeName]
-  //const keywordRecipeNameClean = keywordRecipeName.toString().toLowerCase().trim()
-  //const keywordCountry = [req.query.keywordCountry]
-  //const keywordCountryClean = keywordCountry.toString().toLowerCase().trim()
-
-  //const newRecipeNameRecipes = recipesInitial.filter(function(recipe) {
-  //  return recipe.recipe_name.toLowerCase().includes(keywordRecipeNameClean)
-  //})
-
-  //const recipes = newRecipeNameRecipes.filter(function(recipe) {
-  //  return recipe.country.toLowerCase().includes(keywordCountryClean)
-  //})
-
-  //const recipes = recipesInitial.filter(function(recipe) {
-  //  return (
-  //    recipe.country.toLowerCase().includes(keywordCountryClean) &&
-  //    recipe.recipe_name.toLowerCase().includes(keywordRecipeNameClean)
-  //  )
-  //})
-
-
-  //const recipes = recipesInitial.filter(function(recipe) {
-  //  return (
-  //    recipe.recipe_name.toLowerCase().indexOf(req.query.keywordRecipeName.toLowerCase()) >= 0 ||
-  //    recipe.country.toLowerCase().indexOf(req.query.keywordCountry.toLowerCase()) >= 0
-  //  )
-  //})
-
   //Note we only need the image and maybe a few other pieces (don't get full recipe)
 
   //const finalSearch = newCountryRecipes
@@ -89,18 +56,6 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
-  const keywordCookTimeMin = req.query.keywordCookTimeMin ? {
-    cook_time: {
-      $gte: req.query.keywordCookTimeMin
-    }
-  } : {}
-
-  const keywordCookTimeMax = req.query.keywordCookTimeMax ? {
-    cook_time: {
-      $lte: req.query.keywordCookTimeMax
-    }
-  } : {}
-
   const keywordChefName = [req.query.keywordChefName]
   let keywordChefNameClean = ''
   if (keywordChefName && req.query.keywordChefName.length > 0) {
@@ -118,25 +73,32 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
+  const keywordCookTimeMin = req.query.keywordCookTimeMin ? {
+    cook_time: {
+      $gte: req.query.keywordCookTimeMin
+    }
+  } : {}
+
+  const keywordCookTimeMax = req.query.keywordCookTimeMax ? {
+    cook_time: {
+      $lte: req.query.keywordCookTimeMax
+    }
+  } : {}
+
+  const keywordIsVegan = req.query.keywordIsVegan ? {
+    isVegan: {
+      $eq: req.query.keywordIsVegan
+    }
+  } : {}
+
+  const keywordIsVegetarian = req.query.keywordIsVegetarian ? {
+    isVegetarian: {
+      $eq: req.query.keywordIsVegetarian
+    }
+  } : {}
+
   //const pageSize = 4
   //const page = Number(req.query.pageNumber) || 1
-
-  // If there is a keyword query, then return
-  // regex will let us take partial searches (e.g. "pizz")
-  // options 'i' is case insensitive
-  //const keywordRecipeName = req.query.keywordRecipeName ? {
-  //  recipe_name: {
-  //    $regex: req.query.keywordRecipeName,
-  //    $options: 'i'
-  // }
-  //} : {}
-
-  //const keywordCountry = req.query.keywordCountry ? {
-  //  country: {
-  //    $regex: req.query.keywordCountry,
-  //    $options: 'i'
-  //  }
-  //} : {}
 
   const recipes = await Recipe.find({
     //and below is finding both (don't technically need the and)
@@ -145,7 +107,9 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordCountry},
       {...keywordChefId},
       {...keywordCookTimeMin},
-      {...keywordCookTimeMax}
+      {...keywordCookTimeMax},
+      {...keywordIsVegan},
+      {...keywordIsVegetarian}
     ],
   })
 
