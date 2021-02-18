@@ -11,6 +11,8 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   const [keywordCookTimeMax, setKeywordCookTimeMax] = useState(60)
   const [keywordIsVegan, setKeywordIsVegan] = useState(false)
   const [keywordIsVegetarian, setKeywordIsVegetarian] = useState(false)
+  const [keywordIsGlutenFree, setKeywordIsGlutenFree] = useState(false)
+  const [keywordIsKetogenic, setKeywordIsKetogenic] = useState(false)
   //const pageNumber = match.params.pageNumber || 1
 
   const chefLogin = useSelector(state => state.chefLogin)
@@ -19,23 +21,21 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordRecipeName=${keywordRecipeName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordCountry=${keywordCountry}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
-    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim()) {
-      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordChefName=${keywordChefName}/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else {
-      history.push(`/recipes/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}`)
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     }
   }
 
@@ -43,6 +43,8 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
     if (chefInfo) {
       setKeywordIsVegan(chefInfo.isVegan)
       setKeywordIsVegetarian(chefInfo.isVegetarian)
+      setKeywordIsGlutenFree(chefInfo.isGlutenFree)
+      setKeywordIsKetogenic(chefInfo.isKetogenic)
     }
   }, [chefInfo])
 
@@ -139,6 +141,22 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
             label='Vegetarian recipes?'
             checked={keywordIsVegetarian}
             onChange={(e) => setKeywordIsVegetarian(e.target.checked)}
+          />
+        </Form.Group>
+        <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
+          <Form.Check
+            inline
+            label='Gluten-free recipes?'
+            checked={keywordIsGlutenFree}
+            onChange={(e) => setKeywordIsGlutenFree(e.target.checked)}
+          />
+        </Form.Group>
+        <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
+          <Form.Check
+            inline
+            label='Ketogenic recipes?'
+            checked={keywordIsKetogenic}
+            onChange={(e) => setKeywordIsKetogenic(e.target.checked)}
           />
         </Form.Group>
 

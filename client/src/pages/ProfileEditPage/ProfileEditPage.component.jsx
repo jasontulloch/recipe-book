@@ -63,7 +63,9 @@ const ProfileEditPage = ({ location, history }) => {
   const recipeMySaved = useSelector(state => state.recipeMySaved)
   const { loadingMySaved, errorMySaved, savedRecipes } = recipeMySaved
 
-  console.log(recipeMySaved)
+  console.log(isVegan)
+  console.log(chef.isVegan)
+  console.log(chefInfo.isVegan)
 
   useEffect(() => {
     if(!chefInfo) {

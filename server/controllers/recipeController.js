@@ -97,6 +97,18 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
+  const keywordIsGlutenFree = req.query.keywordIsGlutenFree ? {
+    isGlutenFree: {
+      $eq: req.query.keywordIsGlutenFree
+    }
+  } : {}
+
+  const keywordIsKetogenic = req.query.keywordIsKetogenic ? {
+    isKetogenic: {
+      $eq: req.query.keywordIsKetogenic
+    }
+  } : {}
+
   //const pageSize = 4
   //const page = Number(req.query.pageNumber) || 1
 
@@ -109,7 +121,9 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordCookTimeMin},
       {...keywordCookTimeMax},
       {...keywordIsVegan},
-      {...keywordIsVegetarian}
+      {...keywordIsVegetarian},
+      {...keywordIsGlutenFree},
+      {...keywordIsKetogenic}
     ],
   })
 

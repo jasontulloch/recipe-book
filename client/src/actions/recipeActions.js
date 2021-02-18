@@ -68,14 +68,16 @@ export const listAdvancedSearchRecipes = (
   keywordCookTimeMin = '',
   keywordCookTimeMax = '',
   keywordIsVegan = '',
-  keywordIsVegetarian = ''
+  keywordIsVegetarian = '',
+  keywordIsGlutenFree = '',
+  keywordIsKetogenic = ''
 ) => async (dispatch) => {
 
   try {
     dispatch({ type: RECIPE_LIST_ADVANCED_SEARCH_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}`
+      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}&keywordIsGlutenFree=${keywordIsGlutenFree}&keywordIsKetogenic=${keywordIsKetogenic}`
     )
 
     dispatch({

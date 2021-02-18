@@ -16,6 +16,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const keywordCookTimeMax = match.params.keywordCookTimeMax || ''
   const keywordIsVegan = match.params.keywordIsVegan || ''
   const keywordIsVegetarian = match.params.keywordIsVegetarian || ''
+  const keywordIsGlutenFree = match.params.keywordIsGlutenFree || ''
+  const keywordIsKetogenic = match.params.keywordIsKetogenic || ''
   const pageNumber = match.params.pageNumber || 1
   const urlBaseRecipes = true
 
@@ -37,7 +39,9 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         keywordCookTimeMin,
         keywordCookTimeMax,
         keywordIsVegan,
-        keywordIsVegetarian
+        keywordIsVegetarian,
+        keywordIsGlutenFree,
+        keywordIsKetogenic
       )
     )
   }, [
@@ -48,7 +52,9 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordCookTimeMin,
     keywordCookTimeMax,
     keywordIsVegan,
-    keywordIsVegetarian
+    keywordIsVegetarian,
+    keywordIsGlutenFree,
+    keywordIsKetogenic
   ])
 
   return (

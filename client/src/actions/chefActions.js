@@ -163,7 +163,7 @@ export const updateChefProfile = (chef) => async (dispatch, getState) => {
       payload: data
     })
 
-    localStorage.setItem('chefInfo', JSON.stringify(data))
+    //localStorage.setItem('chefInfo', JSON.stringify(data))
 
   } catch (error) {
     dispatch({
