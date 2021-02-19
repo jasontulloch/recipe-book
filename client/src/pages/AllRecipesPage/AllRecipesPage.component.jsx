@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import { listRecipes } from '../../actions/recipeActions';
 import Paginate from '../../components/Paginate/Paginate.component';
@@ -34,13 +34,23 @@ const HomeScreen = ({ match }) => {
 
   return (
     <div>
-      <h1>Latest Recipes</h1>
       {initialLoader ?  (
         <PancakeLoader>Finding yummy recipes...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (
         <div>
+          <Row>
+            <Col>
+              <DropdownButton style={{textAlign: 'right'}} id="dropdown-item-button" title="Dropdown button">
+                <Dropdown.ItemText>Most Recent</Dropdown.ItemText>
+                <Dropdown.Item as="button">Trending</Dropdown.Item>
+                <Dropdown.Item as="button">Highest Rated</Dropdown.Item>
+                <Dropdown.Item as="button">Lowest Rated</Dropdown.Item>    
+              </DropdownButton>
+            </Col>
+          </Row>
+
           <Row>
             {recipes.map((recipe) => (
               <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>

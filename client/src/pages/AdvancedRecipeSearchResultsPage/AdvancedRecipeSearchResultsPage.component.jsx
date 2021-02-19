@@ -60,13 +60,13 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   return (
     <div>
       <h1>Custom Searched Recipes</h1>
-        <Row>
-          {recipes.recipes && recipes.recipes.map((recipe) => (
-            <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>
-              <RecipeCardImage recipe={recipe} />
-            </Col>
-          ))}
-        </Row>
+      <Row>
+        {recipes.recipes && recipes.recipes.map((recipe) => (
+          <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>
+            <RecipeCardImage recipe={recipe} />
+          </Col>
+        ))}
+      </Row>
     </div>
   )
 }

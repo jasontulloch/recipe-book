@@ -50,6 +50,11 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
 
   return (
     <div>
+      <div style={{textAlign: 'center'}}>
+        <h1>Advanced Search</h1>
+        <p style={{marginBottom: '0px'}}>Looking for the most popular recipe? Don't worry, you can sort after your search.</p>
+        <p>How about a different serving size? All recipes can be adjusted on their individual page.</p>
+      </div>
       <Form onSubmit={submitHandler}>
         <Form.Group as={Row}>
           <Form.Label column md={2}>Recipe Name:</Form.Label>
