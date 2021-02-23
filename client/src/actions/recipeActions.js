@@ -38,12 +38,12 @@ import {
   RECIPE_MYSAVED_FAILURE,
 } from '../constants/recipeConstants';
 
-export const listRecipes = (keywordRecipeName = '') => async (dispatch) => {
+export const listRecipes = (keywordRecipeName = '', createdAtSort = '', netVotesSort = '') => async (dispatch) => {
   try {
     dispatch({ type: RECIPE_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes?keywordRecipeName=${keywordRecipeName}`
+      `/api/recipes?keywordRecipeName=${keywordRecipeName}&createdAtSort=${createdAtSort}&netVotesSort=${netVotesSort}`
     )
 
     dispatch({

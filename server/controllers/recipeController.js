@@ -22,7 +22,14 @@ const getRecipes = asyncHandler(async (req, res) => {
   const count = await Recipe.countDocuments({ ...keywordRecipeName })
 
   // Sort will order createdAt from newest to older (-1) to flip
-  const recipes = await Recipe.find({ ...keywordRecipeName }).sort({'netVotes':-1})
+  const netVotesSort = req.query.netVotesSort
+  const createdAtSort = req.query.createdAtSort
+  const trendingSort = 0
+
+
+
+  const recipes = await Recipe.find({ ...keywordRecipeName })
+    .sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
     //.limit(pageSize)
     //.skip(pageSize * (page - 1))
 

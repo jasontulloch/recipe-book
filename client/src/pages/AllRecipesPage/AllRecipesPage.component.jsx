@@ -14,6 +14,11 @@ const HomeScreen = ({ match }) => {
   //const pageNumber = match.params.pageNumber || 1
   //const urlBaseRecipes = true
 
+  // Sorting variables
+  const [netVotesSort, setNetVotesSort] = useState('')
+  const [createdAtSort, setCreatedAtSort] = useState(-1)
+  const [sortButtonLabel, setSortButtonLabel] = useState('Most Recent')
+
   const dispatch = useDispatch()
 
   const recipeList = useSelector(state => state.recipeList)
@@ -24,12 +29,42 @@ const HomeScreen = ({ match }) => {
 
   // This is firing off the action to get products in state
   useEffect(() => {
-    dispatch(listRecipes(keywordRecipeName ))
-  }, [dispatch, keywordRecipeName ])
+    dispatch(listRecipes(keywordRecipeName, createdAtSort, netVotesSort))
+  }, [dispatch, keywordRecipeName, createdAtSort, netVotesSort])
 
   const [initialLoader, setInitialLoader] = useState(true)
   if (loading !== true) {
     setTimeout(() => setInitialLoader(false), 3000)
+  }
+
+  //const handleMostRecent = (e) => {
+  //  e.preventDefault()
+  //  if (netVotesSort === 0 || netVotesSort === -1) {
+  //    setNetVotesSort(1)
+  //  } else {
+  //    setNetVotesSort(-1)
+  //  }
+  //}
+
+  const handleMostRecent = (e) => {
+    e.preventDefault()
+    setCreatedAtSort(-1)
+    setNetVotesSort('')
+    setSortButtonLabel('Most Recent')
+  }
+
+  const handleHighestRanking = (e) => {
+    e.preventDefault()
+    setNetVotesSort(-1)
+    setCreatedAtSort('')
+    setSortButtonLabel('Highest Ranking')
+  }
+
+  const handleLowestRanking = (e) => {
+    e.preventDefault()
+    setNetVotesSort(1)
+    setCreatedAtSort('')
+    setSortButtonLabel('Lowest Ranking')
   }
 
   return (
@@ -40,13 +75,15 @@ const HomeScreen = ({ match }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <Row>
-            <Col>
-              <DropdownButton style={{textAlign: 'right'}} id="dropdown-item-button" title="Dropdown button">
-                <Dropdown.ItemText>Most Recent</Dropdown.ItemText>
-                <Dropdown.Item as="button">Trending</Dropdown.Item>
-                <Dropdown.Item as="button">Highest Rated</Dropdown.Item>
-                <Dropdown.Item as="button">Lowest Rated</Dropdown.Item>    
+          <Row style={{paddingBottom: '10px'}}>
+            <Col md={9}>
+              <h1>{sortButtonLabel} Recipes</h1>
+            </Col>
+            <Col md={3}>
+              <DropdownButton style={{textAlign: 'right'}} id="dropdown-item-button" title={sortButtonLabel}>
+                <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
               </DropdownButton>
             </Col>
           </Row>
