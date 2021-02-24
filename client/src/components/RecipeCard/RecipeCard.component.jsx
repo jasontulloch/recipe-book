@@ -1,38 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Row } from 'react-bootstrap';
+import { Card, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { RiPlantFill, RiLeafFill } from 'react-icons/ri';
+import { FaBreadSlice } from 'react-icons/fa';
+import { GiAvocado, GiMilkCarton, GiRawEgg, GiPeanut, GiNautilusShell, GiCoffeeBeans } from 'react-icons/gi';
 
 const RecipeCardImage = ({ recipe }) => {
-  const Diets = []
-  if (recipe.isVegan === true) {
-    Diets.push('Vegan')
-  }
-  if (recipe.isVegetarian === true) {
-    Diets.push('Vegetarian')
-  }
-  if (recipe.isGlutenFree === true) {
-    Diets.push('Gluten Free')
-  }
-  if (recipe.isKetogenic === true) {
-    Diets.push('Ketogenic')
-  }
-
-  const Allergins = []
-  if (recipe.isDairy === true) {
-    Allergins.push('Dairy')
-  }
-  if (recipe.isEgg === true) {
-    Allergins.push('Egg')
-  }
-  if (recipe.isNuts === true) {
-    Allergins.push('Nuts')
-  }
-  if (recipe.isShellfish === true) {
-    Allergins.push('Shellfish')
-  }
-  if (recipe.isSoy === true) {
-    Allergins.push('Soy')
-  }
 
   return (
     <div>
@@ -44,12 +17,118 @@ const RecipeCardImage = ({ recipe }) => {
         <Link to={`/recipe/${recipe._id}`}>
           <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{ height: '100%', borderBottomRightRadius: '100px' }}/>
         </Link>
-        <Card.Footer>
+        <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px'}}>
           <Row>
-            {Diets.length > 0 && 'Diets: '}{new Intl.ListFormat().format(Diets)}
-          </Row>
-          <Row>
-            {Allergins.length > 0 && 'Allergins: '}{new Intl.ListFormat().format(Diets)}
+            <Col style={{display: 'flex', justifyContent: 'space-around'}}>
+              {(recipe.isVegan === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Vegan
+                    </Tooltip>
+                  }
+                >
+                  <span><RiLeafFill /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isVegetarian === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Vegetarian
+                    </Tooltip>
+                  }
+                >
+                  <span><RiPlantFill /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isGlutenFree === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Gluten Free
+                    </Tooltip>
+                  }
+                >
+                  <span><FaBreadSlice /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isKetogenic === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Ketogenic
+                    </Tooltip>
+                  }
+                >
+                  <span><GiAvocado /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isDairy === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Contains dairy
+                    </Tooltip>
+                  }
+                >
+                  <span><GiMilkCarton /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isEgg === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Contains egg
+                    </Tooltip>
+                  }
+                >
+                  <span><GiRawEgg /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isNuts === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Contains nuts
+                    </Tooltip>
+                  }
+                >
+                  <span><GiPeanut /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isShellfish === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Contains shellfish
+                    </Tooltip>
+                  }
+                >
+                  <span><GiNautilusShell /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isSoy === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Contains soy
+                    </Tooltip>
+                  }
+                >
+                  <span><GiCoffeeBeans /></span>
+                </OverlayTrigger>
+              )}
+            </Col>
           </Row>
         </Card.Footer>
       </Card>

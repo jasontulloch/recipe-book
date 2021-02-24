@@ -37,15 +37,6 @@ const HomeScreen = ({ match }) => {
     setTimeout(() => setInitialLoader(false), 3000)
   }
 
-  //const handleMostRecent = (e) => {
-  //  e.preventDefault()
-  //  if (netVotesSort === 0 || netVotesSort === -1) {
-  //    setNetVotesSort(1)
-  //  } else {
-  //    setNetVotesSort(-1)
-  //  }
-  //}
-
   const handleMostRecent = (e) => {
     e.preventDefault()
     setCreatedAtSort(-1)
