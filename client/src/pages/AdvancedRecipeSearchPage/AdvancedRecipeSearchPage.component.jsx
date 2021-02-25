@@ -132,42 +132,58 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
           </Col>
           <Form.Label column md={1}>minutes</Form.Label>
         </Form.Group>
-        <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
-          <Form.Check
-            inline
-            label='Vegan recipes?'
-            checked={keywordIsVegan}
-            onChange={(e) => setKeywordIsVegan(e.target.checked)}
-          />
-        </Form.Group>
-        <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
-          <Form.Check
-            inline
-            label='Vegetarian recipes?'
-            checked={keywordIsVegetarian}
-            onChange={(e) => setKeywordIsVegetarian(e.target.checked)}
-          />
-        </Form.Group>
-        <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
-          <Form.Check
-            inline
-            label='Gluten-free recipes?'
-            checked={keywordIsGlutenFree}
-            onChange={(e) => setKeywordIsGlutenFree(e.target.checked)}
-          />
-        </Form.Group>
-        <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
-          <Form.Check
-            inline
-            label='Ketogenic recipes?'
-            checked={keywordIsKetogenic}
-            onChange={(e) => setKeywordIsKetogenic(e.target.checked)}
-          />
-        </Form.Group>
+        <Row style={{ textAlign:'center' }}>
+          <Col>
+            <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
+              <Form.Check
+                inline
+                label='Vegan recipes?'
+                checked={keywordIsVegan}
+                onChange={(e) => setKeywordIsVegan(e.target.checked)}
+              />
+            </Form.Group>
+            <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
+              <Form.Check
+                inline
+                label='Vegetarian recipes?'
+                checked={keywordIsVegetarian}
+                onChange={(e) => setKeywordIsVegetarian(e.target.checked)}
+              />
+            </Form.Group>
+            <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
+              <Form.Check
+                inline
+                label='Gluten-free recipes?'
+                checked={keywordIsGlutenFree}
+                onChange={(e) => setKeywordIsGlutenFree(e.target.checked)}
+              />
+            </Form.Group>
+            <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
+              <Form.Check
+                inline
+                label='Ketogenic recipes?'
+                checked={keywordIsKetogenic}
+                onChange={(e) => setKeywordIsKetogenic(e.target.checked)}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row style={{ textAlign: 'center', paddingBottom: '15px' }}>
+          <Col>
+            <Button type='submit' variant='outline-success' className='p-2' style={{width: '25%'}}>
+              Let me search by diet
+            </Button>
+          </Col>
+        </Row>
+        // if true then show parameters and then hit url above
+        <Row style={{ textAlign: 'center' }}>
+          <Col>
+            <Button type='submit' variant='outline-success' className='p-2' style={{width: '25%'}}>
+              Search
+            </Button>
+          </Col>
+        </Row>
 
-        <Button type='submit' variant='outline-success' className='p-2'>
-          Search
-        </Button>
       </Form>
     </div>
   )

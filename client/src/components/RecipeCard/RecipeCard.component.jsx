@@ -10,15 +10,24 @@ const RecipeCardImage = ({ recipe }) => {
   return (
     <div>
       <Card className="text-light mb-4" style={{ border: 'none' }}>
-        <Card.Header style={{textAlign: 'center', padding: '0px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>{recipe.recipe_name}</Card.Header>
-        <Card.ImgOverlay style={{textAlign: 'right', paddingTop: '0px', paddingRight: '10px' }}>
+        <Card.Header style={{textAlign: 'center', padding: '0px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>
           <span>
-            <FaVoteYea />
+            {recipe.recipe_name}
           </span>
-          <span style={{paddingLeft: '5px'}}>
+          <OverlayTrigger
+            placement='top'
+            overlay={
+              <Tooltip id={'tooltip-top'}>
+                Recipe net votes is currently {recipe.netVotes}.
+              </Tooltip>
+            }
+          >
+            <span style={{paddingLeft: '5px'}}><FaVoteYea /></span>
+          </OverlayTrigger>
+          <span style={{paddingLeft: '2px'}}>
             {recipe.netVotes}
           </span>
-        </Card.ImgOverlay>
+        </Card.Header>
         <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>
           <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '100%', backgroundColor: '#B2D732' }}/>
         </Link>
