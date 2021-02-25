@@ -2,22 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { RiPlantFill, RiLeafFill } from 'react-icons/ri';
-import { FaBreadSlice } from 'react-icons/fa';
+import { FaBreadSlice, FaVoteYea } from 'react-icons/fa';
 import { GiAvocado, GiMilkCarton, GiRawEgg, GiPeanut, GiNautilusShell, GiCoffeeBeans } from 'react-icons/gi';
 
 const RecipeCardImage = ({ recipe }) => {
 
   return (
     <div>
-      <Card className="text mb-4" style={{ height: '200px' }}>
-        <Card.Header style={{textAlign: 'center', padding: '0px'}}>{recipe.recipe_name}</Card.Header>
-        <Card.ImgOverlay style={{textAlign: 'right', bottom: '1px', marginTop: '160px'}}>
-          {recipe.netVotes}
+      <Card className="text-light mb-4" style={{ border: 'none' }}>
+        <Card.Header style={{textAlign: 'center', padding: '0px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>{recipe.recipe_name}</Card.Header>
+        <Card.ImgOverlay style={{textAlign: 'right', paddingTop: '0px', paddingRight: '10px' }}>
+          <span>
+            <FaVoteYea />
+          </span>
+          <span style={{paddingLeft: '5px'}}>
+            {recipe.netVotes}
+          </span>
         </Card.ImgOverlay>
-        <Link to={`/recipe/${recipe._id}`}>
-          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{ height: '100%', borderBottomRightRadius: '100px' }}/>
+        <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>
+          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '100%', backgroundColor: '#B2D732' }}/>
         </Link>
-        <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px'}}>
+        <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>
             <Col style={{display: 'flex', justifyContent: 'space-around'}}>
               {(recipe.isVegan === true) && (
