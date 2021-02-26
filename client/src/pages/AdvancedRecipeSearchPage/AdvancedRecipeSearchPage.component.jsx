@@ -28,6 +28,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
+    // If user was to search by diets
     if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == true && searchByAllergin == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == false) {
@@ -44,7 +45,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-
+    // If user wants to search by Allergins
     } else if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == false && searchByAllergin == true) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
     } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == true) {
@@ -61,7 +62,24 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
     } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == true) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-      // Step 2: Contemplate if user wants to search by Diet, if no, exclude parameters from search
+    // If user wants to search by Allergins and Diets
+  } else if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+      // If user doesn't want to search by diet or allergins
     } else if (keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == false && searchByAllergin == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/`)
     } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false) {
@@ -180,7 +198,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
           <Form.Label column md={1}>minutes</Form.Label>
         </Form.Group>
         {(searchByDiet === true) ? (
-          <Row style={{ textAlign:'center' }}>
+          <Row style={{ textAlign:'center', border: '1px 1px 1px 0px dashed blue' }}>
             <Col>
                 <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
                   <Form.Check
@@ -222,12 +240,15 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
         <Row style={{ textAlign: 'center', paddingBottom: '15px' }}>
           <Col>
               {(searchByDiet === true) ? (
-                <Button onClick={(e) => setSearchByDiet(false)} variant='outline-success' className='p-2' style={{width: '25%'}}>
-                  Hide diet options, I don't want these included in my search
-                </Button>
+                <div>
+                  <p>Pre-checked diet search parameters are based on your profile so you can get cooking faster.</p>
+                  <Button onClick={(e) => setSearchByDiet(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
+                    Exclude diets from search.
+                  </Button>
+                </div>
               ) : (
-                <Button onClick={(e) => setSearchByDiet(true)} variant='outline-success' className='p-2' style={{width: '25%'}}>
-                  Let me search by diet
+                <Button onClick={(e) => setSearchByDiet(true)} variant='outline-success' className='p-2' style={{width: '50%'}}>
+                  Filter by diets?
                 </Button>
               )}
           </Col>
@@ -280,20 +301,23 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
         ) : (
           <div></div>
         )}
-        <Row style={{ textAlign: 'center', paddingBottom: '15px' }}>
+        <Row style={{ textAlign: 'center', paddingBottom: '15px', borderBottom: '2px dotted' }}>
           <Col>
               {(searchByAllergin === true) ? (
-                <Button onClick={(e) => setSearchByAllergin(false)} variant='outline-success' className='p-2' style={{width: '25%'}}>
-                  Hide allergin options, I don't want these included in my search
-                </Button>
+                <div>
+                  <p>Pre-checked allergin search parameters are based on your profile so you can get cooking faster.</p>
+                  <Button onClick={(e) => setSearchByAllergin(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
+                    Exclude common allergins from search.
+                  </Button>
+                </div>
               ) : (
-                <Button onClick={(e) => setSearchByAllergin(true)} variant='outline-success' className='p-2' style={{width: '25%'}}>
-                  Let me search by common allergins
+                <Button onClick={(e) => setSearchByAllergin(true)} variant='outline-success' className='p-2' style={{width: '50%'}}>
+                  Filter by common allergins?
                 </Button>
               )}
           </Col>
         </Row>
-        <Row style={{ textAlign: 'center' }}>
+        <Row style={{ textAlign: 'center', paddingTop: '5px' }}>
           <Col>
             <Button type='submit' variant='outline-success' className='p-2' style={{width: '25%'}}>
               Search
