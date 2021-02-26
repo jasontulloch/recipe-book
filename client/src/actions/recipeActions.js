@@ -70,14 +70,19 @@ export const listAdvancedSearchRecipes = (
   keywordIsVegan = '',
   keywordIsVegetarian = '',
   keywordIsGlutenFree = '',
-  keywordIsKetogenic = ''
+  keywordIsKetogenic = '',
+  keywordIsDairy = '',
+  keywordIsEgg = '',
+  keywordIsNuts = '',
+  keywordIsShellfish = '',
+  keywordIsSoy = ''
 ) => async (dispatch) => {
 
   try {
     dispatch({ type: RECIPE_LIST_ADVANCED_SEARCH_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}&keywordIsGlutenFree=${keywordIsGlutenFree}&keywordIsKetogenic=${keywordIsKetogenic}`
+      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}&keywordIsGlutenFree=${keywordIsGlutenFree}&keywordIsKetogenic=${keywordIsKetogenic}&keywordIsDairy=${keywordIsDairy}&keywordIsEgg=${keywordIsEgg}&keywordIsNuts=${keywordIsNuts}&keywordIsShellfish=${keywordIsShellfish}&keywordIsSoy=${keywordIsSoy}`
     )
 
     dispatch({

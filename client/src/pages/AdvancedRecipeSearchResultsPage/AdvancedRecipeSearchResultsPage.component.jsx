@@ -18,6 +18,11 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const keywordIsVegetarian = match.params.keywordIsVegetarian || ''
   const keywordIsGlutenFree = match.params.keywordIsGlutenFree || ''
   const keywordIsKetogenic = match.params.keywordIsKetogenic || ''
+  const keywordIsDairy = match.params.keywordIsDairy || ''
+  const keywordIsEgg = match.params.keywordIsEgg || ''
+  const keywordIsNuts = match.params.keywordIsNuts || ''
+  const keywordIsShellfish = match.params.keywordIsShellfish || ''
+  const keywordIsSoy = match.params.keywordIsSoy || ''
   const pageNumber = match.params.pageNumber || 1
   const urlBaseRecipes = true
 
@@ -28,6 +33,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
+
+  console.log(match.params)
 
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
@@ -41,7 +48,12 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         keywordIsVegan,
         keywordIsVegetarian,
         keywordIsGlutenFree,
-        keywordIsKetogenic
+        keywordIsKetogenic,
+        keywordIsDairy,
+        keywordIsEgg,
+        keywordIsNuts,
+        keywordIsShellfish,
+        keywordIsSoy
       )
     )
   }, [
@@ -54,7 +66,12 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordIsVegan,
     keywordIsVegetarian,
     keywordIsGlutenFree,
-    keywordIsKetogenic
+    keywordIsKetogenic,
+    keywordIsDairy,
+    keywordIsEgg,
+    keywordIsNuts,
+    keywordIsShellfish,
+    keywordIsSoy
   ])
 
   return (

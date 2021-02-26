@@ -117,6 +117,36 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
+  const keywordIsDairy = req.query.keywordIsDairy ? {
+    isDairy: {
+      $eq: req.query.keywordIsDairy
+    }
+  } : {}
+
+  const keywordIsEgg = req.query.keywordIsEgg ? {
+    isEgg: {
+      $eq: req.query.keywordIsEgg
+    }
+  } : {}
+
+  const keywordIsNuts = req.query.keywordIsNuts ? {
+    isNuts: {
+      $eq: req.query.keywordIsNuts
+    }
+  } : {}
+
+  const keywordIsShellfish = req.query.keywordIsShellfish ? {
+    isShellfish: {
+      $eq: req.query.keywordIsShellfish
+    }
+  } : {}
+
+  const keywordIsSoy = req.query.keywordIsSoy ? {
+    isSoy: {
+      $eq: req.query.keywordIsSoy
+    }
+  } : {}
+
   //const pageSize = 4
   //const page = Number(req.query.pageNumber) || 1
 
@@ -131,7 +161,12 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsVegan},
       {...keywordIsVegetarian},
       {...keywordIsGlutenFree},
-      {...keywordIsKetogenic}
+      {...keywordIsKetogenic},
+      {...keywordIsDairy},
+      {...keywordIsEgg},
+      {...keywordIsNuts},
+      {...keywordIsShellfish},
+      {...keywordIsSoy}
     ],
   })
 
