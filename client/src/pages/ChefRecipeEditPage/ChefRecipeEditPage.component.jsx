@@ -209,6 +209,24 @@ const ChefRecipeEditPage = ({ match, history }) => {
     }
   }
 
+  // Function disables any negatives and 0
+  // Still need to update to stop manual entry above 20
+  function handleKeypress (e) {
+    const characterCode = e.key
+    if (characterCode === 'Backspace') return
+
+    const characterNumber = Number(characterCode)
+    if (characterNumber >= 0 && characterNumber <= 9 ) {
+      if (e.currentTarget.value && e.currentTarget.value.length) {
+        return
+      } else if (characterNumber === 0) {
+        e.preventDefault()
+      }
+    } else {
+      e.preventDefault()
+    }
+  }
+
   return (
     <div>
       <Link to='/myrecipes' className='btn btn-light my-3'>
@@ -231,6 +249,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   type='text'
                   placeholder='Enter recipe name'
                   value={recipe_name}
+                  maxLength={50}
                   onChange={(e) => setRecipeName(e.target.value)}
                 >
                 </Form.Control>
@@ -248,7 +267,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     </option>
                   )}
                 </Form.Control>
-                <Form.Text className='muted'>Help users find your recipe. Not certain? Select n/a.</Form.Text>
+                <Form.Text className='muted'>Help users find your recipe. Not certain? Leave blank.</Form.Text>
               </Form.Group>
               <Form.Group controlId='cookTime'>
                 <Form.Label>Cook Time</Form.Label>
@@ -257,6 +276,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   placeholder='Enter estimated cook time'
                   value={cook_time}
                   onChange={(e) => setCookTime(e.target.value)}
+                  onKeyDown={handleKeypress}
+                  min={1}
                 >
                 </Form.Control>
                 <Form.Text className='muted'>Enter in minutes, we will take care of the rest.</Form.Text>
@@ -268,9 +289,12 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   placeholder='How many servings does your recipe have?'
                   value={serving_size}
                   onChange={(e) => setServingSize(e.target.value)}
+                  onKeyDown={handleKeypress}
+                  min={1}
+                  max={20}
                 >
                 </Form.Control>
-                <Form.Text className='muted'>Users will be able to adjust as needed.</Form.Text>
+                <Form.Text className='muted'>Users will be able to adjust as needed. We present all recipes as 4 servings, which users can adjust.</Form.Text>
               </Form.Group>
             </Tab>
             <Tab eventKey='recipeSteps' title="Recipe Steps">
