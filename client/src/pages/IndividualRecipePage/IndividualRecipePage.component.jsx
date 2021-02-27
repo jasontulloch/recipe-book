@@ -18,21 +18,25 @@ import {
   createRecipeDownvote,
   saveRecipe,
   unsaveRecipe,
+  saveRecipeIngredients,
 } from '../../actions/recipeActions';
 import { RECIPE_CREATE_UPVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_CREATE_DOWNVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
+import { RECIPE_SAVE_INGREDIENTS_RESET } from '../../constants/recipeConstants';
 import Unitz from 'unitz'
 import './IndividualRecipePage.styles.scss';
-import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes } from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes, FaFileDownload } from 'react-icons/fa';
 import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
+import Message from '../../components/Message/Message.component';
 
 const IndividualRecipePage = ({ history, match }) => {
 
   const [vote, setVote] = useState(0)
   const [save, setSave] = useState('')
   const [unsave, setUnsave] = useState('')
+  const [saveIngredients, setSaveIngredients] = useState('')
   const [servingSize, setServingSize] = useState(4)
   const [isMetric, setIsMetric] = useState(false)
   const [useTeaspoons, setUseTeaspoons] = useState(false)
@@ -51,6 +55,9 @@ const IndividualRecipePage = ({ history, match }) => {
   const [useKilograms, setUseKilograms] = useState(false)
   const [useCentimetres, setUseCentimetres] = useState(false)
   const [useMillimetres, setUseMillimetres] = useState(false)
+
+  const [warningMessage, setWarningMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   const dispatch = useDispatch()
 
@@ -81,6 +88,12 @@ const IndividualRecipePage = ({ history, match }) => {
     error: errorRecipeUnsave
   } = recipeUnsave
 
+  const recipeSaveIngredients = useSelector(state => state.recipeSaveIngredients)
+  const {
+    success: successRecipeSaveIngredients,
+    error: errorRecipeSaveIngredients
+  } = recipeSaveIngredients
+
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
@@ -106,7 +119,6 @@ const IndividualRecipePage = ({ history, match }) => {
   }
 
   const [isRecipeSaved, setIsRecipeSaved] = useState(wasSaved)
-  console.log(isRecipeSaved)
 
   useEffect(() => {
     if(successRecipeUpvote) {
@@ -129,6 +141,10 @@ const IndividualRecipePage = ({ history, match }) => {
       setIsRecipeSaved(false)
       dispatch({ type: RECIPE_UNSAVE_RESET })
     }
+    if(successRecipeSaveIngredients) {
+      setSaveIngredients('')
+      dispatch({ type: RECIPE_SAVE_INGREDIENTS_RESET })
+    }
     dispatch(listRecipeDetails(match.params.id))
   }, [
     dispatch,
@@ -137,6 +153,7 @@ const IndividualRecipePage = ({ history, match }) => {
     successRecipeDownvote,
     successRecipeSave,
     successRecipeUnsave,
+    successRecipeSaveIngredients,
     isMetric
   ])
 
@@ -170,6 +187,18 @@ const IndividualRecipePage = ({ history, match }) => {
       unsave
     }))
     setIsRecipeSaved(false)
+  }
+
+  // Save ingredients
+  const saveIngredientsHandler = (e) => {
+    e.preventDefault()
+    dispatch(saveRecipeIngredients(match.params.id, {
+      saveIngredients
+    }))
+    setSuccessMessage('Recipe ingredients successfully added to your grocery list... go to ')
+    setTimeout(function() {
+      setSuccessMessage('')
+    }, 3000)
   }
 
   const Diets = []
@@ -324,6 +353,17 @@ const IndividualRecipePage = ({ history, match }) => {
 
   return (
     <div>
+      {warningMessage !== '' && (
+        <Message variant='danger'>{warningMessage}</Message>
+      )}
+      {successMessage !== '' && (
+        <Message variant='success'>
+          {successMessage}
+          <Link to='/recipes' style={{ paddingTop: 0, paddingBottom: 0 }}>
+            My Grocery List
+          </Link>
+        </Message>
+      )}
       <Row>
         <Col md={10}>
           <Row style={{ height: '50px' }}>
@@ -466,7 +506,25 @@ const IndividualRecipePage = ({ history, match }) => {
               <h4>Steps</h4>
             </Col>
             <Col md={6}>
-              <h4>Ingredients</h4>
+              <Row style={{paddingLeft: '30%'}}>
+                <h4>Ingredients</h4>
+                <Form onSubmit={saveIngredientsHandler}>
+                  <Form.Group>
+                    <OverlayTrigger
+                      placement='top'
+                      overlay={
+                        <Tooltip id={'tooltip-top'}>
+                          Add ingredients to grocery list
+                        </Tooltip>
+                      }
+                    >
+                      <Button variant='link' style={{ padding: 0, height: '0px'}} type='submit' onClick={(e) => setSaveIngredients('')}>
+                        <FaFileDownload style={{ marginLeft: '5px'}}/>
+                      </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
+              </Row>
             </Col>
           </Row>
 

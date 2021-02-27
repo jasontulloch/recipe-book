@@ -12,6 +12,7 @@ import {
   createRecipeDownvote,
   saveRecipe,
   unsaveRecipe,
+  saveIngredients
 } from '../controllers/recipeController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
@@ -33,6 +34,8 @@ router.route('/:id/downvotes')
 router.route('/:id/save')
   .post(protect, saveRecipe)
   .delete(protect, unsaveRecipe)
+  router.route('/:id/saveIngredients')
+    .post(protect, saveIngredients)
 router.route('/:id')
   .get(getRecipeById)
   .delete(protect, deleteRecipe)

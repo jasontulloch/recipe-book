@@ -41,6 +41,10 @@ import {
   RECIPE_MYSAVED_REQUEST,
   RECIPE_MYSAVED_SUCCESS,
   RECIPE_MYSAVED_FAILURE,
+  RECIPE_SAVE_INGREDIENTS_REQUEST,
+  RECIPE_SAVE_INGREDIENTS_SUCCESS,
+  RECIPE_SAVE_INGREDIENTS_FAILURE,
+  RECIPE_SAVE_INGREDIENTS_RESET,
 } from '../constants/recipeConstants';
 
 export const recipeListReducer = (state = { recipes: [] }, action) => {
@@ -211,6 +215,21 @@ export const recipeUnsaveReducer = (state = {}, action) => {
     case RECIPE_UNSAVE_FAILURE:
       return { loading: false, error: action.payload }
     case RECIPE_UNSAVE_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const recipeSaveIngredientsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case RECIPE_SAVE_INGREDIENTS_REQUEST:
+      return { loading: true }
+    case RECIPE_SAVE_INGREDIENTS_SUCCESS:
+      return { loading: false, success: true }
+    case RECIPE_SAVE_INGREDIENTS_FAILURE:
+      return { loading: false, error: action.payload }
+    case RECIPE_SAVE_INGREDIENTS_RESET:
       return {}
     default:
       return state

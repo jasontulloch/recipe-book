@@ -177,7 +177,11 @@ const chefSchema = mongoose.Schema(
       default: false
     },
     myRecipes: [myRecipeSchema],
-    savedRecipes: [savedRecipeSchema]
+    savedRecipes: [savedRecipeSchema],
+    savedIngredients: {
+      type: Array,
+      default: []
+    }
   }, {
     timestamps: true,
   }

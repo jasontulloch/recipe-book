@@ -49,6 +49,7 @@ const authChef = asyncHandler(async (req, res) => {
       isAdmin: chef.isAdmin,
       savedRecipes: chef.savedRecipes,
       myRecipes: chef.myRecipes,
+      savedIngredients: chef.savedIngredients,
       token: generateToken(chef._id),
     })
   } else {
@@ -148,6 +149,7 @@ const getChefProfile = asyncHandler(async (req, res) => {
       useMillimetres: chef.useMillimetres,
       savedRecipes: chef.savedRecipes,
       myRecipes: chef.myRecipes,
+      savedIngredients: chef.savedIngredients,
     })
   } else {
     res.status(404)

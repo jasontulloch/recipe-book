@@ -17,6 +17,7 @@ import AllRecipesPage from './pages/AllRecipesPage/AllRecipesPage.component';
 import AdvancedRecipeSearchPage from './pages/AdvancedRecipeSearchPage/AdvancedRecipeSearchPage.component';
 import AdvancedRecipeSearchResultsPage from './pages/AdvancedRecipeSearchResultsPage/AdvancedRecipeSearchResultsPage.component';
 import IndividualRecipePage from './pages/IndividualRecipePage/IndividualRecipePage.component';
+import SavedIngredientsPage from './pages/SavedIngredientsPage/SavedIngredientsPage.component';
 
 const App = () => {
   return (
@@ -35,6 +36,8 @@ const App = () => {
           <Route path='/recipes/advanced-search' component={AdvancedRecipeSearchPage} exact />
           <Route path='/recipe/:id' component={IndividualRecipePage} exact />
           <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName' component={AllRecipesPage} />
+          <Route path='/grocerylist' component={SavedIngredientsPage} exact />
+
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordRecipeName=:keywordRecipeName' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordCountry=:keywordCountry' component={AdvancedRecipeSearchResultsPage} exact/>

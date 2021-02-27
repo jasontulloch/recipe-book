@@ -20,6 +20,7 @@ import {
   recipeSaveReducer,
   recipeUnsaveReducer,
   recipeMySavedReducer,
+  recipeSaveIngredientsReducer
 } from './reducers/recipeReducers';
 
 const reducer = combineReducers({
@@ -39,6 +40,7 @@ const reducer = combineReducers({
   recipeSave: recipeSaveReducer,
   recipeUnsave: recipeUnsaveReducer,
   recipeMySaved: recipeMySavedReducer,
+  recipeSaveIngredients: recipeSaveIngredientsReducer,
 })
 
 const chefInfoFromStorage = localStorage.getItem('chefInfo')

@@ -35,6 +35,9 @@ const Header = () => {
               <LinkContainer to='/savedrecipes'>
                 <NavDropdown.Item>Saved Recipes</NavDropdown.Item>
               </LinkContainer>
+              <LinkContainer to='/grocerylist'>
+                <NavDropdown.Item>Grocery List</NavDropdown.Item>
+              </LinkContainer>
               <LinkContainer to='/profile'>
                 <NavDropdown.Item>Profile</NavDropdown.Item>
               </LinkContainer>
