@@ -2,28 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
+import { updateChefProfile } from '../../actions/chefActions';
 
-const SavedIngredientsPage = () => {
+const SavedIngredientsPage = ({ history }) => {
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
   const [ingredientIndex, setIngredientIndex] = useState('')
 
+  const dispatch = useDispatch()
+
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
-  const ingredientsList = chefInfo.savedIngredients
-  const innerList = [... new Set(ingredientsList.map(recipe => recipe.savedIngredients))]
+  const chefDetails = useSelector(state => state.chefDetails)
+  const { loading, error, chef } = chefDetails
 
-  function Comparator(a, b) {
-    if (a[2] < b[2]) return -1;
-    if (a[2] > b[2]) return 1;
-    return 0;
-  }
+  //const ingredientsList = chefInfo.savedIngredients
+  //const innerList = [... new Set(ingredientsList.map(recipe => recipe.savedIngredients))]
 
-  const finalList = innerList.flat().sort(Comparator)
+  //function Comparator(a, b) {
+  //  if (a[2] < b[2]) return -1;
+  //  if (a[2] > b[2]) return 1;
+  //  return 0;
+  //}
 
-  const [savedIngredients, setSavedIngredients] = useState(finalList)
+  //console.log(innerList.flat())
+
+  //const finalList = innerList.flat().sort(Comparator)
+
+  const [savedIngredients, setSavedIngredients] = useState([])
+
+  useEffect(() => {
+    if(!chefInfo) {
+      history.push('/login')
+    } else {
+      setSavedIngredients(chef.savedIngredients)
+    }
+  }, [dispatch, history, chefLogin, chefInfo, chef])
 
   // Function currently works locally, need to update database
   const removeIngredientHandler = (e) => {
@@ -37,8 +53,13 @@ const SavedIngredientsPage = () => {
       }, 3000)
       arrayItem = e.currentTarget.value
     } else {
-      let newIngredients = savedIngredients.splice(arrayItem, 1)
-      setSavedIngredients([...savedIngredients])
+      let removeIngredient = chefInfo.savedIngredients.splice(arrayItem, 1)
+      setSavedIngredients([...chefInfo.savedIngredients])
+      console.log(savedIngredients)
+      dispatch(updateChefProfile({
+        _id: chef._id,
+        savedIngredients,
+      }))
     }
   }
 
@@ -63,7 +84,7 @@ const SavedIngredientsPage = () => {
       </Row>
       <Row style={{textAlign: 'center', paddingTop: '10px'}}>
         <Col>
-          {savedIngredients.map((groceries, index) =>
+          {chefInfo.savedIngredients.map((groceries, index) =>
             <Row>
               <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
               <Button

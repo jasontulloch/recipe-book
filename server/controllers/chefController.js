@@ -189,6 +189,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     useKilograms,
     useCentimetres,
     useMillimetres,
+    savedIngredients,
   } = req.body
 
   const chef = await Chef.findById(req.chef._id)
@@ -227,6 +228,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.useKilograms = useKilograms
     chef.useCentimetres = useCentimetres
     chef.useMillimetres = useMillimetres
+    chef.savedIngredients = savedIngredients
 
     if (req.body.password) {
       chef.password = req.body.password
@@ -268,6 +270,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       useKilograms: updatedChef.useKilograms,
       useCentimetres: updatedChef.useCentimetres,
       useMillimetres: updatedChef.useMillimetres,
+      savedIngredients: updatedChef.savedIngredients,
 
       token: generateToken(updatedChef._id),
     })

@@ -526,22 +526,21 @@ const saveIngredients = asyncHandler(async (req, res) => {
   const recipe = await Recipe.find({ '_id': req.params.id })
   const chef = await Chef.findById(req.chef._id)
 
-  //res.json(recipe[0].ingredients)
-
   if(recipe) {
 
     const ingredientList = {
       savedIngredients: recipe[0].ingredients
     }
 
-    chef.savedIngredients.push(ingredientList)
-    await chef.save()
+      chef.savedIngredients.push(...ingredientList.savedIngredients)
 
-    res.status(201).json({ message: 'Recipe ingredients saved'})
-  } else {
-    res.status(400)
-    throw new Error('Recipe ingredients not found')
-  }
+      await chef.save()
+
+      res.status(201).json({ message: 'Recipe ingredients saved'})
+    } else {
+      res.status(400)
+      throw new Error('Recipe ingredients not found')
+    }
 })
 
 export {
