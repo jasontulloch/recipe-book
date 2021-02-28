@@ -1,6 +1,6 @@
 import React, { useState, useEffect, setState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Form } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
 import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
@@ -52,6 +52,7 @@ const SavedIngredientsPage = ({ history }) => {
   const [savedIngredients, setSavedIngredients] = useState([])
 
   const [firstPageLoad, setFirstPageLoad] = useState(true)
+  const [displayIngredientOnly, setDisplayIngredientOnly] = useState(true)
 
   const dispatch = useDispatch()
 
@@ -197,7 +198,18 @@ const SavedIngredientsPage = ({ history }) => {
         <div>
           <Row style={{textAlign: 'center'}}>
             <Col md={12}>
-              <h1>My Grocery List</h1>
+              <Form>
+                <Form.Group as={Row} controlId='groceryListLabel'>
+                  <h1 style= {{ marginRight: '5px' }}>My Grocery List</h1>
+                  <Form.Check
+                    style={{ padding: '5px', width: '40px', height: '25px'}}
+                    inline
+                    label='Only display ingredients?'
+                    checked={displayIngredientOnly}
+                    onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
+                  />
+                </Form.Group>
+              </Form>
             </Col>
           </Row>
           <Row>
@@ -214,19 +226,33 @@ const SavedIngredientsPage = ({ history }) => {
           </Row>
           <Row style={{textAlign: 'center', paddingTop: '10px'}}>
             <Col>
-              {savedIngredients.map((groceries, index) =>
-                <Row>
-                  <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
-                  <Button
-                    variant='link'
-                    style={{ marginRight: '12.25px', padding: 0, height: '30px'}}
-                    value={index}
-                    onClick={removeIngredientHandler}
-                    >
-                    <FaTrash />
-                  </Button>
-                </Row>
-              )}
+              {displayIngredientOnly ? (
+                savedIngredients.map((groceries, index) =>
+                  <Row>
+                    <Button
+                      variant='link'
+                      style={{ marginRight: '12.25px', padding: 0, height: '30px'}}
+                      value={index}
+                      onClick={removeIngredientHandler}
+                      >
+                      <FaTrash />
+                    </Button>
+                    <p style={{marginBottom: '0px'}}>{groceries[2].toUpperCase()}</p>
+                  </Row>
+              )) : (
+                savedIngredients.map((groceries, index) =>
+                  <Row>
+                    <Button
+                      variant='link'
+                      style={{ marginRight: '12.25px', padding: 0, height: '30px'}}
+                      value={index}
+                      onClick={removeIngredientHandler}
+                      >
+                      <FaTrash />
+                    </Button>
+                    <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
+                  </Row>
+              ))}
             </Col>
           </Row>
         </div>
