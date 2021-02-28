@@ -359,7 +359,7 @@ const IndividualRecipePage = ({ history, match }) => {
       {successMessage !== '' && (
         <Message variant='success'>
           {successMessage}
-          <Link to='/recipes' style={{ paddingTop: 0, paddingBottom: 0 }}>
+          <Link to='/grocerylist' style={{ paddingTop: 0, paddingBottom: 0 }}>
             My Grocery List
           </Link>
         </Message>

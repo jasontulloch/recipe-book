@@ -12,7 +12,7 @@ import {
   CHEF_DETAILS_RESET,
   CHEF_UPDATE_PROFILE_REQUEST,
   CHEF_UPDATE_PROFILE_SUCCESS,
-  CHEF_UPDATE_PROFILE_FAILURE,
+  CHEF_UPDATE_PROFILE_FAILURE
 } from '../constants/chefConstants';
 import axios from 'axios';
 

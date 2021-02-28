@@ -38,7 +38,7 @@ import {
   RECIPE_MYSAVED_FAILURE,
   RECIPE_SAVE_INGREDIENTS_REQUEST,
   RECIPE_SAVE_INGREDIENTS_SUCCESS,
-  RECIPE_SAVE_INGREDIENTS_FAILURE,
+  RECIPE_SAVE_INGREDIENTS_FAILURE
 } from '../constants/recipeConstants';
 
 export const listRecipes = (keywordRecipeName = '', createdAtSort = '', netVotesSort = '') => async (dispatch) => {

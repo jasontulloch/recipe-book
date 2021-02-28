@@ -1,22 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, setState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-import { updateChefProfile } from '../../actions/chefActions';
+import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
+import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 
 const SavedIngredientsPage = ({ history }) => {
+
+  // These are required in the model so need to pass the current values in or profile would return '' otherwise
+  const [first_name, setFirstName] = useState('')
+  const [last_name, setLastName] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [isVegan, setIsVegan] = useState(false)
+  const [isVegetarian, setIsVegetarian] = useState(false)
+  const [isGlutenFree, setIsGlutenFree] = useState(false)
+  const [isKetogenic, setIsKetogenic] = useState(false)
+  const [isDairy, setIsDairy] = useState(false)
+  const [isEgg, setIsEgg] = useState(false)
+  const [isNuts, setIsNuts] = useState(false)
+  const [isShellfish, setIsShellfish] = useState(false)
+  const [isSoy, setIsSoy] = useState(false)
+  const [isWheat, setIsWheat] = useState(false)
+  const [isMetric, setIsMetric] = useState(false)
+  const [useTeaspoons, setUseTeaspoons] = useState(false)
+  const [useTablespoons, setUseTablespoons] = useState(false)
+  const [useFluidOunces, setUseFluidOunces] = useState(false)
+  const [useCups, setUseCups] = useState(false)
+  const [usePints, setUsePints] = useState(false)
+  const [useQuarts, setUseQuarts] = useState(false)
+  const [useGallons, setUseGallons] = useState(false)
+  const [useOunces, setUseOunces] = useState(false)
+  const [usePounds, setUsePounds] = useState(false)
+  const [useInches, setUseInches] = useState(false)
+  const [useMillilitres, setUseMillilitres] = useState(false)
+  const [useLitres, setUseLitres] = useState(false)
+  const [useGrams, setUseGrams] = useState(false)
+  const [useKilograms, setUseKilograms] = useState(false)
+  const [useCentimetres, setUseCentimetres] = useState(false)
+  const [useMillimetres, setUseMillimetres] = useState(false)
+  const [bio, setBio] = useState('')
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
   const [ingredientIndex, setIngredientIndex] = useState('')
+  const [savedIngredients, setSavedIngredients] = useState([])
 
   const dispatch = useDispatch()
+
+  const chefDetails = useSelector(state => state.chefDetails)
+  const { loading, error, chef } = chefDetails
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
-  const chefDetails = useSelector(state => state.chefDetails)
-  const { loading, error, chef } = chefDetails
+  const chefUpdateProfile = useSelector(state => state.chefUpdateProfile)
+  const {
+    success,
+    chefInfo: chefInfoUpdate
+  } = chefUpdateProfile
+
+  //const chefDeleteGroceryListIngredient = useSelector(state => state.chefDeleteGroceryListIngredient)
+  //const {
+  //  loading: loadingDeleteGroceryListIngredient,
+  //  error: errorDeleteGroceryListIngredient,
+  //  success: successDeleteGroceryListIngredient
+  //} = chefDeleteGroceryListIngredient
 
   //const ingredientsList = chefInfo.savedIngredients
   //const innerList = [... new Set(ingredientsList.map(recipe => recipe.savedIngredients))]
@@ -31,15 +82,54 @@ const SavedIngredientsPage = ({ history }) => {
 
   //const finalList = innerList.flat().sort(Comparator)
 
-  const [savedIngredients, setSavedIngredients] = useState([])
+  console.log(chefInfo)
+  console.log(chef)
+
 
   useEffect(() => {
     if(!chefInfo) {
       history.push('/login')
     } else {
-      setSavedIngredients(chef.savedIngredients)
+      if(!chef || !chef.username || success) {
+        dispatch({ type: CHEF_UPDATE_PROFILE_RESET })
+        dispatch(getChefDetails('profile'))
+      } else {
+        setFirstName(chef.first_name)
+        setLastName(chef.last_name)
+        setUsername(chef.username)
+        setEmail(chef.email)
+        setBio(chef.bio)
+        setIsVegan(chef.isVegan)
+        setIsVegetarian(chef.isVegetarian)
+        setIsGlutenFree(chef.isGlutenFree)
+        setIsKetogenic(chef.isKetogenic)
+        setIsDairy(chef.isDairy)
+        setIsEgg(chef.isEgg)
+        setIsNuts(chef.isNuts)
+        setIsShellfish(chef.isShellfish)
+        setIsSoy(chef.isSoy)
+        setIsWheat(chef.isWheat)
+        setIsMetric(chef.isMetric)
+        setUseTeaspoons(chef.useTeaspoons)
+        setUseTablespoons(chef.useTablespoons)
+        setUseFluidOunces(chef.useFluidOunces)
+        setUseCups(chef.useCups)
+        setUsePints(chef.usePints)
+        setUseQuarts(chef.useQuarts)
+        setUseGallons(chef.useGallons)
+        setUseOunces(chef.useOunces)
+        setUsePounds(chef.usePounds)
+        setUseInches(chef.useInches)
+        setUseMillilitres(chef.useMillilitres)
+        setUseLitres(chef.useLitres)
+        setUseGrams(chef.useGrams)
+        setUseKilograms(chef.useKilograms)
+        setUseCentimetres(chef.useCentimetres)
+        setUseMillimetres(chef.useMillimetres)
+        setSavedIngredients(chef.savedIngredients)
+      }
     }
-  }, [dispatch, history, chefLogin, chefInfo, chef])
+  }, [dispatch, history, chefLogin, chefInfo, chef, success])
 
   // Function currently works locally, need to update database
   const removeIngredientHandler = (e) => {
@@ -54,11 +144,46 @@ const SavedIngredientsPage = ({ history }) => {
       arrayItem = e.currentTarget.value
     } else {
       let removeIngredient = chefInfo.savedIngredients.splice(arrayItem, 1)
+      let removeIngredientChef = chef.savedIngredients.splice(arrayItem, 1)
       setSavedIngredients([...chefInfo.savedIngredients])
       console.log(savedIngredients)
+      setIngredientIndex(arrayItem)
       dispatch(updateChefProfile({
         _id: chef._id,
-        savedIngredients,
+        first_name,
+        last_name,
+        username,
+        email,
+        password,
+        bio,
+        isVegan,
+        isVegetarian,
+        isGlutenFree,
+        isKetogenic,
+        isDairy,
+        isEgg,
+        isNuts,
+        isShellfish,
+        isSoy,
+        isWheat,
+        isMetric,
+        useTeaspoons,
+        useTablespoons,
+        useFluidOunces,
+        useCups,
+        usePints,
+        useQuarts,
+        useGallons,
+        useOunces,
+        usePounds,
+        useInches,
+        useMillilitres,
+        useLitres,
+        useGrams,
+        useKilograms,
+        useCentimetres,
+        useMillimetres,
+        savedIngredients
       }))
     }
   }
@@ -84,7 +209,7 @@ const SavedIngredientsPage = ({ history }) => {
       </Row>
       <Row style={{textAlign: 'center', paddingTop: '10px'}}>
         <Col>
-          {chefInfo.savedIngredients.map((groceries, index) =>
+          {savedIngredients.map((groceries, index) =>
             <Row>
               <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
               <Button
