@@ -5,6 +5,9 @@ import { FaTrash } from 'react-icons/fa';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
 import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 
+import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
+import Message from '../../components/Message/Message.component';
+
 const SavedIngredientsPage = ({ history }) => {
 
   // These are required in the model so need to pass the current values in or profile would return '' otherwise
@@ -48,6 +51,8 @@ const SavedIngredientsPage = ({ history }) => {
   const [ingredientIndex, setIngredientIndex] = useState('')
   const [savedIngredients, setSavedIngredients] = useState([])
 
+  const [firstPageLoad, setFirstPageLoad] = useState(true)
+
   const dispatch = useDispatch()
 
   const chefDetails = useSelector(state => state.chefDetails)
@@ -82,17 +87,14 @@ const SavedIngredientsPage = ({ history }) => {
 
   //const finalList = innerList.flat().sort(Comparator)
 
-  console.log(chefInfo)
-  console.log(chef)
-
-
   useEffect(() => {
     if(!chefInfo) {
       history.push('/login')
     } else {
-      if(!chef || !chef.username || success) {
+      if(!chef || !chef.username || success || firstPageLoad === true) {
         dispatch({ type: CHEF_UPDATE_PROFILE_RESET })
         dispatch(getChefDetails('profile'))
+        setFirstPageLoad(false)
       } else {
         setFirstName(chef.first_name)
         setLastName(chef.last_name)
@@ -143,10 +145,9 @@ const SavedIngredientsPage = ({ history }) => {
       }, 3000)
       arrayItem = e.currentTarget.value
     } else {
-      let removeIngredient = chefInfo.savedIngredients.splice(arrayItem, 1)
+      //let removeIngredient = chefInfo.savedIngredients.splice(arrayItem, 1)
       let removeIngredientChef = chef.savedIngredients.splice(arrayItem, 1)
-      setSavedIngredients([...chefInfo.savedIngredients])
-      console.log(savedIngredients)
+      setSavedIngredients([...chef.savedIngredients])
       setIngredientIndex(arrayItem)
       dispatch(updateChefProfile({
         _id: chef._id,
@@ -190,40 +191,46 @@ const SavedIngredientsPage = ({ history }) => {
 
   return (
     <div>
-      <Row style={{textAlign: 'center'}}>
-        <Col md={12}>
-          <h1>My Grocery List</h1>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={6} style={{textAlign: 'right'}}>
-          <Button variant='primary' style={{padding: '5px'}}>
-            Email Grocery List
-          </Button>
-        </Col>
-        <Col md={6} style={{textAlign: 'left'}}>
-          <Button variant='primary' style={{padding: '5px'}}>
-            Text Grocery List
-          </Button>
-        </Col>
-      </Row>
-      <Row style={{textAlign: 'center', paddingTop: '10px'}}>
-        <Col>
-          {savedIngredients.map((groceries, index) =>
-            <Row>
-              <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
-              <Button
-                variant='link'
-                style={{ marginRight: '12.25px', padding: 0, height: '30px'}}
-                value={index}
-                onClick={removeIngredientHandler}
-                >
-                <FaTrash />
+      {error ? (
+        <Message>{error}</Message>
+      ) : (
+        <div>
+          <Row style={{textAlign: 'center'}}>
+            <Col md={12}>
+              <h1>My Grocery List</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6} style={{textAlign: 'right'}}>
+              <Button variant='primary' style={{padding: '5px'}}>
+                Email Grocery List
               </Button>
-            </Row>
-          )}
-        </Col>
-      </Row>
+            </Col>
+            <Col md={6} style={{textAlign: 'left'}}>
+              <Button variant='primary' style={{padding: '5px'}}>
+                Text Grocery List
+              </Button>
+            </Col>
+          </Row>
+          <Row style={{textAlign: 'center', paddingTop: '10px'}}>
+            <Col>
+              {savedIngredients.map((groceries, index) =>
+                <Row>
+                  <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
+                  <Button
+                    variant='link'
+                    style={{ marginRight: '12.25px', padding: 0, height: '30px'}}
+                    value={index}
+                    onClick={removeIngredientHandler}
+                    >
+                    <FaTrash />
+                  </Button>
+                </Row>
+              )}
+            </Col>
+          </Row>
+        </div>
+      )}
     </div>
   )
 }
