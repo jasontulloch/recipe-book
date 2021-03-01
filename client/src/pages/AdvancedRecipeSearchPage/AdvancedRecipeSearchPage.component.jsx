@@ -18,9 +18,17 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   const [keywordIsNuts, setKeywordIsNuts] = useState(false)
   const [keywordIsShellfish, setKeywordIsShellfish] = useState(false)
   const [keywordIsSoy, setKeywordIsSoy] = useState(false)
+  const [keywordIsBreakfastBrunch, setKeywordIsBreakfastBrunch] = useState(false)
+  const [keywordIsMainDish, setKeywordIsMainDish] = useState(false)
+  const [keywordIsSideSauce, setKeywordIsSideSauce] = useState(false)
+  const [keywordIsDessert, setKeywordIsDessert] = useState(false)
+  const [keywordIsSnack, setKeywordIsSnack] = useState(false)
+  const [keywordIsAppetizer, setKeywordIsAppetizer] = useState(false)
+  const [keywordIsDrink, setKeywordIsDrink] = useState(false)
 
   const [searchByDiet, setSearchByDiet] = useState(false)
   const [searchByAllergin, setSearchByAllergin] = useState(false)
+  const [searchByMealCourseType, setSearchByMealCourseType] = useState(false)
   //const pageNumber = match.params.pageNumber || 1
 
   const chefLogin = useSelector(state => state.chefLogin)
@@ -29,41 +37,58 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     // If user was to search by diets
-    if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == true && searchByAllergin == false) {
+    if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == false) {
+    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == false) {
+    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == true && searchByAllergin == false) {
+    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == false) {
+    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == false) {
+    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == false) {
+    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
-    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == false) {
+    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}`)
     // If user wants to search by Allergins
-    } else if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == true) {
+    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == true && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
+    // If user wants to search by Meal Course / Type
+    } else if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
+    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
+    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
+    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
+    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
+    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
+    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
+    } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == true) {
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}/keywordIsMainDish=${keywordIsMainDish}/keywordIsSideSauce=${keywordIsSideSauce}/keywordIsDessert=${keywordIsDessert}/keywordIsSnack=${keywordIsSnack}/keywordIsAppetizer=${keywordIsAppetizer}/keywordIsDrink=${keywordIsDrink}`)
     // If user wants to search by Allergins and Diets
-  } else if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == true && searchByAllergin == true) {
+    } else if(keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == true && searchByAllergin == true) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
     } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == true && searchByAllergin == true) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
@@ -79,20 +104,20 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
     } else if (!keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == true && searchByAllergin == true) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordIsVegan=${keywordIsVegan}/keywordIsVegetarian=${keywordIsVegetarian}/keywordIsGlutenFree=${keywordIsGlutenFree}/keywordIsKetogenic=${keywordIsKetogenic}/keywordIsDairy=${keywordIsDairy}/keywordIsEgg=${keywordIsEgg}/keywordIsNuts=${keywordIsNuts}/keywordIsShellfish=${keywordIsShellfish}/keywordIsSoy=${keywordIsSoy}`)
-      // If user doesn't want to search by diet or allergins
-    } else if (keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == false && searchByAllergin == false) {
+      // If user doesn't want to search by diet or allergins or meal course / types
+    } else if (keywordRecipeName.trim() && keywordCountry.trim() && keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/`)
-    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false) {
+    } else if (keywordRecipeName.trim() && keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordCountry=${keywordCountry}`)
-    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false) {
+    } else if (keywordRecipeName.trim() && keywordChefName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/keywordChefName=${keywordChefName}/`)
-    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == false && searchByAllergin == false) {
+    } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/`)
-    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false) {
+    } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}`)
-    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false) {
+    } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}`)
-    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false) {
+    } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}`)
     } else {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
@@ -110,6 +135,13 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
       setKeywordIsNuts(chefInfo.isNuts)
       setKeywordIsShellfish(chefInfo.isShellfish)
       setKeywordIsSoy(chefInfo.isSoy)
+      setKeywordIsBreakfastBrunch(chefInfo.isBreakfastBrunch)
+      setKeywordIsMainDish(chefInfo.isMainDish)
+      setKeywordIsSideSauce(chefInfo.isSideSauce)
+      setKeywordIsDessert(chefInfo.isDessert)
+      setKeywordIsSnack(chefInfo.isSnack)
+      setKeywordIsAppetizer(chefInfo.isAppetizer)
+      setKeywordIsDrink(chefInfo.isDrink)
     }
   }, [chefInfo])
 
@@ -301,7 +333,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
         ) : (
           <div></div>
         )}
-        <Row style={{ textAlign: 'center', paddingBottom: '15px', borderBottom: '2px dotted' }}>
+        <Row style={{ textAlign: 'center', paddingBottom: '15px' }}>
           <Col>
               {(searchByAllergin === true) ? (
                 <div>
@@ -317,6 +349,88 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
               )}
           </Col>
         </Row>
+
+        {(searchByMealCourseType === true) ? (
+          <Row style={{ textAlign:'center' }}>
+            <Col>
+                <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Breakfast or Brunch?'
+                    checked={keywordIsBreakfastBrunch}
+                    onChange={(e) => setKeywordIsBreakfastBrunch(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Main Dish?'
+                    checked={keywordIsMainDish}
+                    onChange={(e) => setKeywordIsMainDish(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Side or Sauce?'
+                    checked={keywordIsSideSauce}
+                    onChange={(e) => setKeywordIsSideSauce(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Dessert?'
+                    checked={keywordIsDessert}
+                    onChange={(e) => setKeywordIsDessert(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Snack?'
+                    checked={keywordIsSnack}
+                    onChange={(e) => setKeywordIsSnack(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Appetizer?'
+                    checked={keywordIsAppetizer}
+                    onChange={(e) => setKeywordIsAppetizer(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Drink?'
+                    checked={keywordIsDrink}
+                    onChange={(e) => setKeywordIsDrink(e.target.checked)}
+                  />
+                </Form.Group>
+            </Col>
+          </Row>
+        ) : (
+          <div></div>
+        )}
+        <Row style={{ textAlign: 'center', paddingBottom: '15px', borderBottom: '2px dotted' }}>
+          <Col>
+              {(searchByMealCourseType === true) ? (
+                <div>
+                  <p>Pre-checked meal course / type search parameters are based on your profile so you can get cooking faster.</p>
+                  <Button onClick={(e) => setSearchByMealCourseType(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
+                    Exclude meal course / type from search.
+                  </Button>
+                </div>
+              ) : (
+                <Button onClick={(e) => setSearchByMealCourseType(true)} variant='outline-success' className='p-2' style={{width: '50%'}}>
+                  Filter by meal course / type?
+                </Button>
+              )}
+          </Col>
+        </Row>
+
         <Row style={{ textAlign: 'center', paddingTop: '5px' }}>
           <Col>
             <Button type='submit' variant='outline-success' className='p-2' style={{width: '25%'}}>

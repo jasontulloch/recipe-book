@@ -23,6 +23,13 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const keywordIsNuts = match.params.keywordIsNuts || ''
   const keywordIsShellfish = match.params.keywordIsShellfish || ''
   const keywordIsSoy = match.params.keywordIsSoy || ''
+  const keywordIsBreakfastBrunch = match.params.keywordIsBreakfastBrunch || ''
+  const keywordIsMainDish = match.params.keywordIsMainDish || ''
+  const keywordIsSideSauce = match.params.keywordIsSideSauce || ''
+  const keywordIsDessert = match.params.keywordIsDessert || ''
+  const keywordIsSnack = match.params.keywordIsSnack || ''
+  const keywordIsAppetizer = match.params.keywordIsAppetizer || ''
+  const keywordIsDrink = match.params.keywordIsDrink || ''
   const pageNumber = match.params.pageNumber || 1
   const urlBaseRecipes = true
 
@@ -53,7 +60,14 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         keywordIsEgg,
         keywordIsNuts,
         keywordIsShellfish,
-        keywordIsSoy
+        keywordIsSoy,
+        keywordIsBreakfastBrunch,
+        keywordIsMainDish,
+        keywordIsSideSauce,
+        keywordIsDessert,
+        keywordIsSnack,
+        keywordIsAppetizer,
+        keywordIsDrink
       )
     )
   }, [
@@ -71,7 +85,14 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordIsEgg,
     keywordIsNuts,
     keywordIsShellfish,
-    keywordIsSoy
+    keywordIsSoy,
+    keywordIsBreakfastBrunch,
+    keywordIsMainDish,
+    keywordIsSideSauce,
+    keywordIsDessert,
+    keywordIsSnack,
+    keywordIsAppetizer,
+    keywordIsDrink
   ])
 
   return (

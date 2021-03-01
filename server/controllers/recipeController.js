@@ -147,6 +147,43 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
+  const keywordIsBreakfastBrunch = req.query.keywordIsBreakfastBrunch ? {
+    isBreakfastBrunch: {
+      $eq: req.query.keywordIsBreakfastBrunch
+    }
+  } : {}
+
+  const keywordIsMainDish = req.query.keywordIsMainDish ? {
+    isMainDish: {
+      $eq: req.query.keywordIsMainDish
+    }
+  } : {}
+  const keywordIsSideSauce = req.query.keywordIsSideSauce ? {
+    isSideSauce: {
+      $eq: req.query.keywordIsSideSauce
+    }
+  } : {}
+  const keywordIsDessert = req.query.keywordIsDessert ? {
+    isDessert: {
+      $eq: req.query.keywordIsDessert
+    }
+  } : {}
+  const keywordIsSnack = req.query.keywordIsSnack ? {
+    isSnack: {
+      $eq: req.query.keywordIsSnack
+    }
+  } : {}
+  const keywordIsAppetizer = req.query.keywordIsAppetizer ? {
+    isAppetizer: {
+      $eq: req.query.keywordIsAppetizer
+    }
+  } : {}
+  const keywordIsDrink = req.query.keywordIsDrink ? {
+    isDrink: {
+      $eq: req.query.keywordIsDrink
+    }
+  } : {}
+
   //const pageSize = 4
   //const page = Number(req.query.pageNumber) || 1
 
@@ -166,7 +203,14 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsEgg},
       {...keywordIsNuts},
       {...keywordIsShellfish},
-      {...keywordIsSoy}
+      {...keywordIsSoy},
+      {...keywordIsBreakfastBrunch},
+      {...keywordIsMainDish},
+      {...keywordIsSideSauce},
+      {...keywordIsDessert},
+      {...keywordIsSnack},
+      {...keywordIsAppetizer},
+      {...keywordIsDrink}
     ],
   })
 
@@ -324,6 +368,13 @@ const updateRecipe = asyncHandler(async (req, res) => {
     isNuts,
     isShellfish,
     isSoy,
+    isBreakfastBrunch,
+    isMainDish,
+    isSideSauce,
+    isDessert,
+    isSnack,
+    isAppetizer,
+    isDrink,
     recipe_cover_image,
   } = req.body
 
@@ -345,6 +396,13 @@ const updateRecipe = asyncHandler(async (req, res) => {
     recipe.isNuts = isNuts
     recipe.isShellfish = isShellfish
     recipe.isSoy = isSoy
+    recipe.isBreakfastBrunch = isBreakfastBrunch
+    recipe.isMainDish = isMainDish
+    recipe.isSideSauce = isSideSauce
+    recipe.isDessert = isDessert
+    recipe.isSnack = isSnack
+    recipe.isAppetizer = isAppetizer
+    recipe.isDrink = isDrink
     recipe.recipe_cover_image = recipe_cover_image
 
     const updatedRecipe = await recipe.save()
