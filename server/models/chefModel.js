@@ -81,6 +81,41 @@ const chefSchema = mongoose.Schema(
       required: true,
       default: false
     },
+    isBreakfastBrunch: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isMainDish: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isSideSauce: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isDessert: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isSnack: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isAppetizer: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    isDrink: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     isMetric: {
       type: Boolean,
       required: true,

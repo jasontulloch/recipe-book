@@ -26,6 +26,13 @@ const ProfileEditPage = ({ location, history }) => {
   const [isShellfish, setIsShellfish] = useState(false)
   const [isSoy, setIsSoy] = useState(false)
   const [isWheat, setIsWheat] = useState(false)
+  const [isBreakfastBrunch, setIsBreakfastBrunch] = useState(false)
+  const [isMainDish, setIsMainDish] = useState(false)
+  const [isSideSauce, setIsSideSauce] = useState(false)
+  const [isDessert, setIsDessert] = useState(false)
+  const [isSnack, setIsSnack] = useState(false)
+  const [isAppetizer, setIsAppetizer] = useState(false)
+  const [isDrink, setIsDrink] = useState(false)
   const [isMetric, setIsMetric] = useState(false)
   const [useTeaspoons, setUseTeaspoons] = useState(false)
   const [useTablespoons, setUseTablespoons] = useState(false)
@@ -86,6 +93,13 @@ const ProfileEditPage = ({ location, history }) => {
         setIsShellfish(chef.isShellfish)
         setIsSoy(chef.isSoy)
         setIsWheat(chef.isWheat)
+        setIsBreakfastBrunch(chef.isBreakfastBrunch)
+        setIsMainDish(chef.isMainDish)
+        setIsSideSauce(chef.isSideSauce)
+        setIsDessert(chef.isDessert)
+        setIsSnack(chef.isSnack)
+        setIsAppetizer(chef.isAppetizer)
+        setIsDrink(chef.isDrink)
         setIsMetric(chef.isMetric)
         setUseTeaspoons(chef.useTeaspoons)
         setUseTablespoons(chef.useTablespoons)
@@ -130,6 +144,13 @@ const ProfileEditPage = ({ location, history }) => {
         isShellfish,
         isSoy,
         isWheat,
+        isBreakfastBrunch,
+        isMainDish,
+        isSideSauce,
+        isDessert,
+        isSnack,
+        isAppetizer,
+        isDrink,
         isMetric,
         useTeaspoons,
         useTablespoons,
@@ -314,6 +335,66 @@ const ProfileEditPage = ({ location, history }) => {
                   label='Wheat?'
                   checked={isWheat}
                   onChange={(e) => setIsWheat(e.target.checked)}
+                />
+              </Form.Group>
+              <br />
+                <Form.Label className='allerginsLabel'>Meal Course / Type</Form.Label>
+                <Form.Text>Help us understand what types of meals you typically search for...</Form.Text>
+                <br />
+                <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Breakfast or Brunch?'
+                    checked={isBreakfastBrunch}
+                    onChange={(e) => setIsBreakfastBrunch(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Entrees?'
+                    checked={isMainDish}
+                    onChange={(e) => setIsMainDish(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Sides or Sauces?'
+                    checked={isSideSauce}
+                    onChange={(e) => setIsSideSauce(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Dessert?'
+                    checked={isDessert}
+                    onChange={(e) => setIsDessert(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Snack?'
+                    checked={isSnack}
+                    onChange={(e) => setIsSnack(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Appetizer?'
+                    checked={isAppetizer}
+                    onChange={(e) => setIsAppetizer(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Drink?'
+                  checked={isDrink}
+                  onChange={(e) => setIsDrink(e.target.checked)}
                 />
               </Form.Group>
             <br />

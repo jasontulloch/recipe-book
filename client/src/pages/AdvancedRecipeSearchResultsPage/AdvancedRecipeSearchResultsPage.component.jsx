@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
-import Paginate from '../../components/Paginate/Paginate.component';
 
+import Paginate from '../../components/Paginate/Paginate.component';
+import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
+import Message from '../../components/Message/Message.component';
 
 const AdvancedRecipeSearchResultsPage = ({ match }) => {
   //This needs to match the route in the App.js file
@@ -41,7 +43,10 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
-  console.log(match.params)
+  const [initialLoader, setInitialLoader] = useState(true)
+  if (loading !== true) {
+    setTimeout(() => setInitialLoader(false), 3000)
+  }
 
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
@@ -97,14 +102,22 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
 
   return (
     <div>
-      <h1>Custom Searched Recipes</h1>
-      <Row>
-        {recipes.recipes && recipes.recipes.map((recipe) => (
-          <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>
-            <RecipeCard recipe={recipe} />
-          </Col>
-        ))}
-      </Row>
+      {initialLoader ?  (
+        <PancakeLoader>Finding recipes exactly how you like them...</PancakeLoader>
+      ) : error ? (
+        <Message>{error}</Message>
+      ) : (
+        <div>
+          <h1>Custom Searched Recipes</h1>
+          <Row>
+            {recipes.recipes && recipes.recipes.map((recipe) => (
+              <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>
+                <RecipeCard recipe={recipe} />
+              </Col>
+            ))}
+          </Row>
+        </div>
+      )}
     </div>
   )
 }

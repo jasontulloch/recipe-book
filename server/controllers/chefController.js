@@ -28,6 +28,13 @@ const authChef = asyncHandler(async (req, res) => {
       isShellfish: chef.isShellfish,
       isSoy: chef.isSoy,
       isWheat: chef.isWheat,
+      isBreakfastBrunch: chef.isBreakfastBrunch,
+      isMainDish: chef.isMainDish,
+      isSideSauce: chef.isSideSauce,
+      isDessert: chef.isDessert,
+      isSnack: chef.isSnack,
+      isAppetizer: chef.isAppetizer,
+      isDrink: chef.isDrink,
       isMetric: chef.isMetric,
       useTeaspoons: chef.useTeaspoons,
       useTablespoons: chef.useTablespoons,
@@ -130,6 +137,13 @@ const getChefProfile = asyncHandler(async (req, res) => {
       isShellfish: chef.isShellfish,
       isSoy: chef.isSoy,
       isWheat: chef.isWheat,
+      isBreakfastBrunch: chef.isBreakfastBrunch,
+      isMainDish: chef.isMainDish,
+      isSideSauce: chef.isSideSauce,
+      isDessert: chef.isDessert,
+      isSnack: chef.isSnack,
+      isAppetizer: chef.isAppetizer,
+      isDrink: chef.isDrink,
       isMetric: chef.isMetric,
       useTeaspoons: chef.useTeaspoons,
       useTablespoons: chef.useTablespoons,
@@ -172,6 +186,13 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     isShellfish,
     isSoy,
     isWheat,
+    isBreakfastBrunch,
+    isMainDish,
+    isSideSauce,
+    isDessert,
+    isSnack,
+    isAppetizer,
+    isDrink,
     isMetric,
     useTeaspoons,
     useTablespoons,
@@ -211,6 +232,13 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.isShellfish = isShellfish
     chef.isSoy = isSoy
     chef.isWheat = isWheat
+    chef.isBreakfastBrunch = isBreakfastBrunch
+    chef.isMainDish = isMainDish
+    chef.isSideSauce = isSideSauce
+    chef.isDessert = isDessert
+    chef.isSnack = isSnack
+    chef.isAppetizer = isAppetizer
+    chef.isDrink = isDrink
     chef.isMetric = isMetric
     chef.useTeaspoons = useTeaspoons
     chef.useTablespoons = useTablespoons
@@ -253,6 +281,13 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       isShellfish: updatedChef.isShellfish,
       isSoy: updatedChef.isSoy,
       isWheat: updatedChef.isWheat,
+      isBreakfastBrunch: updatedChef.isBreakfastBrunch,
+      isMainDish: updatedChef.isMainDish,
+      isSideSauce: updatedChef.isSideSauce,
+      isDessert: updatedChef.isDessert,
+      isSnack: updatedChef.isSnack,
+      isAppetizer: updatedChef.isAppetizer,
+      isDrink: updatedChef.isDrink,
       isMetric: updatedChef.isMetric,
       useTeaspoons: updatedChef.useTeaspoons,
       useTablespoons: updatedChef.useTablespoons,
