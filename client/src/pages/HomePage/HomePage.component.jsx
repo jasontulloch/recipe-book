@@ -4,68 +4,29 @@ import { Link } from 'react-router-dom';
 import { Form, Button, Tabs, Tab, Table, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
-import Message from '../../components/Message/Message.component';
-import { listRecipes } from '../../actions/recipeActions';
-import { RECIPE_UPDATE_RESET } from '../../constants/recipeConstants';
 
-import Unitz from 'unitz'
-
-const HomePage = ({ match, history }) => {
-  const dispatch = useDispatch()
-
-  // Note how recipeList matches in store.js
-  // Passing in loading, error, recipes from recipeReducer.js
-  // Use selector will get the recipes and display them
-  const recipeList = useSelector(state => state.recipeList)
-  const { loading, error, recipes, page, pages } = recipeList
-
-  // This is firing off the action to get recipes in state
-  useEffect(() => {
-    dispatch(listRecipes())
-  }, [dispatch])
-
-  const servingsize = 2
-  const quantity1 = recipes.map((recipe) =>
-    eval(recipe.ingredients[0][0]) * servingsize
-  )
-  const measurement1 = recipes.map((recipe) =>
-    recipe.ingredients[0][1]
-  )
-
-  const merge = quantity1 + ' ' + measurement1;
-  const mergeBetter = Unitz.compound(merge, ['gal', 'qt', 'pt', 'c', 'tbsp', 'tsp', 'oz']);
-  const mergeNew = String(mergeBetter)
-  const mergeNewer = mergeNew.replace('gal', 'Gallon')
-
+const HomePage = () => {
 
   return (
     <div>
-        <Table>
-          <thead>
-            <tr>
-              <th>Quantity</th>
-              <th>Measurement</th>
-              <th>Ingredient</th>
-            </tr>
-          </thead>
-          <tbody>
+      <h1 style={{textAlign: 'center'}}>Welcome to RecipeBook!</h1>
+      <h4 style={{textAlign: 'center'}}>We appreciate you stopping by. If it is your first time here, let us explain who we are.</h4>
 
-          {recipes.map((recipe) =>
-            <div>
-              <tr>
-                <td>{recipe.ingredients[0][0]}</td>
-                <td>{recipe.ingredients[0][1]}</td>
-                <td>{recipe.ingredients[0][2]}</td>
-              </tr>
-            </div>
-          )}
-          </tbody>
-        </Table>
-        <h1>HI</h1>
-        <h1>{quantity1}</h1>
-        <h1>{mergeBetter}</h1>
-        <h1>{mergeNew}</h1>
-        <h1>{mergeNewer}</h1>
+      <br/>
+      <p>RecipeBook has been designed with one simple goal in mind, to get you offline faster and spending the time doing what we all love sooner. Simply put, our team were tired of advertisements filling our screens, reading stories about the inspiration for a certain recipe, and not being able to find the best recipe possible.</p>
+      <p>We know other platforms exist, but give us a try, we doubt you will be disappointed. We are working hard everyday to be better than the competition.</p>
+      <p>Okay, you've read this far, but what do we really offer?</p>
+
+      <ul>
+        <li>Clean + easy to read recipes with nothing in between</li>
+        <li>Advanced search capabilities to find the exact recipes you are looking for... search by recipe name, country, chef, common allergins, diets, meal types / courses, etc.</li>
+        <li>Real recipes posted by real people and ranked by you... how else will we ever find our what the best recipes in the world actually are?</li>
+        <li>Flexible recipes that can be changed between the imperial and metric system while also being adjusted for the exact serving size you need</li>
+        <li>Ability to send your grocery list in a clean via email or text</li>
+      </ul>
+
+      <p>So what are you waiting for? Click search above to find all recipes or use our advanced search feature to find exactly what you are looking for!</p>
+
     </div>
   )
 }

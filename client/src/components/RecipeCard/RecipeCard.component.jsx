@@ -29,7 +29,7 @@ const RecipeCardImage = ({ recipe }) => {
           </span>
         </Card.Header>
         <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>
-          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '100%', backgroundColor: '#B2D732' }}/>
+          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '200px', backgroundColor: '#B2D732' }}/>
         </Link>
         <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
 
@@ -115,6 +116,21 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
+            {(recipes.recipes === undefined || recipes.recipes.length == 0) && (
+              <Col style={{textAlign: 'center', paddingTop: '100px'}}>
+                <p >Looks like we couldn't find any recipes, add your own or update your search!</p>
+                <LinkContainer to={`/myrecipes`}>
+                  <Button variant='light' className='btn-sm'>
+                    <i className='fas fa-plus'>Add New Recipe</i>
+                  </Button>
+                </LinkContainer>
+                <LinkContainer to={`/recipes/advanced-search`}>
+                  <Button variant='light' className='btn-sm'>
+                    <i className='fas fa-search'>New Search</i>
+                  </Button>
+                </LinkContainer>
+              </Col>
+            )}
           </Row>
         </div>
       )}

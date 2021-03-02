@@ -90,31 +90,36 @@ const ChefRecipesListPage = ({ match , history }) => {
               </tr>
             </thead>
             <tbody>
-              {myRecipes.map(recipe => (
-                <tr key={recipe.id}>
-                  <td>{recipe.recipe_name}</td>
-                  <td>{recipe.netVotes}</td>
-                  <td>{recipe.country}</td>
-                  <td>{recipe.cook_time}</td>
-                  <td>{recipe.serving_size}</td>
-                  <td>
-                    <LinkContainer to={`/myrecipes/${recipe._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
+              {(myRecipes === undefined || myRecipes.length == 0) ? (
+                <div></div>
+              ) : (
+                myRecipes.map(recipe => (
+                  <tr key={recipe.id}>
+                    <td>{recipe.recipe_name}</td>
+                    <td>{recipe.netVotes}</td>
+                    <td>{recipe.country}</td>
+                    <td>{recipe.cook_time}</td>
+                    <td>{recipe.serving_size}</td>
+                    <td>
+                      <LinkContainer to={`/myrecipes/${recipe._id}/edit`}>
+                        <Button variant='light' className='btn-sm'>
+                          <i className='fas fa-edit'></i>
+                        </Button>
+                      </LinkContainer>
+                    </td>
+                    <td>
+                      <Button
+                        variant='danger'
+                        className='btn-sm'
+                        onClick={() => deleteHandler(recipe._id)}
+                      >
+                        <i className='fas fa-trash'></i>
                       </Button>
-                    </LinkContainer>
-                  </td>
-                  <td>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteHandler(recipe._id)}
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))
+              )
+            }
             </tbody>
           </Table>
         </div>

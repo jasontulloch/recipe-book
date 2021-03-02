@@ -457,6 +457,11 @@ const IndividualRecipePage = ({ history, match }) => {
           </Link>
         </Col>
       </Row>
+      <Row>
+        <Col className='fluid' style={{ paddingLeft: 0 }}>
+          <h3>Chef: Placholder {recipe.chef}</h3>
+        </Col>
+      </Row>
       <Row style={{ height: '40px' }}>
         <Col md={4} className='fluid' style={{ paddingLeft: 0 }}>
           <h4>Cook Time: {time_convert(recipe.cook_time)}</h4>
