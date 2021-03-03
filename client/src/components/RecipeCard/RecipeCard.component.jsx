@@ -8,11 +8,11 @@ import { GiAvocado, GiMilkCarton, GiRawEgg, GiPeanut, GiNautilusShell, GiCoffeeB
 const RecipeCardImage = ({ recipe }) => {
 
   return (
-    <div>
-      <Card className="text-light mb-4" style={{ border: 'none' }}>
+    <div style={{paddingBottom: '40px'}}>
+      <Card className="text-light mb-4 " style={{ border: 'none', height: '225px', width: '225px' }}>
         <Card.Header style={{textAlign: 'center', padding: '0px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>
           <span>
-            {recipe.recipe_name}
+            {recipe.recipe_name.slice(0, 15) + (recipe.recipe_name.length > 15 ? "..." : "")}
           </span>
           <OverlayTrigger
             placement='top'
@@ -29,7 +29,7 @@ const RecipeCardImage = ({ recipe }) => {
           </span>
         </Card.Header>
         <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>
-          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '200px', backgroundColor: '#B2D732' }}/>
+          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '225px', width: '225px', backgroundColor: '#B2D732' }}/>
         </Link>
         <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>

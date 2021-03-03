@@ -25,35 +25,38 @@ const Header = () => {
             <Navbar.Brand>RecipeBook</Navbar.Brand>
           </LinkContainer>
           <Route render={({ history }) => <SearchBox history={history} />} />
-          <Route render={({ history }) => <AdvancedSearchBtn history={history} />} />
-          <Nav className="ml-auto">
-          {chefInfo ? (
-            <NavDropdown title={chefInfo.username} id='username'>
-              <LinkContainer to='/myrecipes'>
-                <NavDropdown.Item>My Recipes</NavDropdown.Item>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Route render={({ history }) => <AdvancedSearchBtn history={history} />} />
+            <Nav className="ml-auto">
+            {chefInfo ? (
+              <NavDropdown title={chefInfo.username} id='username'>
+                <LinkContainer to='/myrecipes'>
+                  <NavDropdown.Item>My Recipes</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/savedrecipes'>
+                  <NavDropdown.Item>Saved Recipes</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/grocerylist'>
+                  <NavDropdown.Item>Grocery List</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/profile'>
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <LinkContainer to='/login'>
+                <Nav.Link>
+                  <i className='fas fa-user'></i>
+                  Sign In
+                </Nav.Link>
               </LinkContainer>
-              <LinkContainer to='/savedrecipes'>
-                <NavDropdown.Item>Saved Recipes</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer to='/grocerylist'>
-                <NavDropdown.Item>Grocery List</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer to='/profile'>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-              </LinkContainer>
-              <NavDropdown.Item onClick={logoutHandler}>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          ) : (
-            <LinkContainer to='/login'>
-              <Nav.Link>
-                <i className='fas fa-user'></i>
-                Sign In
-              </Nav.Link>
-            </LinkContainer>
-          )}
-          </Nav>
+            )}
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </header>

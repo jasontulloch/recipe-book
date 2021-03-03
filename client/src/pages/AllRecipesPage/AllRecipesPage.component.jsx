@@ -82,7 +82,7 @@ const HomeScreen = ({ match }) => {
 
           <Row>
             {recipes && recipes.map((recipe) => (
-              <Col key={recipe._id} sm={12} md={6} lg={4} xl={3}>
+              <Col key={recipe._id} xs={6} sm={6} md={4} lg={3} xl={3}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
