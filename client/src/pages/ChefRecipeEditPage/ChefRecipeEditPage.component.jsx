@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Form, Button, Tabs, Tab, Table, Image } from 'react-bootstrap';
+import { Form, Button, Tabs, Tab, Table, Image, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
 import Message from '../../components/Message/Message.component';
@@ -255,9 +255,6 @@ const ChefRecipeEditPage = ({ match, history }) => {
 
   return (
     <div>
-      <Link to='/myrecipes' className='btn btn-light my-3'>
-        Go Back
-      </Link>
       <FormContainer>
         {warningMessage !== '' && (
           <Message variant='danger'>{warningMessage}</Message>
@@ -265,9 +262,18 @@ const ChefRecipeEditPage = ({ match, history }) => {
         {successMessage !== '' && (
           <Message variant='success'>{successMessage}</Message>
         )}
-        <h1>Edit Recipe: {recipe_name}</h1>
+        <Row>
+          <Col xs={12} sm={12} md={2} lg={2} xl={2} style={{paddingLeft: '0px', paddingBottom: '10px', textAlign: 'center' }}>
+            <Link to='/myrecipes' className='btn btn-dark' style={{ padding: '0px 5px 0px 5px' }}>
+              Go Back
+            </Link>
+          </Col>
+          <Col xs={12} sm={12} md={10} lg={10} xl={10}>
+            <h4>Edit Recipe: {recipe_name}</h4>
+          </Col>
+        </Row>
         <Form onSubmit={submitHandler}>
-          <Tabs id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
+          <Tabs fill id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
             <Tab eventKey='recipeDetails' title="Recipe Details">
               <Form.Group controlId='recipeName'>
                 <Form.Label>Recipe Name</Form.Label>
@@ -324,60 +330,67 @@ const ChefRecipeEditPage = ({ match, history }) => {
               </Form.Group>
             </Tab>
             <Tab eventKey='recipeSteps' title="Recipe Steps">
-              <Form.Group controlId='recipeSteps'>
-                <ol className="stepListOrder">
-                  {steps.map((step, index) => (
-                    <Table>
-                      <li className="stepList">
-                        <td className="stepTableSection">
-                          <Form.Group controlId='steps' className='stepsFormGroup'>
-                            <Form.Control
-                              key='index'
-                              type='text'
-                              placeholder=''
-                              value={step}
-                              onChange={(e) => {
-                                steps[index] = e.target.value;
-                                setSteps([...steps])
-                              }}
-                            >
-                            </Form.Control>
-                          </Form.Group>
-                        </td>
-                        <td>
-                          <Button
-                            variant='danger'
-                            className='deleteIndividualStep btn-sm'
-                            value={step}
-                            onClick={removeStepHandler}
-                          >
-                            <i className='fas fa-trash'></i>
-                          </Button>
-                          <Button
-                            variant='warning'
-                            className='deleteIndividualStep btn-sm'
-                            value={step}
-                            onClick={addStepBetween}
-                          >
-                            <i className='fas fa-plus'></i>
-                          </Button>
-                        </td>
-                      </li>
-                    </Table>
-                  ))}
-                  <Form.Label>Add a new step</Form.Label>
-                  <Form.Group controlId='newStep'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='Enter next recipe step'
-                      onKeyPress={addStep}
-                    >
-                    </Form.Control>
+              <Row>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center' }}>
+                  <Form.Label>Recipe Steps</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Group controlId='recipeSteps'>
+                    <ol className="stepListOrder">
+                      {steps.map((step, index) => (
+                        <Table>
+                          <li className="stepList">
+                            <td className="stepTableSection">
+                              <Form.Group controlId='steps' className='stepsFormGroup'>
+                                <Form.Control
+                                  key='index'
+                                  type='text'
+                                  placeholder=''
+                                  value={step}
+                                  onChange={(e) => {
+                                    steps[index] = e.target.value;
+                                    setSteps([...steps])
+                                  }}
+                                >
+                                </Form.Control>
+                              </Form.Group>
+                            </td>
+                            <td>
+                              <Button
+                                variant='danger'
+                                className='deleteIndividualStep btn-sm'
+                                value={step}
+                                onClick={removeStepHandler}
+                              >
+                                <i className='fas fa-trash'></i>
+                              </Button>
+                              <Button
+                                variant='warning'
+                                className='deleteIndividualStep btn-sm'
+                                value={step}
+                                onClick={addStepBetween}
+                              >
+                                <i className='fas fa-plus'></i>
+                              </Button>
+                            </td>
+                          </li>
+                        </Table>
+                      ))}
+                      <Form.Label>Add a new step</Form.Label>
+                      <Form.Group controlId='newStep'>
+                        <Form.Control
+                          key='index'
+                          type='text'
+                          placeholder='Enter next recipe step'
+                          onKeyPress={addStep}
+                        >
+                        </Form.Control>
+                      </Form.Group>
+                      <Form.Text className='muted'>Note: Hit enter to add the new step and the update button below to save.</Form.Text>
+                    </ol>
                   </Form.Group>
-                  <Form.Text className='muted'>Note: Hit enter to add the new step and the update button below to save.</Form.Text>
-                </ol>
-              </Form.Group>
+                </Col>
+              </Row>
             </Tab>
             <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
               <Form.Group controlId='recipeIngredients'>
@@ -389,8 +402,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   </thead>
                   {ingredients.map((ingredient, index) => (
                     <tbody>
-                      <td className="ingredientTableSectionAmount">
-                        <Form.Group controlId='ingredients' className='ingredientsFormGroupAmount'>
+                      <td style={{padding: '0px 0px 5px 0px'}} className="ingredientTableSectionAmount">
+                        <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupAmount'>
                           <Form.Control
                             as='select'
                             value={ingredient[0]}
@@ -406,8 +419,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           </Form.Control>
                         </Form.Group>
                       </td>
-                      <td className="ingredientTableSectionMeasurement">
-                        <Form.Group controlId='ingredients' className='ingredientsFormGroupMeasurement'>
+                      <td style={{padding: '0px 0px 5px 5px'}} className="ingredientTableSectionMeasurement">
+                        <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupMeasurement'>
                           <Form.Control
                             as='select'
                             value={ingredient[1]}
@@ -423,8 +436,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           </Form.Control>
                         </Form.Group>
                       </td>
-                      <td className="ingredientTableSectionIngredient">
-                        <Form.Group controlId='ingredients' className='ingredientsFormGroupIngredient'>
+                      <td style={{padding: '0px 0px 5px 5px'}} className="ingredientTableSectionIngredient">
+                        <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupIngredient'>
                           <Form.Control
                             key='index'
                             type='text'
@@ -439,7 +452,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           </Form.Control>
                         </Form.Group>
                       </td>
-                      <td>
+                      <td style={{padding: '0px 0px 5px 0px'}}>
                         <Button
                           variant='danger'
                           className='deleteIndividualIngredient btn-sm'
@@ -642,10 +655,13 @@ const ChefRecipeEditPage = ({ match, history }) => {
               )}
             </Tab>
           </Tabs>
-
-          <Button type='submit' variant='primary'>
-            Update
-          </Button>
+          <Row>
+            <Col style={{textAlign: 'center'}}>
+              <Button type='submit' variant='primary'>
+                Update
+              </Button>
+            </Col>
+          </Row>
         </Form>
       </FormContainer>
     </div>
