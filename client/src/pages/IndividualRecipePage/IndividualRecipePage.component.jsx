@@ -365,8 +365,8 @@ const IndividualRecipePage = ({ history, match }) => {
         </Message>
       )}
       <Row>
-        <Col md={10}>
-          <Row style={{ height: '50px' }}>
+        <Col xs={11} sm={10} md={10} lg={10} xl={10}>
+          <Row style={{ height: '30px' }}>
           {(isRecipeSaved) ? (
             <Form onSubmit={unsaveHandler}>
               <Form.Group>
@@ -378,7 +378,7 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
+                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '25px'}} type='submit' onClick={(e) => setSave('')}>
                     <FaTimes />
                   </Button>
                 </OverlayTrigger>
@@ -395,7 +395,7 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '30px'}} type='submit' onClick={(e) => setSave('')}>
+                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '25px'}} type='submit' onClick={(e) => setSave('')}>
                     <FaBookMedical />
                   </Button>
                 </OverlayTrigger>
@@ -406,10 +406,10 @@ const IndividualRecipePage = ({ history, match }) => {
             <Form onSubmit={upvoteHandler}>
               <Form.Group as={Row}>
                 <Form.Label>
-                  <h1 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h1>
+                  <h4 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h4>
                 </Form.Label>
                 <Form.Label>
-                  <p style={{ marginTop: '7px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
+                  <p style={{ marginTop: '3px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
                 </Form.Label>
                 <OverlayTrigger
                   placement='right'
@@ -419,7 +419,7 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setVote(1)}>
+                  <Button variant='link' style={{ padding: 0, height: '25px'}} type='submit' onClick={(e) => setVote(1)}>
                     <FaThumbsUp style={{ marginLeft: '5px'}}/>
                   </Button>
                 </OverlayTrigger>
@@ -429,10 +429,10 @@ const IndividualRecipePage = ({ history, match }) => {
             <Form onSubmit={downvoteHandler}>
               <Form.Group as={Row}>
                 <Form.Label>
-                  <h1 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h1>
+                  <h4 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h4>
                 </Form.Label>
                 <Form.Label>
-                  <p style={{ marginTop: '7px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
+                  <p style={{ marginTop: '3px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
                 </Form.Label>
                 <OverlayTrigger
                   placement='right'
@@ -442,7 +442,7 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ padding: 0, height: '30px'}} type='submit' onClick={(e) => setVote(-1)}>
+                  <Button variant='link' style={{ padding: 0, height: '25px'}} type='submit' onClick={(e) => setVote(-1)}>
                     <FaThumbsDown style={{ marginLeft: '5px'}}/>
                   </Button>
                 </OverlayTrigger>
@@ -451,24 +451,24 @@ const IndividualRecipePage = ({ history, match }) => {
           )}
           </Row>
         </Col>
-        <Col md={2}>
-          <Link className="btn btn-light" to='/recipes' style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <Col xs={1} sm={2} md={2} lg={2} xl={2}>
+          <Link className="btn btn-light" to='/recipes' style={{ padding: '0px' }}>
             Go Back
           </Link>
         </Col>
       </Row>
-      <Row>
-        <Col className='fluid' style={{ paddingLeft: 0 }}>
-          <h3>Chef: Placholder {recipe.chef}</h3>
+      <Row xs={1} sm={1} md={1} lg={1} xl={1}>
+        <Col style={{ paddingLeft: 0 }}>
+          <h5>Chef: Placholder {recipe.chef}</h5>
         </Col>
       </Row>
-      <Row style={{ height: '40px' }}>
-        <Col md={4} className='fluid' style={{ paddingLeft: 0 }}>
-          <h4>Cook Time: {time_convert(recipe.cook_time)}</h4>
+      <Row md={2} lg={2} xl={2} style={{ height: '27px' }}>
+        <Col style={{ paddingLeft: 0 }}>
+          <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
         </Col>
-        <Col md={4} className='fluid'>
+        <Col style={{ paddingLeft: 0 }}>
           <Form.Group as={Row} controlId='cookTime'>
-            <h4 style= {{ marginRight: '5px' }}>Serving Size:</h4>
+            <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
             <Form.Control
                 style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '12px', width: '40px', height: '25px'}}
                 type='number'
@@ -490,70 +490,71 @@ const IndividualRecipePage = ({ history, match }) => {
             />
           </Form.Group>
         </Col>
-        <Col md={4} style={{ paddingRight: 0 }}>
-          <h4>Country: {recipe.country}</h4>
+      </Row>
+      <Row xs={1} sm={1} md={1} lg={1} xl={1}>
+        <Col style={{ paddingLeft: 0 }}>
+          <h5>Country: {recipe.country}</h5>
         </Col>
       </Row>
-          <Row>
-            <h4>
-              {Diets.length > 0 && 'Diets: '}
-              {new Intl.ListFormat().format(Diets)}
-            </h4>
-          </Row>
-          <Row>
-            <h4>
-              {Allergins.length > 0 && 'Allergins: '}
-              {new Intl.ListFormat().format(Allergins)}
-            </h4>
-          </Row>
-          <Row style={{ paddingTop: '15px', textAlign: 'center' }}>
-            <Col md={6}>
-              <h4>Steps</h4>
-            </Col>
-            <Col md={6}>
-              <Row style={{paddingLeft: '30%'}}>
-                <h4>Ingredients</h4>
-                <Form onSubmit={saveIngredientsHandler}>
-                  <Form.Group>
-                    <OverlayTrigger
-                      placement='top'
-                      overlay={
-                        <Tooltip id={'tooltip-top'}>
-                          Add ingredients to grocery list
-                        </Tooltip>
-                      }
-                    >
-                      <Button variant='link' style={{ padding: 0, height: '0px'}} type='submit' onClick={(e) => setSaveIngredients('')}>
-                        <FaFileDownload style={{ marginLeft: '5px'}}/>
-                      </Button>
-                    </OverlayTrigger>
-                  </Form.Group>
-                </Form>
-              </Row>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col md={6}>
-              <ol>
-                {recipe.steps && recipe.steps.map((step) => (
-                  <li>{step}</li>
-                ))}
-              </ol>
-            </Col>
-            <Col md={6}>
-              <ol>
-                {final && final.map((obj) => (
-                  <li>{obj}</li>
-                ))}
-              </ol>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={12} style={{textAlign: 'center'}}>
-              <RecipeImagesModal recipe={recipe}/>
-            </Col>
-          </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+          <h5>
+            {Diets.length > 0 && 'Diets: '}
+            {new Intl.ListFormat().format(Diets)}
+          </h5>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+          <h5>
+            {Allergins.length > 0 && 'Allergins: '}
+            {new Intl.ListFormat().format(Allergins)}
+          </h5>
+        </Col>
+      </Row>
+      <Row style={{ paddingTop: '15px' }}>
+        <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+          <div style={{textAlign: 'center'}}>
+            <Form onSubmit={saveIngredientsHandler}>
+              <Form.Group as={Row} style={{height: '24px', marginBottom: '8px'}}>
+                <Form.Label>
+                  <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Ingredients</h4>
+                </Form.Label>
+                <OverlayTrigger
+                  placement='top'
+                  overlay={
+                    <Tooltip id={'tooltip-top'}>
+                      Add ingredients to grocery list
+                    </Tooltip>
+                  }
+                >
+                <Button variant='link' style={{ padding: 0, height: '0px', margin: '0 auto'}} type='submit' onClick={(e) => setSaveIngredients('')}>
+                  <FaFileDownload style={{ marginLeft: '5px'}}/>
+                </Button>
+                </OverlayTrigger>
+              </Form.Group>
+            </Form>
+          </div>
+          <ol>
+            {final && final.map((obj) => (
+              <li>{obj}</li>
+            ))}
+          </ol>
+        </Col>
+        <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{ paddingLeft: '0px' }}>
+          <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Steps</h4>
+          <ol>
+            {recipe.steps && recipe.steps.map((step) => (
+              <li>{step}</li>
+            ))}
+          </ol>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12} style={{textAlign: 'center'}}>
+          <RecipeImagesModal recipe={recipe}/>
+        </Col>
+      </Row>
     </div>
   )
 }

@@ -10,22 +10,9 @@ const RecipeCardImage = ({ recipe }) => {
   return (
     <div style={{paddingBottom: '40px'}}>
       <Card className="text-light mb-4 " style={{ border: 'none', height: '225px', width: '225px' }}>
-        <Card.Header style={{textAlign: 'center', padding: '0px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>
+        <Card.Header style={{textAlign: 'center', padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>
           <span>
-            {recipe.recipe_name.slice(0, 15) + (recipe.recipe_name.length > 15 ? "..." : "")}
-          </span>
-          <OverlayTrigger
-            placement='top'
-            overlay={
-              <Tooltip id={'tooltip-top'}>
-                Recipe net votes is currently {recipe.netVotes}.
-              </Tooltip>
-            }
-          >
-            <span style={{paddingLeft: '5px'}}><FaVoteYea /></span>
-          </OverlayTrigger>
-          <span style={{paddingLeft: '2px'}}>
-            {recipe.netVotes}
+            {recipe.recipe_name.slice(0, 25) + (recipe.recipe_name.length > 25 ? "..." : "")}
           </span>
         </Card.Header>
         <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>

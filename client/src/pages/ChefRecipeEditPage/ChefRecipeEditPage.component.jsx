@@ -275,7 +275,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   type='text'
                   placeholder='Enter recipe name'
                   value={recipe_name}
-                  maxLength={19}
+                  maxLength={40}
                   onChange={(e) => setRecipeName(e.target.value)}
                 >
                 </Form.Control>
