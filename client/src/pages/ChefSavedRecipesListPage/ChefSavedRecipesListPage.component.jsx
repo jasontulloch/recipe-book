@@ -58,19 +58,18 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
 
   return (
       <div>
-        <Row className='align-items-center'>
-          <Col>
+        <Row>
+          <Col style={{textAlign:'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
             <h1>Saved Recipes</h1>
           </Col>
-        </Row>
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
                 <th>RECIPE NAME</th>
                 <th>RATING</th>
                 <th>COUNTRY</th>
-                <th>COOK TIME</th>
-                <th>SERVING SIZE</th>
+                <th className='d-none d-md-table-cell'>COOK TIME</th>
+                <th className='d-none d-md-table-cell'>SERVING SIZE</th>
                 <th>VIEW</th>
                 <th>REMOVE</th>
               </tr>
@@ -81,8 +80,8 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                   <td>{recipe.recipe_name}</td>
                   <td>{recipe.netVotes}</td>
                   <td>{recipe.country}</td>
-                  <td>{recipe.cook_time}</td>
-                  <td>{recipe.serving_size}</td>
+                  <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
+                  <td className='d-none d-md-table-cell'>{recipe.serving_size}</td>
                   <td>
                     <LinkContainer to={`/recipe/${recipe._id}`}>
                       <Button variant='light' className='btn-sm'>
@@ -101,7 +100,8 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
               ))}
             </tbody>
           </Table>
-        </div>
+        </Row>
+      </div>
   )
 }
 
