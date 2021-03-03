@@ -13,6 +13,8 @@ import Countries from '../../lists/countries';
 import Measurements from '../../lists/measurements';
 import Quantities from '../../lists/quantities';
 
+import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
+
 const ChefRecipeEditPage = ({ match, history }) => {
   const recipeId = match.params.id
 
@@ -101,6 +103,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
     const formData = new FormData()
     formData.append('recipe_cover_image', file)
     setUploading(true)
+    setRecipeCoverImage('')
 
     try {
       const config = {
@@ -112,11 +115,13 @@ const ChefRecipeEditPage = ({ match, history }) => {
       const { data } = await axios.put(`/api/uploadAWS/${match.params.id}`, formData, config)
 
       setRecipeCoverImage(data)
+      console.log(data)
       setSuccessMessage('Recipe cover photo successfully uploaded!')
       setTimeout(function() {
         setSuccessMessage('')
       }, 3000)
       setUploading(false)
+      dispatch(listRecipeDetails(recipeId))
     } catch (error) {
       console.error(error)
       setUploading(false)
@@ -613,23 +618,28 @@ const ChefRecipeEditPage = ({ match, history }) => {
               </Form.Group>
             </Tab>
             <Tab eventKey='recipeImages' title="Recipe Images">
-              <Form.Group controlId='coverImage' className='imagesGroup'>
-                <Form.Label>Cover Image</Form.Label>
-                  <FormContainer>
-                    <Image
-                      className="recipeCoverImage"
-                      src={recipe_cover_image}
-                      rounded
-                    />
-                </FormContainer>
-                <Form.File
-                  id='cover-image-file'
-                  name='recipe_cover_image'
-                  label='Choose Cover Image'
-                  custom
-                  onChange={uploadFileHandler}
-                ></Form.File>
-              </Form.Group>
+              {uploading === false ? (
+                <Form.Group controlId='coverImage' className='imagesGroup'>
+                  <Form.Label>Cover Image</Form.Label>
+                    <FormContainer>
+                      <Image
+                        className="recipeCoverImage"
+                        src={recipe_cover_image}
+                        key={Date.now()}
+                        rounded
+                      />
+                  </FormContainer>
+                  <Form.File
+                    id='cover-image-file'
+                    name='recipe_cover_image'
+                    label='Choose Cover Image'
+                    custom
+                    onChange={uploadFileHandler}
+                  ></Form.File>
+                </Form.Group>
+              ) : (
+                <PancakeLoader>Uploading recipe photo...</PancakeLoader>
+              )}
             </Tab>
           </Tabs>
 
