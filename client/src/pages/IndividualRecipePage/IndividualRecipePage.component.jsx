@@ -365,7 +365,12 @@ const IndividualRecipePage = ({ history, match }) => {
         </Message>
       )}
       <Row>
-        <Col xs={11} sm={10} md={10} lg={10} xl={10}>
+        <Col xs={12} sm={12} md={2} lg={2} xl={2} style={{paddingLeft: '0px' }}>
+          <Link className="btn btn-dark" to='/recipes' style={{ padding: '0px 5px 0px 5px' }}>
+            Go Back
+          </Link>
+        </Col>
+        <Col xs={12} sm={12} md={10} lg={10} xl={10}>
           <Row style={{ height: '30px' }}>
           {(isRecipeSaved) ? (
             <Form onSubmit={unsaveHandler}>
@@ -451,18 +456,9 @@ const IndividualRecipePage = ({ history, match }) => {
           )}
           </Row>
         </Col>
-        <Col xs={1} sm={2} md={2} lg={2} xl={2}>
-          <Link className="btn btn-light" to='/recipes' style={{ padding: '0px' }}>
-            Go Back
-          </Link>
-        </Col>
-      </Row>
-      <Row xs={1} sm={1} md={1} lg={1} xl={1}>
-        <Col style={{ paddingLeft: 0 }}>
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
           <h5>Chef: Placholder {recipe.chef}</h5>
         </Col>
-      </Row>
-      <Row style={{ height: '27px' }}>
         <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
           <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
         </Col>
@@ -533,7 +529,7 @@ const IndividualRecipePage = ({ history, match }) => {
             ))}
           </ol>
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{ paddingLeft: '0px' }}>
+        <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{ paddingLeft: '0px', paddingTop: '15px' }}>
           <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Steps</h4>
           <ol>
             {recipe.steps && recipe.steps.map((step) => (
@@ -541,7 +537,7 @@ const IndividualRecipePage = ({ history, match }) => {
             ))}
           </ol>
         </Col>
-        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
           <RecipeImagesModal recipe={recipe}/>
         </Col>
       </Row>

@@ -67,22 +67,19 @@ const HomeScreen = ({ match }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <Row style={{paddingBottom: '10px'}}>
-            <Col md={9}>
+          <Row style={{textAlign:'center'}}>
+            <Col xs={12} md={9}>
               <h1>{sortButtonLabel} Recipes</h1>
             </Col>
-            <Col md={3}>
-              <DropdownButton style={{textAlign: 'right'}} id="dropdown-item-button" title={sortButtonLabel}>
+            <Col xs={12} md={3} style={{paddingBottom: '10px'}}>
+              <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                 <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
               </DropdownButton>
             </Col>
-          </Row>
-
-          <Row>
             {recipes && recipes.map((recipe) => (
-              <Col key={recipe._id} xs={6} sm={6} md={4} lg={3} xl={3}>
+              <Col key={recipe._id} xs={6} md={4} lg={3}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}

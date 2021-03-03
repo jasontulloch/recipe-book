@@ -67,24 +67,23 @@ const ChefRecipesListPage = ({ match , history }) => {
 
   return (
       <div>
-        <Row className='align-items-center'>
-          <Col>
+        <Row>
+          <Col style={{textAlign:'center'}} xs={12} sm={12} md={8} lg={8} xl={8}>
             <h1>My Recipes</h1>
           </Col>
-          <Col>
-            <Button className='my-3' onClick={createRecipeHandler}>
+          <Col xs={12} sm={12} md={4} lg={4} xl={4} style={{ textAlign: 'center', paddingBottom: '15px' }}>
+            <Button style={{margin: '0px', padding: '4px' }} onClick={createRecipeHandler}>
               <i className='fas fa-plus'> Create a Recipe</i>
             </Button>
           </Col>
-        </Row>
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
                 <th>RECIPE NAME</th>
                 <th>RATING</th>
                 <th>COUNTRY</th>
-                <th>COOK TIME</th>
-                <th>SERVING SIZE</th>
+                <th className='d-none d-md-table-cell'>COOK TIME</th>
+                <th className='d-none d-md-table-cell'>SERVING SIZE</th>
                 <th>EDIT</th>
                 <th>DELETE</th>
               </tr>
@@ -98,8 +97,8 @@ const ChefRecipesListPage = ({ match , history }) => {
                     <td>{recipe.recipe_name}</td>
                     <td>{recipe.netVotes}</td>
                     <td>{recipe.country}</td>
-                    <td>{recipe.cook_time}</td>
-                    <td>{recipe.serving_size}</td>
+                    <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
+                    <td className='d-none d-md-table-cell'>{recipe.serving_size}</td>
                     <td>
                       <LinkContainer to={`/myrecipes/${recipe._id}/edit`}>
                         <Button variant='light' className='btn-sm'>
@@ -122,7 +121,8 @@ const ChefRecipesListPage = ({ match , history }) => {
             }
             </tbody>
           </Table>
-        </div>
+        </Row>
+      </div>
   )
 }
 
