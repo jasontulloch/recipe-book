@@ -462,15 +462,15 @@ const IndividualRecipePage = ({ history, match }) => {
           <h5>Chef: Placholder {recipe.chef}</h5>
         </Col>
       </Row>
-      <Row md={2} lg={2} xl={2} style={{ height: '27px' }}>
-        <Col style={{ paddingLeft: 0 }}>
+      <Row style={{ height: '27px' }}>
+        <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
           <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
         </Col>
-        <Col style={{ paddingLeft: 0 }}>
-          <Form.Group as={Row} controlId='cookTime'>
+        <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
+          <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
             <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
             <Form.Control
-                style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '12px', width: '40px', height: '25px'}}
+                style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '40px', height: '12px'}}
                 type='number'
                 min={1}
                 max={20}
@@ -482,7 +482,7 @@ const IndividualRecipePage = ({ history, match }) => {
               >
             </Form.Control>
             <Form.Check
-              style={{ padding: '5px', width: '40px', height: '25px'}}
+              style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingRight: '15px', paddingTop: '5px', paddingBottom: '8px'}}
               inline
               label='Metric?'
               checked={isMetric}
@@ -490,30 +490,22 @@ const IndividualRecipePage = ({ history, match }) => {
             />
           </Form.Group>
         </Col>
-      </Row>
-      <Row xs={1} sm={1} md={1} lg={1} xl={1}>
-        <Col style={{ paddingLeft: 0 }}>
+        <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{ paddingLeft: 0 }}>
           <h5>Country: {recipe.country}</h5>
         </Col>
-      </Row>
-      <Row>
         <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
           <h5>
             {Diets.length > 0 && 'Diets: '}
             {new Intl.ListFormat().format(Diets)}
           </h5>
         </Col>
-      </Row>
-      <Row>
         <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
           <h5>
             {Allergins.length > 0 && 'Allergins: '}
             {new Intl.ListFormat().format(Allergins)}
           </h5>
         </Col>
-      </Row>
-      <Row style={{ paddingTop: '15px' }}>
-        <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+        <Col style={{ paddingTop: '15px' }} xs={12} sm={12} md={6} lg={6} xl={6}>
           <div style={{textAlign: 'center'}}>
             <Form onSubmit={saveIngredientsHandler}>
               <Form.Group as={Row} style={{height: '24px', marginBottom: '8px'}}>
@@ -549,9 +541,7 @@ const IndividualRecipePage = ({ history, match }) => {
             ))}
           </ol>
         </Col>
-      </Row>
-      <Row>
-        <Col md={12} style={{textAlign: 'center'}}>
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
           <RecipeImagesModal recipe={recipe}/>
         </Col>
       </Row>
