@@ -13,6 +13,8 @@ import Countries from '../../lists/countries';
 import Measurements from '../../lists/measurements';
 import Quantities from '../../lists/quantities';
 
+import { FaPlus, FaTrash } from 'react-icons/fa';
+
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
 const ChefRecipeEditPage = ({ match, history }) => {
@@ -274,7 +276,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         </Row>
         <Form onSubmit={submitHandler}>
           <Tabs fill id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
-            <Tab eventKey='recipeDetails' title="Recipe Details">
+            <Tab eventKey='recipeDetails' title="Recipe Overview">
               <Form.Group controlId='recipeName'>
                 <Form.Label>Recipe Name</Form.Label>
                 <Form.Control
@@ -395,14 +397,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
             <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
               <Form.Group controlId='recipeIngredients'>
                 <Table className='ingredientTable'>
-                  <thead class='ingredientTableHeaders'>
-                    <th>Quantity</th>
-                    <th>Measurement</th>
-                    <th>Ingredient</th>
+                  <thead style={{textAlign:'center' }} class='ingredientTableHeaders'>
+                    <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Quantity</th>
+                    <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Measurement</th>
+                    <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Ingredient</th>
                   </thead>
                   {ingredients.map((ingredient, index) => (
-                    <tbody>
-                      <td style={{padding: '0px 0px 5px 0px'}} className="ingredientTableSectionAmount">
+                    <tbody style={{border: 'none'}}>
+                      <td style={{padding: '0px 0px 5px 0px', border: 'none'}} className="ingredientTableSectionAmount">
                         <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupAmount'>
                           <Form.Control
                             as='select'
@@ -419,7 +421,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           </Form.Control>
                         </Form.Group>
                       </td>
-                      <td style={{padding: '0px 0px 5px 5px'}} className="ingredientTableSectionMeasurement">
+                      <td style={{padding: '0px 0px 5px 5px', border: 'none'}} className="ingredientTableSectionMeasurement">
                         <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupMeasurement'>
                           <Form.Control
                             as='select'
@@ -436,7 +438,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           </Form.Control>
                         </Form.Group>
                       </td>
-                      <td style={{padding: '0px 0px 5px 5px'}} className="ingredientTableSectionIngredient">
+                      <td style={{padding: '0px 0px 5px 5px', border: 'none'}} className="ingredientTableSectionIngredient">
                         <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupIngredient'>
                           <Form.Control
                             key='index'
@@ -452,22 +454,20 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           </Form.Control>
                         </Form.Group>
                       </td>
-                      <td style={{padding: '0px 0px 5px 0px'}}>
+                      <td style={{padding: '0px 0px 5px 0px', border: 'none'}}>
                         <Button
-                          variant='danger'
                           className='deleteIndividualIngredient btn-sm'
                           value={index}
                           onClick={removeIngredientHandler}
                         >
-                          <i className='fas fa-trash'></i>
+                          <FaTrash />
                         </Button>
                         <Button
-                          variant='warning'
                           className='deleteIndividualIngredient btn-sm'
                           value={index}
                           onClick={addIngredientBetween}
                         >
-                          <i className='fas fa-plus'></i>
+                          <FaPlus />
                         </Button>
                       </td>
                     </tbody>
@@ -492,143 +492,152 @@ const ChefRecipeEditPage = ({ match, history }) => {
               <Form.Text className='muted'>Note: Hit enter to add the new ingredient and the update button below to save.</Form.Text>
               </Form.Group>
             </Tab>
-            <Tab eventKey='recipeDietsAndAllergins' title="Recipe Diets & Allergins">
-              <Form.Label className='dietsLabel'>Diets</Form.Label>
-              <br />
-              <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Vegan?'
-                  checked={isVegan}
-                  onChange={(e) => setIsVegan(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Vegetarian?'
-                  checked={isVegetarian}
-                  onChange={(e) => setIsVegetarian(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Gluten Free?'
-                  checked={isGlutenFree}
-                  onChange={(e) => setIsGlutenFree(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Ketogenic?'
-                  checked={isKetogenic}
-                  onChange={(e) => setIsKetogenic(e.target.checked)}
-                />
-              </Form.Group>
-              <br />
-              <Form.Label className='allerginsLabel'>Allergins</Form.Label>
-              <br />
-              <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Contains Dairy?'
-                  checked={isDairy}
-                  onChange={(e) => setIsDairy(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Contains Egg?'
-                  checked={isEgg}
-                  onChange={(e) => setIsEgg(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Contains Nuts?'
-                  checked={isNuts}
-                  onChange={(e) => setIsNuts(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Contains Shellfish?'
-                  checked={isShellfish}
-                  onChange={(e) => setIsShellfish(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Contains Soy?'
-                  checked={isSoy}
-                  onChange={(e) => setIsSoy(e.target.checked)}
-                />
-              </Form.Group>
-              <br />
-              <Form.Label className='allerginsLabel'>Meal Courses & Types</Form.Label>
-              <br />
-              <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Breakfast or Brunch?'
-                  checked={isBreakfastBrunch}
-                  onChange={(e) => setIsBreakfastBrunch(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Main Dish?'
-                  checked={isMainDish}
-                  onChange={(e) => setIsMainDish(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Side or Sauce?'
-                  checked={isSideSauce}
-                  onChange={(e) => setIsSideSauce(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Dessert?'
-                  checked={isDessert}
-                  onChange={(e) => setIsDessert(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Snack?'
-                  checked={isSnack}
-                  onChange={(e) => setIsSnack(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Appetizer?'
-                  checked={isAppetizer}
-                  onChange={(e) => setIsAppetizer(e.target.checked)}
-                />
-              </Form.Group>
-              <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Drink?'
-                  checked={isDrink}
-                  onChange={(e) => setIsDrink(e.target.checked)}
-                />
-              </Form.Group>
+            <Tab eventKey='recipeDietsAndAllergins' title="Recipe Details">
+              <Row>
+                <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label className='dietsLabel'>Diets</Form.Label>
+                </Col>
+                <Col style={{textAlign: 'center'}}>
+                  <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Vegan?'
+                      checked={isVegan}
+                      onChange={(e) => setIsVegan(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Vegetarian?'
+                      checked={isVegetarian}
+                      onChange={(e) => setIsVegetarian(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Gluten Free?'
+                      checked={isGlutenFree}
+                      onChange={(e) => setIsGlutenFree(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Ketogenic?'
+                      checked={isKetogenic}
+                      onChange={(e) => setIsKetogenic(e.target.checked)}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label className='allerginsLabel'>Allergins</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Contains Dairy?'
+                      checked={isDairy}
+                      onChange={(e) => setIsDairy(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Contains Egg?'
+                      checked={isEgg}
+                      onChange={(e) => setIsEgg(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Contains Nuts?'
+                      checked={isNuts}
+                      onChange={(e) => setIsNuts(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Contains Shellfish?'
+                      checked={isShellfish}
+                      onChange={(e) => setIsShellfish(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Contains Soy?'
+                      checked={isSoy}
+                      onChange={(e) => setIsSoy(e.target.checked)}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label className='allerginsLabel'>Meal Courses & Types</Form.Label>
+                </Col>
+                <Col style={{textAlign: 'center'}}>
+                  <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Breakfast or Brunch?'
+                      checked={isBreakfastBrunch}
+                      onChange={(e) => setIsBreakfastBrunch(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Main Dish?'
+                      checked={isMainDish}
+                      onChange={(e) => setIsMainDish(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Side or Sauce?'
+                      checked={isSideSauce}
+                      onChange={(e) => setIsSideSauce(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Dessert?'
+                      checked={isDessert}
+                      onChange={(e) => setIsDessert(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Snack?'
+                      checked={isSnack}
+                      onChange={(e) => setIsSnack(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Appetizer?'
+                      checked={isAppetizer}
+                      onChange={(e) => setIsAppetizer(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Drink?'
+                      checked={isDrink}
+                      onChange={(e) => setIsDrink(e.target.checked)}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
             </Tab>
             <Tab eventKey='recipeImages' title="Recipe Images">
               {uploading === false ? (

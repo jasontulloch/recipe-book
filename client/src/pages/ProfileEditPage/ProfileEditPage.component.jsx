@@ -575,7 +575,6 @@ const ProfileEditPage = ({ location, history }) => {
               Update
             </Button>
           </Col>
-
         </Row>
       </Form>
     </FormContainer>
