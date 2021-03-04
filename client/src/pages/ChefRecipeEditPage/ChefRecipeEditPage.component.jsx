@@ -187,20 +187,29 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const addStepBetween = (e) => {
     e.preventDefault()
     let currentArrayItem = e.target.value
-    console.log(currentArrayItem)
     let indexPosition = steps.indexOf(currentArrayItem)
-    console.log(indexPosition)
-    let newSteps = steps.splice(indexPosition, 0, 'Step placeholder')
-    console.log(newSteps)
+    if (indexPosition === undefined || indexPosition === -1) {
+      setWarningMessage('Oops, looks like our server is still loading. Try again or wait a few seconds, we just want to make sure the recipe is designed exactly how you want it.')
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 3000)
+    } else {
+      let newSteps = steps.splice(indexPosition, 0, 'Step placeholder')
+    }
     setSteps([...steps])
   }
 
   const addIngredientBetween = (e) => {
     e.preventDefault()
     let currentArrayItem = e.target.value
-    console.log(currentArrayItem)
-    let newIngredients = ingredients.splice(currentArrayItem, 0, ['', '', ''])
-    console.log(newIngredients)
+    if (currentArrayItem !== undefined) {
+      let newIngredients = ingredients.splice(currentArrayItem, 0, ['', '', ''])
+    } else {
+      setWarningMessage('Oops, looks like our server is still loading. Try again or wait a few seconds, we just want to make sure the recipe is designed exactly how you want it.')
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 3000)
+    }
     setIngredients([...ingredients])
   }
 
@@ -224,7 +233,6 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const removeIngredientHandler = (e) => {
     e.preventDefault()
     let arrayItem = e.target.value
-    console.log(arrayItem)
     if (arrayItem === -1 || arrayItem === undefined) {
       setWarningMessage('Trouble deleting an ingredient? Try again (or wait a few seconds), our server just needs to update!')
       setTimeout(function() {
@@ -398,12 +406,23 @@ const ChefRecipeEditPage = ({ match, history }) => {
               <Form.Group controlId='recipeIngredients'>
                 <Table className='ingredientTable'>
                   <thead style={{textAlign:'center' }} class='ingredientTableHeaders'>
+                    <th style={{padding: '12px 0px 12px 0px', border: 'none'}}></th>
                     <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Quantity</th>
                     <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Measurement</th>
                     <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Ingredient</th>
                   </thead>
                   {ingredients.map((ingredient, index) => (
                     <tbody style={{border: 'none'}}>
+                      <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
+                        <Button
+                          style={{backgroundColor: 'white', color: 'black' }}
+                          className='deleteIndividualIngredient btn-sm'
+                          value={index}
+                          onClick={addIngredientBetween}
+                        >
+                          <FaPlus />
+                        </Button>
+                      </td>
                       <td style={{padding: '0px 0px 5px 0px', border: 'none'}} className="ingredientTableSectionAmount">
                         <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupAmount'>
                           <Form.Control
@@ -454,20 +473,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           </Form.Control>
                         </Form.Group>
                       </td>
-                      <td style={{padding: '0px 0px 5px 0px', border: 'none'}}>
+                      <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
                         <Button
+                          style={{backgroundColor: 'white', color: 'black' }}
                           className='deleteIndividualIngredient btn-sm'
                           value={index}
                           onClick={removeIngredientHandler}
                         >
                           <FaTrash />
-                        </Button>
-                        <Button
-                          className='deleteIndividualIngredient btn-sm'
-                          value={index}
-                          onClick={addIngredientBetween}
-                        >
-                          <FaPlus />
                         </Button>
                       </td>
                     </tbody>
