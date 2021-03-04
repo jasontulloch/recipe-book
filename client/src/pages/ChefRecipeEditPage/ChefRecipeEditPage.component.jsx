@@ -195,8 +195,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
       }, 3000)
     } else {
       let newSteps = steps.splice(indexPosition, 0, 'Step placeholder')
+      setSteps([...steps])
     }
-    setSteps([...steps])
+
   }
 
   const addIngredientBetween = (e) => {
@@ -204,13 +205,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
     let currentArrayItem = e.target.value
     if (currentArrayItem !== undefined) {
       let newIngredients = ingredients.splice(currentArrayItem, 0, ['', '', ''])
+      setIngredients([...ingredients])
     } else {
       setWarningMessage('Oops, looks like our server is still loading. Try again or wait a few seconds, we just want to make sure the recipe is designed exactly how you want it.')
       setTimeout(function() {
         setWarningMessage('')
       }, 3000)
     }
-    setIngredients([...ingredients])
+
   }
 
   const removeStepHandler = (e) => {
@@ -348,42 +350,45 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   <Form.Group controlId='recipeSteps'>
                     <ol className="stepListOrder">
                       {steps.map((step, index) => (
-                        <Table>
-                          <li className="stepList">
-                            <td className="stepTableSection">
-                              <Form.Group controlId='steps' className='stepsFormGroup'>
-                                <Form.Control
-                                  key='index'
-                                  type='text'
-                                  placeholder=''
-                                  value={step}
-                                  onChange={(e) => {
-                                    steps[index] = e.target.value;
-                                    setSteps([...steps])
-                                  }}
-                                >
-                                </Form.Control>
-                              </Form.Group>
-                            </td>
-                            <td>
-                              <Button
-                                variant='danger'
-                                className='deleteIndividualStep btn-sm'
+                        <Table style={{border: 'none', margin: '0px 0px 5px 0px'}}>
+                          <td style={{padding: '12.5px 0px 5px 0px', border: 'none', width: '25px'}}>
+                            <li className="stepList"></li>
+                          </td>
+                          <td style={{padding: '0px 0px 0px 5px', border: 'none'}} className="stepTableSection">
+                            <Form.Group style={{margin: '0px 0px 0px 0px'}} controlId='steps' className='stepsFormGroup'>
+                              <Form.Control
+                                key='index'
+                                type='text'
+                                placeholder=''
                                 value={step}
-                                onClick={removeStepHandler}
+                                onChange={(e) => {
+                                  steps[index] = e.target.value;
+                                  setSteps([...steps])
+                                }}
                               >
-                                <i className='fas fa-trash'></i>
-                              </Button>
-                              <Button
-                                variant='warning'
-                                className='deleteIndividualStep btn-sm'
-                                value={step}
-                                onClick={addStepBetween}
-                              >
-                                <i className='fas fa-plus'></i>
-                              </Button>
-                            </td>
-                          </li>
+                              </Form.Control>
+                            </Form.Group>
+                          </td>
+                          <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
+                            <Button
+                              style={{backgroundColor: 'white', color: 'black', padding: '0px 5px 0px 5px' }}
+                              className='deleteIndividualStep btn-sm'
+                              value={step}
+                              onClick={addStepBetween}
+                            >
+                              <FaPlus />
+                            </Button>
+                          </td>
+                          <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
+                            <Button
+                              style={{backgroundColor: 'white', color: 'black', padding: '0px 5px 0px 5px' }}
+                              className='deleteIndividualStep btn-sm'
+                              value={step}
+                              onClick={removeStepHandler}
+                            >
+                              <FaTrash />
+                            </Button>
+                          </td>
                         </Table>
                       ))}
                       <Form.Label>Add a new step</Form.Label>

@@ -5,7 +5,7 @@
 }
 
 .stepList:before {
-  content: "Step #" counter(elementcounter);
+  content: "#" counter(elementcounter);
   counter-increment: elementcounter;
 }
 
