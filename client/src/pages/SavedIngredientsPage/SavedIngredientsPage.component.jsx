@@ -27,6 +27,13 @@ const SavedIngredientsPage = ({ history }) => {
   const [isShellfish, setIsShellfish] = useState(false)
   const [isSoy, setIsSoy] = useState(false)
   const [isWheat, setIsWheat] = useState(false)
+  const [isBreakfastBrunch, setIsBreakfastBrunch] = useState(false)
+  const [isMainDish, setIsMainDish] = useState(false)
+  const [isSideSauce, setIsSideSauce] = useState(false)
+  const [isDessert, setIsDessert] = useState(false)
+  const [isSnack, setIsSnack] = useState(false)
+  const [isAppetizer, setIsAppetizer] = useState(false)
+  const [isDrink, setIsDrink] = useState(false)
   const [isMetric, setIsMetric] = useState(false)
   const [useTeaspoons, setUseTeaspoons] = useState(false)
   const [useTablespoons, setUseTablespoons] = useState(false)
@@ -112,6 +119,13 @@ const SavedIngredientsPage = ({ history }) => {
         setIsShellfish(chef.isShellfish)
         setIsSoy(chef.isSoy)
         setIsWheat(chef.isWheat)
+        setIsBreakfastBrunch(chef.isBreakfastBrunch)
+        setIsMainDish(chef.isMainDish)
+        setIsSideSauce(chef.isSideSauce)
+        setIsDessert(chef.isDessert)
+        setIsSnack(chef.isSnack)
+        setIsAppetizer(chef.isAppetizer)
+        setIsDrink(chef.isDrink)
         setIsMetric(chef.isMetric)
         setUseTeaspoons(chef.useTeaspoons)
         setUseTablespoons(chef.useTablespoons)
@@ -134,11 +148,9 @@ const SavedIngredientsPage = ({ history }) => {
     }
   }, [dispatch, history, chefLogin, chefInfo, chef, success])
 
-  // Function currently works locally, need to update database
   const removeIngredientHandler = (e) => {
     e.preventDefault()
     let arrayItem = e.currentTarget.value
-    console.log(arrayItem)
     if (arrayItem === -1 || arrayItem === undefined) {
       setWarningMessage('Trouble deleting an ingredient? Try again (or wait a few seconds), our server just needs to update!')
       setTimeout(function() {
@@ -168,6 +180,13 @@ const SavedIngredientsPage = ({ history }) => {
         isShellfish,
         isSoy,
         isWheat,
+        isBreakfastBrunch,
+        isMainDish,
+        isSideSauce,
+        isDessert,
+        isSnack,
+        isAppetizer,
+        isDrink,
         isMetric,
         useTeaspoons,
         useTablespoons,
@@ -190,6 +209,55 @@ const SavedIngredientsPage = ({ history }) => {
     }
   }
 
+  const clearAllIngredientsHandler = (e) => {
+    e.preventDefault()
+    setSavedIngredients(...[])
+    dispatch(updateChefProfile({
+      _id: chef._id,
+      first_name,
+      last_name,
+      username,
+      email,
+      password,
+      bio,
+      isVegan,
+      isVegetarian,
+      isGlutenFree,
+      isKetogenic,
+      isDairy,
+      isEgg,
+      isNuts,
+      isShellfish,
+      isSoy,
+      isWheat,
+      isBreakfastBrunch,
+      isMainDish,
+      isSideSauce,
+      isDessert,
+      isSnack,
+      isAppetizer,
+      isDrink,
+      isMetric,
+      useTeaspoons,
+      useTablespoons,
+      useFluidOunces,
+      useCups,
+      usePints,
+      useQuarts,
+      useGallons,
+      useOunces,
+      usePounds,
+      useInches,
+      useMillilitres,
+      useLitres,
+      useGrams,
+      useKilograms,
+      useCentimetres,
+      useMillimetres,
+      savedIngredients
+    }))
+  }
+
   return (
     <div>
       {error ? (
@@ -197,49 +265,54 @@ const SavedIngredientsPage = ({ history }) => {
       ) : (
         <div>
           <Row style={{textAlign: 'center'}}>
-            <Col md={12}>
-              <Form>
-                <Form.Group as={Row} controlId='groceryListLabel'>
-                  <h1 style= {{ marginRight: '5px' }}>My Grocery List</h1>
+            <Form style={{width: '100%'}}>
+              <Form.Group as={Row} controlId='groceryListLabel'>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label>
+                    <h4 style= {{ marginRight: '5px' }}>My Grocery List</h4>
+                  </Form.Label>
+                </Col>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                   <Form.Check
-                    style={{ padding: '5px', width: '40px', height: '25px'}}
+                    style={{ padding: '5px', height: '25px'}}
                     inline
                     label='Only display ingredients?'
                     checked={displayIngredientOnly}
                     onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
                   />
-                </Form.Group>
-              </Form>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6} style={{textAlign: 'right'}}>
-              <Button variant='primary' style={{padding: '5px'}}>
+                </Col>
+              </Form.Group>
+            </Form>
+            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'right'}}>
+              <Button variant='primary' style={{padding: '5px', marginRight: '5px'}}>
                 Email Grocery List
               </Button>
             </Col>
-            <Col md={6} style={{textAlign: 'left'}}>
-              <Button variant='primary' style={{padding: '5px'}}>
+            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'left'}}>
+              <Button variant='primary' style={{padding: '5px', marginLeft: '5px'}}>
                 Text Grocery List
               </Button>
             </Col>
-          </Row>
-          <Row style={{textAlign: 'center', paddingTop: '10px'}}>
-            <Col>
-              {displayIngredientOnly ? (
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px', textAlign: 'center'}}>
+              {(displayIngredientOnly && savedIngredients.length !== 0) && (
                 savedIngredients.map((groceries, index) =>
                   <Row>
-                    <Button
-                      variant='link'
-                      style={{ marginRight: '12.25px', padding: 0, height: '30px'}}
-                      value={index}
-                      onClick={removeIngredientHandler}
-                      >
-                      <FaTrash />
-                    </Button>
-                    <p style={{marginBottom: '0px'}}>{groceries[2].toUpperCase()}</p>
+                    <Col xs={1} sm={1} md={1} lg={1} xl={1} style={{padding: '0px', textAlign: 'right'}}>
+                      <Button
+                        variant='link'
+                        style={{ marginRight: '12.25px', padding: '0px 0px 12.5px 0px', height: '30px'}}
+                        value={index}
+                        onClick={removeIngredientHandler}
+                        >
+                        <FaTrash />
+                      </Button>
+                    </Col>
+                    <Col xs={11} sm={11} md={11} lg={11} xl={11} style={{textAlign: 'left'}}>
+                      <p style={{marginBottom: '0px'}}>{groceries[2].toUpperCase()}</p>
+                    </Col>
                   </Row>
-              )) : (
+              ))}
+              {(displayIngredientOnly === false && savedIngredients.length !== 0) && (
                 savedIngredients.map((groceries, index) =>
                   <Row>
                     <Button
@@ -253,6 +326,15 @@ const SavedIngredientsPage = ({ history }) => {
                     <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
                   </Row>
               ))}
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
+              <Button
+                variant='primary'
+                style={{padding: '5px', marginLeft: '5px'}}
+                onClick={clearAllIngredientsHandler}
+              >
+                Clear All Ingredients
+              </Button>
             </Col>
           </Row>
         </div>
