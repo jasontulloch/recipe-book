@@ -399,43 +399,45 @@ const SavedIngredientsPage = ({ history }) => {
               ))}
             </Col>
             <Form onSubmit={addNewIngredientHandler}>
-              <Col xs={12} sm={6} md={6} lg={6} xl={6}>
-                <Form.Group controlId='newIngredientQuantity'>
-                  <Form.Control
-                    key='index'
-                    type='text'
-                    placeholder='1/3'
-                    required
-                  >
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col xs={12} sm={6} md={6} lg={6} xl={6}>
-                <Form.Group controlId='newIngredientMeasurement'>
-                  <Form.Control
-                    key='index'
-                    type='text'
-                    placeholder='Cup'
-                    required
-                  >
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col xs={12} sm={6} md={6} lg={6} xl={6}>
-                <Form.Group controlId='newIngredientName'>
-                  <Form.Control
-                    key='index'
-                    type='text'
-                    placeholder='Basmati Rice'
-                    required
-                  >
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Text className='muted'>Note: Hit enter to add the new ingredient and the update button below to save.</Form.Text>
-              </Col>
-              <Col style={{textAlign: 'center'}}>
+              <Row>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px' }}>
+                  <Form.Label>Add a new ingredient</Form.Label>
+                </Col>
+                <Col xs={12} sm={12} md={4} lg={4} xl={4}>
+                  <Form.Group controlId='newIngredientQuantity'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='1/3'
+                      required
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col xs={12} sm={12} md={4} lg={4} xl={4}>
+                  <Form.Group controlId='newIngredientMeasurement'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='Cup'
+                      required
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col xs={12} sm={12} md={4} lg={4} xl={4}>
+                  <Form.Group controlId='newIngredientName'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='Basmati Rice'
+                      required
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Col style={{textAlign: 'center', paddingBottom: '15px'}}>
                 <Button type='submit' variant='primary'>
                   Add
                 </Button>
