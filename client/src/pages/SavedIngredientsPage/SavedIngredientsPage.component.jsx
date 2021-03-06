@@ -211,7 +211,9 @@ const SavedIngredientsPage = ({ history }) => {
 
   const clearAllIngredientsHandler = (e) => {
     e.preventDefault()
-    setSavedIngredients(...[])
+
+    let removeAllIngredients = chef.savedIngredients.splice(0, chef.savedIngredients.length)
+    setSavedIngredients([...chef.savedIngredients])
     dispatch(updateChefProfile({
       _id: chef._id,
       first_name,
@@ -294,7 +296,7 @@ const SavedIngredientsPage = ({ history }) => {
               </Button>
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px', textAlign: 'center'}}>
-              {(displayIngredientOnly && savedIngredients.length !== 0) && (
+              {(displayIngredientOnly == true && savedIngredients.length !== 0) && (
                 savedIngredients.map((groceries, index) =>
                   <Row>
                     <Col xs={1} sm={1} md={1} lg={1} xl={1} style={{padding: '0px', textAlign: 'right'}}>
@@ -312,7 +314,7 @@ const SavedIngredientsPage = ({ history }) => {
                     </Col>
                   </Row>
               ))}
-              {(displayIngredientOnly === false && savedIngredients.length !== 0) && (
+              {(displayIngredientOnly == false && savedIngredients.length !== 0) && (
                 savedIngredients.map((groceries, index) =>
                   <Row>
                     <Button
