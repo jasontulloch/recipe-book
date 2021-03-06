@@ -211,7 +211,6 @@ const SavedIngredientsPage = ({ history }) => {
 
   const clearAllIngredientsHandler = (e) => {
     e.preventDefault()
-
     let removeAllIngredients = chef.savedIngredients.splice(0, chef.savedIngredients.length)
     setSavedIngredients([...chef.savedIngredients])
     dispatch(updateChefProfile({
@@ -258,6 +257,76 @@ const SavedIngredientsPage = ({ history }) => {
       useMillimetres,
       savedIngredients
     }))
+  }
+
+  const addIngredientName = (e) => {
+    if (e.which === 13) {
+      e.preventDefault()
+      setSavedIngredients([...savedIngredients, ['', '', e.target.value]])
+      document.getElementById('newIngredientName').value = ''
+    }
+  }
+
+  const addIngredientQuantityMeasurement = (e) => {
+    if (e.which === 13) {
+      e.preventDefault()
+      setSavedIngredients([...savedIngredients, ['', '', e.target.value]])
+      document.getElementById('newIngredientQuantityMeasurement').value = ''
+    }
+  }
+
+  const addNewIngredientHandler = (e) => {
+      e.preventDefault()
+      console.log(e.target[0].value)
+      let newIngredientList = chef.savedIngredients.push([e.target[0].value, e.target[1].value, e.target[2].value])
+      setSavedIngredients([...savedIngredients])
+      document.getElementById('newIngredientQuantity').value = ''
+      document.getElementById('newIngredientMeasurement').value = ''
+      document.getElementById('newIngredientName').value = ''
+      dispatch(updateChefProfile({
+        _id: chef._id,
+        first_name,
+        last_name,
+        username,
+        email,
+        password,
+        bio,
+        isVegan,
+        isVegetarian,
+        isGlutenFree,
+        isKetogenic,
+        isDairy,
+        isEgg,
+        isNuts,
+        isShellfish,
+        isSoy,
+        isWheat,
+        isBreakfastBrunch,
+        isMainDish,
+        isSideSauce,
+        isDessert,
+        isSnack,
+        isAppetizer,
+        isDrink,
+        isMetric,
+        useTeaspoons,
+        useTablespoons,
+        useFluidOunces,
+        useCups,
+        usePints,
+        useQuarts,
+        useGallons,
+        useOunces,
+        usePounds,
+        useInches,
+        useMillilitres,
+        useLitres,
+        useGrams,
+        useKilograms,
+        useCentimetres,
+        useMillimetres,
+        savedIngredients
+      }))
   }
 
   return (
@@ -329,6 +398,49 @@ const SavedIngredientsPage = ({ history }) => {
                   </Row>
               ))}
             </Col>
+            <Form onSubmit={addNewIngredientHandler}>
+              <Col xs={12} sm={6} md={6} lg={6} xl={6}>
+                <Form.Group controlId='newIngredientQuantity'>
+                  <Form.Control
+                    key='index'
+                    type='text'
+                    placeholder='1/3'
+                    required
+                  >
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col xs={12} sm={6} md={6} lg={6} xl={6}>
+                <Form.Group controlId='newIngredientMeasurement'>
+                  <Form.Control
+                    key='index'
+                    type='text'
+                    placeholder='Cup'
+                    required
+                  >
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col xs={12} sm={6} md={6} lg={6} xl={6}>
+                <Form.Group controlId='newIngredientName'>
+                  <Form.Control
+                    key='index'
+                    type='text'
+                    placeholder='Basmati Rice'
+                    required
+                  >
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Text className='muted'>Note: Hit enter to add the new ingredient and the update button below to save.</Form.Text>
+              </Col>
+              <Col style={{textAlign: 'center'}}>
+                <Button type='submit' variant='primary'>
+                  Add
+                </Button>
+              </Col>
+            </Form>
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
               <Button
                 variant='primary'
