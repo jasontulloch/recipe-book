@@ -437,9 +437,9 @@ const SavedIngredientsPage = ({ history }) => {
                   </Form.Group>
                 </Col>
               </Row>
-              <Col style={{textAlign: 'center', paddingBottom: '15px'}}>
+              <Col style={{padding: '5px 5px 15px 5px', textAlign: 'center' }}>
                 <Button type='submit' variant='primary'>
-                  Add
+                  Add New Ingredient
                 </Button>
               </Col>
             </Form>

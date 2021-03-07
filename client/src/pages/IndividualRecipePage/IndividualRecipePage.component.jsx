@@ -99,24 +99,34 @@ const IndividualRecipePage = ({ history, match }) => {
 
   // Set up to toggle like and dislike button
   let doesVoteExist = Boolean
-  if (recipe.votes) {
-    doesVoteExist = recipe.votes.find(function(chefVote) {
-      return chefVote.chef === chefInfo._id
-    })
-    if (doesVoteExist && doesVoteExist.rating === 1) {
-      doesVoteExist = false
-    } else {
-      doesVoteExist = true
+  try {
+    if (recipe.votes) {
+      doesVoteExist = recipe.votes.find(function(chefVote) {
+        return chefVote.chef === chefInfo._id
+      })
+      if (doesVoteExist && doesVoteExist.rating === 1) {
+        doesVoteExist = false
+      } else {
+        doesVoteExist = true
+      }
     }
+  } catch (err) {
+
   }
+
   const [showLikeBtn, setShowLikeBtn] = useState(doesVoteExist)
 
   let wasSaved = Boolean
-  if (chefInfo.savedRecipes && recipe) {
-    wasSaved = Boolean(chefInfo.savedRecipes.find(function(chefRecipe) {
-      return chefRecipe._id === recipe._id
-    }))
+  try {
+    if (chefInfo.savedRecipes && recipe) {
+      wasSaved = Boolean(chefInfo.savedRecipes.find(function(chefRecipe) {
+        return chefRecipe._id === recipe._id
+      }))
+    }
+  } catch (err) {
+
   }
+
 
   const [isRecipeSaved, setIsRecipeSaved] = useState(wasSaved)
 
@@ -265,57 +275,67 @@ const IndividualRecipePage = ({ history, match }) => {
 
   // Build custom array of imperial standards based on whether chef wants to use them
   const imperialStandards = []
-  if (chefInfo.useTeaspoons === true) {
-    imperialStandards.push('tsp')
+  try {
+    if (chefInfo.useTeaspoons === true) {
+      imperialStandards.push('tsp')
+    }
+    if (chefInfo.useTablespoons === true) {
+      imperialStandards.push('tbsp')
+    }
+    if (chefInfo.useFluidOunces === true) {
+      imperialStandards.push('fl-oz')
+    }
+    if (chefInfo.useCups === true) {
+      imperialStandards.push('c')
+    }
+    if (chefInfo.usePints === true) {
+      imperialStandards.push('pt')
+    }
+    if (chefInfo.useQuarts === true) {
+      imperialStandards.push('qt')
+    }
+    if (chefInfo.useGallons === true) {
+      imperialStandards.push('gal')
+    }
+    if (chefInfo.useOunces === true) {
+      imperialStandards.push('oz')
+    }
+    if (chefInfo.usePounds === true) {
+      imperialStandards.push('lb')
+    }
+    if (chefInfo.useInches === true) {
+      imperialStandards.push('in')
+    }
+  } catch (err) {
+
   }
-  if (chefInfo.useTablespoons === true) {
-    imperialStandards.push('tbsp')
-  }
-  if (chefInfo.useFluidOunces === true) {
-    imperialStandards.push('fl-oz')
-  }
-  if (chefInfo.useCups === true) {
-    imperialStandards.push('c')
-  }
-  if (chefInfo.usePints === true) {
-    imperialStandards.push('pt')
-  }
-  if (chefInfo.useQuarts === true) {
-    imperialStandards.push('qt')
-  }
-  if (chefInfo.useGallons === true) {
-    imperialStandards.push('gal')
-  }
-  if (chefInfo.useOunces === true) {
-    imperialStandards.push('oz')
-  }
-  if (chefInfo.usePounds === true) {
-    imperialStandards.push('lb')
-  }
-  if (chefInfo.useInches === true) {
-    imperialStandards.push('in')
-  }
+
 
   // Build custom array of metric standards based on whether chef wants to use them
   const metricStandards = []
-  if (chefInfo.useMillilitres === true) {
-    metricStandards.push('ml')
+  try {
+    if (chefInfo.useMillilitres === true) {
+      metricStandards.push('ml')
+    }
+    if (chefInfo.useLitres === true) {
+      metricStandards.push('l')
+    }
+    if (chefInfo.useGrams === true) {
+      metricStandards.push('g')
+    }
+    if (chefInfo.useKilograms === true) {
+      metricStandards.push('kg')
+    }
+    if (chefInfo.useCentimetres === true) {
+      metricStandards.push('cm')
+    }
+    if (chefInfo.useMillimetres === true) {
+      metricStandards.push('mm')
+    }
+  } catch (err) {
+
   }
-  if (chefInfo.useLitres === true) {
-    metricStandards.push('l')
-  }
-  if (chefInfo.useGrams === true) {
-    metricStandards.push('g')
-  }
-  if (chefInfo.useKilograms === true) {
-    metricStandards.push('kg')
-  }
-  if (chefInfo.useCentimetres === true) {
-    metricStandards.push('cm')
-  }
-  if (chefInfo.useMillimetres === true) {
-    metricStandards.push('mm')
-  }
+
 
   // Note this will occassionally crash due to the React mapping before loading array
   // Return array of the recipe's ingredients (which includes quantity, measurement and amount)
@@ -356,6 +376,18 @@ const IndividualRecipePage = ({ history, match }) => {
       {warningMessage !== '' && (
         <Message variant='danger'>{warningMessage}</Message>
       )}
+      {(chefInfo == null) && (
+        <Message variant='danger'>
+          <Link to='/login' style={{ paddingRight: '5px' }}>
+            Sign in
+          </Link>
+          or
+          <Link to='/register' style={{ padding: '0px 5px 0px 5px' }}>
+            create an account
+          </Link>
+          to get the most from RecipeBook
+        </Message>
+      )}
       {successMessage !== '' && (
         <Message variant='success'>
           {successMessage}
@@ -383,7 +415,13 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '25px'}} type='submit' onClick={(e) => setSave('')}>
+                  <Button
+                    variant='link'
+                    style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
+                    type='submit'
+                    onClick={(e) => setSave('')}
+                    disabled={(chefInfo == null) ? true : false}
+                  >
                     <FaTimes />
                   </Button>
                 </OverlayTrigger>
@@ -400,7 +438,13 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ marginRight: '12.25px', padding: 0, height: '25px'}} type='submit' onClick={(e) => setSave('')}>
+                  <Button
+                    variant='link'
+                    style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
+                    type='submit'
+                    onClick={(e) => setSave('')}
+                    disabled={(chefInfo == null) ? true : false}
+                  >
                     <FaBookMedical />
                   </Button>
                 </OverlayTrigger>
@@ -424,7 +468,13 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ padding: 0, height: '25px'}} type='submit' onClick={(e) => setVote(1)}>
+                  <Button
+                    variant='link'
+                    style={{ padding: 0, height: '25px'}}
+                    type='submit'
+                    onClick={(e) => setVote(1)}
+                    disabled={(chefInfo == null) ? true : false}
+                  >
                     <FaThumbsUp style={{ marginLeft: '5px'}}/>
                   </Button>
                 </OverlayTrigger>
@@ -447,7 +497,13 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                  <Button variant='link' style={{ padding: 0, height: '25px'}} type='submit' onClick={(e) => setVote(-1)}>
+                  <Button
+                    variant='link'
+                    style={{ padding: 0, height: '25px'}}
+                    type='submit'
+                    onClick={(e) => setVote(-1)}
+                    disabled={(chefInfo == null) ? true : false}
+                  >
                     <FaThumbsDown style={{ marginLeft: '5px'}}/>
                   </Button>
                 </OverlayTrigger>
@@ -483,6 +539,7 @@ const IndividualRecipePage = ({ history, match }) => {
               label='Metric?'
               checked={isMetric}
               onChange={(e) => setIsMetric(e.target.checked)}
+              disabled={(chefInfo == null) ? true : false}
             />
           </Form.Group>
         </Col>
@@ -516,7 +573,13 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Tooltip>
                   }
                 >
-                <Button variant='link' style={{ padding: 0, height: '0px', margin: '0 auto'}} type='submit' onClick={(e) => setSaveIngredients('')}>
+                <Button
+                  variant='link'
+                  style={{ padding: 0, height: '0px', margin: '0 auto'}}
+                  type='submit'
+                  onClick={(e) => setSaveIngredients('')}
+                  disabled={(chefInfo == null) ? true : false}
+                >
                   <FaFileDownload style={{ marginLeft: '5px'}}/>
                 </Button>
                 </OverlayTrigger>
