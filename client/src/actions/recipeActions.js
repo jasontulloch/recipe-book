@@ -79,20 +79,23 @@ export const listAdvancedSearchRecipes = (
   keywordIsNuts = '',
   keywordIsShellfish = '',
   keywordIsSoy = '',
+  keywordIsWheat = '',
   keywordIsBreakfastBrunch = '',
   keywordIsMainDish = '',
   keywordIsSideSauce = '',
   keywordIsDessert = '',
   keywordIsSnack = '',
   keywordIsAppetizer = '',
-  keywordIsDrink = ''
+  keywordIsDrink = '',
+  createdAtSort = '',
+  netVotesSort = ''
 ) => async (dispatch) => {
 
   try {
     dispatch({ type: RECIPE_LIST_ADVANCED_SEARCH_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}&keywordIsGlutenFree=${keywordIsGlutenFree}&keywordIsKetogenic=${keywordIsKetogenic}&keywordIsDairy=${keywordIsDairy}&keywordIsEgg=${keywordIsEgg}&keywordIsNuts=${keywordIsNuts}&keywordIsShellfish=${keywordIsShellfish}&keywordIsSoy=${keywordIsSoy}&keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}&keywordIsMainDish=${keywordIsMainDish}&keywordIsSideSauce=${keywordIsSideSauce}&keywordIsDessert=${keywordIsDessert}&keywordIsSnack=${keywordIsSnack}&keywordIsAppetizer=${keywordIsAppetizer}&keywordIsDrink=${keywordIsDrink}`
+      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}&keywordIsGlutenFree=${keywordIsGlutenFree}&keywordIsKetogenic=${keywordIsKetogenic}&keywordIsDairy=${keywordIsDairy}&keywordIsEgg=${keywordIsEgg}&keywordIsNuts=${keywordIsNuts}&keywordIsShellfish=${keywordIsShellfish}&keywordIsSoy=${keywordIsSoy}&keywordIsWheat=${keywordIsWheat}&keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}&keywordIsMainDish=${keywordIsMainDish}&keywordIsSideSauce=${keywordIsSideSauce}&keywordIsDessert=${keywordIsDessert}&keywordIsSnack=${keywordIsSnack}&keywordIsAppetizer=${keywordIsAppetizer}&keywordIsDrink=${keywordIsDrink}&createdAtSort=${createdAtSort}&netVotesSort=${netVotesSort}`
     )
 
     dispatch({

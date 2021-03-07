@@ -147,6 +147,12 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
+  const keywordIsWheat = req.query.keywordIsWheat ? {
+    isWheat: {
+      $eq: req.query.keywordIsWheat
+    }
+  } : {}
+
   const keywordIsBreakfastBrunch = req.query.keywordIsBreakfastBrunch ? {
     isBreakfastBrunch: {
       $eq: req.query.keywordIsBreakfastBrunch
@@ -184,6 +190,11 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
+  // Sort will order createdAt from newest to older (-1) to flip
+  const netVotesSort = req.query.netVotesSort
+  const createdAtSort = req.query.createdAtSort
+  const trendingSort = 0
+
   //const pageSize = 4
   //const page = Number(req.query.pageNumber) || 1
 
@@ -204,6 +215,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsNuts},
       {...keywordIsShellfish},
       {...keywordIsSoy},
+      {...keywordIsWheat},
       {...keywordIsBreakfastBrunch},
       {...keywordIsMainDish},
       {...keywordIsSideSauce},
@@ -212,7 +224,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsAppetizer},
       {...keywordIsDrink}
     ],
-  })
+  }).sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
 
   //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
 
@@ -368,6 +380,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     isNuts,
     isShellfish,
     isSoy,
+    isWheat,
     isBreakfastBrunch,
     isMainDish,
     isSideSauce,
@@ -396,6 +409,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     recipe.isNuts = isNuts
     recipe.isShellfish = isShellfish
     recipe.isSoy = isSoy
+    recipe.isWheat = isWheat
     recipe.isBreakfastBrunch = isBreakfastBrunch
     recipe.isMainDish = isMainDish
     recipe.isSideSauce = isSideSauce

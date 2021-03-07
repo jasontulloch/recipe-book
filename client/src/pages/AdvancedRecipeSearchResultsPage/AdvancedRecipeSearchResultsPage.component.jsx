@@ -8,6 +8,7 @@ import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
 
 import Paginate from '../../components/Paginate/Paginate.component';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
+import SortButton from '../../components/SortButton/SortButton.component';
 import Message from '../../components/Message/Message.component';
 
 const AdvancedRecipeSearchResultsPage = ({ match }) => {
@@ -26,6 +27,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const keywordIsNuts = match.params.keywordIsNuts || ''
   const keywordIsShellfish = match.params.keywordIsShellfish || ''
   const keywordIsSoy = match.params.keywordIsSoy || ''
+  const keywordIsWheat = match.params.keywordIsWheat || ''
   const keywordIsBreakfastBrunch = match.params.keywordIsBreakfastBrunch || ''
   const keywordIsMainDish = match.params.keywordIsMainDish || ''
   const keywordIsSideSauce = match.params.keywordIsSideSauce || ''
@@ -67,6 +69,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         keywordIsNuts,
         keywordIsShellfish,
         keywordIsSoy,
+        keywordIsWheat,
         keywordIsBreakfastBrunch,
         keywordIsMainDish,
         keywordIsSideSauce,
@@ -92,6 +95,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordIsNuts,
     keywordIsShellfish,
     keywordIsSoy,
+    keywordIsWheat,
     keywordIsBreakfastBrunch,
     keywordIsMainDish,
     keywordIsSideSauce,
@@ -109,7 +113,14 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <h1>Custom Searched Recipes</h1>
+          <Row>
+            <Col>
+              <h1>Custom Searched Recipes</h1>
+            </Col>
+            <Col>
+              <SortButton />
+            </Col>
+          </Row>
           <Row>
             {recipes.recipes && recipes.recipes.map((recipe) => (
               <Col key={recipe._id} xs={6} sm={6} md={4} lg={3} xl={3}>

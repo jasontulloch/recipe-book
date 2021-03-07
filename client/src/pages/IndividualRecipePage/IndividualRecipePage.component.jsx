@@ -241,6 +241,9 @@ const IndividualRecipePage = ({ history, match }) => {
   if (recipe.isSoy === true) {
     Allergins.push('Soy')
   }
+  if (recipe.isWheat === true) {
+    Allergins.push('Wheat')
+  }
 
   // Function converts the time in minutes from Mongo to read as Hrs + Mins
   function time_convert(value) {

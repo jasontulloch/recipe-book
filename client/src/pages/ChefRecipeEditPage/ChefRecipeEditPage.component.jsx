@@ -35,6 +35,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [isNuts, setIsNuts] = useState(false)
   const [isShellfish, setIsShellfish] = useState(false)
   const [isSoy, setIsSoy] = useState(false)
+  const [isWheat, setIsWheat] = useState(false)
   const [isBreakfastBrunch, setIsBreakfastBrunch] = useState(false)
   const [isMainDish, setIsMainDish] = useState(false)
   const [isSideSauce, setIsSideSauce] = useState(false)
@@ -88,6 +89,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         setIsNuts(recipe.isNuts)
         setIsShellfish(recipe.isShellfish)
         setIsSoy(recipe.isSoy)
+        setIsWheat(recipe.isWheat)
         setIsBreakfastBrunch(recipe.isBreakfastBrunch)
         setIsMainDish(recipe.isMainDish)
         setIsSideSauce(recipe.isSideSauce)
@@ -154,6 +156,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         isNuts,
         isShellfish,
         isSoy,
+        isWheat,
         isBreakfastBrunch,
         isMainDish,
         isSideSauce,
@@ -591,6 +594,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       label='Contains Soy?'
                       checked={isSoy}
                       onChange={(e) => setIsSoy(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Contains Wheat?'
+                      checked={isWheat}
+                      onChange={(e) => setIsWheat(e.target.checked)}
                     />
                   </Form.Group>
                 </Col>

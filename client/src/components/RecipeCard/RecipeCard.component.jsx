@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { RiPlantFill, RiLeafFill } from 'react-icons/ri';
 import { FaBreadSlice, FaVoteYea } from 'react-icons/fa';
-import { GiAvocado, GiMilkCarton, GiRawEgg, GiPeanut, GiNautilusShell, GiCoffeeBeans } from 'react-icons/gi';
+import { GiAvocado, GiMilkCarton, GiRawEgg, GiPeanut, GiNautilusShell, GiCoffeeBeans, GiWheat } from 'react-icons/gi';
 
 const RecipeCardImage = ({ recipe }) => {
 
@@ -127,6 +127,18 @@ const RecipeCardImage = ({ recipe }) => {
                   }
                 >
                   <span><GiCoffeeBeans /></span>
+                </OverlayTrigger>
+              )}
+              {(recipe.isWheat === true) && (
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Contains wheat
+                    </Tooltip>
+                  }
+                >
+                  <span><GiWheat /></span>
                 </OverlayTrigger>
               )}
             </Col>

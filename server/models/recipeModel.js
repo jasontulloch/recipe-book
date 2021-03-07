@@ -91,6 +91,11 @@ const recipeSchema = mongoose.Schema(
       required: true,
       default: false
     },
+    isWheat: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     isBreakfastBrunch: {
       type: Boolean,
       required: true,
