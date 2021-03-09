@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
-import { listRecipes } from '../../actions/recipeActions';
+import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
 
-const SortButton = ({ history }) => {
+const SortButton = () => {
 
   const [netVotesSort, setNetVotesSort] = useState('')
   const [createdAtSort, setCreatedAtSort] = useState(-1)
   const [sortButtonLabel, setSortButtonLabel] = useState('Most Recent')
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(listRecipes(createdAtSort, netVotesSort))
-  }, [dispatch, createdAtSort, netVotesSort])
 
   const handleMostRecent = (e) => {
     e.preventDefault()

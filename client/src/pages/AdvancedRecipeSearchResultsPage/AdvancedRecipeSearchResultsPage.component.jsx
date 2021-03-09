@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Button, DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
 
 import Paginate from '../../components/Paginate/Paginate.component';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
-import SortButton from '../../components/SortButton/SortButton.component';
+//import SortButton from '../../components/SortButton/SortButton.component';
 import Message from '../../components/Message/Message.component';
 
 const AdvancedRecipeSearchResultsPage = ({ match }) => {
@@ -51,6 +51,10 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     setTimeout(() => setInitialLoader(false), 3000)
   }
 
+  const [netVotesSort, setNetVotesSort] = useState(-1)
+  const [createdAtSort, setCreatedAtSort] = useState(-1)
+  const [sortButtonLabel, setSortButtonLabel] = useState('Most Recent')
+
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
     dispatch(
@@ -76,7 +80,9 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         keywordIsDessert,
         keywordIsSnack,
         keywordIsAppetizer,
-        keywordIsDrink
+        keywordIsDrink,
+        netVotesSort,
+        createdAtSort
       )
     )
   }, [
@@ -102,8 +108,31 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordIsDessert,
     keywordIsSnack,
     keywordIsAppetizer,
-    keywordIsDrink
+    keywordIsDrink,
+    netVotesSort,
+    createdAtSort
   ])
+
+  const handleMostRecent = (e) => {
+    e.preventDefault()
+    setNetVotesSort('')
+    setCreatedAtSort(-1)
+    setSortButtonLabel('Most Recent')
+  }
+
+  const handleHighestRanking = (e) => {
+    e.preventDefault()
+    setCreatedAtSort(-1)
+    setNetVotesSort(-1)
+    setSortButtonLabel('Highest Ranking')
+  }
+
+  const handleLowestRanking = (e) => {
+    e.preventDefault()
+    setCreatedAtSort('')
+    setNetVotesSort(1)
+    setSortButtonLabel('Lowest Ranking')
+  }
 
   return (
     <div>
@@ -117,8 +146,12 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
             <Col>
               <h1>Custom Searched Recipes</h1>
             </Col>
-            <Col>
-              <SortButton />
+            <Col xs={12} md={3} style={{paddingBottom: '10px'}}>
+              <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
+                <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
+              </DropdownButton>
             </Col>
           </Row>
           <Row>
