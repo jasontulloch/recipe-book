@@ -6,7 +6,7 @@ import { Button, DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
 
-import Paginate from '../../components/Paginate/Paginate.component';
+import AdvancedSearchPaginate from '../../components/AdvancedSearchPaginate/AdvancedSearchPaginate.component';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 //import SortButton from '../../components/SortButton/SortButton.component';
 import Message from '../../components/Message/Message.component';
@@ -36,12 +36,11 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const keywordIsAppetizer = match.params.keywordIsAppetizer || ''
   const keywordIsDrink = match.params.keywordIsDrink || ''
   const pageNumber = match.params.pageNumber || 1
-  const urlBaseRecipes = true
 
   const dispatch = useDispatch()
 
   const recipeListAdvancedSearch = useSelector(state => state.recipeListAdvancedSearch)
-  const { loading, error, recipes } = recipeListAdvancedSearch
+  const { loading, error, recipes, pages, page } = recipeListAdvancedSearch
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
@@ -82,7 +81,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         keywordIsAppetizer,
         keywordIsDrink,
         netVotesSort,
-        createdAtSort
+        createdAtSort,
+        pageNumber
       )
     )
   }, [
@@ -110,7 +110,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordIsAppetizer,
     keywordIsDrink,
     netVotesSort,
-    createdAtSort
+    createdAtSort,
+    pageNumber
   ])
 
   const handleMostRecent = (e) => {
@@ -176,6 +177,19 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
               </Col>
             )}
           </Row>
+          {recipes.recipes && (
+            <Row>
+              <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+                <AdvancedSearchPaginate
+                  pages={pages}
+                  page={page}
+                  keywordCookTimeMax={keywordCookTimeMax ? keywordCookTimeMax : ''}
+                  keywordCookTimeMin={keywordCookTimeMin ? keywordCookTimeMin : ''}
+                  keywordRecipeName={keywordRecipeName ? keywordRecipeName : ''}
+                />
+              </Col>
+            </Row>
+          )}
         </div>
       )}
     </div>

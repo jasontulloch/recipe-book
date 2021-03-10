@@ -73,7 +73,9 @@ export const recipeListAdvancedSearchReducer = (state = { recipes: [] }, action)
     case RECIPE_LIST_ADVANCED_SEARCH_SUCCESS:
       return {
         loading: false,
-        recipes: action.payload
+        recipes: action.payload.recipes,
+        pages: action.payload.pages,
+        page: action.payload.page
       }
     case RECIPE_LIST_ADVANCED_SEARCH_FAILURE:
       return { loading: false, error: action.payload}

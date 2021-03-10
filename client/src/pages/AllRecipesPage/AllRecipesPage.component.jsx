@@ -109,7 +109,6 @@ const HomeScreen = ({ match }) => {
               />
             </Col>
           </Row>
-
         </div>
       )}
     </div>

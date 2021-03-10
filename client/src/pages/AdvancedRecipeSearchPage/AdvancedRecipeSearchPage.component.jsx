@@ -166,13 +166,13 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
     } else if (keywordCountry.trim() && keywordChefName.trim() && !keywordRecipeName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}/keywordChefName=${keywordChefName}/`)
     } else if (keywordRecipeName.trim() && !keywordCountry.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
-      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}`)
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordRecipeName=${keywordRecipeName}/page/1`)
     } else if (keywordCountry.trim() && !keywordRecipeName.trim() && !keywordChefName.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordCountry=${keywordCountry}`)
     } else if (keywordChefName.trim() && !keywordRecipeName.trim() && !keywordCountry.trim() && searchByDiet == false && searchByAllergin == false && searchByMealCourseType == false) {
       history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/keywordChefName=${keywordChefName}`)
     } else {
-      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}`)
+      history.push(`/recipes/advanced-search-results/keywordCookTimeMin=${keywordCookTimeMin}/keywordCookTimeMax=${keywordCookTimeMax}/page/1`)
     }
   }
 
