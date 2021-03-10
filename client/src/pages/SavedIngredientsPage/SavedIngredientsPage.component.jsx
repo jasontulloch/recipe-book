@@ -354,13 +354,21 @@ const SavedIngredientsPage = ({ history }) => {
                 </Col>
               </Form.Group>
             </Form>
-            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'right'}}>
-              <Button variant='primary' style={{padding: '5px', marginRight: '5px'}}>
+            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
+              <Button
+                variant='primary'
+                style={{padding: '0px', marginTop: '5px', marginRight: '0px', width: '200px' }}
+                disabled
+              >
                 Email Grocery List
               </Button>
             </Col>
-            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'left'}}>
-              <Button variant='primary' style={{padding: '5px', marginLeft: '5px'}}>
+            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
+              <Button
+                variant='primary'
+                style={{padding: '0px', marginTop: '5px', marginLeft: '0px', width: '200px' }}
+                disabled
+              >
                 Text Grocery List
               </Button>
             </Col>
@@ -398,61 +406,61 @@ const SavedIngredientsPage = ({ history }) => {
                   </Row>
               ))}
             </Col>
-            <Form onSubmit={addNewIngredientHandler}>
-              <Row>
-                <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px' }}>
-                  <Form.Label>Add a new ingredient</Form.Label>
-                </Col>
-                <Col xs={12} sm={12} md={4} lg={4} xl={4}>
-                  <Form.Group controlId='newIngredientQuantity'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='1/3'
-                      required
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col xs={12} sm={12} md={4} lg={4} xl={4}>
-                  <Form.Group controlId='newIngredientMeasurement'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='Cup'
-                      required
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col xs={12} sm={12} md={4} lg={4} xl={4}>
-                  <Form.Group controlId='newIngredientName'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='Basmati Rice'
-                      required
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Col style={{padding: '5px 5px 15px 5px', textAlign: 'center' }}>
-                <Button type='submit' variant='primary'>
-                  Add New Ingredient
-                </Button>
+          </Row>
+          <Form onSubmit={addNewIngredientHandler}>
+            <Row style={{textAlign: 'center'}}>
+              <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px', textAlign: 'center' }}>
+                <Form.Label>Add a new ingredient</Form.Label>
               </Col>
-            </Form>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
-              <Button
-                variant='primary'
-                style={{padding: '5px', marginLeft: '5px'}}
-                onClick={clearAllIngredientsHandler}
-              >
-                Clear All Ingredients
+              <Col xs={12} sm={12} md={6} lg={6} xl={4}>
+                <Form.Group controlId='newIngredientQuantity'>
+                  <Form.Control
+                    key='index'
+                    type='text'
+                    placeholder='1/3'
+                    required
+                  >
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col xs={12} sm={12} md={6} lg={6} xl={4}>
+                <Form.Group controlId='newIngredientMeasurement'>
+                  <Form.Control
+                    key='index'
+                    type='text'
+                    placeholder='Cup'
+                    required
+                  >
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col xs={12} sm={12} md={12} lg={12} xl={4}>
+                <Form.Group controlId='newIngredientName'>
+                  <Form.Control
+                    key='index'
+                    type='text'
+                    placeholder='Basmati Rice'
+                    required
+                  >
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Col style={{padding: '5px 5px 15px 5px', textAlign: 'center' }}>
+              <Button type='submit' variant='primary'>
+                Add New Ingredient
               </Button>
             </Col>
-          </Row>
+          </Form>
+          <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
+            <Button
+              variant='primary'
+              style={{padding: '5px', marginLeft: '5px'}}
+              onClick={clearAllIngredientsHandler}
+            >
+              Clear All Ingredients
+            </Button>
+          </Col>
         </div>
       )}
     </div>
