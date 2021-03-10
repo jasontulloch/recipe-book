@@ -10,7 +10,7 @@ const SearchBox = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     if(keywordRecipeName.trim()) {
-      history.push(`/recipes/search/keywordRecipeName=${keywordRecipeName}`)
+      history.push(`/recipes/search/keywordRecipeName=${keywordRecipeName}/page/1`)
       // Need to set keyword recipe name to another variable and then clear
     } else {
       history.push('/recipes')

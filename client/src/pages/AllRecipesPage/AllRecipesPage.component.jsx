@@ -12,8 +12,8 @@ import Message from '../../components/Message/Message.component';
 
 const HomeScreen = ({ match }) => {
   const keywordRecipeName = match.params.keywordRecipeName
-  //const pageNumber = match.params.pageNumber || 1
-  //const urlBaseRecipes = true
+  const pageNumber = match.params.pageNumber || 1
+  const urlBaseRecipes = true
 
   // Sorting variables
   const [netVotesSort, setNetVotesSort] = useState('')
@@ -23,15 +23,15 @@ const HomeScreen = ({ match }) => {
   const dispatch = useDispatch()
 
   const recipeList = useSelector(state => state.recipeList)
-  const { loading, error, recipes } = recipeList
+  const { loading, error, recipes, pages, page } = recipeList
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
   // This is firing off the action to get products in state
   useEffect(() => {
-    dispatch(listRecipes(keywordRecipeName, createdAtSort, netVotesSort))
-  }, [dispatch, keywordRecipeName, createdAtSort, netVotesSort])
+    dispatch(listRecipes(keywordRecipeName, createdAtSort, netVotesSort, pageNumber))
+  }, [dispatch, keywordRecipeName, createdAtSort, netVotesSort, pageNumber])
 
   const [initialLoader, setInitialLoader] = useState(true)
   if (loading !== true) {
@@ -99,6 +99,17 @@ const HomeScreen = ({ match }) => {
               </Col>
             )}
           </Row>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+              <Paginate
+                pages={pages}
+                page={page}
+                keywordRecipeName={keywordRecipeName ? keywordRecipeName : ''}
+                urlBaseRecipes={urlBaseRecipes}
+              />
+            </Col>
+          </Row>
+
         </div>
       )}
     </div>

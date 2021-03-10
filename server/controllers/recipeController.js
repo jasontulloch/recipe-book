@@ -6,7 +6,7 @@ import Chef from '../models/chefModel.js';
 // @route GET /api/recipes
 // @access Public
 const getRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 4
+  const pageSize = 2
   const page = Number(req.query.pageNumber) || 1
 
   // If there is a keyword query, then return
@@ -26,29 +26,20 @@ const getRecipes = asyncHandler(async (req, res) => {
   const createdAtSort = req.query.createdAtSort
   const trendingSort = 0
 
-
-
   const recipes = await Recipe.find({ ...keywordRecipeName })
     .sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
-    //.limit(pageSize)
-    //.skip(pageSize * (page - 1))
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
 
-  res.json({ recipes })
-  //res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @description Fetch all recipes (advanced search)
 // @route GET /api/recipes/search
 // @access Public
 const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
-  //Note we only need the image and maybe a few other pieces (don't get full recipe)
-
-  //const finalSearch = newCountryRecipes
-  //  .limit(pageSize)
-  //  .skip(pageSize * (page - 1))
-
-  // Note: This is how you count, below
-  //const count = newCountryRecipes.length
+  const pageSize = 2
+  const page = Number(req.query.pageNumber) || 1
 
   const keywordRecipeName = req.query.keywordRecipeName ? {
     recipe_name: {
@@ -195,8 +186,32 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
   const createdAtSort = req.query.createdAtSort
   const trendingSort = 0
 
-  //const pageSize = 4
-  //const page = Number(req.query.pageNumber) || 1
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...keywordRecipeName},
+      {...keywordCountry},
+      {...keywordChefId},
+      {...keywordCookTimeMin},
+      {...keywordCookTimeMax},
+      {...keywordIsVegan},
+      {...keywordIsVegetarian},
+      {...keywordIsGlutenFree},
+      {...keywordIsKetogenic},
+      {...keywordIsDairy},
+      {...keywordIsEgg},
+      {...keywordIsNuts},
+      {...keywordIsShellfish},
+      {...keywordIsSoy},
+      {...keywordIsWheat},
+      {...keywordIsBreakfastBrunch},
+      {...keywordIsMainDish},
+      {...keywordIsSideSauce},
+      {...keywordIsDessert},
+      {...keywordIsSnack},
+      {...keywordIsAppetizer},
+      {...keywordIsDrink}
+    ]
+  })
 
   const recipes = await Recipe.find({
     //and below is finding both (don't technically need the and)
@@ -224,19 +239,12 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsAppetizer},
       {...keywordIsDrink}
     ],
-  }).sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
+  })
+  .sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
+  .limit(pageSize)
+  .skip(pageSize * (page - 1))
 
-  //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
-
-  res.json({ recipes })
-
-  //const count = await Recipe.countDocuments({ ...keywordRecipeName }).countDocuments({ ...keywordCountry })
-
-  //const recipes = await Recipe.find({ ...keywordRecipeName }).find({ ...keywordCountry })
-  //  .limit(pageSize)
-  //  .skip(pageSize * (page - 1))
-
-  //  res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) })
 
 })
 

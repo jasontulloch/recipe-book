@@ -41,12 +41,18 @@ import {
   RECIPE_SAVE_INGREDIENTS_FAILURE
 } from '../constants/recipeConstants';
 
-export const listRecipes = (keywordRecipeName = '', createdAtSort = '', netVotesSort = '') => async (dispatch) => {
+export const listRecipes = (
+  keywordRecipeName = '',
+  createdAtSort = '',
+  netVotesSort = '',
+  pageNumber = ''
+) => async (dispatch) => {
+
   try {
     dispatch({ type: RECIPE_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes?keywordRecipeName=${keywordRecipeName}&createdAtSort=${createdAtSort}&netVotesSort=${netVotesSort}`
+      `/api/recipes?keywordRecipeName=${keywordRecipeName}&createdAtSort=${createdAtSort}&netVotesSort=${netVotesSort}&pageNumber=${pageNumber}`
     )
 
     dispatch({

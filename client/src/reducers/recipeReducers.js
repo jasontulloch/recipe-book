@@ -47,6 +47,7 @@ import {
   RECIPE_SAVE_INGREDIENTS_RESET,
 } from '../constants/recipeConstants';
 
+// Returning recipes, pages, and page to match what is returned in the controller
 export const recipeListReducer = (state = { recipes: [] }, action) => {
   switch (action.type) {
     case RECIPE_LIST_REQUEST:
@@ -54,7 +55,9 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
     case RECIPE_LIST_SUCCESS:
       return {
         loading: false,
-        recipes: action.payload.recipes
+        recipes: action.payload.recipes,
+        pages: action.payload.pages,
+        page: action.payload.page
       }
     case RECIPE_LIST_FAILURE:
       return { loading: false, error: action.payload}
