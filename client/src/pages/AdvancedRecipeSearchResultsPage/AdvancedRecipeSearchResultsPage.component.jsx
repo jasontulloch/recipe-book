@@ -135,6 +135,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     setSortButtonLabel('Lowest Ranking')
   }
 
+  console.log(recipes)
+
   return (
     <div>
       {initialLoader ?  (
@@ -156,12 +158,12 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
             </Col>
           </Row>
           <Row>
-            {recipes.recipes && recipes.recipes.map((recipe) => (
+            {recipes && recipes.map((recipe) => (
               <Col key={recipe._id} xs={6} sm={6} md={4} lg={3} xl={3}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
-            {(recipes.recipes === undefined || recipes.recipes.length == 0) && (
+            {(recipes === undefined || recipes.length == 0) && (
               <Col style={{textAlign: 'center', paddingTop: '100px'}}>
                 <p >Looks like we couldn't find any recipes, add your own or update your search!</p>
                 <LinkContainer to={`/myrecipes`}>
@@ -177,7 +179,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
               </Col>
             )}
           </Row>
-          {recipes.recipes && (
+
             <Row>
               <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                 <AdvancedSearchPaginate
@@ -186,10 +188,15 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
                   keywordCookTimeMax={keywordCookTimeMax ? keywordCookTimeMax : ''}
                   keywordCookTimeMin={keywordCookTimeMin ? keywordCookTimeMin : ''}
                   keywordRecipeName={keywordRecipeName ? keywordRecipeName : ''}
+                  keywordCountry={keywordCountry ? keywordCountry : ''}
+                  keywordIsVegan={keywordIsVegan ? keywordIsVegan : ''}
+                  keywordIsVegetarian={keywordIsVegetarian ? keywordIsVegetarian : ''}
+                  keywordIsGlutenFree={keywordIsGlutenFree ? keywordIsGlutenFree : ''}
+                  keywordIsKetogenic={keywordIsKetogenic ? keywordIsKetogenic : ''}
                 />
               </Col>
             </Row>
-          )}
+
         </div>
       )}
     </div>
