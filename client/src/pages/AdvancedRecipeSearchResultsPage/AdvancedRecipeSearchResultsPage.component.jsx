@@ -135,8 +135,6 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     setSortButtonLabel('Lowest Ranking')
   }
 
-  console.log(recipes)
-
   return (
     <div>
       {initialLoader ?  (
@@ -193,6 +191,19 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
                   keywordIsVegetarian={keywordIsVegetarian ? keywordIsVegetarian : ''}
                   keywordIsGlutenFree={keywordIsGlutenFree ? keywordIsGlutenFree : ''}
                   keywordIsKetogenic={keywordIsKetogenic ? keywordIsKetogenic : ''}
+                  keywordIsDairy={keywordIsDairy ? keywordIsDairy : ''}
+                  keywordIsEgg={keywordIsEgg ? keywordIsEgg : ''}
+                  keywordIsNuts={keywordIsNuts ? keywordIsNuts : ''}
+                  keywordIsShellfish={keywordIsShellfish ? keywordIsShellfish : ''}
+                  keywordIsSoy={keywordIsSoy ? keywordIsSoy : ''}
+                  keywordIsWheat={keywordIsWheat ? keywordIsWheat : ''}
+                  keywordIsBreakfastBrunch={keywordIsBreakfastBrunch ? keywordIsBreakfastBrunch : ''}
+                  keywordIsMainDish={keywordIsMainDish ? keywordIsMainDish : ''}
+                  keywordIsSideSauce={keywordIsSideSauce ? keywordIsSideSauce : ''}
+                  keywordIsDessert={keywordIsDessert ? keywordIsDessert : ''}
+                  keywordIsSnack={keywordIsSnack ? keywordIsSnack : ''}
+                  keywordIsAppetizer={keywordIsAppetizer ? keywordIsAppetizer : ''}
+                  keywordIsDrink={keywordIsDrink ? keywordIsDrink : ''}
                 />
               </Col>
             </Row>
