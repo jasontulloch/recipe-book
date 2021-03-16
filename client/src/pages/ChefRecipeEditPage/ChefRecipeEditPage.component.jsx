@@ -43,6 +43,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [isSnack, setIsSnack] = useState(false)
   const [isAppetizer, setIsAppetizer] = useState(false)
   const [isDrink, setIsDrink] = useState(false)
+  const [notes, setNotes] = useState('')
   const [recipe_cover_image, setRecipeCoverImage] = useState('')
   const [uploading, setUploading] = useState(false)
 
@@ -97,6 +98,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         setIsSnack(recipe.isSnack)
         setIsAppetizer(recipe.isAppetizer)
         setIsDrink(recipe.isDrink)
+        setNotes(recipe.notes)
         setRecipeCoverImage(recipe.recipe_cover_image)
       }
     }
@@ -164,6 +166,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         isSnack,
         isAppetizer,
         isDrink,
+        notes,
         recipe_cover_image
       })
     )
@@ -406,6 +409,17 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       </Form.Group>
                       <Form.Text className='muted'>Note: Hit enter to add the new step and the update button below to save.</Form.Text>
                     </ol>
+                    <Form.Group style={{margin: '0px 0px 0px 0px', borderTop: '1px dotted'}}>
+                      <Form.Label style={{paddingTop: '10px'}}>Any general notes about the recipe?</Form.Label>
+                      <Form.Control
+                          type='text'
+                          placeholder='Enter recipe notes'
+                          value={notes}
+                          maxLength={300}
+                          onChange={(e) => setNotes(e.target.value)}
+                        >
+                      </Form.Control>
+                    </Form.Group>
                   </Form.Group>
                 </Col>
               </Row>

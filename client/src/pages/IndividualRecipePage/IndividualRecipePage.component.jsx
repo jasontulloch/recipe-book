@@ -604,6 +604,14 @@ const IndividualRecipePage = ({ history, match }) => {
           </ol>
         </Col>
         <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
+          {recipe.notes && recipe.notes !== '' && (
+            <div>
+              <h4>Recipe Notes</h4>
+              <p>{recipe.notes}</p>
+            </div>
+          )}
+        </Col>
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
           <RecipeImagesModal recipe={recipe}/>
         </Col>
       </Row>

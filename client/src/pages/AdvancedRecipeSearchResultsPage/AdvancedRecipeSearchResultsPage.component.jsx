@@ -147,6 +147,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
             <Col>
               <h1>Custom Searched Recipes</h1>
             </Col>
+            {(recipes && recipes.length > 1) && (
             <Col xs={12} md={3} style={{paddingBottom: '10px'}}>
               <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                 <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
@@ -154,6 +155,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
                 <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
               </DropdownButton>
             </Col>
+            )}
           </Row>
           <Row>
             {recipes && recipes.map((recipe) => (

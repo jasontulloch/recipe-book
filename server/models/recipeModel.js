@@ -137,6 +137,10 @@ const recipeSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    notes: {
+      type: String,
+      required: false
+    },
   }, {
     timestamps: true,
   }

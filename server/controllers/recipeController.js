@@ -397,6 +397,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     isAppetizer,
     isDrink,
     recipe_cover_image,
+    notes,
   } = req.body
 
   const recipe = await Recipe.findById(req.params.id)
@@ -426,6 +427,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     recipe.isAppetizer = isAppetizer
     recipe.isDrink = isDrink
     recipe.recipe_cover_image = recipe_cover_image
+    recipe.notes = notes
 
     const updatedRecipe = await recipe.save()
     res.json(updatedRecipe)
