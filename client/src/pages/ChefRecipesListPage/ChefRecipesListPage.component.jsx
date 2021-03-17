@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,8 @@ import {
   deleteRecipe,
 } from '../../actions/recipeActions';
 import { RECIPE_CREATE_RESET } from '../../constants/recipeConstants';
+
+import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
 const ChefRecipesListPage = ({ match , history }) => {
 
@@ -33,6 +35,11 @@ const ChefRecipesListPage = ({ match , history }) => {
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
+
+  const [initialLoader, setInitialLoader] = useState(true)
+  if (loading !== true) {
+    setTimeout(() => setInitialLoader(false), 2000)
+  }
 
   useEffect(() => {
     dispatch({ type: RECIPE_CREATE_RESET })
@@ -67,61 +74,65 @@ const ChefRecipesListPage = ({ match , history }) => {
 
   return (
       <div>
-        <Row>
-          <Col style={{textAlign:'center'}} xs={12} sm={12} md={8} lg={8} xl={8}>
-            <h1>My Recipes</h1>
-          </Col>
-          <Col xs={12} sm={12} md={4} lg={4} xl={4} style={{ textAlign: 'center', paddingBottom: '15px' }}>
-            <Button style={{margin: '0px', padding: '4px' }} onClick={createRecipeHandler}>
-              <i className='fas fa-plus'> Create a Recipe</i>
-            </Button>
-          </Col>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>RECIPE NAME</th>
-                <th>RATING</th>
-                <th>COUNTRY</th>
-                <th className='d-none d-md-table-cell'>COOK TIME</th>
-                <th className='d-none d-md-table-cell'>SERVING SIZE</th>
-                <th>EDIT</th>
-                <th>DELETE</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(myRecipes === undefined || myRecipes.length == 0) ? (
-                <div></div>
-              ) : (
-                myRecipes.map(recipe => (
-                  <tr key={recipe.id}>
-                    <td>{recipe.recipe_name}</td>
-                    <td>{recipe.netVotes}</td>
-                    <td>{recipe.country}</td>
-                    <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
-                    <td className='d-none d-md-table-cell'>{recipe.serving_size}</td>
-                    <td>
-                      <LinkContainer to={`/myrecipes/${recipe._id}/edit`}>
-                        <Button variant='light' className='btn-sm'>
-                          <i className='fas fa-edit'></i>
+        {initialLoader ?  (
+          <PancakeLoader>Collecting all of your recipes...</PancakeLoader>
+        ) : (
+          <Row>
+            <Col style={{textAlign:'center'}} xs={12} sm={12} md={8} lg={8} xl={8}>
+              <h1>My Recipes</h1>
+            </Col>
+            <Col xs={12} sm={12} md={4} lg={4} xl={4} style={{ textAlign: 'center', paddingBottom: '15px' }}>
+              <Button style={{margin: '0px', padding: '4px' }} onClick={createRecipeHandler}>
+                <i className='fas fa-plus'> Create a Recipe</i>
+              </Button>
+            </Col>
+            <Table striped bordered hover responsive className='table-sm'>
+              <thead>
+                <tr>
+                  <th>RECIPE NAME</th>
+                  <th>RATING</th>
+                  <th>COUNTRY</th>
+                  <th className='d-none d-md-table-cell'>COOK TIME</th>
+                  <th className='d-none d-md-table-cell'>SERVING SIZE</th>
+                  <th>EDIT</th>
+                  <th>DELETE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(myRecipes === undefined || myRecipes.length == 0) ? (
+                  <div></div>
+                ) : (
+                  myRecipes.map(recipe => (
+                    <tr key={recipe.id}>
+                      <td>{recipe.recipe_name}</td>
+                      <td>{recipe.netVotes}</td>
+                      <td>{recipe.country}</td>
+                      <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
+                      <td className='d-none d-md-table-cell'>{recipe.serving_size}</td>
+                      <td>
+                        <LinkContainer to={`/myrecipes/${recipe._id}/edit`}>
+                          <Button variant='light' className='btn-sm'>
+                            <i className='fas fa-edit'></i>
+                          </Button>
+                        </LinkContainer>
+                      </td>
+                      <td>
+                        <Button
+                          variant='danger'
+                          className='btn-sm'
+                          onClick={() => deleteHandler(recipe._id)}
+                        >
+                          <i className='fas fa-trash'></i>
                         </Button>
-                      </LinkContainer>
-                    </td>
-                    <td>
-                      <Button
-                        variant='danger'
-                        className='btn-sm'
-                        onClick={() => deleteHandler(recipe._id)}
-                      >
-                        <i className='fas fa-trash'></i>
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-              )
-            }
-            </tbody>
-          </Table>
-        </Row>
+                      </td>
+                    </tr>
+                  ))
+                )
+              }
+              </tbody>
+            </Table>
+          </Row>
+        )}
       </div>
   )
 }
