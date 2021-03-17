@@ -183,7 +183,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
       setKeywordIsVegetarian(chefInfo.isVegetarian)
       setKeywordIsGlutenFree(chefInfo.isGlutenFree)
       setKeywordIsKetogenic(chefInfo.isKetogenic)
-      setKeywordIsPescatarian(chefInfo.keywordIsPescatarian)
+      setKeywordIsPescatarian(chefInfo.isPescatarian)
       setKeywordIsDairy(chefInfo.isDairy)
       setKeywordIsEgg(chefInfo.isEgg)
       setKeywordIsNuts(chefInfo.isNuts)
