@@ -80,6 +80,7 @@ export const listAdvancedSearchRecipes = (
   keywordIsVegetarian = '',
   keywordIsGlutenFree = '',
   keywordIsKetogenic = '',
+  keywordIsPescatarian = '',
   keywordIsDairy = '',
   keywordIsEgg = '',
   keywordIsNuts = '',
@@ -102,7 +103,7 @@ export const listAdvancedSearchRecipes = (
     dispatch({ type: RECIPE_LIST_ADVANCED_SEARCH_REQUEST })
 
     const { data } = await axios.get(
-      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}&keywordIsGlutenFree=${keywordIsGlutenFree}&keywordIsKetogenic=${keywordIsKetogenic}&keywordIsDairy=${keywordIsDairy}&keywordIsEgg=${keywordIsEgg}&keywordIsNuts=${keywordIsNuts}&keywordIsShellfish=${keywordIsShellfish}&keywordIsSoy=${keywordIsSoy}&keywordIsWheat=${keywordIsWheat}&keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}&keywordIsMainDish=${keywordIsMainDish}&keywordIsSideSauce=${keywordIsSideSauce}&keywordIsDessert=${keywordIsDessert}&keywordIsSnack=${keywordIsSnack}&keywordIsAppetizer=${keywordIsAppetizer}&keywordIsDrink=${keywordIsDrink}&netVotesSort=${netVotesSort}&createdAtSort=${createdAtSort}&pageNumber=${pageNumber}`
+      `/api/recipes/advanced-search-results?keywordRecipeName=${keywordRecipeName}&keywordCountry=${keywordCountry}&keywordChefName=${keywordChefName}&keywordCookTimeMin=${keywordCookTimeMin}&keywordCookTimeMax=${keywordCookTimeMax}&keywordIsVegan=${keywordIsVegan}&keywordIsVegetarian=${keywordIsVegetarian}&keywordIsGlutenFree=${keywordIsGlutenFree}&keywordIsKetogenic=${keywordIsKetogenic}&keywordIsPescatarian=${keywordIsPescatarian}&keywordIsDairy=${keywordIsDairy}&keywordIsEgg=${keywordIsEgg}&keywordIsNuts=${keywordIsNuts}&keywordIsShellfish=${keywordIsShellfish}&keywordIsSoy=${keywordIsSoy}&keywordIsWheat=${keywordIsWheat}&keywordIsBreakfastBrunch=${keywordIsBreakfastBrunch}&keywordIsMainDish=${keywordIsMainDish}&keywordIsSideSauce=${keywordIsSideSauce}&keywordIsDessert=${keywordIsDessert}&keywordIsSnack=${keywordIsSnack}&keywordIsAppetizer=${keywordIsAppetizer}&keywordIsDrink=${keywordIsDrink}&netVotesSort=${netVotesSort}&createdAtSort=${createdAtSort}&pageNumber=${pageNumber}`
     )
 
     dispatch({

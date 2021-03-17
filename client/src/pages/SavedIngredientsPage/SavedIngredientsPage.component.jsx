@@ -21,6 +21,7 @@ const SavedIngredientsPage = ({ history }) => {
   const [isVegetarian, setIsVegetarian] = useState(false)
   const [isGlutenFree, setIsGlutenFree] = useState(false)
   const [isKetogenic, setIsKetogenic] = useState(false)
+  const [isPescatarian, setIsPescatarian] = useState(false)
   const [isDairy, setIsDairy] = useState(false)
   const [isEgg, setIsEgg] = useState(false)
   const [isNuts, setIsNuts] = useState(false)
@@ -113,6 +114,7 @@ const SavedIngredientsPage = ({ history }) => {
         setIsVegetarian(chef.isVegetarian)
         setIsGlutenFree(chef.isGlutenFree)
         setIsKetogenic(chef.isKetogenic)
+        setIsPescatarian(chef.isPescatarian)
         setIsDairy(chef.isDairy)
         setIsEgg(chef.isEgg)
         setIsNuts(chef.isNuts)
@@ -174,6 +176,7 @@ const SavedIngredientsPage = ({ history }) => {
         isVegetarian,
         isGlutenFree,
         isKetogenic,
+        isPescatarian,
         isDairy,
         isEgg,
         isNuts,
@@ -225,6 +228,7 @@ const SavedIngredientsPage = ({ history }) => {
       isVegetarian,
       isGlutenFree,
       isKetogenic,
+      isPescatarian,
       isDairy,
       isEgg,
       isNuts,
@@ -295,6 +299,7 @@ const SavedIngredientsPage = ({ history }) => {
         isVegetarian,
         isGlutenFree,
         isKetogenic,
+        isPescatarian,
         isDairy,
         isEgg,
         isNuts,

@@ -224,6 +224,9 @@ const IndividualRecipePage = ({ history, match }) => {
   if (recipe.isKetogenic === true) {
     Diets.push('Ketogenic')
   }
+  if (recipe.isPescatarian === true) {
+    Diets.push('Pescatarian')
+  }
 
   const Allergins = []
   if (recipe.isDairy === true) {

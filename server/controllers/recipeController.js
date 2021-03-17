@@ -108,6 +108,12 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
+  const keywordIsPescatarian = req.query.keywordIsPescatarian ? {
+    isPescatarian: {
+      $eq: req.query.keywordIsPescatarian
+    }
+  } : {}
+
   const keywordIsDairy = req.query.keywordIsDairy ? {
     isDairy: {
       $eq: req.query.keywordIsDairy
@@ -197,6 +203,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsVegetarian},
       {...keywordIsGlutenFree},
       {...keywordIsKetogenic},
+      {...keywordIsPescatarian},
       {...keywordIsDairy},
       {...keywordIsEgg},
       {...keywordIsNuts},
@@ -225,6 +232,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsVegetarian},
       {...keywordIsGlutenFree},
       {...keywordIsKetogenic},
+      {...keywordIsPescatarian},
       {...keywordIsDairy},
       {...keywordIsEgg},
       {...keywordIsNuts},
@@ -383,6 +391,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     isVegetarian,
     isGlutenFree,
     isKetogenic,
+    isPescatarian,
     isDairy,
     isEgg,
     isNuts,
@@ -413,6 +422,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     recipe.isVegetarian = isVegetarian
     recipe.isGlutenFree = isGlutenFree
     recipe.isKetogenic = isKetogenic
+    recipe.isPescatarian = isPescatarian
     recipe.isDairy = isDairy
     recipe.isEgg = isEgg
     recipe.isNuts = isNuts

@@ -30,6 +30,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [isVegetarian, setIsVegetarian] = useState(false)
   const [isGlutenFree, setIsGlutenFree] = useState(false)
   const [isKetogenic, setIsKetogenic] = useState(false)
+  const [isPescatarian, setIsPescatarian] = useState(false)
   const [isDairy, setIsDairy] = useState(false)
   const [isEgg, setIsEgg] = useState(false)
   const [isNuts, setIsNuts] = useState(false)
@@ -90,6 +91,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         setIsVegetarian(recipe.isVegetarian)
         setIsGlutenFree(recipe.isGlutenFree)
         setIsKetogenic(recipe.isKetogenic)
+        setIsPescatarian(recipe.isPescatarian)
         setIsDairy(recipe.isDairy)
         setIsEgg(recipe.isEgg)
         setIsNuts(recipe.isNuts)
@@ -158,6 +160,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         isVegetarian,
         isGlutenFree,
         isKetogenic,
+        isPescatarian,
         isDairy,
         isEgg,
         isNuts,
@@ -461,17 +464,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         <td style={{padding: '0px 0px 5px 0px', border: 'none'}} className="ingredientTableSectionAmount">
                           <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupAmount'>
                             <Form.Control
-                              as='select'
+                              type='float'
+                              min={0}
+                              max={25}
                               value={ingredient[0]}
                               onChange={(e) => {
                                 ingredients[index][0] = e.target.value;
                                 setIngredients([...ingredients])
                               }}>
-                              {Quantities.map((quantity) =>
-                                <option key={quantity[0]}>
-                                  {quantity[1]}
-                                </option>
-                              )}
                             </Form.Control>
                           </Form.Group>
                         </td>
@@ -576,6 +576,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         label='Ketogenic?'
                         checked={isKetogenic}
                         onChange={(e) => setIsKetogenic(e.target.checked)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId='isPescatarian' className='dietsAndAllerginsGroup'>
+                      <Form.Check
+                        inline
+                        label='Pescatarian?'
+                        checked={isPescatarian}
+                        onChange={(e) => setIsPescatarian(e.target.checked)}
                       />
                     </Form.Group>
                   </Col>

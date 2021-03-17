@@ -22,6 +22,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   const keywordIsVegetarian = match.params.keywordIsVegetarian || ''
   const keywordIsGlutenFree = match.params.keywordIsGlutenFree || ''
   const keywordIsKetogenic = match.params.keywordIsKetogenic || ''
+  const keywordIsPescatarian = match.params.keywordIsPescatarian || ''
   const keywordIsDairy = match.params.keywordIsDairy || ''
   const keywordIsEgg = match.params.keywordIsEgg || ''
   const keywordIsNuts = match.params.keywordIsNuts || ''
@@ -67,6 +68,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         keywordIsVegetarian,
         keywordIsGlutenFree,
         keywordIsKetogenic,
+        keywordIsPescatarian,
         keywordIsDairy,
         keywordIsEgg,
         keywordIsNuts,
@@ -96,6 +98,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordIsVegetarian,
     keywordIsGlutenFree,
     keywordIsKetogenic,
+    keywordIsPescatarian,
     keywordIsDairy,
     keywordIsEgg,
     keywordIsNuts,
@@ -193,6 +196,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
                   keywordIsVegetarian={keywordIsVegetarian ? keywordIsVegetarian : ''}
                   keywordIsGlutenFree={keywordIsGlutenFree ? keywordIsGlutenFree : ''}
                   keywordIsKetogenic={keywordIsKetogenic ? keywordIsKetogenic : ''}
+                  keywordIsPescatarian={keywordIsPescatarian ? keywordIsPescatarian : ''}
                   keywordIsDairy={keywordIsDairy ? keywordIsDairy : ''}
                   keywordIsEgg={keywordIsEgg ? keywordIsEgg : ''}
                   keywordIsNuts={keywordIsNuts ? keywordIsNuts : ''}

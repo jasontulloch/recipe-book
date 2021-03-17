@@ -10,13 +10,14 @@ const Measurements = [
   ["9", "Pound"],
   ["10", "Inch"],
   ["11", "Item"],
-  ["12", "Pinch"],
-  ["13", "Millilitre"],
-  ["14", "Litre"],
-  ["15", "Gram"],
-  ["16", "Kilogram"],
-  ["17", "Centimetre"],
-  ["18", "Millimetre"],
+  ["12", "8oz Can"],
+  ["13", "Pinch"],
+  ["14", "Millilitre"],
+  ["15", "Litre"],
+  ["16", "Gram"],
+  ["17", "Kilogram"],
+  ["18", "Centimetre"],
+  ["19", "Millimetre"],
 ]
 
 export default Measurements;

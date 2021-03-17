@@ -66,6 +66,11 @@ const recipeSchema = mongoose.Schema(
       required: true,
       default: false
     },
+    isPescatarian: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     isDairy: {
       type: Boolean,
       required: true,

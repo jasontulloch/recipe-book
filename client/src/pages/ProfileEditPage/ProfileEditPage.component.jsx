@@ -20,6 +20,7 @@ const ProfileEditPage = ({ location, history }) => {
   const [isVegetarian, setIsVegetarian] = useState(false)
   const [isGlutenFree, setIsGlutenFree] = useState(false)
   const [isKetogenic, setIsKetogenic] = useState(false)
+  const [isPescatarian, setIsPescatarian] = useState(false)
   const [isDairy, setIsDairy] = useState(false)
   const [isEgg, setIsEgg] = useState(false)
   const [isNuts, setIsNuts] = useState(false)
@@ -87,6 +88,7 @@ const ProfileEditPage = ({ location, history }) => {
         setIsVegetarian(chef.isVegetarian)
         setIsGlutenFree(chef.isGlutenFree)
         setIsKetogenic(chef.isKetogenic)
+        setIsPescatarian(chef.isPescatarian)
         setIsDairy(chef.isDairy)
         setIsEgg(chef.isEgg)
         setIsNuts(chef.isNuts)
@@ -138,6 +140,7 @@ const ProfileEditPage = ({ location, history }) => {
         isVegetarian,
         isGlutenFree,
         isKetogenic,
+        isPescatarian,
         isDairy,
         isEgg,
         isNuts,
@@ -287,6 +290,14 @@ const ProfileEditPage = ({ location, history }) => {
                     label='Ketogenic?'
                     checked={isKetogenic}
                     onChange={(e) => setIsKetogenic(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Group controlId='isPescatarian' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Pescatarian?'
+                    checked={isPescatarian}
+                    onChange={(e) => setIsPescatarian(e.target.checked)}
                   />
                 </Form.Group>
               </Col>

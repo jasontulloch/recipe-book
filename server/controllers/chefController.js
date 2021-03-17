@@ -22,6 +22,7 @@ const authChef = asyncHandler(async (req, res) => {
       isVegetarian: chef.isVegetarian,
       isGlutenFree: chef.isGlutenFree,
       isKetogenic: chef.isKetogenic,
+      isPescatarian: chef.isPescatarian,
       isDairy: chef.isDairy,
       isEgg: chef.isEgg,
       isNuts: chef.isNuts,
@@ -131,6 +132,7 @@ const getChefProfile = asyncHandler(async (req, res) => {
       isVegetarian: chef.isVegetarian,
       isGlutenFree: chef.isGlutenFree,
       isKetogenic: chef.isKetogenic,
+      isPescatarian: chef.isPescatarian,
       isDairy: chef.isDairy,
       isEgg: chef.isEgg,
       isNuts: chef.isNuts,
@@ -180,6 +182,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     isVegetarian,
     isGlutenFree,
     isKetogenic,
+    isPescatarian,
     isDairy,
     isEgg,
     isNuts,
@@ -226,6 +229,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.isVegetarian = isVegetarian
     chef.isGlutenFree = isGlutenFree
     chef.isKetogenic = isKetogenic
+    chef.isPescatarian = isPescatarian
     chef.isDairy = isDairy
     chef.isEgg = isEgg
     chef.isNuts = isNuts
@@ -275,6 +279,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       isVegetarian: updatedChef.isVegetarian,
       isGlutenFree: updatedChef.isGlutenFree,
       isKetogenic: updatedChef.isKetogenic,
+      isPescatarian: updatedChef.isPescatarian,
       isDairy: updatedChef.isDairy,
       isEgg: updatedChef.isEgg,
       isNuts: updatedChef.isNuts,
