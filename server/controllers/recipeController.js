@@ -6,7 +6,7 @@ import Chef from '../models/chefModel.js';
 // @route GET /api/recipes
 // @access Public
 const getRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 2
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   // If there is a keyword query, then return
@@ -38,7 +38,7 @@ const getRecipes = asyncHandler(async (req, res) => {
 // @route GET /api/recipes/search
 // @access Public
 const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
-  const pageSize = 2
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const keywordRecipeName = req.query.keywordRecipeName ? {
@@ -248,7 +248,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsDrink}
     ],
   })
-  .sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
+  .sort({'createdAt': createdAtSort, 'netVotes':netVotesSort})
   .limit(pageSize)
   .skip(pageSize * (page - 1))
 
@@ -345,10 +345,10 @@ const createRecipe = asyncHandler(async (req, res) => {
   const recipe = new Recipe({
     chef: req.chef._id,
     recipe_name: 'Sample recipe',
-    recipe_cover_image: '/images/sample.jpg',
-    steps: ['Please enter at least 1 step'],
-    ingredient_1: 'Please enter at least 1 ingredient',
-    country: 'n/a',
+    recipe_cover_image: '/images/defaultRecipeCoverImage.jpg',
+    steps: [' '],
+    ingredients: [["1","Tablespoon","Paprika"]],
+    country: 'Afghanistan',
     cook_time: 60,
     serving_size: 4
   })

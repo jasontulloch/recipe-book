@@ -464,7 +464,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         <td style={{padding: '0px 0px 5px 0px', border: 'none'}} className="ingredientTableSectionAmount">
                           <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupAmount'>
                             <Form.Control
-                              type='float'
+                              type='number'
+                              step='any'
                               min={0}
                               max={25}
                               value={ingredient[0]}
