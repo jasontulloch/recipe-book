@@ -63,7 +63,7 @@ const IndividualRecipePage = ({ history, match }) => {
   const dispatch = useDispatch()
 
   const recipeDetails = useSelector(state => state.recipeDetails)
-  const { loading, error, recipe } = recipeDetails
+  const { loading, error, recipe, chefUsername } = recipeDetails
 
   const recipeUpvoteCreate = useSelector(state => state.recipeUpvoteCreate)
   const {
@@ -249,6 +249,29 @@ const IndividualRecipePage = ({ history, match }) => {
     Allergins.push('Wheat')
   }
 
+  const MealTypes = []
+  if (recipe.isBreakfastBrunch === true) {
+    MealTypes.push('Breakfast or Brunch')
+  }
+  if (recipe.isMainDish === true) {
+    MealTypes.push('Main Dish')
+  }
+  if (recipe.isSideSauce === true) {
+    MealTypes.push('Side or Sauce')
+  }
+  if (recipe.isDessert === true) {
+    MealTypes.push('Dessert')
+  }
+  if (recipe.isSnack === true) {
+    MealTypes.push('Snack')
+  }
+  if (recipe.isAppetizer === true) {
+    MealTypes.push('isAppetizer')
+  }
+  if (recipe.isDrink === true) {
+    MealTypes.push('isDrink')
+  }
+
   // Function converts the time in minutes from Mongo to read as Hrs + Mins
   function time_convert(value) {
     if (value == null) { return "" }
@@ -388,11 +411,11 @@ const IndividualRecipePage = ({ history, match }) => {
           <Link to='/login' style={{ paddingRight: '5px' }}>
             Sign in
           </Link>
-          or
+            or
           <Link to='/register' style={{ padding: '0px 5px 0px 5px' }}>
             create an account
           </Link>
-          to get the most from RecipeBook
+            to get the most from RecipeBook
         </Message>
       )}
       {successMessage !== '' && (
@@ -520,7 +543,7 @@ const IndividualRecipePage = ({ history, match }) => {
           </Row>
         </Col>
         <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
-          <h5>Chef: Placholder {recipe.chef}</h5>
+          <h5>Chef: {chefUsername}</h5>
         </Col>
         <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
           <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
@@ -552,6 +575,12 @@ const IndividualRecipePage = ({ history, match }) => {
         </Col>
         <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{ paddingLeft: 0 }}>
           <h5>Country: {recipe.country}</h5>
+        </Col>
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+          <h5>
+            {MealTypes.length > 0 && 'Meal Type / Course: '}
+            {new Intl.ListFormat().format(MealTypes)}
+          </h5>
         </Col>
         <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
           <h5>

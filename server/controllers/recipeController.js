@@ -305,7 +305,9 @@ const getRecipeById = asyncHandler(async (req, res) => {
   const recipe = await Recipe.findById(req.params.id)
 
   if (recipe) {
-    res.json(recipe)
+    const chef = await Chef.findById(recipe.chef)
+    const chefUsername = chef.username
+    res.json({recipe, chefUsername})
   } else {
     res.status(404)
     throw new Error('Recipe not found')
