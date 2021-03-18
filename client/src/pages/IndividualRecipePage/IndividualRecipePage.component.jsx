@@ -30,6 +30,7 @@ import './IndividualRecipePage.styles.scss';
 import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes, FaFileDownload } from 'react-icons/fa';
 import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
 import Message from '../../components/Message/Message.component';
+import Fraction from 'fraction.js'
 
 const IndividualRecipePage = ({ history, match }) => {
 
@@ -353,7 +354,7 @@ const IndividualRecipePage = ({ history, match }) => {
   const actualServingSize = recipe.serving_size
   // Return array of only the recipe's quantities and adjust for serving size
   const quantitiesArray = recipeIngredients.map((ingredient) =>
-      eval(eval(ingredient[0]) / actualServingSize * servingSize)
+      new Fraction(eval(eval(ingredient[0]) / actualServingSize * servingSize)).toFraction(true)
   )
   // Return array of only the recipe's measurements
   const measurementArray = recipeIngredients.map((measurement) =>
