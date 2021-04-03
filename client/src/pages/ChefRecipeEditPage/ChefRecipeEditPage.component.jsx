@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
 import Message from '../../components/Message/Message.component';
 import { listRecipeDetails, updateRecipe, deleteRecipe } from '../../actions/recipeActions';
-import { RECIPE_UPDATE_RESET } from '../../constants/recipeConstants';
+import { RECIPE_UPDATE_RESET, RECIPE_DETAILS_RESET } from '../../constants/recipeConstants';
 
 import './ChefRecipeEditPage.styles.scss';
 import Countries from '../../lists/countries';
@@ -77,7 +77,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
     //}
     if(successUpdate) {
       dispatch({ type: RECIPE_UPDATE_RESET })
-      history.push('/myrecipes')
+      dispatch({ type: RECIPE_DETAILS_RESET })
     } else {
       if(!recipe.recipe_name || recipe._id !== recipeId) {
         dispatch(listRecipeDetails(recipeId))

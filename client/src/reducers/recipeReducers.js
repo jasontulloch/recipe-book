@@ -11,6 +11,7 @@ import {
   RECIPE_DETAILS_REQUEST,
   RECIPE_DETAILS_SUCCESS,
   RECIPE_DETAILS_FAILURE,
+  RECIPE_DETAILS_RESET,
   RECIPE_DELETE_REQUEST,
   RECIPE_DELETE_SUCCESS,
   RECIPE_DELETE_FAILURE,
@@ -122,6 +123,8 @@ export const recipeDetailsReducer = (state = { recipe: [] }, action) => {
       }
     case RECIPE_DETAILS_FAILURE:
       return { loading: false, error: action.payload}
+    case RECIPE_DETAILS_RESET:
+      return { recipe: {} }
     default:
       return state
   }
