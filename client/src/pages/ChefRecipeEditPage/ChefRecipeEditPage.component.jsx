@@ -77,6 +77,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
     //}
     if(successUpdate) {
       dispatch({ type: RECIPE_UPDATE_RESET })
+      history.push('/myrecipes')
     } else {
       if(!recipe.recipe_name || recipe._id !== recipeId) {
         dispatch(listRecipeDetails(recipeId))
