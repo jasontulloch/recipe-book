@@ -166,7 +166,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
-            {(recipes === undefined || recipes.length == 0) && (
+            {(recipes === undefined && recipes.length == 0) && (
               <Col style={{textAlign: 'center', paddingTop: '100px'}}>
                 <p >Looks like we couldn't find any recipes, add your own or update your search!</p>
                 <LinkContainer to={`/myrecipes`}>
