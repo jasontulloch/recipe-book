@@ -27,9 +27,15 @@ const SearchBox = ({ history }) => {
           placeholder='Search Recipes...'
           className='mr-sm-2 ml-sm-5'
         ></Form.Control>
-        <Button type='submit' variant='outline-success' className='p-2'>
-          Search
-        </Button>
+      {(keywordRecipeName.length < 1) ?  (
+          <Button type='submit' variant='outline-success' className='p-2'>
+            Search All
+          </Button>
+        ) : (
+          <Button type='submit' variant='outline-success' className='p-2'>
+            Search
+          </Button>
+        )}
       </Form>
     </div>
   )
