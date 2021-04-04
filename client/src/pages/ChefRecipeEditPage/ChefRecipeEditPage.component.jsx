@@ -731,11 +731,15 @@ const ChefRecipeEditPage = ({ match, history }) => {
               </Tab>
             </Tabs>
             <Row>
-              <Col style={{textAlign: 'center'}}>
-                <Button type='submit' variant='primary'>
-                  Update
-                </Button>
-              </Col>
+              {uploading === false ? (
+                <Col style={{textAlign: 'center'}}>
+                  <Button type='submit' variant='primary'>
+                    Update
+                  </Button>
+                </Col>
+              ) : (
+                <Col></Col>
+              )}
             </Row>
           </Form>
         </FormContainer>
