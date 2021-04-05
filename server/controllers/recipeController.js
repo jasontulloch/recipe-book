@@ -220,6 +220,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     ]
   })
 
+  // This works as of 4/5/21
   const recipes = await Recipe.find({
     //and below is finding both (don't technically need the and)
     $and: [

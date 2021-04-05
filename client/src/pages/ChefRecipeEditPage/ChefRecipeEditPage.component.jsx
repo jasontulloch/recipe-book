@@ -284,6 +284,25 @@ const ChefRecipeEditPage = ({ match, history }) => {
     }
   }
 
+  const isVeganHandler = (e) => {
+    if (isVegan == false) {
+      setIsVegan(e.target.checked)
+      setIsVegetarian(e.target.checked)
+      setIsPescatarian(e.target.checked)
+    } else {
+      setIsVegan(e.target.checked)
+    }
+  }
+
+  const isVegetarianHandler = (e) => {
+    if (isVegetarian == false) {
+      setIsVegetarian(e.target.checked)
+      setIsPescatarian(e.target.checked)
+    } else {
+      setIsVegetarian(e.target.checked)
+    }
+  }
+
   return (
     <div>
       {initialLoader ?  (
@@ -553,7 +572,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Vegan?'
                         checked={isVegan}
-                        onChange={(e) => setIsVegan(e.target.checked)}
+                        onChange={isVeganHandler}
                       />
                     </Form.Group>
                     <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
@@ -561,7 +580,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Vegetarian?'
                         checked={isVegetarian}
-                        onChange={(e) => setIsVegetarian(e.target.checked)}
+                        onChange={isVegetarianHandler}
                       />
                     </Form.Group>
                     <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>

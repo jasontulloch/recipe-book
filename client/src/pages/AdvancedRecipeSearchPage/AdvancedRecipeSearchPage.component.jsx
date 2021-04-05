@@ -219,6 +219,25 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
     }
   }, [chefInfo])
 
+  const isVeganHandler = (e) => {
+    if (keywordIsVegan == false) {
+      setKeywordIsVegan(e.target.checked)
+      setKeywordIsVegetarian(e.target.checked)
+      setKeywordIsPescatarian(e.target.checked)
+    } else {
+      setKeywordIsVegan(e.target.checked)
+    }
+  }
+
+  const isVegetarianHandler = (e) => {
+    if (keywordIsVegetarian == false) {
+      setKeywordIsVegetarian(e.target.checked)
+      setKeywordIsPescatarian(e.target.checked)
+    } else {
+      setKeywordIsVegetarian(e.target.checked)
+    }
+  }
+
   return (
     <div>
       <div style={{textAlign: 'center'}}>
@@ -311,7 +330,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Vegan recipes?'
                     checked={keywordIsVegan}
-                    onChange={(e) => setKeywordIsVegan(e.target.checked)}
+                    onChange={isVeganHandler}
                   />
                 </Form.Group>
                 <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
@@ -319,7 +338,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Vegetarian recipes?'
                     checked={keywordIsVegetarian}
-                    onChange={(e) => setKeywordIsVegetarian(e.target.checked)}
+                    onChange={isVegetarianHandler}
                   />
                 </Form.Group>
                 <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>

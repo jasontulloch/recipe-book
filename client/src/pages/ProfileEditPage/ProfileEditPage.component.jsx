@@ -6,6 +6,7 @@ import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
 import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 import { listMySavedRecipes } from '../../actions/recipeActions';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
+import Message from '../../components/Message/Message.component';
 
 import './ProfileEditPage.styles.scss';
 
@@ -52,7 +53,9 @@ const ProfileEditPage = ({ location, history }) => {
   const [useCentimetres, setUseCentimetres] = useState(false)
   const [useMillimetres, setUseMillimetres] = useState(false)
   const [bio, setBio] = useState('')
-  const [message, setMessage] = useState(null)
+
+  const [warningMessage, setWarningMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   const dispatch = useDispatch()
 
@@ -126,8 +129,17 @@ const ProfileEditPage = ({ location, history }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match')
+      setWarningMessage('Passwords do not match. Please try again.')
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 3000)
+      setPassword('')
+      setConfirmPassword('')
     } else {
+      setSuccessMessage('Profile has been successfully updated')
+      setTimeout(function() {
+        setSuccessMessage('')
+      }, 3000)
       dispatch(updateChefProfile({
         _id: chef._id,
         first_name,
@@ -175,14 +187,39 @@ const ProfileEditPage = ({ location, history }) => {
     }
   }
 
+  const isVeganHandler = (e) => {
+    if (isVegan == false) {
+      setIsVegan(e.target.checked)
+      setIsVegetarian(e.target.checked)
+      setIsPescatarian(e.target.checked)
+    } else {
+      setIsVegan(e.target.checked)
+    }
+  }
+
+  const isVegetarianHandler = (e) => {
+    if (isVegetarian == false) {
+      setIsVegetarian(e.target.checked)
+      setIsPescatarian(e.target.checked)
+    } else {
+      setIsVegetarian(e.target.checked)
+    }
+  }
+
   const [key, setKey] = useState('auth')
 
   return (
     <FormContainer className="profileEditPage">
+      {warningMessage !== '' && (
+        <Message variant='danger'>{warningMessage}</Message>
+      )}
+      {successMessage !== '' && (
+        <Message variant='success'>{successMessage}</Message>
+      )}
       <h1 style={{textAlign: 'center'}}>Chef Profile</h1>
       <Form className='profileEditPageForm' onSubmit={submitHandler}>
         <Tabs fill id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
-          <Tab eventKey='auth' title="Auth">
+          <Tab eventKey='auth' title="General">
             <Form.Group controlId='first_name'>
               <Form.Label>First Name</Form.Label>
               <Form.Control
@@ -265,7 +302,7 @@ const ProfileEditPage = ({ location, history }) => {
                     inline
                     label='Vegan?'
                     checked={isVegan}
-                    onChange={(e) => setIsVegan(e.target.checked)}
+                    onChange={isVeganHandler}
                   />
                 </Form.Group>
                 <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
@@ -273,7 +310,7 @@ const ProfileEditPage = ({ location, history }) => {
                     inline
                     label='Vegetarian?'
                     checked={isVegetarian}
-                    onChange={(e) => setIsVegetarian(e.target.checked)}
+                    onChange={isVegetarianHandler}
                   />
                 </Form.Group>
                 <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
