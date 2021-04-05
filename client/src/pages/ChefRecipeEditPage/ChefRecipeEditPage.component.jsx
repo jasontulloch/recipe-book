@@ -340,7 +340,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   </Form.Control>
                   <Form.Text>
                     {recipe_name.length > 25 && (
-                      <Message variant='warning'>We only display the first 25 characters of a recipe name in the search results... try simplifying the recipe name. If you can't, don't worry, your recipe will still be availabe. Currently, your recipe will read as "{recipe_name.slice(0, 25) + (recipe_name.length > 25 ? "..." : "")}"</Message>
+                      <Message variant='warning'>We only display the first 25 characters of a recipe name in the search results... try simplifying the recipe name. Currently, your recipe will read as "{recipe_name.slice(0, 25) + (recipe_name.length > 25 ? "..." : "")}"</Message>
                     )}
                   </Form.Text>
                 </Form.Group>
@@ -391,6 +391,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
                 <Row>
                   <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center' }}>
                     <Form.Label>Recipe Steps</Form.Label>
+                    <Message variant='warning'>
+                      <Form.Text className='muted'>Remember to leave any ingredients and quantities out of this section so users can accurately change the serving sizes when they view your recipe.</Form.Text>
+                    </Message>
                   </Col>
                   <Col>
                     <Form.Group controlId='recipeSteps'>
@@ -467,6 +470,10 @@ const ChefRecipeEditPage = ({ match, history }) => {
               </Tab>
               <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
                 <Form.Group controlId='recipeIngredients'>
+                  <Message variant='warning'>
+                    <Form.Text className='muted'>Quantity: Enter ingredient quantities as a decimal or whole number.</Form.Text>
+                    <Form.Text className='muted'>Measurement: Leave blank if the ingredient does not need a unit of measurement (e.g. 1 White Onion).</Form.Text>
+                  </Message>
                   <Table className='ingredientTable'>
                     <thead style={{textAlign:'center' }} class='ingredientTableHeaders'>
                       <th style={{padding: '12px 0px 12px 0px', border: 'none'}}></th>
