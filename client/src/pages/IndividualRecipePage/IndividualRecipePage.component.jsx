@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -60,6 +60,7 @@ const IndividualRecipePage = ({ history, match }) => {
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
+  const browserHistory = useHistory();
   const dispatch = useDispatch()
 
   const recipeDetails = useSelector(state => state.recipeDetails)
@@ -428,7 +429,7 @@ const IndividualRecipePage = ({ history, match }) => {
       )}
       <Row>
         <Col xs={12} sm={12} md={2} lg={2} xl={2} style={{paddingLeft: '0px' }}>
-          <Link className="btn btn-dark" to='/recipes' style={{ padding: '0px 5px 0px 5px' }}>
+          <Link className="btn btn-dark" onClick={() => browserHistory.goBack()} style={{ padding: '0px 5px 0px 5px' }}>
             Go Back
           </Link>
         </Col>
