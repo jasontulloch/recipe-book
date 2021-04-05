@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -104,7 +105,11 @@ const ChefRecipesListPage = ({ match , history }) => {
                 ) : (
                   myRecipes.map(recipe => (
                     <tr key={recipe.id}>
-                      <td>{recipe.recipe_name}</td>
+                      <td>
+                        <Link to={`/recipe/${recipe._id}`} style={{textDecoration: 'none'}}>
+                          {recipe.recipe_name}
+                        </Link>
+                      </td>
                       <td>{recipe.netVotes}</td>
                       <td>{recipe.country}</td>
                       <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
