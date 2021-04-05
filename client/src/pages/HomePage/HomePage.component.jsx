@@ -13,7 +13,7 @@ const HomePage = () => {
       <h4 style={{textAlign: 'center'}}>We appreciate you stopping by. If it is your first time here, let us explain who we are.</h4>
 
       <br/>
-      <p>RecipeBook has been designed with one simple goal in mind, to get you offline faster and spending the time doing what we all love sooner. Simply put, our team were tired of advertisements filling our screens, reading stories about the inspiration for a certain recipe, and not being able to find the best recipe possible.</p>
+      <p>RecipeBook has been designed with one simple goal in mind, to get you offline faster and spending the time doing what we all love sooner. Simply put, our team was tired of advertisements filling our screens, reading stories about the inspiration for a certain recipe, and not being able to find the best recipe possible.</p>
       <p>We know other platforms exist, but give us a try, we doubt you will be disappointed. We are working hard everyday to be better than the competition.</p>
       <p>Okay, you've read this far, but what do we really offer?</p>
 
