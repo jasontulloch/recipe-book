@@ -338,6 +338,11 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     onChange={(e) => setRecipeName(e.target.value)}
                   >
                   </Form.Control>
+                  <Form.Text>
+                    {recipe_name.length > 25 && (
+                      <Message variant='warning'>We only display the first 25 characters of a recipe name in the search results... try simplifying the recipe name. If you can't, don't worry, your recipe will still be availabe. Currently, your recipe will read as "{recipe_name.slice(0, 25) + (recipe_name.length > 25 ? "..." : "")}"</Message>
+                    )}
+                  </Form.Text>
                 </Form.Group>
                 <Form.Group controlId='country'>
                   <Form.Label>Country of Origin</Form.Label>
