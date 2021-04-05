@@ -266,24 +266,6 @@ const ChefRecipeEditPage = ({ match, history }) => {
     }
   }
 
-  // Function disables any negatives and 0
-  // Still need to update to stop manual entry above 20
-  function handleKeypress (e) {
-    const characterCode = e.key
-    if (characterCode === 'Backspace') return
-
-    const characterNumber = Number(characterCode)
-    if (characterNumber >= 0 && characterNumber <= 9 ) {
-      if (e.currentTarget.value && e.currentTarget.value.length) {
-        return
-      } else if (characterNumber === 0) {
-        e.preventDefault()
-      }
-    } else {
-      e.preventDefault()
-    }
-  }
-
   const isVeganHandler = (e) => {
     if (isVegan == false) {
       setIsVegan(e.target.checked)
@@ -300,6 +282,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
       setIsPescatarian(e.target.checked)
     } else {
       setIsVegetarian(e.target.checked)
+    }
+  }
+
+  // Function disables all key presses
+  function handleKeypress (e) {
+    const characterCode = e.key
+    if (characterCode) {
+      e.preventDefault()
     }
   }
 
@@ -363,11 +353,12 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   <Form.Label>Cook Time</Form.Label>
                   <Form.Control
                     type='number'
-                    placeholder='Enter estimated cook time'
+                    placeholder={60}
                     value={cook_time}
                     onChange={(e) => setCookTime(e.target.value)}
                     onKeyDown={handleKeypress}
                     min={1}
+                    max={360}
                   >
                   </Form.Control>
                   <Form.Text className='muted'>Enter in minutes, we will take care of the rest.</Form.Text>

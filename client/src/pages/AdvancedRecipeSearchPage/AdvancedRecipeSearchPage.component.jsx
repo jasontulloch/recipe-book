@@ -238,6 +238,14 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
     }
   }
 
+  // Function disables all key presses
+  function handleKeypress (e) {
+    const characterCode = e.key
+    if (characterCode) {
+      e.preventDefault()
+    }
+  }
+
   return (
     <div>
       <div style={{textAlign: 'center'}}>
@@ -303,6 +311,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
               min='0'
               max='359'
               value={keywordCookTimeMin}
+              onKeyDown={handleKeypress}
               className=''
             ></Form.Control>
           </Col>
@@ -314,9 +323,10 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
               onChange={(e) => setKeywordCookTimeMax(e.target.value)}
               placeholder='Maximum time'
               required
-              min='0'
+              min='1'
               max='360'
               value={keywordCookTimeMax}
+              onKeyDown={handleKeypress}
               className=''
             ></Form.Control>
           </Col>

@@ -286,20 +286,10 @@ const IndividualRecipePage = ({ history, match }) => {
     return hour + min
   }
 
-  // Function disables any negatives and 0
-  // Still need to update to stop manual entry above 20
+  // Function disables all key presses
   function handleKeypress (e) {
     const characterCode = e.key
-    if (characterCode === 'Backspace') return
-
-    const characterNumber = Number(characterCode)
-    if (characterNumber >= 0 && characterNumber <= 9) {
-      if (e.currentTarget.value && e.currentTarget.value.length) {
-        return
-      } else if (characterNumber === 0) {
-        e.preventDefault()
-      }
-    } else {
+    if (characterCode) {
       e.preventDefault()
     }
   }
