@@ -67,15 +67,12 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
       <div>
         {initialLoader ?  (
           <PancakeLoader>Finding the recipes you already love...</PancakeLoader>
-        ) : (
+        ) : savedRecipes.length > 0 ? (
           <Row>
-            <Col style={{textAlign:'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-              <h1>Saved Recipes</h1>
-            </Col>
             <Table striped bordered hover responsive className='table-sm'>
               <thead>
                 <tr>
-                  <th>RECIPE NAME</th>
+                  <th>SAVED RECIPES</th>
                   <th>RATING</th>
                   <th>COUNTRY</th>
                   <th className='d-none d-md-table-cell'>COOK TIME</th>
@@ -110,6 +107,22 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                 ))}
               </tbody>
             </Table>
+          </Row>
+        ) : (
+          <Row>
+            <Col style={{textAlign: 'center', paddingTop: '100px'}}>
+              <p >Looks like you don't have any recipes saved yet, let's find you some!</p>
+              <LinkContainer to={`/recipes`}>
+                <Button variant='light' className='btn-sm'>
+                  <i className='fas fa-search'>Explore all Recipes!</i>
+                </Button>
+              </LinkContainer>
+              <LinkContainer to={`/recipes/advanced-search`}>
+                <Button variant='light' className='btn-sm'>
+                  <i className='fas fa-search'>Find the Exact Recipe you are Looking For!</i>
+                </Button>
+              </LinkContainer>
+            </Col>
           </Row>
         )}
       </div>
