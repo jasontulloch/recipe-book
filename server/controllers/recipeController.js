@@ -114,74 +114,116 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     }
   } : {}
 
-  const keywordIsDairy = req.query.keywordIsDairy ? {
+  let flipDairy = req.query['keywordIsDairy']
+  if (req.query['keywordIsDairy'] == 'false') {
+    flipDairy = 'true'
+  } else {
+    flipDairy = 'false'
+  }
+  const keywordIsDairy = (req.query.keywordIsDairy && req.query['keywordIsDairy'] == 'true') ? {
     isDairy: {
-      $eq: req.query.keywordIsDairy
+      $eq: flipDairy
     }
   } : {}
 
-  const keywordIsEgg = req.query.keywordIsEgg ? {
+  // req.query['keywordIsDairy'] - string
+  // flipDairy - boolean
+  //console.log(req.query['keywordIsDairy'])
+  //console.log(flipDairy)
+
+  let flipEgg = req.query['keywordIsEgg']
+  if (req.query['keywordIsEgg'] == 'false') {
+    flipEgg = 'true'
+  } else {
+    flipEgg = 'false'
+  }
+  const keywordIsEgg = (req.query.keywordIsEgg && req.query['keywordIsEgg'] == 'true') ? {
     isEgg: {
-      $eq: req.query.keywordIsEgg
+      $eq: flipEgg
     }
   } : {}
 
-  const keywordIsNuts = req.query.keywordIsNuts ? {
+  let flipNuts = req.query['keywordIsNuts']
+  if (req.query['keywordIsNuts'] == 'false') {
+    flipNuts = 'true'
+  } else {
+    flipNuts = 'false'
+  }
+  const keywordIsNuts = (req.query.keywordIsNuts && req.query['keywordIsNuts'] == 'true') ? {
     isNuts: {
-      $eq: req.query.keywordIsNuts
+      $eq: flipNuts
     }
   } : {}
 
-  const keywordIsShellfish = req.query.keywordIsShellfish ? {
+  let flipShellfish = req.query['keywordIsShellfish']
+  if (req.query['keywordIsShellfish'] == 'false') {
+    flipShellfish = 'true'
+  } else {
+    flipShellfish = 'false'
+  }
+  const keywordIsShellfish = (req.query.keywordIsShellfish && req.query['keywordIsShellfish'] == 'true') ? {
     isShellfish: {
-      $eq: req.query.keywordIsShellfish
+      $eq: flipShellfish
     }
   } : {}
 
-  const keywordIsSoy = req.query.keywordIsSoy ? {
+  // if soy is true we want to exclude it from results
+  let flipSoy = req.query['keywordIsSoy']
+  if (req.query['keywordIsSoy'] == 'false') {
+    flipSoy = 'true'
+  } else {
+    flipSoy = 'false'
+  }
+  const keywordIsSoy = (req.query.keywordIsSoy && req.query['keywordIsSoy'] == 'true') ? {
     isSoy: {
-      $eq: req.query.keywordIsSoy
+      $eq: flipSoy
     }
   } : {}
 
-  const keywordIsWheat = req.query.keywordIsWheat ? {
+  let flipWheat = req.query['keywordIsWheat']
+  if (req.query['keywordIsWheat'] == 'false') {
+    flipWheat = 'true'
+  } else {
+    flipWheat = 'false'
+  }
+  const keywordIsWheat = (req.query.keywordIsWheat && req.query['keywordIsWheat'] == 'true') ? {
     isWheat: {
-      $eq: req.query.keywordIsWheat
+      $eq: flipWheat
     }
   } : {}
 
-  const keywordIsBreakfastBrunch = req.query.keywordIsBreakfastBrunch ? {
+  const keywordIsBreakfastBrunch = (req.query.keywordIsBreakfastBrunch && req.query['keywordIsBreakfastBrunch'] == 'true') ? {
     isBreakfastBrunch: {
       $eq: req.query.keywordIsBreakfastBrunch
     }
   } : {}
 
-  const keywordIsMainDish = req.query.keywordIsMainDish ? {
+  const keywordIsMainDish = (req.query.keywordIsMainDish && req.query['keywordIsMainDish'] == 'true') ? {
     isMainDish: {
       $eq: req.query.keywordIsMainDish
     }
   } : {}
-  const keywordIsSideSauce = req.query.keywordIsSideSauce ? {
+  const keywordIsSideSauce = (req.query.keywordIsSideSauce && req.query['keywordIsSideSauce'] == 'true') ? {
     isSideSauce: {
       $eq: req.query.keywordIsSideSauce
     }
   } : {}
-  const keywordIsDessert = req.query.keywordIsDessert ? {
+  const keywordIsDessert = (req.query.keywordIsDessert && req.query['keywordIsDessert'] == 'true') ? {
     isDessert: {
       $eq: req.query.keywordIsDessert
     }
   } : {}
-  const keywordIsSnack = req.query.keywordIsSnack ? {
+  const keywordIsSnack = (req.query.keywordIsSnack && req.query['keywordIsSnack'] == 'true') ? {
     isSnack: {
       $eq: req.query.keywordIsSnack
     }
   } : {}
-  const keywordIsAppetizer = req.query.keywordIsAppetizer ? {
+  const keywordIsAppetizer = (req.query.keywordIsAppetizer && req.query['keywordIsAppetizer'] == 'true') ? {
     isAppetizer: {
       $eq: req.query.keywordIsAppetizer
     }
   } : {}
-  const keywordIsDrink = req.query.keywordIsDrink ? {
+  const keywordIsDrink = (req.query.keywordIsDrink && req.query['keywordIsDrink'] == 'true') ? {
     isDrink: {
       $eq: req.query.keywordIsDrink
     }

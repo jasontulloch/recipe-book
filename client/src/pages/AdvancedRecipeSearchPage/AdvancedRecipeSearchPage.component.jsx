@@ -8,7 +8,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   const [keywordCountry, setKeywordCountry] = useState('')
   const [keywordChefName, setKeywordChefName] = useState('')
   const [keywordCookTimeMin, setKeywordCookTimeMin] = useState(0)
-  const [keywordCookTimeMax, setKeywordCookTimeMax] = useState(60)
+  const [keywordCookTimeMax, setKeywordCookTimeMax] = useState(90)
   const [keywordIsVegan, setKeywordIsVegan] = useState(false)
   const [keywordIsVegetarian, setKeywordIsVegetarian] = useState(false)
   const [keywordIsGlutenFree, setKeywordIsGlutenFree] = useState(false)
@@ -402,7 +402,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains dairy'
+                    label='Exclude dairy'
                     checked={keywordIsDairy}
                     onChange={(e) => setKeywordIsDairy(e.target.checked)}
                   />
@@ -410,7 +410,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains egg'
+                    label='Exclude egg'
                     checked={keywordIsEgg}
                     onChange={(e) => setKeywordIsEgg(e.target.checked)}
                   />
@@ -418,7 +418,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains nuts'
+                    label='Exclude nuts'
                     checked={keywordIsNuts}
                     onChange={(e) => setKeywordIsNuts(e.target.checked)}
                   />
@@ -426,7 +426,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains shellfish'
+                    label='Exclude shellfish'
                     checked={keywordIsShellfish}
                     onChange={(e) => setKeywordIsShellfish(e.target.checked)}
                   />
@@ -434,7 +434,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains soy'
+                    label='Exclude soy'
                     checked={keywordIsSoy}
                     onChange={(e) => setKeywordIsSoy(e.target.checked)}
                   />
@@ -442,7 +442,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains wheat'
+                    label='Exclude wheat'
                     checked={keywordIsWheat}
                     onChange={(e) => setKeywordIsWheat(e.target.checked)}
                   />

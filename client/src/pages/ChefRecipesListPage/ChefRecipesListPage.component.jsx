@@ -80,7 +80,11 @@ const ChefRecipesListPage = ({ match , history }) => {
         ) : (
           <Row>
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center', paddingBottom: '15px' }}>
-              <Button style={{margin: '5px', padding: '15px', width: '100%', backgroundColor: '#343a40' }} onClick={createRecipeHandler}>
+              <Button
+                style={{margin: '5px', padding: '15px', width: '100%', backgroundColor: '#343a40' }}
+                onClick={createRecipeHandler}
+                variant='outline-success'
+              >
                 <i className='fas fa-plus'> Create a Recipe</i>
               </Button>
             </Col>
