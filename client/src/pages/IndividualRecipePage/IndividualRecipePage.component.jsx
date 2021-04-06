@@ -384,7 +384,9 @@ const IndividualRecipePage = ({ history, match }) => {
     merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, metricStandards))
   }
   //const merge = newIngredientAndMeasurementArray.map(e => Unitz.compound(e, ['gal', 'c', 'tbsp', 'tsp']))
-  const mergeNew = merge.map(function(x){return x.replace('Item', '')})
+  let mergeNew = merge.map(function(x){return x.replace('Item', '')})
+  mergeNew = mergeNew.map(function(x){return x.replace(' l', ' L')})
+  mergeNew = mergeNew.map(function(x){return x.replace(' c', ' C')})
   // Return array of only the recipe's items
   const itemArray = recipeIngredients.map((item) =>
     item[2]

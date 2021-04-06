@@ -11,7 +11,7 @@ const AdvancedSearchBtn = ({ history }) => {
   return (
     <div>
       <Form onSubmit={submitHandler} inline>
-        <Button type='submit' variant='outline-success' className='ml-2 p-2'>
+        <Button type='submit' variant='outline-success' className='ml-1 p-2'>
           Advanced Search
         </Button>
       </Form>

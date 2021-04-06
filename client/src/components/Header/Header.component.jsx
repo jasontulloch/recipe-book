@@ -6,6 +6,9 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { logout } from '../../actions/chefActions';
 import SearchBox from '../SearchBox/SearchBox.component';
 import AdvancedSearchBtn from '../AdvancedSearchBtn/AdvancedSearchBtn.component';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { GiBookmark, GiBookCover } from 'react-icons/gi';
+import { HiOutlineClipboardList } from 'react-icons/hi'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -19,7 +22,7 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect style={{padding: '11px 6px 11px 6px'}}>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>RecipeBook</Navbar.Brand>
@@ -29,17 +32,50 @@ const Header = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Route render={({ history }) => <AdvancedSearchBtn history={history} />} />
             <Nav className="ml-auto">
-            {chefInfo ? (
-              <NavDropdown title={chefInfo.username} id='username'>
-                <LinkContainer to='/myrecipes'>
-                  <NavDropdown.Item>My Recipes</NavDropdown.Item>
-                </LinkContainer>
+              <OverlayTrigger
+                placement='bottom'
+                overlay={
+                  <Tooltip id={'tooltip-bottom'}>
+                    Saved Recipes
+                  </Tooltip>
+                }
+              >
                 <LinkContainer to='/savedrecipes'>
-                  <NavDropdown.Item>Saved Recipes</NavDropdown.Item>
+                  <Nav.Link>
+                    <GiBookmark style={{ fontSize: '1.25rem' }}/>
+                  </Nav.Link>
                 </LinkContainer>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement='bottom'
+                overlay={
+                  <Tooltip id={'tooltip-bottom'}>
+                    My Recipes
+                  </Tooltip>
+                }
+              >
+                <LinkContainer to='/myrecipes'>
+                  <Nav.Link>
+                    <GiBookCover style={{ fontSize: '1.25rem' }}/>
+                  </Nav.Link>
+                </LinkContainer>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement='bottom'
+                overlay={
+                  <Tooltip id={'tooltip-bottom'}>
+                    Grocery List
+                  </Tooltip>
+                }
+              >
                 <LinkContainer to='/grocerylist'>
-                  <NavDropdown.Item>Grocery List</NavDropdown.Item>
+                  <Nav.Link>
+                    <HiOutlineClipboardList style={{ fontSize: '1.25rem' }}/>
+                  </Nav.Link>
                 </LinkContainer>
+              </OverlayTrigger>
+              {chefInfo ? (
+              <NavDropdown title={chefInfo.username} id='username'>
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
