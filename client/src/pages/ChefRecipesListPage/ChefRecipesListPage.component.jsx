@@ -79,18 +79,15 @@ const ChefRecipesListPage = ({ match , history }) => {
           <PancakeLoader>Collecting all of your recipes...</PancakeLoader>
         ) : (
           <Row>
-            <Col style={{textAlign:'center'}} xs={12} sm={12} md={8} lg={8} xl={8}>
-              <h1>My Recipes</h1>
-            </Col>
-            <Col xs={12} sm={12} md={4} lg={4} xl={4} style={{ textAlign: 'center', paddingBottom: '15px' }}>
-              <Button style={{margin: '0px', padding: '4px' }} onClick={createRecipeHandler}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center', paddingBottom: '15px' }}>
+              <Button style={{margin: '5px', padding: '15px', width: '100%' }} onClick={createRecipeHandler}>
                 <i className='fas fa-plus'> Create a Recipe</i>
               </Button>
             </Col>
             <Table striped bordered hover responsive className='table-sm'>
               <thead>
                 <tr>
-                  <th>RECIPE NAME</th>
+                  <th>MY RECIPES</th>
                   <th>RATING</th>
                   <th>COUNTRY</th>
                   <th className='d-none d-md-table-cell'>COOK TIME</th>

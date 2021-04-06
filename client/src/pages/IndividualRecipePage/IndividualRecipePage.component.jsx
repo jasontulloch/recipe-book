@@ -291,6 +291,10 @@ const IndividualRecipePage = ({ history, match }) => {
     const characterCode = e.key
     if (characterCode) {
       e.preventDefault()
+      setWarningMessage('Use the increment and decrement arrows to modify the serve size.')
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 3000)
     }
   }
 

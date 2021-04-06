@@ -300,7 +300,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Vegan?'
+                    label='Vegan'
                     checked={isVegan}
                     onChange={isVeganHandler}
                   />
@@ -308,7 +308,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Vegetarian?'
+                    label='Vegetarian'
                     checked={isVegetarian}
                     onChange={isVegetarianHandler}
                   />
@@ -316,7 +316,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Gluten Free?'
+                    label='Gluten Free'
                     checked={isGlutenFree}
                     onChange={(e) => setIsGlutenFree(e.target.checked)}
                   />
@@ -324,7 +324,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Ketogenic?'
+                    label='Ketogenic'
                     checked={isKetogenic}
                     onChange={(e) => setIsKetogenic(e.target.checked)}
                   />
@@ -332,7 +332,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isPescatarian' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Pescatarian?'
+                    label='Pescatarian'
                     checked={isPescatarian}
                     onChange={(e) => setIsPescatarian(e.target.checked)}
                   />
@@ -345,7 +345,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Dairy?'
+                    label='Dairy'
                     checked={isDairy}
                     onChange={(e) => setIsDairy(e.target.checked)}
                   />
@@ -353,7 +353,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Egg?'
+                    label='Egg'
                     checked={isEgg}
                     onChange={(e) => setIsEgg(e.target.checked)}
                   />
@@ -361,7 +361,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Nuts?'
+                    label='Nuts'
                     checked={isNuts}
                     onChange={(e) => setIsNuts(e.target.checked)}
                   />
@@ -369,7 +369,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Shellfish?'
+                    label='Shellfish'
                     checked={isShellfish}
                     onChange={(e) => setIsShellfish(e.target.checked)}
                   />
@@ -377,7 +377,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Soy?'
+                    label='Soy'
                     checked={isSoy}
                     onChange={(e) => setIsSoy(e.target.checked)}
                   />
@@ -385,7 +385,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Wheat?'
+                    label='Wheat'
                     checked={isWheat}
                     onChange={(e) => setIsWheat(e.target.checked)}
                   />
@@ -399,7 +399,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Breakfast or Brunch?'
+                    label='Breakfast or Brunch'
                     checked={isBreakfastBrunch}
                     onChange={(e) => setIsBreakfastBrunch(e.target.checked)}
                   />
@@ -407,7 +407,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Entrees?'
+                    label='Entrees'
                     checked={isMainDish}
                     onChange={(e) => setIsMainDish(e.target.checked)}
                   />
@@ -415,7 +415,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Sides or Sauces?'
+                    label='Sides or Sauces'
                     checked={isSideSauce}
                     onChange={(e) => setIsSideSauce(e.target.checked)}
                   />
@@ -423,7 +423,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Dessert?'
+                    label='Dessert'
                     checked={isDessert}
                     onChange={(e) => setIsDessert(e.target.checked)}
                   />
@@ -431,7 +431,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Snack?'
+                    label='Snack'
                     checked={isSnack}
                     onChange={(e) => setIsSnack(e.target.checked)}
                   />
@@ -439,7 +439,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Appetizer?'
+                    label='Appetizer'
                     checked={isAppetizer}
                     onChange={(e) => setIsAppetizer(e.target.checked)}
                   />
@@ -447,7 +447,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
                 <Form.Check
                   inline
-                  label='Drink?'
+                  label='Drink'
                   checked={isDrink}
                   onChange={(e) => setIsDrink(e.target.checked)}
                 />
@@ -460,7 +460,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useTeaspoons' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Teaspoons?'
+                    label='Teaspoons'
                     checked={useTeaspoons}
                     onChange={(e) => setUseTeaspoons(e.target.checked)}
                   />
@@ -468,7 +468,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useTablespoons' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Tablespoons?'
+                    label='Tablespoons'
                     checked={useTablespoons}
                     onChange={(e) => setUseTablespoons(e.target.checked)}
                   />
@@ -476,7 +476,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useFluidOunces' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Fluid Ounces?'
+                    label='Fluid Ounces'
                     checked={useFluidOunces}
                     onChange={(e) => setUseFluidOunces(e.target.checked)}
                   />
@@ -484,7 +484,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useCups' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Cups?'
+                    label='Cups'
                     checked={useCups}
                     onChange={(e) => setUseCups(e.target.checked)}
                   />
@@ -492,7 +492,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='usePints' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Pints?'
+                    label='Pints'
                     checked={usePints}
                     onChange={(e) => setUsePints(e.target.checked)}
                   />
@@ -500,7 +500,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useQuarts' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Quarts?'
+                    label='Quarts'
                     checked={useQuarts}
                     onChange={(e) => setUseQuarts(e.target.checked)}
                   />
@@ -508,7 +508,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useGallons' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Gallons?'
+                    label='Gallons'
                     checked={useGallons}
                     onChange={(e) => setUseGallons(e.target.checked)}
                   />
@@ -516,7 +516,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useOunces' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Ounces?'
+                    label='Ounces'
                     checked={useOunces}
                     onChange={(e) => setUseOunces(e.target.checked)}
                   />
@@ -524,7 +524,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='usePounds' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Pounds?'
+                    label='Pounds'
                     checked={usePounds}
                     onChange={(e) => setUsePounds(e.target.checked)}
                   />
@@ -532,7 +532,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useInches' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Inches?'
+                    label='Inches'
                     checked={useInches}
                     onChange={(e) => setUseInches(e.target.checked)}
                   />
@@ -553,7 +553,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useMillilitres' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Millilitres?'
+                    label='Millilitres?'
                     checked={useMillilitres}
                     onChange={(e) => setUseMillilitres(e.target.checked)}
                   />
@@ -561,7 +561,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useLitres' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Litres?'
+                    label='Litres'
                     checked={useLitres}
                     onChange={(e) => setUseLitres(e.target.checked)}
                   />
@@ -569,7 +569,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useGrams' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Grams?'
+                    label='Grams'
                     checked={useGrams}
                     onChange={(e) => setUseGrams(e.target.checked)}
                   />
@@ -577,7 +577,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useKilograms' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Kilograms?'
+                    label='Kilograms'
                     checked={useKilograms}
                     onChange={(e) => setUseKilograms(e.target.checked)}
                   />
@@ -585,7 +585,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useCentimetres' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Centimetres?'
+                    label='Centimetres'
                     checked={useCentimetres}
                     onChange={(e) => setUseCentimetres(e.target.checked)}
                   />
@@ -593,7 +593,7 @@ const ProfileEditPage = ({ location, history }) => {
                 <Form.Group controlId='useMillimetres' className='measurementsGroup'>
                   <Form.Check
                     inline
-                    label='Use Millimetres?'
+                    label='Millimetres'
                     checked={useMillimetres}
                     onChange={(e) => setUseMillimetres(e.target.checked)}
                   />

@@ -50,6 +50,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [incrementDecrementMessage, setIncrementDecrementMessage] = useState('')
 
   const dispatch = useDispatch()
 
@@ -286,10 +287,15 @@ const ChefRecipeEditPage = ({ match, history }) => {
   }
 
   // Function disables all key presses
+
   function handleKeypress (e) {
     const characterCode = e.key
     if (characterCode) {
       e.preventDefault()
+      setIncrementDecrementMessage('Use the increment and decrement arrows to modify the serve size.')
+      setTimeout(function() {
+        setIncrementDecrementMessage('')
+      }, 3000)
     }
   }
 
@@ -361,6 +367,11 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     max={360}
                   >
                   </Form.Control>
+                  <Form.Text style={{paddingTop: '5px'}}>
+                    {incrementDecrementMessage !== '' && (
+                      <Message variant='warning'>{incrementDecrementMessage}</Message>
+                    )}
+                  </Form.Text>
                   <Form.Text className='muted'>Enter in minutes, we will take care of the rest.</Form.Text>
                 </Form.Group>
                 <Form.Group controlId='servingSize'>
@@ -573,7 +584,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Vegan?'
+                        label='Vegan'
                         checked={isVegan}
                         onChange={isVeganHandler}
                       />
@@ -581,7 +592,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Vegetarian?'
+                        label='Vegetarian'
                         checked={isVegetarian}
                         onChange={isVegetarianHandler}
                       />
@@ -589,7 +600,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Gluten Free?'
+                        label='Gluten Free'
                         checked={isGlutenFree}
                         onChange={(e) => setIsGlutenFree(e.target.checked)}
                       />
@@ -597,7 +608,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Ketogenic?'
+                        label='Ketogenic'
                         checked={isKetogenic}
                         onChange={(e) => setIsKetogenic(e.target.checked)}
                       />
@@ -605,7 +616,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isPescatarian' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Pescatarian?'
+                        label='Pescatarian'
                         checked={isPescatarian}
                         onChange={(e) => setIsPescatarian(e.target.checked)}
                       />
@@ -618,7 +629,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Contains Dairy?'
+                        label='Contains Dairy'
                         checked={isDairy}
                         onChange={(e) => setIsDairy(e.target.checked)}
                       />
@@ -626,7 +637,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Contains Egg?'
+                        label='Contains Egg'
                         checked={isEgg}
                         onChange={(e) => setIsEgg(e.target.checked)}
                       />
@@ -634,7 +645,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Contains Nuts?'
+                        label='Contains Nuts'
                         checked={isNuts}
                         onChange={(e) => setIsNuts(e.target.checked)}
                       />
@@ -642,7 +653,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Contains Shellfish?'
+                        label='Contains Shellfish'
                         checked={isShellfish}
                         onChange={(e) => setIsShellfish(e.target.checked)}
                       />
@@ -650,7 +661,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Contains Soy?'
+                        label='Contains Soy'
                         checked={isSoy}
                         onChange={(e) => setIsSoy(e.target.checked)}
                       />
@@ -658,7 +669,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Contains Wheat?'
+                        label='Contains Wheat'
                         checked={isWheat}
                         onChange={(e) => setIsWheat(e.target.checked)}
                       />
@@ -671,7 +682,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Breakfast or Brunch?'
+                        label='Breakfast or Brunch'
                         checked={isBreakfastBrunch}
                         onChange={(e) => setIsBreakfastBrunch(e.target.checked)}
                       />
@@ -679,7 +690,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Main Dish?'
+                        label='Main Dish'
                         checked={isMainDish}
                         onChange={(e) => setIsMainDish(e.target.checked)}
                       />
@@ -687,7 +698,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Side or Sauce?'
+                        label='Side or Sauce'
                         checked={isSideSauce}
                         onChange={(e) => setIsSideSauce(e.target.checked)}
                       />
@@ -695,7 +706,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Dessert?'
+                        label='Dessert'
                         checked={isDessert}
                         onChange={(e) => setIsDessert(e.target.checked)}
                       />
@@ -703,7 +714,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Snack?'
+                        label='Snack'
                         checked={isSnack}
                         onChange={(e) => setIsSnack(e.target.checked)}
                       />
@@ -711,7 +722,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Appetizer?'
+                        label='Appetizer'
                         checked={isAppetizer}
                         onChange={(e) => setIsAppetizer(e.target.checked)}
                       />
@@ -719,7 +730,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='Drink?'
+                        label='Drink'
                         checked={isDrink}
                         onChange={(e) => setIsDrink(e.target.checked)}
                       />

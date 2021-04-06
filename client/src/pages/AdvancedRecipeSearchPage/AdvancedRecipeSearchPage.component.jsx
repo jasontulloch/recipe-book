@@ -338,7 +338,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Vegan recipes?'
+                    label='Vegan recipes'
                     checked={keywordIsVegan}
                     onChange={isVeganHandler}
                   />
@@ -346,7 +346,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Vegetarian recipes?'
+                    label='Vegetarian recipes'
                     checked={keywordIsVegetarian}
                     onChange={isVegetarianHandler}
                   />
@@ -354,7 +354,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Gluten-free recipes?'
+                    label='Gluten-free recipes'
                     checked={keywordIsGlutenFree}
                     onChange={(e) => setKeywordIsGlutenFree(e.target.checked)}
                   />
@@ -362,7 +362,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Ketogenic recipes?'
+                    label='Ketogenic recipes'
                     checked={keywordIsKetogenic}
                     onChange={(e) => setKeywordIsKetogenic(e.target.checked)}
                   />
@@ -370,7 +370,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isPescatarian' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Pescatarian recipes?'
+                    label='Pescatarian recipes'
                     checked={keywordIsPescatarian}
                     onChange={(e) => setKeywordIsPescatarian(e.target.checked)}
                   />
@@ -402,7 +402,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains dairy?'
+                    label='Contains dairy'
                     checked={keywordIsDairy}
                     onChange={(e) => setKeywordIsDairy(e.target.checked)}
                   />
@@ -410,7 +410,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains egg?'
+                    label='Contains egg'
                     checked={keywordIsEgg}
                     onChange={(e) => setKeywordIsEgg(e.target.checked)}
                   />
@@ -418,7 +418,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains nuts?'
+                    label='Contains nuts'
                     checked={keywordIsNuts}
                     onChange={(e) => setKeywordIsNuts(e.target.checked)}
                   />
@@ -426,7 +426,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains shellfish?'
+                    label='Contains shellfish'
                     checked={keywordIsShellfish}
                     onChange={(e) => setKeywordIsShellfish(e.target.checked)}
                   />
@@ -434,7 +434,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains soy?'
+                    label='Contains soy'
                     checked={keywordIsSoy}
                     onChange={(e) => setKeywordIsSoy(e.target.checked)}
                   />
@@ -442,7 +442,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Contains wheat?'
+                    label='Contains wheat'
                     checked={keywordIsWheat}
                     onChange={(e) => setKeywordIsWheat(e.target.checked)}
                   />
@@ -475,7 +475,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Breakfast or Brunch?'
+                    label='Breakfast or Brunch'
                     checked={keywordIsBreakfastBrunch}
                     onChange={(e) => setKeywordIsBreakfastBrunch(e.target.checked)}
                   />
@@ -483,7 +483,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Main Dish?'
+                    label='Main Dish'
                     checked={keywordIsMainDish}
                     onChange={(e) => setKeywordIsMainDish(e.target.checked)}
                   />
@@ -491,7 +491,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Side or Sauce?'
+                    label='Side or Sauce'
                     checked={keywordIsSideSauce}
                     onChange={(e) => setKeywordIsSideSauce(e.target.checked)}
                   />
@@ -499,7 +499,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Dessert?'
+                    label='Dessert'
                     checked={keywordIsDessert}
                     onChange={(e) => setKeywordIsDessert(e.target.checked)}
                   />
@@ -507,7 +507,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Snack?'
+                    label='Snack'
                     checked={keywordIsSnack}
                     onChange={(e) => setKeywordIsSnack(e.target.checked)}
                   />
@@ -515,7 +515,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Appetizer?'
+                    label='Appetizer'
                     checked={keywordIsAppetizer}
                     onChange={(e) => setKeywordIsAppetizer(e.target.checked)}
                   />
@@ -523,7 +523,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                 <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Drink?'
+                    label='Drink'
                     checked={keywordIsDrink}
                     onChange={(e) => setKeywordIsDrink(e.target.checked)}
                   />
