@@ -393,7 +393,7 @@ const createRecipe = asyncHandler(async (req, res) => {
     recipe_cover_image: '/images/defaultRecipeCoverImage.jpg',
     steps: [' '],
     ingredients: [["1","Tablespoon","Paprika"]],
-    country: 'Afghanistan',
+    country: ' ',
     cook_time: 60,
     serving_size: 4
   })

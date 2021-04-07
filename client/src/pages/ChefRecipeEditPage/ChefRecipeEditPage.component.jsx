@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Form, Button, Tabs, Tab, Table, Image, Row, Col } from 'react-bootstrap';
+import { Form, Button, Tabs, Tab, Table, Image, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
 import Message from '../../components/Message/Message.component';
@@ -14,6 +14,7 @@ import Measurements from '../../lists/measurements';
 import Quantities from '../../lists/quantities';
 
 import { FaPlus, FaTrash } from 'react-icons/fa';
+import { BiInfoCircle } from 'react-icons/bi'
 
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
@@ -50,7 +51,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
-  const [incrementDecrementMessage, setIncrementDecrementMessage] = useState('')
+  const [cookTimeMessage, setCookTimeMessage] = useState('')
+  const [servingSizeMessage, setServingSizeMessage] = useState('')
+  const [ingredientsMessage, setIngredientsMessage] = useState('')
 
   const dispatch = useDispatch()
 
@@ -288,13 +291,50 @@ const ChefRecipeEditPage = ({ match, history }) => {
 
   // Function disables all key presses
 
-  function handleKeypress (e) {
-    const characterCode = e.key
-    if (characterCode) {
+  //function handleKeypress (e) {
+  //  const characterCode = e.key
+  //  if (characterCode) {
+  //    e.preventDefault()
+  //    setCookTimeMessage('Use the increment and decrement arrows to modify the serve size.')
+  //    setTimeout(function() {
+  //      setCookTimeMessage('')
+  //    }, 3000)
+  //  }
+  //}
+
+  // '^' - matches any character that starts with
+  // '\d' - matches a single character that is a digit
+  // '*' - followed by zero or more
+
+  function handleKeypressCookTime (e) {
+    const characterCode = e.keyCode
+    if (characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) {
       e.preventDefault()
-      setIncrementDecrementMessage('Use the increment and decrement arrows to modify the serve size.')
+      setCookTimeMessage('Cooking times must be between 1 and 999 minutes.')
       setTimeout(function() {
-        setIncrementDecrementMessage('')
+        setCookTimeMessage('')
+      }, 3000)
+    }
+  }
+
+  function handleKeypressServingSize (e) {
+    const characterCode = e.keyCode
+    if (characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) {
+      e.preventDefault()
+      setServingSizeMessage('Serving sizes must be between 1 and 20 servings.')
+      setTimeout(function() {
+        setServingSizeMessage('')
+      }, 3000)
+    }
+  }
+
+  function handleKeypressIngredients (e) {
+    const characterCode = e.keyCode
+    if (characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) {
+      e.preventDefault()
+      setIngredientsMessage('Sorry, the number you are trying to enter is invalid.')
+      setTimeout(function() {
+        setIngredientsMessage('')
       }, 3000)
     }
   }
@@ -362,14 +402,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     placeholder={60}
                     value={cook_time}
                     onChange={(e) => setCookTime(e.target.value)}
-                    onKeyDown={handleKeypress}
+                    onKeyDown={handleKeypressCookTime}
                     min={1}
-                    max={360}
+                    max={999}
                   >
                   </Form.Control>
                   <Form.Text style={{paddingTop: '5px'}}>
-                    {incrementDecrementMessage !== '' && (
-                      <Message variant='warning'>{incrementDecrementMessage}</Message>
+                    {cookTimeMessage !== '' && (
+                      <Message variant='warning'>{cookTimeMessage}</Message>
                     )}
                   </Form.Text>
                   <Form.Text className='muted'>Enter in minutes, we will take care of the rest.</Form.Text>
@@ -381,12 +421,201 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     placeholder='How many servings does your recipe have?'
                     value={serving_size}
                     onChange={(e) => setServingSize(e.target.value)}
-                    onKeyDown={handleKeypress}
+                    onKeyDown={handleKeypressServingSize}
                     min={1}
                     max={20}
                   >
                   </Form.Control>
+                  <Form.Text style={{paddingTop: '5px'}}>
+                    {servingSizeMessage !== '' && (
+                      <Message variant='warning'>{servingSizeMessage}</Message>
+                    )}
+                  </Form.Text>
                   <Form.Text className='muted'>Users will be able to adjust as needed. We present all recipes as 4 servings, which users can adjust.</Form.Text>
+                </Form.Group>
+              </Tab>
+              <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
+                <Form.Group controlId='recipeIngredients'>
+                  <Message variant='warning'>
+                    <Form.Text className='muted'> Quantity: Enter ingredient quantities as a decimal or whole number. Hover over the info icon next to 'Quantity' for help!</Form.Text>
+                    <Form.Text className='muted'>Measurement: Leave blank if the ingredient does not need a unit of measurement (e.g. 1 White Onion).</Form.Text>
+                  </Message>
+                  <Table className='ingredientTable'>
+                    <thead style={{textAlign:'center' }} class='ingredientTableHeaders'>
+                      <th style={{padding: '12px 0px 12px 0px', border: 'none'}}></th>
+                      <th
+                        style={{padding: '12px 12px 12px 12px', border: 'none'}}
+                      >
+                        Quantity
+                        <OverlayTrigger
+                          placement='bottom'
+                          overlay={
+                            <Tooltip id={'tooltip-bottom'}>
+                              <thead>
+                                <th style={{paddingRight: '5px'}}>Fraction</th>
+                                <th>Decimal</th>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1/16</td>
+                                  <td>0.0625</td>
+                                </tr>
+                                <tr>
+                                  <td>1/8</td>
+                                  <td>0.125</td>
+                                </tr>
+                                <tr>
+                                  <td>3/16</td>
+                                  <td>0.1875</td>
+                                </tr>
+                                <tr>
+                                  <td>1/4</td>
+                                  <td>0.25</td>
+                                </tr>
+                                <tr>
+                                  <td>5/16</td>
+                                  <td>0.3125</td>
+                                </tr>
+                                <tr>
+                                  <td>3/8</td>
+                                  <td>0.375</td>
+                                </tr>
+                                <tr>
+                                  <td>7/16</td>
+                                  <td>0.4375</td>
+                                </tr>
+                                <tr>
+                                  <td>1/2</td>
+                                  <td>0.5</td>
+                                </tr>
+                                <tr>
+                                  <td>9/16</td>
+                                  <td>0.5625</td>
+                                </tr>
+                                <tr>
+                                  <td>5/8</td>
+                                  <td>0.625</td>
+                                </tr>
+                                <tr>
+                                  <td>11/16</td>
+                                  <td>0.6875</td>
+                                </tr>
+                                <tr>
+                                  <td>3/4</td>
+                                  <td>0.75</td>
+                                </tr>
+                                <tr>
+                                  <td>13/16</td>
+                                  <td>0.8125</td>
+                                </tr>
+                                <tr>
+                                  <td>7/8</td>
+                                  <td>0.875</td>
+                                </tr>
+                                <tr>
+                                  <td>15/16</td>
+                                  <td>0.9375</td>
+                                </tr>
+                              </tbody>
+                            </Tooltip>
+                          }
+                        >
+                          <span><BiInfoCircle /></span>
+                        </OverlayTrigger>
+                      </th>
+                      <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Measurement</th>
+                      <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Ingredient</th>
+                    </thead>
+                    {ingredients.map((ingredient, index) => (
+                      <tbody style={{border: 'none'}}>
+                        <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
+                          <Button
+                            style={{backgroundColor: 'white', color: 'black' }}
+                            className='deleteIndividualIngredient btn-sm'
+                            value={index}
+                            onClick={addIngredientBetween}
+                          >
+                            <FaPlus />
+                          </Button>
+                        </td>
+                        <td style={{padding: '0px 0px 5px 0px', border: 'none'}} className="ingredientTableSectionAmount">
+                          <Form.Group style={{marginBottom: '0px'}} controlId='ingredientsQuantity' className='ingredientsFormGroupAmount'>
+                            <Form.Control
+                              type='number'
+                              step='any'
+                              min={0}
+                              max={25}
+                              value={ingredient[0]}
+                              onChange={(e) => {
+                                ingredients[index][0] = e.target.value;
+                                setIngredients([...ingredients])
+                              }}>
+                            </Form.Control>
+                          </Form.Group>
+                        </td>
+                        <td style={{padding: '0px 0px 5px 5px', border: 'none'}} className="ingredientTableSectionMeasurement">
+                          <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupMeasurement'>
+                            <Form.Control
+                              as='select'
+                              value={ingredient[1]}
+                              onChange={(e) => {
+                                ingredients[index][1] = e.target.value;
+                                setIngredients([...ingredients])
+                              }}>
+                              {Measurements.map((measurement) =>
+                                <option key={measurement[0]}>
+                                  {measurement[1]}
+                                </option>
+                              )}
+                            </Form.Control>
+                          </Form.Group>
+                        </td>
+                        <td style={{padding: '0px 0px 5px 5px', border: 'none'}} className="ingredientTableSectionIngredient">
+                          <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupIngredient'>
+                            <Form.Control
+                              key='index'
+                              type='text'
+                              placeholder='Enter ingredient here'
+                              required
+                              value={ingredient[2]}
+                              onChange={(e) => {
+                                ingredients[index][2] = e.target.value;
+                                setIngredients([...ingredients])
+                              }}
+                            >
+                            </Form.Control>
+                          </Form.Group>
+                        </td>
+                        <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
+                          <Button
+                            style={{backgroundColor: 'white', color: 'black' }}
+                            className='deleteIndividualIngredient btn-sm'
+                            value={index}
+                            onClick={removeIngredientHandler}
+                          >
+                            <FaTrash />
+                          </Button>
+                        </td>
+                      </tbody>
+                    ))}
+                  </Table>
+                <Form.Label>Add another ingredient</Form.Label>
+                <Form.Text className='muted'>Note: You will set the quantity and measurement next.</Form.Text>
+                <Table className='newIngredientTable' style={{paddingBottom: '0px'}}>
+                  <td className='ingredientsTableSectionIngredient' style={{paddingBottom: '0px'}}>
+                    <Form.Group controlId='newIngredient'>
+                      <Form.Control
+                        key='index'
+                        type='text'
+                        placeholder='Enter new ingredient'
+                        onKeyPress={addIngredient}
+                      >
+                      </Form.Control>
+                    </Form.Group>
+                  </td>
+                  <td></td>
+                </Table>
+                <Form.Text className='muted'>Note: Hit enter to add the new ingredient and save using the button below.</Form.Text>
                 </Form.Group>
               </Tab>
               <Tab eventKey='recipeSteps' title="Recipe Steps">
@@ -470,114 +699,12 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   </Col>
                 </Row>
               </Tab>
-              <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
-                <Form.Group controlId='recipeIngredients'>
-                  <Message variant='warning'>
-                    <Form.Text className='muted'>Quantity: Enter ingredient quantities as a decimal or whole number.</Form.Text>
-                    <Form.Text className='muted'>Measurement: Leave blank if the ingredient does not need a unit of measurement (e.g. 1 White Onion).</Form.Text>
-                  </Message>
-                  <Table className='ingredientTable'>
-                    <thead style={{textAlign:'center' }} class='ingredientTableHeaders'>
-                      <th style={{padding: '12px 0px 12px 0px', border: 'none'}}></th>
-                      <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Quantity</th>
-                      <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Measurement</th>
-                      <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Ingredient</th>
-                    </thead>
-                    {ingredients.map((ingredient, index) => (
-                      <tbody style={{border: 'none'}}>
-                        <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
-                          <Button
-                            style={{backgroundColor: 'white', color: 'black' }}
-                            className='deleteIndividualIngredient btn-sm'
-                            value={index}
-                            onClick={addIngredientBetween}
-                          >
-                            <FaPlus />
-                          </Button>
-                        </td>
-                        <td style={{padding: '0px 0px 5px 0px', border: 'none'}} className="ingredientTableSectionAmount">
-                          <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupAmount'>
-                            <Form.Control
-                              type='number'
-                              step='any'
-                              min={0}
-                              max={25}
-                              value={ingredient[0]}
-                              onChange={(e) => {
-                                ingredients[index][0] = e.target.value;
-                                setIngredients([...ingredients])
-                              }}>
-                            </Form.Control>
-                          </Form.Group>
-                        </td>
-                        <td style={{padding: '0px 0px 5px 5px', border: 'none'}} className="ingredientTableSectionMeasurement">
-                          <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupMeasurement'>
-                            <Form.Control
-                              as='select'
-                              value={ingredient[1]}
-                              onChange={(e) => {
-                                ingredients[index][1] = e.target.value;
-                                setIngredients([...ingredients])
-                              }}>
-                              {Measurements.map((measurement) =>
-                                <option key={measurement[0]}>
-                                  {measurement[1]}
-                                </option>
-                              )}
-                            </Form.Control>
-                          </Form.Group>
-                        </td>
-                        <td style={{padding: '0px 0px 5px 5px', border: 'none'}} className="ingredientTableSectionIngredient">
-                          <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupIngredient'>
-                            <Form.Control
-                              key='index'
-                              type='text'
-                              placeholder='Enter ingredient here'
-                              required
-                              value={ingredient[2]}
-                              onChange={(e) => {
-                                ingredients[index][2] = e.target.value;
-                                setIngredients([...ingredients])
-                              }}
-                            >
-                            </Form.Control>
-                          </Form.Group>
-                        </td>
-                        <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
-                          <Button
-                            style={{backgroundColor: 'white', color: 'black' }}
-                            className='deleteIndividualIngredient btn-sm'
-                            value={index}
-                            onClick={removeIngredientHandler}
-                          >
-                            <FaTrash />
-                          </Button>
-                        </td>
-                      </tbody>
-                    ))}
-                  </Table>
-                <Form.Label>Add another ingredient</Form.Label>
-                <Form.Text className='muted'>Note: You will set the quantity and measurement next.</Form.Text>
-                <Table className='newIngredientTable'>
-                  <td className='ingredientsTableSectionIngredient'>
-                    <Form.Group controlId='newIngredient'>
-                      <Form.Control
-                        key='index'
-                        type='text'
-                        placeholder='Enter new ingredient'
-                        onKeyPress={addIngredient}
-                      >
-                      </Form.Control>
-                    </Form.Group>
-                  </td>
-                  <td></td>
-                </Table>
-                <Form.Text className='muted'>Note: Hit enter to add the new ingredient and the update button below to save.</Form.Text>
-                </Form.Group>
-              </Tab>
               <Tab eventKey='recipeDietsAndAllergins' title="Recipe Details">
                 <Row>
                   <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <Message variant='warning'>
+                      <Form.Text className='muted'>This section is optional. Fill it out so your recipe can be loved even more. If you are not certain, take your best guess!</Form.Text>
+                    </Message>
                     <Form.Label className='dietsLabel'>Diets</Form.Label>
                   </Col>
                   <Col style={{textAlign: 'center'}}>
@@ -740,40 +867,55 @@ const ChefRecipeEditPage = ({ match, history }) => {
               </Tab>
               <Tab eventKey='recipeImages' title="Recipe Images">
                 {uploading === false ? (
-                  <Form.Group controlId='coverImage' className='imagesGroup'>
-                    <Form.Label>Cover Image</Form.Label>
-                      <FormContainer>
-                        <Image
-                          className="recipeCoverImage"
-                          src={recipe_cover_image}
-                          key={Date.now()}
-                          rounded
-                        />
-                    </FormContainer>
-                    <Form.File
-                      id='cover-image-file'
-                      name='recipe_cover_image'
-                      label='Choose Cover Image'
-                      custom
-                      onChange={uploadFileHandler}
-                    ></Form.File>
-                  </Form.Group>
+                  <Row>
+                    <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center' }}>
+                      <Message variant='warning'>
+                        <Form.Text className='muted'>A great picture is key to a great recipe. For the best results, upload a square 3024px x 3024px photo. Never use a photo that is not yours.</Form.Text>
+                      </Message>
+                    </Col>
+                    <Col style={{textAlign: 'center'}}>
+                      <Form.Group controlId='coverImage' className='imagesGroup'>
+                        <FormContainer>
+                          <Image
+                            className="recipeCoverImage"
+                            src={recipe_cover_image}
+                            key={Date.now()}
+                            rounded
+                          />
+                        </FormContainer>
+                        <Form.File
+                          style={{width: '50%', textAlign: 'left', minWidth: '330px'}}
+                          id='cover-image-file'
+                          name='recipe_cover_image'
+                          label='Choose Cover Image'
+                          custom
+                          onChange={uploadFileHandler}
+                        ></Form.File>
+                      </Form.Group>
+                      <Form.Text className='muted'>Your new image will automatically save once its uploaded.</Form.Text>
+                    </Col>
+                  </Row>
                 ) : (
                   <PancakeLoader>Uploading recipe photo...</PancakeLoader>
                 )}
               </Tab>
             </Tabs>
-            <Row>
               {uploading === false ? (
-                <Col style={{textAlign: 'center'}}>
+              <Row>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingTop: '20px'}}>
                   <Button type='submit' variant='primary'>
-                    Update
+                    Save Recipe
                   </Button>
                 </Col>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '10px'}} >
+                  {successMessage !== '' && (
+                    <Message variant='success'>{successMessage}</Message>
+                  )}
+                </Col>
+              </Row>
               ) : (
-                <Col></Col>
+                <Row></Row>
               )}
-            </Row>
           </Form>
         </FormContainer>
       )}

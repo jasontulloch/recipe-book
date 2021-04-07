@@ -570,9 +570,11 @@ const IndividualRecipePage = ({ history, match }) => {
             />
           </Form.Group>
         </Col>
-        <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{ paddingLeft: 0 }}>
-          <h5>Country: {recipe.country}</h5>
-        </Col>
+        {(recipe.country && recipe.country.length > 1) && (
+          <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{ paddingLeft: 0 }}>
+            <h5>Country: {recipe.country}</h5>
+          </Col>
+        )}
         <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
           <h5>
             {MealTypes.length > 0 && 'Meal Type / Course: '}
@@ -619,11 +621,11 @@ const IndividualRecipePage = ({ history, match }) => {
               </Form.Group>
             </Form>
           </div>
-          <ol>
+          <ul>
             {final && final.map((obj) => (
               <li>{obj}</li>
             ))}
-          </ol>
+          </ul>
         </Col>
         <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{ paddingLeft: '0px', paddingTop: '15px' }}>
           <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Steps</h4>
