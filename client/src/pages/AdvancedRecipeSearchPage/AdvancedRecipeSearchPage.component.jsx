@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Countries from '../../lists/countries';
+import Message from '../../components/Message/Message.component';
 
 const AdvancedRecipeSearchPage = ({ history, match }) => {
   const [keywordRecipeName, setKeywordRecipeName] = useState('')
@@ -246,6 +247,154 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
     }
   }
 
+  // Output for what the search will do
+  const Diets = []
+  const DietsExclude = []
+  try {
+    if (keywordIsVegan === true) {
+      Diets.push('vegan')
+    } else {
+      DietsExclude.push('vegan')
+    }
+    if (keywordIsVegetarian === true) {
+      Diets.push('vegetarian')
+    } else {
+      DietsExclude.push('vegetarian')
+    }
+    if (keywordIsGlutenFree === true) {
+      Diets.push('gluten-free')
+    } else {
+      DietsExclude.push('gluten-free')
+    }
+    if (keywordIsKetogenic === true) {
+      Diets.push('ketogenic')
+    } else {
+      DietsExclude.push('ketogenic')
+    }
+    if (keywordIsPescatarian === true) {
+      Diets.push('pescatarian')
+    } else {
+      DietsExclude.push('pescatarian')
+    }
+  } catch (err) {
+
+  }
+
+  const Allergins = []
+  try {
+    if (keywordIsDairy === true) {
+      Allergins.push('dairy')
+    }
+    if (keywordIsEgg === true) {
+      Allergins.push('egg')
+    }
+    if (keywordIsNuts === true) {
+      Allergins.push('nuts')
+    }
+    if (keywordIsShellfish === true) {
+      Allergins.push('shellfish')
+    }
+    if (keywordIsSoy === true) {
+      Allergins.push('soy')
+    }
+    if (keywordIsWheat === true) {
+      Allergins.push('wheat')
+    }
+  } catch (err) {
+
+  }
+
+  const mealTypeRadioBB = (e) => {
+    e.stopPropagation()
+    if (keywordIsBreakfastBrunch == false) {
+      setKeywordIsBreakfastBrunch(true)
+      setKeywordIsMainDish(false)
+      setKeywordIsSideSauce(false)
+      setKeywordIsDessert(false)
+      setKeywordIsSnack(false)
+      setKeywordIsAppetizer(false)
+      setKeywordIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioMD = (e) => {
+    e.stopPropagation()
+    if (keywordIsMainDish == false) {
+       setKeywordIsMainDish(true)
+      setKeywordIsBreakfastBrunch(false)
+      setKeywordIsSideSauce(false)
+      setKeywordIsDessert(false)
+      setKeywordIsSnack(false)
+      setKeywordIsAppetizer(false)
+      setKeywordIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioSS = (e) => {
+    e.stopPropagation()
+    if (keywordIsSideSauce == false) {
+      setKeywordIsSideSauce(true)
+      setKeywordIsMainDish(false)
+      setKeywordIsBreakfastBrunch(false)
+      setKeywordIsDessert(false)
+      setKeywordIsSnack(false)
+      setKeywordIsAppetizer(false)
+      setKeywordIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioDe = (e) => {
+    e.stopPropagation()
+    if (keywordIsDessert == false) {
+      setKeywordIsDessert(true)
+      setKeywordIsMainDish(false)
+      setKeywordIsSideSauce(false)
+      setKeywordIsBreakfastBrunch(false)
+      setKeywordIsSnack(false)
+      setKeywordIsAppetizer(false)
+      setKeywordIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioS = (e) => {
+    e.stopPropagation()
+    if (keywordIsSnack == false) {
+      setKeywordIsSnack(true)
+      setKeywordIsMainDish(false)
+      setKeywordIsSideSauce(false)
+      setKeywordIsDessert(false)
+      setKeywordIsBreakfastBrunch(false)
+      setKeywordIsAppetizer(false)
+      setKeywordIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioA = (e) => {
+    e.stopPropagation()
+    if (keywordIsAppetizer == false) {
+      setKeywordIsAppetizer(true)
+      setKeywordIsMainDish(false)
+      setKeywordIsSideSauce(false)
+      setKeywordIsDessert(false)
+      setKeywordIsSnack(false)
+      setKeywordIsBreakfastBrunch(false)
+      setKeywordIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioDr = (e) => {
+    e.stopPropagation()
+    if (keywordIsDrink == false) {
+      setKeywordIsDrink(true)
+      setKeywordIsMainDish(false)
+      setKeywordIsSideSauce(false)
+      setKeywordIsDessert(false)
+      setKeywordIsSnack(false)
+      setKeywordIsAppetizer(false)
+      setKeywordIsBreakfastBrunch(false)
+    }
+  }
+
   return (
     <div>
       <div style={{textAlign: 'center'}}>
@@ -385,6 +534,12 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
               {(searchByDiet === true) ? (
                 <div>
                   <p>Pre-checked diet search parameters are based on your profile so you can get cooking faster.</p>
+                  {Diets && Diets.length > 0 && (
+                    <Message variant='warning'>
+                      <Form.Text>Find me all recipes that are: {new Intl.ListFormat().format(Diets)}</Form.Text>
+                      <Form.Text>Ignoring all recipes that are: {new Intl.ListFormat().format(DietsExclude)}</Form.Text>
+                    </Message>
+                  )}
                   <Button onClick={(e) => setSearchByDiet(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
                     Exclude diets from search.
                   </Button>
@@ -457,6 +612,11 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
               {(searchByAllergin === true) ? (
                 <div>
                   <p>Pre-checked allergin search parameters are based on your profile so you can get cooking faster.</p>
+                    {Allergins && Allergins.length > 0 && (
+                      <Message variant='warning'>
+                        <Form.Text>Find me all recipes that exclude: {new Intl.ListFormat().format(Allergins)}</Form.Text>
+                      </Message>
+                    )}
                   <Button onClick={(e) => setSearchByAllergin(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
                     Exclude common allergins from search.
                   </Button>
@@ -477,7 +637,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Breakfast or Brunch'
                     checked={keywordIsBreakfastBrunch}
-                    onChange={(e) => setKeywordIsBreakfastBrunch(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioBB}
                   />
                 </Form.Group>
                 <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
@@ -485,7 +647,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Main Dish'
                     checked={keywordIsMainDish}
-                    onChange={(e) => setKeywordIsMainDish(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioMD}
                   />
                 </Form.Group>
                 <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
@@ -493,7 +657,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Side or Sauce'
                     checked={keywordIsSideSauce}
-                    onChange={(e) => setKeywordIsSideSauce(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioSS}
                   />
                 </Form.Group>
                 <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
@@ -501,7 +667,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Dessert'
                     checked={keywordIsDessert}
-                    onChange={(e) => setKeywordIsDessert(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioDe}
                   />
                 </Form.Group>
                 <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
@@ -509,7 +677,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Snack'
                     checked={keywordIsSnack}
-                    onChange={(e) => setKeywordIsSnack(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioS}
                   />
                 </Form.Group>
                 <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
@@ -517,7 +687,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Appetizer'
                     checked={keywordIsAppetizer}
-                    onChange={(e) => setKeywordIsAppetizer(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioA}
                   />
                 </Form.Group>
                 <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
@@ -525,7 +697,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     inline
                     label='Drink'
                     checked={keywordIsDrink}
-                    onChange={(e) => setKeywordIsDrink(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioDr}
                   />
                 </Form.Group>
             </Col>

@@ -208,6 +208,97 @@ const ProfileEditPage = ({ location, history }) => {
 
   const [key, setKey] = useState('auth')
 
+  const mealTypeRadioBB = (e) => {
+    e.stopPropagation()
+    if (isBreakfastBrunch == false) {
+      setIsBreakfastBrunch(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioMD = (e) => {
+    e.stopPropagation()
+    if (isMainDish == false) {
+       setIsMainDish(true)
+      setIsBreakfastBrunch(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioSS = (e) => {
+    e.stopPropagation()
+    if (isSideSauce == false) {
+      setIsSideSauce(true)
+      setIsMainDish(false)
+      setIsBreakfastBrunch(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioDe = (e) => {
+    e.stopPropagation()
+    if (isDessert == false) {
+      setIsDessert(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsBreakfastBrunch(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioS = (e) => {
+    e.stopPropagation()
+    if (isSnack == false) {
+      setIsSnack(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsBreakfastBrunch(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioA = (e) => {
+    e.stopPropagation()
+    if (isAppetizer == false) {
+      setIsAppetizer(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsBreakfastBrunch(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioDr = (e) => {
+    e.stopPropagation()
+    if (isDrink == false) {
+      setIsDrink(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsBreakfastBrunch(false)
+    }
+  }
+
   return (
     <FormContainer className="profileEditPage">
       {warningMessage !== '' && (
@@ -338,6 +429,9 @@ const ProfileEditPage = ({ location, history }) => {
                   />
                 </Form.Group>
               </Col>
+              <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
+                <Form.Text>Particular diet? This will help us show you exactly what you are looking for.</Form.Text>
+              </Col>
               <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Form.Label className='allerginsLabel'>Allergins</Form.Label>
               </Col>
@@ -391,9 +485,11 @@ const ProfileEditPage = ({ location, history }) => {
                   />
                 </Form.Group>
               </Col>
+              <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
+                <Form.Text>Should we avoid any common allergins?</Form.Text>
+              </Col>
               <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Form.Label className='allerginsLabel'>Meal Course / Type</Form.Label>
-                <Form.Text>Help us understand what types of meals you typically search for...</Form.Text>
               </Col>
               <Col style={{textAlign: 'center'}}>
                 <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
@@ -401,23 +497,29 @@ const ProfileEditPage = ({ location, history }) => {
                     inline
                     label='Breakfast or Brunch'
                     checked={isBreakfastBrunch}
-                    onChange={(e) => setIsBreakfastBrunch(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioBB}
                   />
                 </Form.Group>
                 <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Entrees'
+                    label='Main Dish'
                     checked={isMainDish}
-                    onChange={(e) => setIsMainDish(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioMD}
                   />
                 </Form.Group>
                 <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
                   <Form.Check
                     inline
-                    label='Sides or Sauces'
+                    label='Side or Sauce'
                     checked={isSideSauce}
-                    onChange={(e) => setIsSideSauce(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioSS}
                   />
                 </Form.Group>
                 <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
@@ -425,7 +527,9 @@ const ProfileEditPage = ({ location, history }) => {
                     inline
                     label='Dessert'
                     checked={isDessert}
-                    onChange={(e) => setIsDessert(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioDe}
                   />
                 </Form.Group>
                 <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
@@ -433,7 +537,9 @@ const ProfileEditPage = ({ location, history }) => {
                     inline
                     label='Snack'
                     checked={isSnack}
-                    onChange={(e) => setIsSnack(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioS}
                   />
                 </Form.Group>
                 <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
@@ -441,7 +547,9 @@ const ProfileEditPage = ({ location, history }) => {
                     inline
                     label='Appetizer'
                     checked={isAppetizer}
-                    onChange={(e) => setIsAppetizer(e.target.checked)}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioA}
                   />
                 </Form.Group>
                 <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
@@ -449,9 +557,14 @@ const ProfileEditPage = ({ location, history }) => {
                   inline
                   label='Drink'
                   checked={isDrink}
-                  onChange={(e) => setIsDrink(e.target.checked)}
+                  type='radio'
+                  name='mealTypeRadio'
+                  onChange={mealTypeRadioDr}
                 />
                 </Form.Group>
+              </Col>
+              <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
+                <Form.Text>What type of meal are you normally searching for?</Form.Text>
               </Col>
               <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Form.Label className='allerginsLabel'>Measurement (Imperial / US System)</Form.Label>

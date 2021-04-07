@@ -194,41 +194,42 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
 
   const keywordIsBreakfastBrunch = (req.query.keywordIsBreakfastBrunch && req.query['keywordIsBreakfastBrunch'] == 'true') ? {
     isBreakfastBrunch: {
-      $eq: req.query.keywordIsBreakfastBrunch
+      $eq: 'true'
     }
   } : {}
 
   const keywordIsMainDish = (req.query.keywordIsMainDish && req.query['keywordIsMainDish'] == 'true') ? {
     isMainDish: {
-      $eq: req.query.keywordIsMainDish
+      $eq: 'true'
     }
   } : {}
+
   const keywordIsSideSauce = (req.query.keywordIsSideSauce && req.query['keywordIsSideSauce'] == 'true') ? {
     isSideSauce: {
-      $eq: req.query.keywordIsSideSauce
+      $eq: 'true'
     }
   } : {}
   const keywordIsDessert = (req.query.keywordIsDessert && req.query['keywordIsDessert'] == 'true') ? {
     isDessert: {
-      $eq: req.query.keywordIsDessert
+      $eq: 'true'
     }
   } : {}
   const keywordIsSnack = (req.query.keywordIsSnack && req.query['keywordIsSnack'] == 'true') ? {
     isSnack: {
-      $eq: req.query.keywordIsSnack
+      $eq: 'true'
     }
   } : {}
   const keywordIsAppetizer = (req.query.keywordIsAppetizer && req.query['keywordIsAppetizer'] == 'true') ? {
     isAppetizer: {
-      $eq: req.query.keywordIsAppetizer
+      $eq: 'true'
     }
   } : {}
   const keywordIsDrink = (req.query.keywordIsDrink && req.query['keywordIsDrink'] == 'true') ? {
     isDrink: {
-      $eq: req.query.keywordIsDrink
+      $eq: 'true'
     }
   } : {}
-
+  
   // Sort will order createdAt from newest to older (-1) to flip
   const netVotesSort = req.query.netVotesSort
   const createdAtSort = req.query.createdAtSort
@@ -262,7 +263,6 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
     ]
   })
 
-  // This works as of 4/5/21
   const recipes = await Recipe.find({
     //and below is finding both (don't technically need the and)
     $and: [
@@ -289,7 +289,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsSnack},
       {...keywordIsAppetizer},
       {...keywordIsDrink}
-    ],
+    ]
   })
   .sort({'createdAt': createdAtSort, 'netVotes':netVotesSort})
   .limit(pageSize)

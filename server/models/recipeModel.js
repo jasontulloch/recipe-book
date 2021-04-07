@@ -109,7 +109,7 @@ const recipeSchema = mongoose.Schema(
     isMainDish: {
       type: Boolean,
       required: true,
-      default: false
+      default: true
     },
     isSideSauce: {
       type: Boolean,

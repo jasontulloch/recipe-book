@@ -339,6 +339,97 @@ const ChefRecipeEditPage = ({ match, history }) => {
     }
   }
 
+  const mealTypeRadioBB = (e) => {
+    e.stopPropagation()
+    if (isBreakfastBrunch == false) {
+      setIsBreakfastBrunch(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioMD = (e) => {
+    e.stopPropagation()
+    if (isMainDish == false) {
+       setIsMainDish(true)
+      setIsBreakfastBrunch(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioSS = (e) => {
+    e.stopPropagation()
+    if (isSideSauce == false) {
+      setIsSideSauce(true)
+      setIsMainDish(false)
+      setIsBreakfastBrunch(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioDe = (e) => {
+    e.stopPropagation()
+    if (isDessert == false) {
+      setIsDessert(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsBreakfastBrunch(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioS = (e) => {
+    e.stopPropagation()
+    if (isSnack == false) {
+      setIsSnack(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsBreakfastBrunch(false)
+      setIsAppetizer(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioA = (e) => {
+    e.stopPropagation()
+    if (isAppetizer == false) {
+      setIsAppetizer(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsBreakfastBrunch(false)
+      setIsDrink(false)
+    }
+  }
+
+  const mealTypeRadioDr = (e) => {
+    e.stopPropagation()
+    if (isDrink == false) {
+      setIsDrink(true)
+      setIsMainDish(false)
+      setIsSideSauce(false)
+      setIsDessert(false)
+      setIsSnack(false)
+      setIsAppetizer(false)
+      setIsBreakfastBrunch(false)
+    }
+  }
+
   return (
     <div>
       {initialLoader ?  (
@@ -811,7 +902,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Breakfast or Brunch'
                         checked={isBreakfastBrunch}
-                        onChange={(e) => setIsBreakfastBrunch(e.target.checked)}
+                        type='radio'
+                        name='mealTypeRadio'
+                        onChange={mealTypeRadioBB}
                       />
                     </Form.Group>
                     <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
@@ -819,7 +912,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Main Dish'
                         checked={isMainDish}
-                        onChange={(e) => setIsMainDish(e.target.checked)}
+                        type='radio'
+                        name='mealTypeRadio'
+                        onChange={mealTypeRadioMD}
                       />
                     </Form.Group>
                     <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
@@ -827,7 +922,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Side or Sauce'
                         checked={isSideSauce}
-                        onChange={(e) => setIsSideSauce(e.target.checked)}
+                        type='radio'
+                        name='mealTypeRadio'
+                        onChange={mealTypeRadioSS}
                       />
                     </Form.Group>
                     <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
@@ -835,7 +932,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Dessert'
                         checked={isDessert}
-                        onChange={(e) => setIsDessert(e.target.checked)}
+                        type='radio'
+                        name='mealTypeRadio'
+                        onChange={mealTypeRadioDe}
                       />
                     </Form.Group>
                     <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
@@ -843,7 +942,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Snack'
                         checked={isSnack}
-                        onChange={(e) => setIsSnack(e.target.checked)}
+                        type='radio'
+                        name='mealTypeRadio'
+                        onChange={mealTypeRadioS}
                       />
                     </Form.Group>
                     <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
@@ -851,7 +952,9 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Appetizer'
                         checked={isAppetizer}
-                        onChange={(e) => setIsAppetizer(e.target.checked)}
+                        type='radio'
+                        name='mealTypeRadio'
+                        onChange={mealTypeRadioA}
                       />
                     </Form.Group>
                     <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
@@ -859,9 +962,14 @@ const ChefRecipeEditPage = ({ match, history }) => {
                         inline
                         label='Drink'
                         checked={isDrink}
-                        onChange={(e) => setIsDrink(e.target.checked)}
+                        type='radio'
+                        name='mealTypeRadio'
+                        onChange={mealTypeRadioDr}
                       />
                     </Form.Group>
+                  </Col>
+                  <Col xs={12} style={{textAlign: 'center'}}>
+                    <Form.Text className='muted'>Select the meal course or type your recipe is most similar to. We understand that some recipes might be harder to pin down. If so, what do you use the recipe for?</Form.Text>
                   </Col>
                 </Row>
               </Tab>
