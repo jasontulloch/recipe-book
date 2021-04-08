@@ -10,7 +10,7 @@ const recipeSchema = mongoose.Schema(
     },
     isPublished: {
       type: Boolean,
-      required: false,
+      required: true,
       default: false
     },
     recipe_name: {
