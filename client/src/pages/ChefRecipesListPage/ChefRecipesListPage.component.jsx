@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Table, Button, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   listMyRecipes,
@@ -9,7 +9,7 @@ import {
   deleteRecipe,
 } from '../../actions/recipeActions';
 import { RECIPE_CREATE_RESET } from '../../constants/recipeConstants';
-
+import { BiInfoCircle } from 'react-icons/bi'
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
 const ChefRecipesListPage = ({ match , history }) => {
@@ -96,6 +96,7 @@ const ChefRecipesListPage = ({ match , history }) => {
                   <th>COUNTRY</th>
                   <th className='d-none d-md-table-cell'>COOK TIME</th>
                   <th className='d-none d-md-table-cell'>SERVING SIZE</th>
+                  <th>PUBLISHED?</th>
                   <th>EDIT</th>
                   <th>DELETE</th>
                 </tr>
@@ -107,14 +108,35 @@ const ChefRecipesListPage = ({ match , history }) => {
                   myRecipes.map(recipe => (
                     <tr key={recipe.id}>
                       <td>
-                        <Link to={`/recipe/${recipe._id}`} style={{textDecoration: 'none'}}>
+                        <Link
+                          to={`/recipe/${recipe._id}`}
+                          style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {textDecoration: 'none'}}>
                           {recipe.recipe_name}
                         </Link>
+                        {recipe.isPublished === false && (
+                          <OverlayTrigger
+                            placement='bottom'
+                            overlay={
+                              <Tooltip id={'tooltip-bottom'}>
+                                You need to publish the recipe to view it!
+                              </Tooltip>
+                            }
+                          >
+                            <span><BiInfoCircle /></span>
+                          </OverlayTrigger>
+                        )}
                       </td>
                       <td>{recipe.netVotes}</td>
                       <td>{recipe.country}</td>
                       <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
                       <td className='d-none d-md-table-cell'>{recipe.serving_size}</td>
+                      <td>
+                        {recipe.isPublished === true ? (
+                          <i className='fas fa-check'></i>
+                        ): (
+                          <i className='fas fa-times'></i>
+                        )}
+                      </td>
                       <td>
                         <LinkContainer to={`/myrecipes/${recipe._id}/edit`}>
                           <Button variant='light' className='btn-sm'>

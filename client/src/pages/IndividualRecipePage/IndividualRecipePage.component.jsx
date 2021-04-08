@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -400,253 +401,273 @@ const IndividualRecipePage = ({ history, match }) => {
 
   return (
     <div>
-      {warningMessage !== '' && (
-        <Message variant='danger'>{warningMessage}</Message>
-      )}
-      {(chefInfo == null) && (
-        <Message variant='danger'>
-          <Link to='/login' style={{ paddingRight: '5px' }}>
-            Sign in
-          </Link>
-            or
-          <Link to='/register' style={{ padding: '0px 5px 0px 5px' }}>
-            create an account
-          </Link>
-            to get the most from RecipeBook
-        </Message>
-      )}
-      {successMessage !== '' && (
-        <Message variant='success'>
-          {successMessage}
-          <Link to='/grocerylist' style={{ paddingTop: 0, paddingBottom: 0 }}>
-            My Grocery List
-          </Link>
-        </Message>
-      )}
-      <Row>
-        <Col xs={12} sm={12} md={2} lg={2} xl={2} style={{paddingLeft: '0px' }}>
-          <Link className="btn btn-dark" onClick={() => browserHistory.goBack()} style={{ padding: '0px 5px 0px 5px' }}>
-            Go Back
-          </Link>
-        </Col>
-        <Col xs={12} sm={12} md={10} lg={10} xl={10}>
-          <Row style={{ height: '30px' }}>
-          {(isRecipeSaved) ? (
-            <Form onSubmit={unsaveHandler}>
-              <Form.Group>
-                <OverlayTrigger
-                  placement='bottom'
-                  overlay={
-                    <Tooltip id={'tooltip-bottom'}>
-                      Remove recipe from your recipe book
-                    </Tooltip>
-                  }
-                >
-                  <Button
-                    variant='link'
-                    style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
-                    type='submit'
-                    onClick={(e) => setSave('')}
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    <FaTimes />
-                  </Button>
-                </OverlayTrigger>
-              </Form.Group>
-            </Form>
-          ) : (
-            <Form onSubmit={saveHandler}>
-              <Form.Group>
-                <OverlayTrigger
-                  placement='bottom'
-                  overlay={
-                    <Tooltip id={'tooltip-bottom'}>
-                      Save recipe to your recipe book
-                    </Tooltip>
-                  }
-                >
-                  <Button
-                    variant='link'
-                    style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
-                    type='submit'
-                    onClick={(e) => setSave('')}
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    <FaBookMedical />
-                  </Button>
-                </OverlayTrigger>
-              </Form.Group>
-            </Form>
+      {recipe.isPublished === true ? (
+        <div>
+          {warningMessage !== '' && (
+            <Message variant='danger'>{warningMessage}</Message>
           )}
-          {(showLikeBtn || doesVoteExist) ? (
-            <Form onSubmit={upvoteHandler}>
-              <Form.Group as={Row}>
-                <Form.Label>
-                  <h4 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h4>
-                </Form.Label>
-                <Form.Label>
-                  <p style={{ marginTop: '3px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
-                </Form.Label>
-                <OverlayTrigger
-                  placement='right'
-                  overlay={
-                    <Tooltip id={'tooltip-right'}>
-                      Upvote recipe... This will not save the recipe
-                    </Tooltip>
-                  }
-                >
-                  <Button
-                    variant='link'
-                    style={{ padding: 0, height: '25px'}}
-                    type='submit'
-                    onClick={(e) => setVote(1)}
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    <FaThumbsUp style={{ marginLeft: '5px'}}/>
-                  </Button>
-                </OverlayTrigger>
-              </Form.Group>
-            </Form>
-          ) : (
-            <Form onSubmit={downvoteHandler}>
-              <Form.Group as={Row}>
-                <Form.Label>
-                  <h4 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h4>
-                </Form.Label>
-                <Form.Label>
-                  <p style={{ marginTop: '3px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
-                </Form.Label>
-                <OverlayTrigger
-                  placement='right'
-                  overlay={
-                    <Tooltip id={'tooltip-right'}>
-                      Downvote recipe
-                    </Tooltip>
-                  }
-                >
-                  <Button
-                    variant='link'
-                    style={{ padding: 0, height: '25px'}}
-                    type='submit'
-                    onClick={(e) => setVote(-1)}
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    <FaThumbsDown style={{ marginLeft: '5px'}}/>
-                  </Button>
-                </OverlayTrigger>
-              </Form.Group>
-            </Form>
+          {(chefInfo == null) && (
+            <Message variant='danger'>
+              <Link to='/login' style={{ paddingRight: '5px' }}>
+                Sign in
+              </Link>
+                or
+              <Link to='/register' style={{ padding: '0px 5px 0px 5px' }}>
+                create an account
+              </Link>
+                to get the most from RecipeBook
+            </Message>
           )}
-          </Row>
-        </Col>
-        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
-          <h5>Chef: {chefUsername}</h5>
-        </Col>
-        <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
-          <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
-        </Col>
-        <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
-          <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
-            <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
-            <Form.Control
-                style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '40px', height: '12px'}}
-                type='number'
-                min={1}
-                max={20}
-                step={1}
-                value={servingSize}
-                onChange={(e) => setServingSize(e.target.value)}
-                onKeyDown={handleKeypress}
-                required
-              >
-            </Form.Control>
-            <Form.Check
-              style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingRight: '15px', paddingTop: '5px', paddingBottom: '8px'}}
-              inline
-              label='Metric?'
-              checked={isMetric}
-              onChange={(e) => setIsMetric(e.target.checked)}
-              disabled={(chefInfo == null) ? true : false}
-            />
-          </Form.Group>
-        </Col>
-        {(recipe.country && recipe.country.length > 1) && (
-          <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{ paddingLeft: 0 }}>
-            <h5>Country: {recipe.country}</h5>
-          </Col>
-        )}
-        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
-          <h5>
-            {MealTypes.length > 0 && 'Meal Type / Course: '}
-            {new Intl.ListFormat().format(MealTypes)}
-          </h5>
-        </Col>
-        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
-          <h5>
-            {Diets.length > 0 && 'Diets: '}
-            {new Intl.ListFormat().format(Diets)}
-          </h5>
-        </Col>
-        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
-          <h5>
-            {Allergins.length > 0 && 'Allergins: '}
-            {new Intl.ListFormat().format(Allergins)}
-          </h5>
-        </Col>
-        <Col style={{ paddingTop: '15px' }} xs={12} sm={12} md={6} lg={6} xl={6}>
-          <div style={{textAlign: 'center'}}>
-            <Form onSubmit={saveIngredientsHandler}>
-              <Form.Group as={Row} style={{height: '24px', marginBottom: '8px'}}>
-                <Form.Label>
-                  <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Ingredients</h4>
-                </Form.Label>
-                <OverlayTrigger
-                  placement='top'
-                  overlay={
-                    <Tooltip id={'tooltip-top'}>
-                      Add ingredients to grocery list
-                    </Tooltip>
-                  }
-                >
-                <Button
-                  variant='link'
-                  style={{ padding: 0, height: '0px', margin: '0 auto'}}
-                  type='submit'
-                  onClick={(e) => setSaveIngredients('')}
+          {successMessage !== '' && (
+            <Message variant='success'>
+              {successMessage}
+              <Link to='/grocerylist' style={{ paddingTop: 0, paddingBottom: 0 }}>
+                My Grocery List
+              </Link>
+            </Message>
+          )}
+          <Row>
+            <Col xs={12} sm={12} md={2} lg={2} xl={2} style={{paddingLeft: '0px' }}>
+              <Link className="btn btn-dark" onClick={() => browserHistory.goBack()} style={{ padding: '0px 5px 0px 5px' }}>
+                Go Back
+              </Link>
+            </Col>
+            <Col xs={12} sm={12} md={10} lg={10} xl={10}>
+              <Row style={{ height: '30px' }}>
+              {(isRecipeSaved) ? (
+                <Form onSubmit={unsaveHandler}>
+                  <Form.Group>
+                    <OverlayTrigger
+                      placement='bottom'
+                      overlay={
+                        <Tooltip id={'tooltip-bottom'}>
+                          Remove recipe from your recipe book
+                        </Tooltip>
+                      }
+                    >
+                      <Button
+                        variant='link'
+                        style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
+                        type='submit'
+                        onClick={(e) => setSave('')}
+                        disabled={(chefInfo == null) ? true : false}
+                      >
+                        <FaTimes />
+                      </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
+              ) : (
+                <Form onSubmit={saveHandler}>
+                  <Form.Group>
+                    <OverlayTrigger
+                      placement='bottom'
+                      overlay={
+                        <Tooltip id={'tooltip-bottom'}>
+                          Save recipe to your recipe book
+                        </Tooltip>
+                      }
+                    >
+                      <Button
+                        variant='link'
+                        style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
+                        type='submit'
+                        onClick={(e) => setSave('')}
+                        disabled={(chefInfo == null) ? true : false}
+                      >
+                        <FaBookMedical />
+                      </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
+              )}
+              {(showLikeBtn || doesVoteExist) ? (
+                <Form onSubmit={upvoteHandler}>
+                  <Form.Group as={Row}>
+                    <Form.Label>
+                      <h4 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h4>
+                    </Form.Label>
+                    <Form.Label>
+                      <p style={{ marginTop: '3px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
+                    </Form.Label>
+                    <OverlayTrigger
+                      placement='right'
+                      overlay={
+                        <Tooltip id={'tooltip-right'}>
+                          Upvote recipe... This will not save the recipe
+                        </Tooltip>
+                      }
+                    >
+                      <Button
+                        variant='link'
+                        style={{ padding: 0, height: '25px'}}
+                        type='submit'
+                        onClick={(e) => setVote(1)}
+                        disabled={(chefInfo == null) ? true : false}
+                      >
+                        <FaThumbsUp style={{ marginLeft: '5px'}}/>
+                      </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
+              ) : (
+                <Form onSubmit={downvoteHandler}>
+                  <Form.Group as={Row}>
+                    <Form.Label>
+                      <h4 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h4>
+                    </Form.Label>
+                    <Form.Label>
+                      <p style={{ marginTop: '3px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
+                    </Form.Label>
+                    <OverlayTrigger
+                      placement='right'
+                      overlay={
+                        <Tooltip id={'tooltip-right'}>
+                          Downvote recipe
+                        </Tooltip>
+                      }
+                    >
+                      <Button
+                        variant='link'
+                        style={{ padding: 0, height: '25px'}}
+                        type='submit'
+                        onClick={(e) => setVote(-1)}
+                        disabled={(chefInfo == null) ? true : false}
+                      >
+                        <FaThumbsDown style={{ marginLeft: '5px'}}/>
+                      </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
+              )}
+              </Row>
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+              <h5>Chef: {chefUsername}</h5>
+            </Col>
+            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
+              <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
+            </Col>
+            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
+              <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
+                <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
+                <Form.Control
+                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '40px', height: '12px'}}
+                    type='number'
+                    min={1}
+                    max={20}
+                    step={1}
+                    value={servingSize}
+                    onChange={(e) => setServingSize(e.target.value)}
+                    onKeyDown={handleKeypress}
+                    required
+                  >
+                </Form.Control>
+                <Form.Check
+                  style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingRight: '15px', paddingTop: '5px', paddingBottom: '8px'}}
+                  inline
+                  label='Metric?'
+                  checked={isMetric}
+                  onChange={(e) => setIsMetric(e.target.checked)}
                   disabled={(chefInfo == null) ? true : false}
-                >
-                  <FaFileDownload style={{ marginLeft: '5px'}}/>
-                </Button>
-                </OverlayTrigger>
+                />
               </Form.Group>
-            </Form>
-          </div>
-          <ul>
-            {final && final.map((obj) => (
-              <li>{obj}</li>
-            ))}
-          </ul>
-        </Col>
-        <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{ paddingLeft: '0px', paddingTop: '15px' }}>
-          <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Steps</h4>
-          <ol>
-            {recipe.steps && recipe.steps.map((step) => (
-              <li>{step}</li>
-            ))}
-          </ol>
-        </Col>
-        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
-          {recipe.notes && recipe.notes !== '' && (
-            <div>
-              <h4>Recipe Notes</h4>
-              <p>{recipe.notes}</p>
-            </div>
-          )}
-        </Col>
-        <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
-          <RecipeImagesModal recipe={recipe}/>
-        </Col>
-      </Row>
+            </Col>
+            {(recipe.country && recipe.country.length > 1) && (
+              <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{ paddingLeft: 0 }}>
+                <h5>Country: {recipe.country}</h5>
+              </Col>
+            )}
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+              <h5>
+                {MealTypes.length > 0 && 'Meal Type / Course: '}
+                {new Intl.ListFormat().format(MealTypes)}
+              </h5>
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+              <h5>
+                {Diets.length > 0 && 'Diets: '}
+                {new Intl.ListFormat().format(Diets)}
+              </h5>
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+              <h5>
+                {Allergins.length > 0 && 'Allergins: '}
+                {new Intl.ListFormat().format(Allergins)}
+              </h5>
+            </Col>
+            <Col style={{ paddingTop: '15px' }} xs={12} sm={12} md={6} lg={6} xl={6}>
+              <div style={{textAlign: 'center'}}>
+                <Form onSubmit={saveIngredientsHandler}>
+                  <Form.Group as={Row} style={{height: '24px', marginBottom: '8px'}}>
+                    <Form.Label>
+                      <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Ingredients</h4>
+                    </Form.Label>
+                    <OverlayTrigger
+                      placement='top'
+                      overlay={
+                        <Tooltip id={'tooltip-top'}>
+                          Add ingredients to grocery list
+                        </Tooltip>
+                      }
+                    >
+                    <Button
+                      variant='link'
+                      style={{ padding: 0, height: '0px', margin: '0 auto'}}
+                      type='submit'
+                      onClick={(e) => setSaveIngredients('')}
+                      disabled={(chefInfo == null) ? true : false}
+                    >
+                      <FaFileDownload style={{ marginLeft: '5px'}}/>
+                    </Button>
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form>
+              </div>
+              <ul>
+                {final && final.map((obj) => (
+                  <li>{obj}</li>
+                ))}
+              </ul>
+            </Col>
+            <Col xs={12} sm={12} md={6} lg={6} xl={6} style={{ paddingLeft: '0px', paddingTop: '15px' }}>
+              <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Steps</h4>
+              <ol>
+                {recipe.steps && recipe.steps.map((step) => (
+                  <li>{step}</li>
+                ))}
+              </ol>
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
+              {recipe.notes && recipe.notes !== '' && (
+                <div>
+                  <h4>Recipe Notes</h4>
+                  <p>{recipe.notes}</p>
+                </div>
+              )}
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
+              <RecipeImagesModal recipe={recipe}/>
+            </Col>
+          </Row>
+        </div>
+      ) : (
+        <Row>
+          <Col style={{textAlign: 'center', paddingTop: '100px'}}>
+            <p>Looks like this recipe does not exist or is no longer published. Time to find you a new one!</p>
+            <LinkContainer to={`/recipes`}>
+              <Button variant='light' className='btn-sm'>
+                <i className='fas fa-search'>Explore all Recipes!</i>
+              </Button>
+            </LinkContainer>
+            <LinkContainer to={`/recipes/advanced-search`}>
+              <Button variant='light' className='btn-sm'>
+                <i className='fas fa-search'>Find the Exact Recipe you are Looking For!</i>
+              </Button>
+            </LinkContainer>
+          </Col>
+        </Row>
+      )}
     </div>
   )
 }

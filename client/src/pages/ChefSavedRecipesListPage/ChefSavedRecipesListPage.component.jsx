@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Table, Button, Row, Col, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   listMySavedRecipes,
   unsaveRecipe
 } from '../../actions/recipeActions';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
-
+import { BiInfoCircle } from 'react-icons/bi'
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
 const ChefSavedRecipesListPage = ({ match , history }) => {
@@ -61,8 +62,6 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
     }))
   }
 
-  console.log(unsave)
-
   return (
       <div>
         {initialLoader ?  (
@@ -84,7 +83,25 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
               <tbody>
                 {savedRecipes.map(recipe => (
                   <tr key={recipe.id}>
-                    <td>{recipe.recipe_name}</td>
+                    <td>
+                      <Link
+                        to={`/recipe/${recipe._id}`}
+                        style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {textDecoration: 'none'}}>
+                        {recipe.recipe_name}
+                      </Link>
+                      {recipe.isPublished === false && (
+                        <OverlayTrigger
+                          placement='bottom'
+                          overlay={
+                            <Tooltip id={'tooltip-bottom'}>
+                              The chef has unpublished this recipe and appears to be making some edits!
+                            </Tooltip>
+                          }
+                        >
+                          <span><BiInfoCircle /></span>
+                        </OverlayTrigger>
+                      )}
+                    </td>
                     <td>{recipe.netVotes}</td>
                     <td>{recipe.country}</td>
                     <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
