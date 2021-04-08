@@ -8,6 +8,11 @@ const recipeSchema = mongoose.Schema(
       require: true,
       ref: 'Chef'
     },
+    isPublished: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     recipe_name: {
       type: String,
       required: true

@@ -48,6 +48,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [notes, setNotes] = useState('')
   const [recipe_cover_image, setRecipeCoverImage] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [isPublished, setIsPublished] = useState(false)
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -112,6 +113,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
         setIsDrink(recipe.isDrink)
         setNotes(recipe.notes)
         setRecipeCoverImage(recipe.recipe_cover_image)
+        setIsPublished(recipe.isPublished)
       }
     }
   }, [dispatch, history, recipeId, recipe, successUpdate])
@@ -180,7 +182,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
         isAppetizer,
         isDrink,
         notes,
-        recipe_cover_image
+        recipe_cover_image,
+        isPublished
       })
     )
   }
@@ -443,13 +446,33 @@ const ChefRecipeEditPage = ({ match, history }) => {
             <Message variant='success'>{successMessage}</Message>
           )}
           <Row>
-            <Col xs={12} sm={12} md={2} lg={2} xl={2} style={{paddingLeft: '0px', paddingBottom: '10px', textAlign: 'center' }}>
+            <Col xs={12} style={{textAlign: 'center' }}>
+              <h4 style={{marginBottom: '0px'}}>Edit Recipe: {recipe_name}</h4>
+            </Col>
+            <Col xs={6} sm={6} md={6} lg={6} xl={6} style={{paddingBottom: '10px', textAlign: 'left' }}>
               <Link to='/myrecipes' className='btn btn-dark' style={{ padding: '0px 5px 0px 5px' }}>
                 Go Back
               </Link>
             </Col>
-            <Col xs={12} sm={12} md={10} lg={10} xl={10}>
-              <h4>Edit Recipe: {recipe_name}</h4>
+            <Col xs={6} sm={6} md={6} lg={6} xl={6} style={{paddingLeft: '0px', paddingBottom: '10px', textAlign: 'right' }}>
+              <Form.Group controlId='publish' className='dietsAndAllerginsGroup'>
+                <OverlayTrigger
+                  placement='bottom'
+                  overlay={
+                    <Tooltip id={'tooltip-bottom'}>
+                      Click here when you are ready to share your recipe with the world! Remember to hit save at the bottom of the page!
+                    </Tooltip>
+                  }
+                >
+                  <Form.Check
+                    inline
+                    label='Publish Recipe'
+                    checked={isPublished}
+                    onChange={(e) => setIsPublished(e.target.checked)}
+                  />
+                </OverlayTrigger>
+
+              </Form.Group>
             </Col>
           </Row>
           <Form onSubmit={submitHandler}>

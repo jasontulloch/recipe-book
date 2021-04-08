@@ -19,14 +19,30 @@ const getRecipes = asyncHandler(async (req, res) => {
     }
   } : {}
 
-  const count = await Recipe.countDocuments({ ...keywordRecipeName })
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...keywordRecipeName},
+      {...isPublished}
+    ]
+  })
 
   // Sort will order createdAt from newest to older (-1) to flip
   const netVotesSort = req.query.netVotesSort
   const createdAtSort = req.query.createdAtSort
   const trendingSort = 0
 
-  const recipes = await Recipe.find({ ...keywordRecipeName })
+  const recipes = await Recipe.find({
+    $and: [
+      {...keywordRecipeName},
+      {...isPublished}
+    ]
+  })
     .sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
     .limit(pageSize)
     .skip(pageSize * (page - 1))
@@ -40,6 +56,12 @@ const getRecipes = asyncHandler(async (req, res) => {
 const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
   const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
 
   const keywordRecipeName = req.query.keywordRecipeName ? {
     recipe_name: {
@@ -229,7 +251,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       $eq: 'true'
     }
   } : {}
-  
+
   // Sort will order createdAt from newest to older (-1) to flip
   const netVotesSort = req.query.netVotesSort
   const createdAtSort = req.query.createdAtSort
@@ -237,6 +259,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
 
   const count = await Recipe.countDocuments({
     $and: [
+      {...isPublished},
       {...keywordRecipeName},
       {...keywordCountry},
       {...keywordChefId},
@@ -266,6 +289,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
   const recipes = await Recipe.find({
     //and below is finding both (don't technically need the and)
     $and: [
+      {...isPublished},
       {...keywordRecipeName},
       {...keywordCountry},
       {...keywordChefId},
@@ -452,6 +476,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     isDrink,
     recipe_cover_image,
     notes,
+    isPublished
   } = req.body
 
   const recipe = await Recipe.findById(req.params.id)
@@ -483,6 +508,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
     recipe.isDrink = isDrink
     recipe.recipe_cover_image = recipe_cover_image
     recipe.notes = notes
+    recipe.isPublished = isPublished
 
     const updatedRecipe = await recipe.save()
     res.json(updatedRecipe)
