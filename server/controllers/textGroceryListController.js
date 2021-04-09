@@ -18,6 +18,8 @@ const textGroceryList = asyncHandler(async (req, res) => {
   const phone_number = req.body.phone_number
   const savedIngredients = req.body.savedIngredients
 
+  const countryCode = "+1"
+
   function Comparator(a, b) {
     if (a[2] < b[2]) return -1;
     if (a[2] > b[2]) return 1;
@@ -39,7 +41,7 @@ const textGroceryList = asyncHandler(async (req, res) => {
     client.messages
       .create({
          from: process.env.TWILIO_PHONE_NUMBER,
-         to: phone_number,
+         to: countryCode + phone_number,
          body: defaultMessage
        })
 
