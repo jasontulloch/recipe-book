@@ -16,7 +16,7 @@ import {
 } from '../constants/chefConstants';
 import axios from 'axios';
 
-export const register = (first_name, last_name, username, email, password) => async (dispatch) => {
+export const register = (first_name, last_name, username, email, phone_number, password) => async (dispatch) => {
   try {
     dispatch({
       type: CHEF_REGISTER_REQUEST
@@ -30,7 +30,7 @@ export const register = (first_name, last_name, username, email, password) => as
 
     const { data } = await axios.post(
       '/api/chefs',
-      { first_name, last_name, username, email, password },
+      { first_name, last_name, username, email, phone_number, password },
       config
     )
 

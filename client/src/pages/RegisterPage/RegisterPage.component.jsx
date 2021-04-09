@@ -10,6 +10,7 @@ const RegisterPage = ({ location, history }) => {
   const [last_name, setLastName] = useState('')
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
+  const [phone_number, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState(null)
@@ -32,7 +33,7 @@ const RegisterPage = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      dispatch(register(first_name, last_name, username, email, password))
+      dispatch(register(first_name, last_name, username, email, phone_number, password))
     }
   }
 
@@ -84,6 +85,18 @@ const RegisterPage = ({ location, history }) => {
             placeholder='Enter your email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          >
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='phone_number'>
+          <Form.Label>Phone Number</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter your phone number'
+            value={phone_number}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             required
           >
           </Form.Control>

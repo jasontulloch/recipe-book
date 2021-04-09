@@ -23,6 +23,10 @@ const chefSchema = mongoose.Schema(
       required: true,
       unique: true
     },
+    phone_number : {
+      type: String,
+      required: false,
+    },
     password: {
       type: String,
       required: true

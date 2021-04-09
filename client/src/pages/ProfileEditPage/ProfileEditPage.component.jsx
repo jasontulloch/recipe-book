@@ -15,6 +15,7 @@ const ProfileEditPage = ({ location, history }) => {
   const [last_name, setLastName] = useState('')
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
+  const [phone_number, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isVegan, setIsVegan] = useState(false)
@@ -86,6 +87,7 @@ const ProfileEditPage = ({ location, history }) => {
         setLastName(chef.last_name)
         setUsername(chef.username)
         setEmail(chef.email)
+        setPhoneNumber(chef.phone_number)
         setBio(chef.bio)
         setIsVegan(chef.isVegan)
         setIsVegetarian(chef.isVegetarian)
@@ -146,6 +148,7 @@ const ProfileEditPage = ({ location, history }) => {
         last_name,
         username,
         email,
+        phone_number,
         password,
         bio,
         isVegan,
@@ -355,6 +358,18 @@ const ProfileEditPage = ({ location, history }) => {
                 placeholder='Enter your email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
+              >
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='phone_number'>
+              <Form.Label>Phone Number</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter your phone number'
+                value={phone_number}
+                onChange={(e) => setPhoneNumber(e.target.value)}
                 required
               >
               </Form.Control>

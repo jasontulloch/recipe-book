@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
-import { emailGroceryList } from '../../actions/groceryListActions';
+import { emailGroceryList, textGroceryList } from '../../actions/groceryListActions';
 import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
@@ -18,6 +18,7 @@ const SavedIngredientsPage = ({ history }) => {
   const [last_name, setLastName] = useState('')
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
+  const [phone_number, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isVegan, setIsVegan] = useState(false)
@@ -112,6 +113,7 @@ const SavedIngredientsPage = ({ history }) => {
         setLastName(chef.last_name)
         setUsername(chef.username)
         setEmail(chef.email)
+        setPhoneNumber(chef.phone_number)
         setBio(chef.bio)
         setIsVegan(chef.isVegan)
         setIsVegetarian(chef.isVegetarian)
@@ -173,6 +175,7 @@ const SavedIngredientsPage = ({ history }) => {
         last_name,
         username,
         email,
+        phone_number,
         password,
         bio,
         isVegan,
@@ -225,6 +228,7 @@ const SavedIngredientsPage = ({ history }) => {
       last_name,
       username,
       email,
+      phone_number,
       password,
       bio,
       isVegan,
@@ -295,6 +299,7 @@ const SavedIngredientsPage = ({ history }) => {
         last_name,
         username,
         email,
+        phone_number,
         password,
         bio,
         isVegan,
@@ -337,14 +342,19 @@ const SavedIngredientsPage = ({ history }) => {
   }
 
   const [temporarilyDisableEmailButton, setTemporarilyDisableEmailButton] = useState(false)
+  const [temporarilyDisableTextButton, setTemporarilyDisableTextButton] = useState(false)
   const [successEmailMessage, setSuccessEmailMessage] = useState('')
+  const [successTextMessage, setSuccessTextMessage] = useState('')
+
   const emailGroceryListHandler = (e) => {
     e.preventDefault()
     setSuccessEmailMessage(`Your saved ingredients are on their way to you! They will be sent to ${chef.email}`)
     setTemporarilyDisableEmailButton(true)
+    setTemporarilyDisableTextButton(true)
     setTimeout(function() {
-      setSuccessMessage('')
+      setSuccessEmailMessage('')
       setTemporarilyDisableEmailButton(false)
+      setTemporarilyDisableTextButton(false)
     }, 20000)
     dispatch(emailGroceryList({
       _id: chef._id,
@@ -353,6 +363,26 @@ const SavedIngredientsPage = ({ history }) => {
       email: chef.email,
       savedIngredients: chef.savedIngredients
     }))
+  }
+
+  const textGroceryListHandler = (e) => {
+    e.preventDefault()
+    setSuccessTextMessage(`Your saved ingredients are on their way to you! They will be sent to ${chef.phone_number}`)
+    setTemporarilyDisableEmailButton(true)
+    setTemporarilyDisableTextButton(true)
+    setTimeout(function() {
+      setSuccessTextMessage('')
+      setTemporarilyDisableEmailButton(false)
+      setTemporarilyDisableTextButton(false)
+    }, 20000)
+    dispatch(textGroceryList({
+      _id: chef._id,
+      first_name: chef.first_name,
+      last_name: chef.last_name,
+      phone_number: chef.phone_number,
+      savedIngredients: chef.savedIngredients
+    }))
+    console.log(chef.phone_number)
   }
 
   return (
@@ -393,18 +423,28 @@ const SavedIngredientsPage = ({ history }) => {
               </Form>
             </Col>
             <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
-              <Button
-                variant='primary'
-                style={{padding: '0px', marginTop: '5px', marginLeft: '0px', width: '200px' }}
-                disabled
-              >
-                Text Grocery List
-              </Button>
+              <Form onSubmit={textGroceryListHandler}>
+                <Button
+                  variant='primary'
+                  style={{padding: '0px', marginTop: '5px', marginRight: '0px', width: '200px' }}
+                  type='submit'
+                  disabled={temporarilyDisableTextButton}
+                >
+                  Text Grocery List
+                </Button>
+              </Form>
             </Col>
             {temporarilyDisableEmailButton === true && (
               <Col xs={12} style={{textAlign: 'center'}}>
                 <Form.Text style={{paddingTop: '10px'}}>
                   <Message variant='success'>{successEmailMessage}</Message>
+                </Form.Text>
+              </Col>
+            )}
+            {temporarilyDisableTextButton === true && (
+              <Col xs={12} style={{textAlign: 'center'}}>
+                <Form.Text style={{paddingTop: '10px'}}>
+                  <Message variant='success'>{successTextMessage}</Message>
                 </Form.Text>
               </Col>
             )}

@@ -17,6 +17,7 @@ const authChef = asyncHandler(async (req, res) => {
       last_name: chef.last_name,
       username: chef.username,
       email: chef.email,
+      phone_number: chef.phone_number,
       bio: chef.bio,
       isVegan: chef.isVegan,
       isVegetarian: chef.isVegetarian,
@@ -75,6 +76,7 @@ const registerChef = asyncHandler(async (req, res) => {
     last_name,
     username,
     email,
+    phone_number,
     password
   } = req.body
 
@@ -96,6 +98,7 @@ const registerChef = asyncHandler(async (req, res) => {
     last_name,
     username,
     email,
+    phone_number,
     password
   })
 
@@ -106,6 +109,7 @@ const registerChef = asyncHandler(async (req, res) => {
       last_name: chef.last_name,
       username: chef.username,
       email: chef.email,
+      phone_number: chef.phone_number,
       token: generateToken(chef._id),
     })
   } else {
@@ -127,6 +131,7 @@ const getChefProfile = asyncHandler(async (req, res) => {
       last_name: chef.last_name,
       username: chef.username,
       email: chef.email,
+      phone_number: chef.phone_number,
       bio: chef.bio,
       isVegan: chef.isVegan,
       isVegetarian: chef.isVegetarian,
@@ -178,6 +183,7 @@ const getChefProfile = asyncHandler(async (req, res) => {
 // @access Private
 const updateChefProfile = asyncHandler(async (req, res) => {
   const {
+    phone_number,
     isVegan,
     isVegetarian,
     isGlutenFree,
@@ -224,6 +230,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.last_name = req.body.last_name || chef.last_name
     chef.username = req.body.username || chef.username
     chef.email = req.body.email || chef.email
+    chef.phone_number = req.body.phone_number || chef.phone_number
     chef.bio = req.body.bio || chef.bio
     chef.isVegan = isVegan
     chef.isVegetarian = isVegetarian
@@ -274,6 +281,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       last_name: updatedChef.last_name,
       username: updatedChef.username,
       email: updatedChef.email,
+      phone_number: updatedChef.phone_number,
       bio: updatedChef.bio,
       isVegan: updatedChef.isVegan,
       isVegetarian: updatedChef.isVegetarian,
@@ -380,6 +388,7 @@ const updateChef = asyncHandler(async (req, res) => {
     chef.last_name = req.body.last_name || chef.last_name
     chef.username = req.body.username || chef.username
     chef.email = req.body.email || chef.email
+    chef.phone_number = req.body.phone_number || chef.phone_number
     chef.bio = req.body.bio || chef.bio
     chef.diets = req.body.diets || chef.diets
 
@@ -391,6 +400,7 @@ const updateChef = asyncHandler(async (req, res) => {
       last_name: updatedChef.last_name,
       username: updatedChef.username,
       email: updatedChef.email,
+      phone_number: updatedChef.phone_number,
       bio: updatedChef.bio,
       diets: updatedChef.diets,
     })
