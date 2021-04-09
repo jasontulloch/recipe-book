@@ -336,8 +336,16 @@ const SavedIngredientsPage = ({ history }) => {
       }))
   }
 
+  const [temporarilyDisableEmailButton, setTemporarilyDisableEmailButton] = useState(false)
+  const [successEmailMessage, setSuccessEmailMessage] = useState('')
   const emailGroceryListHandler = (e) => {
     e.preventDefault()
+    setSuccessEmailMessage(`Your saved ingredients are on their way to you! They will be sent to ${chef.email}`)
+    setTemporarilyDisableEmailButton(true)
+    setTimeout(function() {
+      setSuccessMessage('')
+      setTemporarilyDisableEmailButton(false)
+    }, 20000)
     dispatch(emailGroceryList({
       _id: chef._id,
       first_name: chef.first_name,
@@ -378,6 +386,7 @@ const SavedIngredientsPage = ({ history }) => {
                   variant='primary'
                   style={{padding: '0px', marginTop: '5px', marginRight: '0px', width: '200px' }}
                   type='submit'
+                  disabled={temporarilyDisableEmailButton}
                 >
                   Email Grocery List
                 </Button>
@@ -392,6 +401,13 @@ const SavedIngredientsPage = ({ history }) => {
                 Text Grocery List
               </Button>
             </Col>
+            {temporarilyDisableEmailButton === true && (
+              <Col xs={12} style={{textAlign: 'center'}}>
+                <Form.Text style={{paddingTop: '10px'}}>
+                  <Message variant='success'>{successEmailMessage}</Message>
+                </Form.Text>
+              </Col>
+            )}
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px', textAlign: 'center'}}>
               {(displayIngredientOnly == true && savedIngredients.length !== 0) && (
                 savedIngredients.map((groceries, index) =>
