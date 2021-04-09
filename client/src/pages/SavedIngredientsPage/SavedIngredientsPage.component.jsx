@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Button, Form } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
+import { emailGroceryList } from '../../actions/groceryListActions';
 import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import Message from '../../components/Message/Message.component';
+
+import axios from 'axios';
 
 const SavedIngredientsPage = ({ history }) => {
 
@@ -281,7 +284,6 @@ const SavedIngredientsPage = ({ history }) => {
 
   const addNewIngredientHandler = (e) => {
       e.preventDefault()
-      console.log(e.target[0].value)
       let newIngredientList = chef.savedIngredients.push([e.target[0].value, e.target[1].value, e.target[2].value])
       setSavedIngredients([...savedIngredients])
       document.getElementById('newIngredientQuantity').value = ''
@@ -334,6 +336,17 @@ const SavedIngredientsPage = ({ history }) => {
       }))
   }
 
+  const emailGroceryListHandler = (e) => {
+    e.preventDefault()
+    dispatch(emailGroceryList({
+      _id: chef._id,
+      first_name: chef.first_name,
+      last_name: chef.last_name,
+      email: chef.email,
+      savedIngredients: chef.savedIngredients
+    }))
+  }
+
   return (
     <div>
       {error ? (
@@ -360,13 +373,15 @@ const SavedIngredientsPage = ({ history }) => {
               </Form.Group>
             </Form>
             <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
-              <Button
-                variant='primary'
-                style={{padding: '0px', marginTop: '5px', marginRight: '0px', width: '200px' }}
-                disabled
-              >
-                Email Grocery List
-              </Button>
+              <Form onSubmit={emailGroceryListHandler}>
+                <Button
+                  variant='primary'
+                  style={{padding: '0px', marginTop: '5px', marginRight: '0px', width: '200px' }}
+                  type='submit'
+                >
+                  Email Grocery List
+                </Button>
+              </Form>
             </Col>
             <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
               <Button

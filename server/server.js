@@ -11,6 +11,7 @@ import recipeRoutes from './routes/recipeRoutes.js';
 import chefRoutes from './routes/chefRoutes.js';
 //import uploadRoutes from './routes/uploadRoutes.js';
 import uploadAWSRoutes from './routes/uploadAWSRoutes.js';
+import emailGroceryRoutes from './routes/emailGroceryRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use('/api/recipes', recipeRoutes)
 app.use('/api/chefs', chefRoutes)
 app.use('/api/uploadAWS', uploadAWSRoutes)
+app.use('/api/email', emailGroceryRoutes)
 //app.use('/api/upload', uploadRoutes)
 
 const __dirname = path.resolve()
