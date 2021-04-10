@@ -304,12 +304,14 @@ const ProfileEditPage = ({ location, history }) => {
 
   return (
     <FormContainer className="profileEditPage">
-      {warningMessage !== '' && (
-        <Message variant='danger'>{warningMessage}</Message>
-      )}
-      {successMessage !== '' && (
-        <Message variant='success'>{successMessage}</Message>
-      )}
+      <Col xs={12}  style={{textAlign: 'center'}}>
+        {warningMessage !== '' && (
+          <Message variant='danger'>{warningMessage}</Message>
+        )}
+        {successMessage !== '' && (
+          <Message variant='success'>{successMessage}</Message>
+        )}
+      </Col>
       <h1 style={{textAlign: 'center'}}>Chef Profile</h1>
       <Form className='profileEditPageForm' onSubmit={submitHandler}>
         <Tabs fill id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
@@ -750,6 +752,11 @@ const ProfileEditPage = ({ location, history }) => {
             <Button type='submit' variant='primary'>
               Update
             </Button>
+          </Col>
+          <Col xs={12} style={{textAlign: 'center', paddingTop: '10px' }}>
+            {successMessage !== '' && (
+              <Message variant='success'>{successMessage}</Message>
+            )}
           </Col>
         </Row>
       </Form>

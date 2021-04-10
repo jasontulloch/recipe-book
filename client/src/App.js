@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Header/Header.component';
 import Footer from './components/Footer/Footer.component';
 
-import HomePage from './pages/HomePage/HomePage.component';
+//import HomePage from './pages/HomePage/HomePage.component';
 import LoginPage from './pages/LoginPage/LoginPage.component';
 import RegisterPage from './pages/RegisterPage/RegisterPage.component';
 import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage.component';
@@ -18,6 +18,7 @@ import AdvancedRecipeSearchPage from './pages/AdvancedRecipeSearchPage/AdvancedR
 import AdvancedRecipeSearchResultsPage from './pages/AdvancedRecipeSearchResultsPage/AdvancedRecipeSearchResultsPage.component';
 import IndividualRecipePage from './pages/IndividualRecipePage/IndividualRecipePage.component';
 import SavedIngredientsPage from './pages/SavedIngredientsPage/SavedIngredientsPage.component';
+import WorldMapPage from './pages/WorldMapPage/WorldMapPage.component';
 
 const App = () => {
   return (
@@ -111,7 +112,7 @@ const App = () => {
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordRecipeName=:keywordRecipeName/keywordCountry=:keywordCountry/keywordChefName=:keywordChefName/keywordIsVegan=:keywordIsVegan/keywordIsVegetarian=:keywordIsVegetarian/keywordIsGlutenFree=:keywordIsGlutenFree/keywordIsKetogenic=:keywordIsKetogenic/keywordIsPescatarian=:keywordIsPescatarian/keywordIsDairy=:keywordIsDairy/keywordIsEgg=:keywordIsEgg/keywordIsNuts=:keywordIsNuts/keywordIsShellfish=:keywordIsShellfish/keywordIsSoy=:keywordIsSoy/keywordIsWheat=:keywordIsWheat/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/keywordIsMainDish=:keywordIsMainDish/keywordIsSideSauce=:keywordIsSideSauce/keywordIsDessert=:keywordIsDessert/keywordIsSnack=:keywordIsSnack/keywordIsAppetizer=:keywordIsAppetizer/keywordIsDrink=:keywordIsDrink/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordIsVegan=:keywordIsVegan/keywordIsVegetarian=:keywordIsVegetarian/keywordIsGlutenFree=:keywordIsGlutenFree/keywordIsKetogenic=:keywordIsKetogenic/keywordIsPescatarian=:keywordIsPescatarian/keywordIsDairy=:keywordIsDairy/keywordIsEgg=:keywordIsEgg/keywordIsNuts=:keywordIsNuts/keywordIsShellfish=:keywordIsShellfish/keywordIsSoy=:keywordIsSoy/keywordIsWheat=:keywordIsWheat/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/keywordIsMainDish=:keywordIsMainDish/keywordIsSideSauce=:keywordIsSideSauce/keywordIsDessert=:keywordIsDessert/keywordIsSnack=:keywordIsSnack/keywordIsAppetizer=:keywordIsAppetizer/keywordIsDrink=:keywordIsDrink/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
 
-          <Route path='/' component={HomePage} exact />
+          <Route path='/' component={WorldMapPage} exact />
         </Container>
       </main>
       <Footer />

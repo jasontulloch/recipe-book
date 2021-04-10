@@ -34,7 +34,7 @@ const textGroceryList = asyncHandler(async (req, res) => {
     ).join('')
   )
 
-  const defaultMessage = `${first_name}, thanks for using RecipeBook! Your ingredients are below...\n${cleanedSavedIngredients}\n Happy cooking!`
+  const defaultMessage = `${first_name}, thanks for using RecipeBook! Your ingredients are below...\n\n${cleanedSavedIngredients}\n Happy cooking!`
 
   if (phone_number !== "") {
 

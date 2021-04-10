@@ -434,14 +434,14 @@ const SavedIngredientsPage = ({ history }) => {
                 </Button>
               </Form>
             </Col>
-            {temporarilyDisableEmailButton === true && (
+            {(temporarilyDisableEmailButton === true) && (successEmailMessage !== "") && (
               <Col xs={12} style={{textAlign: 'center'}}>
                 <Form.Text style={{paddingTop: '10px'}}>
                   <Message variant='success'>{successEmailMessage}</Message>
                 </Form.Text>
               </Col>
             )}
-            {temporarilyDisableTextButton === true && (
+            {(temporarilyDisableTextButton === true) && (successTextMessage !== "") && (
               <Col xs={12} style={{textAlign: 'center'}}>
                 <Form.Text style={{paddingTop: '10px'}}>
                   <Message variant='success'>{successTextMessage}</Message>
