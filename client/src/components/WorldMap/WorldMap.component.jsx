@@ -11,7 +11,7 @@ const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-map
 const WorldMap = ({ setTooltipContent }) => {
   return (
     <div>
-      <ComposableMap data-tip="" projectionConfig={{ scale: 200 }}>
+      <ComposableMap data-tip="" projectionConfig={{ scale: 225 }}>
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map(geo => (
@@ -32,7 +32,7 @@ const WorldMap = ({ setTooltipContent }) => {
                         outline: "none"
                       },
                       hover: {
-                        fill: "#F53",
+                        fill: "#aacc2b",
                         outline: "none",
                         cursor: 'pointer'
                       },

@@ -9,8 +9,8 @@ import WorldMap from '../../components/WorldMap/WorldMap.component';
 const WorldMapPage = () => {
   const [content, setContent] = useState("");
   return (
-    <div>
-      <WorldMap setTooltipContent={setContent}/>
+    <div style={{paddingTop: '0px', width: '100%'}}>
+      <WorldMap setTooltipContent={setContent} style={{paddingTop: '0px', width: '100%'}}/>
       <ReactTooltip>{content}</ReactTooltip>
     </div>
   );

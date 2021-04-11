@@ -10,7 +10,7 @@ const Measurements = [
   ["9", "Ounce"],
   ["10", "Pound"],
   ["11", "Inch"],
-  ["12", "8oz Can"],
+  ["12", "Can (Ounce)"],
   ["13", "Box"],
   ["14", "Jar"],
   ["15", "Bag"],

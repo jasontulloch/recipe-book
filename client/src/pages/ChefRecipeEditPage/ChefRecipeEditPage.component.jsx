@@ -643,14 +643,23 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     {ingredients.map((ingredient, index) => (
                       <tbody style={{border: 'none'}}>
                         <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
-                          <Button
-                            style={{backgroundColor: 'white', color: 'black' }}
-                            className='deleteIndividualIngredient btn-sm'
-                            value={index}
-                            onClick={addIngredientBetween}
+                          <OverlayTrigger
+                            placement='bottom'
+                            overlay={
+                              <Tooltip id={'tooltip-bottom'}>
+                                Add a new ingredient above this ingredient
+                              </Tooltip>
+                            }
                           >
-                            <FaPlus />
-                          </Button>
+                            <Button
+                              style={{backgroundColor: 'white', color: 'black' }}
+                              className='deleteIndividualIngredient btn-sm'
+                              value={index}
+                              onClick={addIngredientBetween}
+                            >
+                              <FaPlus />
+                            </Button>
+                          </OverlayTrigger>
                         </td>
                         <td style={{padding: '0px 0px 5px 0px', border: 'none'}} className="ingredientTableSectionAmount">
                           <Form.Group style={{marginBottom: '0px'}} controlId='ingredientsQuantity' className='ingredientsFormGroupAmount'>
@@ -658,7 +667,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                               type='number'
                               step='any'
                               min={0}
-                              max={25}
+                              max={1000}
                               value={ingredient[0]}
                               onChange={(e) => {
                                 ingredients[index][0] = e.target.value;
@@ -713,7 +722,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       </tbody>
                     ))}
                   </Table>
-                <Form.Label>Add another ingredient</Form.Label>
+                <Form.Label>Add a new ingredient to bottom of list</Form.Label>
                 <Form.Text className='muted'>Note: You will set the quantity and measurement next.</Form.Text>
                 <Table className='newIngredientTable' style={{paddingBottom: '0px'}}>
                   <td className='ingredientsTableSectionIngredient' style={{paddingBottom: '0px'}}>
@@ -764,14 +773,23 @@ const ChefRecipeEditPage = ({ match, history }) => {
                               </Form.Group>
                             </td>
                             <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
-                              <Button
-                                style={{backgroundColor: 'white', color: 'black', padding: '0px 5px 0px 5px' }}
-                                className='deleteIndividualStep btn-sm'
-                                value={step}
-                                onClick={addStepBetween}
+                              <OverlayTrigger
+                                placement='bottom'
+                                overlay={
+                                  <Tooltip id={'tooltip-bottom'}>
+                                    Add a new step above this step
+                                  </Tooltip>
+                                }
                               >
-                                <FaPlus />
-                              </Button>
+                                <Button
+                                  style={{backgroundColor: 'white', color: 'black', padding: '0px 5px 0px 5px' }}
+                                  className='deleteIndividualStep btn-sm'
+                                  value={step}
+                                  onClick={addStepBetween}
+                                >
+                                  <FaPlus />
+                                </Button>
+                              </OverlayTrigger>
                             </td>
                             <td style={{padding: '0px 0px 5px 0px', border: 'none', verticalAlign: 'middle', width: '25px'}}>
                               <Button
@@ -785,7 +803,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                             </td>
                           </Table>
                         ))}
-                        <Form.Label>Add a new step</Form.Label>
+                        <Form.Label>Add a new step to bottom of list</Form.Label>
                         <Form.Group controlId='newStep'>
                           <Form.Control
                             key='index'
