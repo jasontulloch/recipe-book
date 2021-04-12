@@ -201,7 +201,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const addIngredient = (e) => {
     if (e.which === 13) {
       e.preventDefault()
-      setIngredients([...ingredients, ['', '', e.target.value]])
+      setIngredients([...ingredients, ['', '', e.target.value, '']])
       document.getElementById('newIngredient').value = ''
     }
   }
@@ -228,7 +228,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
     e.preventDefault()
     let currentArrayItem = e.currentTarget.value
     if (currentArrayItem !== undefined) {
-      let newIngredients = ingredients.splice(currentArrayItem, 0, ['', '', ''])
+      let newIngredients = ingredients.splice(currentArrayItem, 0, ['', '', '', ''])
       setIngredients([...ingredients])
     } else {
       setWarningMessage('Oops, looks like our server is still loading. Try again or wait a few seconds, we just want to make sure the recipe is designed exactly how you want it.')
@@ -553,6 +553,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   <Message variant='warning'>
                     <Form.Text className='muted'> Quantity: Enter ingredient quantities as a decimal or whole number. Hover over the info icon next to 'Quantity' for help!</Form.Text>
                     <Form.Text className='muted'>Measurement: Leave blank if the ingredient does not need a unit of measurement (e.g. 1 White Onion).</Form.Text>
+                    <Form.Text className='muted'>Ingredient: Only enter the ingredient name (e.g. White Onion, Tumeric, etc.).</Form.Text>
+                    <Form.Text className='muted'>Specific Notes (Optional): Leave blank if none. Preparation notes will be put in parentheses for you (e.g. enter diced, ground, optional, use for pasta sauce, etc.).</Form.Text>
                   </Message>
                   <Table className='ingredientTable'>
                     <thead style={{textAlign:'center' }} class='ingredientTableHeaders'>
@@ -639,6 +641,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       </th>
                       <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Measurement</th>
                       <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Ingredient</th>
+                      <th style={{padding: '12px 12px 12px 12px', border: 'none'}}>Specific Notes (Optional)</th>
                     </thead>
                     {ingredients.map((ingredient, index) => (
                       <tbody style={{border: 'none'}}>
@@ -703,6 +706,20 @@ const ChefRecipeEditPage = ({ match, history }) => {
                               value={ingredient[2]}
                               onChange={(e) => {
                                 ingredients[index][2] = e.target.value;
+                                setIngredients([...ingredients])
+                              }}
+                            >
+                            </Form.Control>
+                          </Form.Group>
+                        </td>
+                        <td style={{padding: '0px 0px 5px 5px', border: 'none'}} className="ingredientTableSectionIngredient">
+                          <Form.Group style={{marginBottom: '0px'}} controlId='ingredients' className='ingredientsFormGroupIngredient'>
+                            <Form.Control
+                              key='index'
+                              type='text'
+                              value={ingredient[3]}
+                              onChange={(e) => {
+                                ingredients[index][3] = e.target.value;
                                 setIngredients([...ingredients])
                               }}
                             >

@@ -416,7 +416,7 @@ const createRecipe = asyncHandler(async (req, res) => {
     recipe_name: 'Sample recipe',
     recipe_cover_image: '/images/defaultRecipeCoverImage.jpg',
     steps: [' '],
-    ingredients: [["1","Tablespoon","Paprika"]],
+    ingredients: [["1","Tablespoon","Paprika", ""]],
     country: ' ',
     cook_time: 60,
     serving_size: 4

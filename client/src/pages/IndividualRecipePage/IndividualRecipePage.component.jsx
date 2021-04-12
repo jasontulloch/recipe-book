@@ -396,8 +396,13 @@ const IndividualRecipePage = ({ history, match }) => {
   const itemArray = recipeIngredients.map((item) =>
     item[2]
   )
+  // Return array of only the recipe's preparation
+  const preparationArray = recipeIngredients.map((preparation) =>
+    preparation[3]
+  )
   // Merge quantities / measurement array w Item
-  const final = mergeNew.map((e, i) => e + " " + itemArray[i])
+  const final = mergeNew.map((e, i) => e + " " + itemArray[i] + ((preparationArray[i] !== false) && " (" + preparationArray[i] + ")"))
+  const finalClean = final.map(function(x){return x.replace(' ()', '')})
 
   return (
     <div>
@@ -597,35 +602,38 @@ const IndividualRecipePage = ({ history, match }) => {
               </h5>
             </Col>
             <Col style={{ paddingTop: '15px' }} xs={12} sm={12} md={6} lg={6} xl={6}>
-              <div style={{textAlign: 'center'}}>
-                <Form onSubmit={saveIngredientsHandler}>
-                  <Form.Group as={Row} style={{height: '24px', marginBottom: '8px'}}>
-                    <Form.Label>
-                      <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Ingredients</h4>
-                    </Form.Label>
-                    <OverlayTrigger
-                      placement='top'
-                      overlay={
-                        <Tooltip id={'tooltip-top'}>
-                          Add ingredients to grocery list
-                        </Tooltip>
-                      }
-                    >
-                    <Button
-                      variant='link'
-                      style={{ padding: 0, height: '0px', margin: '0 auto'}}
-                      type='submit'
-                      onClick={(e) => setSaveIngredients('')}
-                      disabled={(chefInfo == null) ? true : false}
-                    >
-                      <FaFileDownload style={{ marginLeft: '5px'}}/>
-                    </Button>
-                    </OverlayTrigger>
-                  </Form.Group>
-                </Form>
-              </div>
+              <Row>
+                <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
+                  <Form onSubmit={saveIngredientsHandler}>
+                    <Form.Group as={Row} style={{height: '24px', marginBottom: '8px'}}>
+                      <Form.Label>
+                        <h4 style={{paddingLeft: '0px', textAlign: 'center'}}>Ingredients</h4>
+                      </Form.Label>
+                      <OverlayTrigger
+                        placement='top'
+                        overlay={
+                          <Tooltip id={'tooltip-top'}>
+                            Add ingredients to grocery list
+                          </Tooltip>
+                        }
+                      >
+                      <Button
+                        variant='link'
+                        style={{ padding: 0, height: '0px'}}
+                        type='submit'
+                        onClick={(e) => setSaveIngredients('')}
+                        disabled={(chefInfo == null) ? true : false}
+                      >
+                        <FaFileDownload style={{ marginLeft: '5px'}}/>
+                      </Button>
+                      </OverlayTrigger>
+                    </Form.Group>
+                  </Form>
+                </Col>
+
+              </Row>
               <ul>
-                {final && final.map((obj) => (
+                {finalClean && finalClean.map((obj) => (
                   <li>{obj}</li>
                 ))}
               </ul>
