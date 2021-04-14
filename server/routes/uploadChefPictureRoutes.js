@@ -3,15 +3,10 @@ import aws from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import path from 'path';
-//import cors from 'cors';
-//import Recipe from '../models/recipeModel.js';
-//import dotenv from 'dotenv';
-//import { default as mongodb } from 'mongodb';
-//const MongoClient = mongodb.MongoClient;
-//import asyncHandler from 'express-async-handler';
+
 import {
-  uploadRecipeCoverImage,
-} from '../controllers/uploadController.js';
+  uploadChefPicture,
+} from '../controllers/uploadChefPictureController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -46,7 +41,7 @@ const upload = multer({
   },
   storage: multerS3({
     s3: s3,
-    bucket: 'recipebook-recipe-cover-images',
+    bucket: 'recipe-book-chef-picture',
     acl: "public-read",
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -60,6 +55,6 @@ const upload = multer({
 const singleUpload = upload.any()
 
 router.route('/:id')
-  .put(singleUpload, uploadRecipeCoverImage)
+  .put(singleUpload, uploadChefPicture)
 
 export default router;

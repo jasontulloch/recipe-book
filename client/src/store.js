@@ -23,6 +23,10 @@ import {
   recipeSaveIngredientsReducer
 } from './reducers/recipeReducers';
 import {
+  chefListReducer,
+  chefPublicDetailsReducer,
+} from './reducers/chefPublicReducers';
+import {
   emailGroceryListReducer,
   textGroceryListReducer,
 } from './reducers/groceryListReducers';
@@ -45,6 +49,8 @@ const reducer = combineReducers({
   recipeUnsave: recipeUnsaveReducer,
   recipeMySaved: recipeMySavedReducer,
   recipeSaveIngredients: recipeSaveIngredientsReducer,
+  chefList: chefListReducer,
+  chefPublicDetails: chefPublicDetailsReducer,
   emailGroceryList: emailGroceryListReducer,
   textGroceryList: textGroceryListReducer
 })

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
-import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
+import React, { useState } from 'react';
+import { DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
 
 const SortButton = () => {
 

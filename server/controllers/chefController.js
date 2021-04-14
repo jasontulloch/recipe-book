@@ -3,7 +3,7 @@ import generateToken from '../utils/generateToken.js';
 import Chef from '../models/chefModel.js';
 
 // @description Auth chef & get token
-// @route POST /api/chefs/login
+// @route POST /api/chef/login
 // @access Public
 const authChef = asyncHandler(async (req, res) => {
   const { email, password } = req.body
@@ -19,6 +19,8 @@ const authChef = asyncHandler(async (req, res) => {
       email: chef.email,
       phone_number: chef.phone_number,
       bio: chef.bio,
+      chefPicture: chef.chefPicture,
+      isVisible: chef.isVisible,
       isVegan: chef.isVegan,
       isVegetarian: chef.isVegetarian,
       isGlutenFree: chef.isGlutenFree,
@@ -68,7 +70,7 @@ const authChef = asyncHandler(async (req, res) => {
 })
 
 // @description Register a new chef
-// @route POST /api/chefs
+// @route POST /api/chef
 // @access Public
 const registerChef = asyncHandler(async (req, res) => {
   const {
@@ -99,6 +101,25 @@ const registerChef = asyncHandler(async (req, res) => {
     username,
     email,
     phone_number,
+    chefPicture: '/images/defaultRecipeCoverImage.jpg',
+    isVegan: false,
+    isVegetarian: false,
+    isGlutenFree: false,
+    isKetogenic: false,
+    isPescatarian: false,
+    isDairy: false,
+    isEgg: false,
+    isNuts: false,
+    isShellfish: false,
+    isSoy: false,
+    isWheat: false,
+    isBreakfastBrunch: false,
+    isMainDish: true,
+    isSideSauce: false,
+    isDessert: false,
+    isSnack: false,
+    isAppetizer: false,
+    isDrink: false,
     password
   })
 
@@ -110,6 +131,25 @@ const registerChef = asyncHandler(async (req, res) => {
       username: chef.username,
       email: chef.email,
       phone_number: chef.phone_number,
+      chefPicture: chef.chefPicture,
+      isVegan: chef.isVegan,
+      isVegetarian: chef.isVegetarian,
+      isGlutenFree: chef.isGlutenFree,
+      isKetogenic: chef.isKetogenic,
+      isPescatarian: chef.isPescatarian,
+      isDairy: chef.isDairy,
+      isEgg: chef.isEgg,
+      isNuts: chef.isNuts,
+      isShellfish: chef.isShellfish,
+      isSoy: chef.isSoy,
+      isWheat: chef.isWheat,
+      isBreakfastBrunch: chef.isBreakfastBrunch,
+      isMainDish: chef.isMainDish,
+      isSideSauce: chef.isSideSauce,
+      isDessert: chef.isDessert,
+      isSnack: chef.isSnack,
+      isAppetizer: chef.isAppetizer,
+      isDrink: chef.isDrink,
       token: generateToken(chef._id),
     })
   } else {
@@ -119,7 +159,7 @@ const registerChef = asyncHandler(async (req, res) => {
 })
 
 // @description Get chef profile
-// @route GET /api/chefs/profile
+// @route GET /api/chef/profile
 // @access Private
 const getChefProfile = asyncHandler(async (req, res) => {
   const chef = await Chef.findById(req.chef._id)
@@ -133,6 +173,8 @@ const getChefProfile = asyncHandler(async (req, res) => {
       email: chef.email,
       phone_number: chef.phone_number,
       bio: chef.bio,
+      chefPicture: chef.chefPicture,
+      isVisible: chef.isVisible,
       isVegan: chef.isVegan,
       isVegetarian: chef.isVegetarian,
       isGlutenFree: chef.isGlutenFree,
@@ -179,11 +221,13 @@ const getChefProfile = asyncHandler(async (req, res) => {
 })
 
 // @description Update chef profile
-// @route PUT /api/chefs/profile
+// @route PUT /api/chef/profile
 // @access Private
 const updateChefProfile = asyncHandler(async (req, res) => {
   const {
     phone_number,
+    chefPicture,
+    isVisible,
     isVegan,
     isVegetarian,
     isGlutenFree,
@@ -232,6 +276,8 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.email = req.body.email || chef.email
     chef.phone_number = req.body.phone_number || chef.phone_number
     chef.bio = req.body.bio || chef.bio
+    chef.chefPicture = req.body.chefPicture || chef.chefPicture
+    chef.isVisible = isVisible
     chef.isVegan = isVegan
     chef.isVegetarian = isVegetarian
     chef.isGlutenFree = isGlutenFree
@@ -283,6 +329,8 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       email: updatedChef.email,
       phone_number: updatedChef.phone_number,
       bio: updatedChef.bio,
+      chefPicture: updatedChef.chefPicture,
+      isVisible: updatedChef.isVisible,
       isVegan: updatedChef.isVegan,
       isVegetarian: updatedChef.isVegetarian,
       isGlutenFree: updatedChef.isGlutenFree,
@@ -329,7 +377,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
 })
 
 // @description Get all chefs
-// @route GET /api/chefs/
+// @route GET /api/chef/
 // @access Private and Admin
 const getChefs = asyncHandler(async (req, res) => {
   const chefs = await Chef.find({})
@@ -337,7 +385,7 @@ const getChefs = asyncHandler(async (req, res) => {
 })
 
 // @description Delete chef
-// @route DELETE /api/chefs/:id
+// @route DELETE /api/chef/:id
 // @access Private and Admin
 const deleteChef = asyncHandler(async (req, res) => {
   const chef = await Chef.findById(req.params.id)
@@ -352,7 +400,7 @@ const deleteChef = asyncHandler(async (req, res) => {
 })
 
 // @description Get chef by ID
-// @route GET /api/chefs/:id
+// @route GET /api/chef/:id
 // @access Private and Admin
 const getChefByIdAdmin = asyncHandler(async (req, res) => {
   const chef = await Chef.findById(req.params.id).select('-password')
@@ -365,7 +413,7 @@ const getChefByIdAdmin = asyncHandler(async (req, res) => {
 })
 
 // @description Get chef by ID
-// @route GET /api/chefs/:id
+// @route GET /api/chef/:id
 // @access Private and Admin
 const getChefById = asyncHandler(async (req, res) => {
   const chef = await Chef.findById(req.params.id).select('-password').select('-isAdmin')
@@ -378,7 +426,7 @@ const getChefById = asyncHandler(async (req, res) => {
 })
 
 // @description Update chef
-// @route PUT /api/chefs/:id
+// @route PUT /api/chef/:id
 // @access Private or Admin
 const updateChef = asyncHandler(async (req, res) => {
   const chef = await Chef.findById(req.params.id)
@@ -390,6 +438,8 @@ const updateChef = asyncHandler(async (req, res) => {
     chef.email = req.body.email || chef.email
     chef.phone_number = req.body.phone_number || chef.phone_number
     chef.bio = req.body.bio || chef.bio
+    chef.chefPicture = req.body.chefPicture || chef.chefPicture
+    chef.isVisible = req.body.isVisible || chef.isVisible
     chef.diets = req.body.diets || chef.diets
 
     const updatedChef = await chef.save()
@@ -402,6 +452,8 @@ const updateChef = asyncHandler(async (req, res) => {
       email: updatedChef.email,
       phone_number: updatedChef.phone_number,
       bio: updatedChef.bio,
+      chefPicture: updatedChef.chefPicture,
+      isVisible: updatedChef.isVisible,
       diets: updatedChef.diets,
     })
 

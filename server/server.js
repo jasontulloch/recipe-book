@@ -9,8 +9,10 @@ import connectDB from './config/db.js';
 
 import recipeRoutes from './routes/recipeRoutes.js';
 import chefRoutes from './routes/chefRoutes.js';
+import chefPublicRoutes from './routes/chefPublicRoutes.js';
 //import uploadRoutes from './routes/uploadRoutes.js';
 import uploadAWSRoutes from './routes/uploadAWSRoutes.js';
+import uploadChefPictureRoutes from './routes/uploadChefPictureRoutes.js';
 import emailGroceryRoutes from './routes/emailGroceryRoutes.js';
 import textGroceryListRoutes from './routes/textGroceryListRoutes.js';
 
@@ -27,8 +29,10 @@ if(process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 app.use('/api/recipes', recipeRoutes)
-app.use('/api/chefs', chefRoutes)
+app.use('/api/chef', chefRoutes)
+app.use('/api/chefs', chefPublicRoutes)
 app.use('/api/uploadAWS', uploadAWSRoutes)
+app.use('/api/uploadChefPicture', uploadChefPictureRoutes)
 app.use('/api/email', emailGroceryRoutes)
 app.use('/api/text', textGroceryListRoutes)
 //app.use('/api/upload', uploadRoutes)

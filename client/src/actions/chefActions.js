@@ -29,7 +29,7 @@ export const register = (first_name, last_name, username, email, phone_number, p
     }
 
     const { data } = await axios.post(
-      '/api/chefs',
+      '/api/chef',
       { first_name, last_name, username, email, phone_number, password },
       config
     )
@@ -69,7 +69,7 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     const { data } = await axios.post(
-      '/api/chefs/login',
+      '/api/chef/login',
       { email, password },
       config
     )
@@ -112,7 +112,7 @@ export const getChefDetails = (id) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.get(
-      `/api/chefs/${id}`,
+      `/api/chef/${id}`,
       config
     )
 
@@ -148,7 +148,7 @@ export const updateChefProfile = (chef) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.put(
-      `/api/chefs/profile`,
+      `/api/chef/profile`,
       chef,
       config
     )

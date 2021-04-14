@@ -5,23 +5,23 @@ import { RiPlantFill, RiLeafFill } from 'react-icons/ri';
 import { FaBreadSlice, FaFish } from 'react-icons/fa';
 import { GiAvocado, GiMilkCarton, GiRawEgg, GiPeanut, GiNautilusShell, GiCoffeeBeans, GiWheat } from 'react-icons/gi';
 
-const RecipeCardImage = ({ recipe }) => {
+const ChefCard = ({ chef }) => {
 
   return (
     <div style={{paddingBottom: '40px'}}>
       <Card className="text-light mb-4 " style={{ border: 'none', height: '175px', width: '225px' }}>
         <Card.Header style={{textAlign: 'center', padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>
           <span>
-            {recipe.recipe_name.slice(0, 25) + (recipe.recipe_name.length > 25 ? "..." : "")}
+            {chef.username.slice(0, 25) + (chef.username > 25 ? "..." : "")}
           </span>
         </Card.Header>
-        <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>
-          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '175px', width: '225px', backgroundColor: '#B2D732' }}/>
+        <Link to={`/chefs/${chef._id}`} style={{zIndex: '2'}}>
+          <Card.Img src={chef.chefPicture} alt={chef.chefPicture} style={{height: '175px', width: '225px', backgroundColor: '#B2D732' }}/>
         </Link>
         <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>
             <Col style={{display: 'flex', justifyContent: 'space-around'}}>
-              {(recipe.isVegan === true) && (
+              {(chef.isVegan === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -33,7 +33,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><RiLeafFill /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isVegetarian === true) && (
+              {(chef.isVegetarian === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -45,7 +45,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><RiPlantFill /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isGlutenFree === true) && (
+              {(chef.isGlutenFree === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -57,7 +57,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><FaBreadSlice /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isKetogenic === true) && (
+              {(chef.isKetogenic === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -69,7 +69,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><GiAvocado /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isPescatarian === true) && (
+              {(chef.isPescatarian === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -81,7 +81,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><FaFish /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isDairy === true) && (
+              {(chef.isDairy === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -93,7 +93,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><GiMilkCarton /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isEgg === true) && (
+              {(chef.isEgg === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -105,7 +105,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><GiRawEgg /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isNuts === true) && (
+              {(chef.isNuts === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -117,7 +117,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><GiPeanut /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isShellfish === true) && (
+              {(chef.isShellfish === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -129,7 +129,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><GiNautilusShell /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isSoy === true) && (
+              {(chef.isSoy === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -141,7 +141,7 @@ const RecipeCardImage = ({ recipe }) => {
                   <span><GiCoffeeBeans /></span>
                 </OverlayTrigger>
               )}
-              {(recipe.isWheat === true) && (
+              {(chef.isWheat === true) && (
                 <OverlayTrigger
                   placement='bottom'
                   overlay={
@@ -154,7 +154,7 @@ const RecipeCardImage = ({ recipe }) => {
                 </OverlayTrigger>
               )}
             </Col>
-            {recipe.isVegan !== true && recipe.isVegetarian !== true && recipe.isGlutenFree !== true && recipe.isKetogenic !== true && recipe.isPescatarian !== true && recipe.isDairy !== true && recipe.isEgg !== true && recipe.isNuts !== true && recipe.isShellfish !== true && recipe.isSoy !== true && recipe.isWheat !== true && (
+            {chef.isVegan !== true && chef.isVegetarian !== true && chef.isGlutenFree !== true && chef.isKetogenic !== true && chef.isPescatarian !== true && chef.isDairy !== true && chef.isEgg !== true && chef.isNuts !== true && chef.isShellfish !== true && chef.isSoy !== true && chef.isWheat !== true && (
               <span style={{color: '#71881B'}}><GiWheat /></span>
             )}
           </Row>
@@ -164,4 +164,4 @@ const RecipeCardImage = ({ recipe }) => {
   )
 }
 
-export default RecipeCardImage;
+export default ChefCard;

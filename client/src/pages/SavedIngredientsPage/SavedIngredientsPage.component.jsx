@@ -57,6 +57,8 @@ const SavedIngredientsPage = ({ history }) => {
   const [useCentimetres, setUseCentimetres] = useState(false)
   const [useMillimetres, setUseMillimetres] = useState(false)
   const [bio, setBio] = useState('')
+  const [isVisible, setIsVisible] = useState(false)
+  const [chefPicture, setChefPicture] = useState('')
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -115,6 +117,8 @@ const SavedIngredientsPage = ({ history }) => {
         setEmail(chef.email)
         setPhoneNumber(chef.phone_number)
         setBio(chef.bio)
+        setChefPicture(chef.chefPicture)
+        setIsVisible(chef.isVisible)
         setIsVegan(chef.isVegan)
         setIsVegetarian(chef.isVegetarian)
         setIsGlutenFree(chef.isGlutenFree)
@@ -178,6 +182,8 @@ const SavedIngredientsPage = ({ history }) => {
         phone_number,
         password,
         bio,
+        chefPicture,
+        isVisible,
         isVegan,
         isVegetarian,
         isGlutenFree,
@@ -231,6 +237,8 @@ const SavedIngredientsPage = ({ history }) => {
       phone_number,
       password,
       bio,
+      chefPicture,
+      isVisible,
       isVegan,
       isVegetarian,
       isGlutenFree,
@@ -302,6 +310,8 @@ const SavedIngredientsPage = ({ history }) => {
         phone_number,
         password,
         bio,
+        chefPicture,
+        isVisible,
         isVegan,
         isVegetarian,
         isGlutenFree,

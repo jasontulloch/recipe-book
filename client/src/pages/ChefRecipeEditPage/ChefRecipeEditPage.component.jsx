@@ -526,7 +526,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       <Message variant='warning'>{cookTimeMessage}</Message>
                     )}
                   </Form.Text>
-                  <Form.Text className='muted'>Enter in minutes, we will take care of the rest.</Form.Text>
+                  <Form.Text className='muted'>Enter between 1 and 999 minutes, we will take care of the rest.</Form.Text>
                 </Form.Group>
                 <Form.Group controlId='servingSize'>
                   <Form.Label>Serving Size</Form.Label>
@@ -545,13 +545,13 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       <Message variant='warning'>{servingSizeMessage}</Message>
                     )}
                   </Form.Text>
-                  <Form.Text className='muted'>Users will be able to adjust as needed. We present all recipes as 4 servings, which users can adjust.</Form.Text>
+                  <Form.Text className='muted'>Enter between 1 and 20 servings as chefs will be able to adjust as needed. All recipes will be presented as having 4 servings.</Form.Text>
                 </Form.Group>
               </Tab>
               <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
                 <Form.Group controlId='recipeIngredients'>
                   <Message variant='warning'>
-                    <Form.Text className='muted'> Quantity: Enter ingredient quantities as a decimal or whole number. Hover over the info icon next to 'Quantity' for help!</Form.Text>
+                    <Form.Text className='muted'> Quantity: Enter ingredient quantities up to 1000 as a decimal or whole number. Hover over the info icon next to 'Quantity' for help!</Form.Text>
                     <Form.Text className='muted'>Measurement: Leave blank if the ingredient does not need a unit of measurement (e.g. 1 White Onion).</Form.Text>
                     <Form.Text className='muted'>Ingredient: Only enter the ingredient name (e.g. White Onion, Tumeric, etc.).</Form.Text>
                     <Form.Text className='muted'>Specific Notes (Optional): Leave blank if none. Preparation notes will be put in parentheses for you (e.g. enter diced, ground, optional, use for pasta sauce, etc.).</Form.Text>

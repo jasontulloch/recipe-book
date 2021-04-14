@@ -6,8 +6,9 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { logout } from '../../actions/chefActions';
 import SearchBox from '../SearchBox/SearchBox.component';
 import AdvancedSearchBtn from '../AdvancedSearchBtn/AdvancedSearchBtn.component';
+import AllChefsBtn from '../AllChefsBtn/AllChefsBtn.component';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { GiBookmark, GiBookCover } from 'react-icons/gi';
+import { GiBookmark, GiBookCover, GiCook } from 'react-icons/gi';
 import { HiOutlineClipboardList } from 'react-icons/hi'
 
 const Header = () => {
@@ -31,7 +32,22 @@ const Header = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Route render={({ history }) => <AdvancedSearchBtn history={history} />} />
+            <Route render={({ history }) => <AllChefsBtn history={history} />} />
             <Nav className="ml-auto">
+              <OverlayTrigger
+                placement='bottom'
+                overlay={
+                  <Tooltip id={'tooltip-bottom'}>
+                    Chefs I Love
+                  </Tooltip>
+                }
+              >
+                <LinkContainer to='/mychefs'>
+                  <Nav.Link>
+                    <GiCook style={{ fontSize: '1.25rem' }}/>
+                  </Nav.Link>
+                </LinkContainer>
+              </OverlayTrigger>
               <OverlayTrigger
                 placement='bottom'
                 overlay={

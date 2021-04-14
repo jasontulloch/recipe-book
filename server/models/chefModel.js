@@ -35,6 +35,15 @@ const chefSchema = mongoose.Schema(
       type: String,
       required: false
     },
+    chefPicture: {
+      type: String,
+      required: false
+    },
+    isVisible: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     isVegan: {
       type: Boolean,
       required: true,
@@ -98,7 +107,7 @@ const chefSchema = mongoose.Schema(
     isMainDish: {
       type: Boolean,
       required: true,
-      default: false
+      default: true
     },
     isSideSauce: {
       type: Boolean,

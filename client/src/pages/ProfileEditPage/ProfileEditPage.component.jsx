@@ -1,5 +1,6 @@
 import React, { useState, useEffect, setState } from 'react';
-import { Form, Button, Row, Col, Tabs, Tab, Table } from 'react-bootstrap';
+import axios from 'axios';
+import { Form, Button, Row, Col, Tabs, Tab, Table, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
@@ -7,10 +8,13 @@ import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 import { listMySavedRecipes } from '../../actions/recipeActions';
 import FormContainer from '../../components/FormContainer/FormContainer.component';
 import Message from '../../components/Message/Message.component';
+import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
 import './ProfileEditPage.styles.scss';
 
-const ProfileEditPage = ({ location, history }) => {
+const ProfileEditPage = ({ location, history, match }) => {
+  //const chefId = match.params.id
+
   const [first_name, setFirstName] = useState('')
   const [last_name, setLastName] = useState('')
   const [username, setUsername] = useState('')
@@ -54,6 +58,9 @@ const ProfileEditPage = ({ location, history }) => {
   const [useCentimetres, setUseCentimetres] = useState(false)
   const [useMillimetres, setUseMillimetres] = useState(false)
   const [bio, setBio] = useState('')
+  const [isVisible, setIsVisible] = useState(false)
+  const [chefPicture, setChefPicture] = useState('')
+  const [uploading, setUploading] = useState(false)
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -89,6 +96,8 @@ const ProfileEditPage = ({ location, history }) => {
         setEmail(chef.email)
         setPhoneNumber(chef.phone_number)
         setBio(chef.bio)
+        setChefPicture(chef.chefPicture)
+        setIsVisible(chef.isVisible)
         setIsVegan(chef.isVegan)
         setIsVegetarian(chef.isVegetarian)
         setIsGlutenFree(chef.isGlutenFree)
@@ -151,6 +160,8 @@ const ProfileEditPage = ({ location, history }) => {
         phone_number,
         password,
         bio,
+        chefPicture,
+        isVisible,
         isVegan,
         isVegetarian,
         isGlutenFree,
@@ -302,6 +313,34 @@ const ProfileEditPage = ({ location, history }) => {
     }
   }
 
+  const uploadFileHandler = async(e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('chefPicture', file)
+    setUploading(true)
+    setChefPicture('')
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+
+      const { data } = await axios.put(`/api/uploadChefPicture/${chef._id}`, formData, config)
+
+      setChefPicture(data)
+      setSuccessMessage('Chef profile picture successfully uploaded!')
+      setTimeout(function() {
+        setSuccessMessage('')
+      }, 3000)
+      setUploading(false)
+      dispatch(getChefDetails('profile'))
+    } catch (error) {
+      setUploading(false)
+    }
+  }
+
   return (
     <FormContainer className="profileEditPage">
       <Col xs={12}  style={{textAlign: 'center'}}>
@@ -316,6 +355,17 @@ const ProfileEditPage = ({ location, history }) => {
       <Form className='profileEditPageForm' onSubmit={submitHandler}>
         <Tabs fill id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
           <Tab eventKey='auth' title="General">
+            <Col xs={12} style={{textAlign:'center'}}>
+              <Form.Group controlId='isVisible' className='dietsAndAllerginsGroup'>
+                <Form.Check
+                  inline
+                  label='Make your chef profile public'
+                  checked={isVisible}
+                  onChange={(e) => setIsVisible(e.target.checked)}
+                />
+              </Form.Group>
+              <Form.Text>Other chefs will be able to find and follow you. Your name, contact information, and log in information will never be shared.</Form.Text>
+            </Col>
             <Form.Group controlId='first_name'>
               <Form.Label>First Name</Form.Label>
               <Form.Control
@@ -341,16 +391,16 @@ const ProfileEditPage = ({ location, history }) => {
             </Form.Group>
 
             <Form.Group controlId='username'>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Chefname</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Enter a username'
+                placeholder='Enter a chefname'
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               >
               </Form.Control>
-              <Form.Text className='muted'>Your username will be public</Form.Text>
+              <Form.Text className='muted'>Your username will be public.</Form.Text>
             </Form.Group>
 
             <Form.Group controlId='email'>
@@ -363,6 +413,7 @@ const ProfileEditPage = ({ location, history }) => {
                 required
               >
               </Form.Control>
+              <Form.Text>We will never email you or share your email with anyone without your permission.</Form.Text>
             </Form.Group>
 
             <Form.Group controlId='phone_number'>
@@ -375,6 +426,7 @@ const ProfileEditPage = ({ location, history }) => {
                 required
               >
               </Form.Control>
+              <Form.Text>We will never message you or share your phone number with anyone without your permission.</Form.Text>
             </Form.Group>
 
             <Form.Group controlId='password'>
@@ -735,7 +787,7 @@ const ProfileEditPage = ({ location, history }) => {
                   <Form.Control
                     as='textarea'
                     rows='5'
-                    maxLength='240'
+                    maxLength='900'
                     placeholder='Enter bio'
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
@@ -745,6 +797,43 @@ const ProfileEditPage = ({ location, history }) => {
                 </Form.Group>
               </Col>
             </Row>
+          </Tab>
+
+
+          <Tab eventKey='chefPicture' title="Chef Profile Picture">
+            {uploading === false ? (
+              <Row>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center' }}>
+                  <Message variant='warning'>
+                    <Form.Text className='muted'>A great picture is key to a great chef. For the best results, upload a square 3024px x 3024px photo. This picture will be public.</Form.Text>
+                  </Message>
+                </Col>
+                <Col style={{textAlign: 'center'}}>
+                  <Form.Group controlId='coverImage' className='imagesGroup'>
+                    <FormContainer>
+                      <Image
+                        style={{width: '50%', textAlign: 'left', minWidth: '330px'}}
+                        className="chefPicture"
+                        src={chefPicture}
+                        key={Date.now()}
+                        rounded
+                      />
+                    </FormContainer>
+                    <Form.File
+                      style={{width: '50%', textAlign: 'left', minWidth: '330px'}}
+                      id='cover-image-file'
+                      name='chefPicture'
+                      label='Choose Profile Picture'
+                      custom
+                      onChange={uploadFileHandler}
+                    ></Form.File>
+                  </Form.Group>
+                  <Form.Text className='muted' style={{paddingBottom: '10px'}}>Your new image will automatically save once its uploaded.</Form.Text>
+                </Col>
+              </Row>
+            ) : (
+              <PancakeLoader>Uploading chef profile picture...</PancakeLoader>
+            )}
           </Tab>
         </Tabs>
         <Row>
