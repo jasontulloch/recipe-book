@@ -79,7 +79,7 @@ const HomeScreen = ({ match }) => {
               </DropdownButton>
             </Col>
             {recipes && recipes.map((recipe) => (
-              <Col key={recipe._id} xs={6} md={4} lg={3}>
+              <Col key={recipe._id} xs={6} sm={4} md={3} lg={2}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}

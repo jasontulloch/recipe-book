@@ -29,7 +29,9 @@ import { GiCook } from 'react-icons/gi';
 //import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes, FaFileDownload } from 'react-icons/fa';
 //import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
+import EmptyRecipeCard from '../../components/EmptyRecipeCard/EmptyRecipeCard.component';
 import Message from '../../components/Message/Message.component';
+import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -64,18 +66,7 @@ const IndividualChefPage = ({ history, match }) => {
     error: errorChefUnfollow
   } = chefUnfollow
 
-  let doesFollowExist = Boolean
-  try {
-    if (chefInfo && chef) {
-      doesFollowExist = Boolean(chefInfo.following.find(function(follow) {
-        return follow.chef === chef.id
-      }))
-    }
-  } catch (err) {
-
-  }
-
-  const [isChefFollowed, setIsChefFollowed] = useState(doesFollowExist)
+  const [isChefFollowed, setIsChefFollowed] = useState(chefInfo.folllowing && chefInfo.following.filter(chefId => chefId.chef === chef.id)._id === chef.id || false)
 
   useEffect(() => {
     if(successChefFollow) {
@@ -94,7 +85,6 @@ const IndividualChefPage = ({ history, match }) => {
     match,
     successChefFollow,
     successChefUnfollow,
-    doesFollowExist
   ])
 
   const followHandler = (e) => {
@@ -150,133 +140,141 @@ const IndividualChefPage = ({ history, match }) => {
 
   // Recipe Carousel
   const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 4
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
+  const [initialLoader, setInitialLoader] = useState(true)
+  if (loading !== true) {
+    setTimeout(() => setInitialLoader(false), 2000)
   }
-};
 
   return (
     <div>
-      {(chefInfo && chef && (chef.id === chefInfo._id)) && (
-        <Col xs={12} style={{textAlign:'center'}}>
-          <Message variant='warning'>
-            <Form.Text className='muted'>
-              Looks like you found your public profile! Want to make a change?
-              <Link to='/profile' style={{ paddingLeft: '5px' }}>
-                Edit you profile
-              </Link>
-              .
-            </Form.Text>
-          </Message>
-        </Col>
-      )}
-      {chefInfo && chef && (chef.isVisible === true) ? (
-      <div>
-        <Row style={{paddingBottom: '10px'}}>
-          <Col xs={12} md={7}>
-            {isChefFollowed === false ? (
-              <Form onSubmit={followHandler}>
-                <Form.Group as={Row} style={{marginBottom: '0px'}}>
-                  <Form.Label>
-                    <h3 style={{ marginLeft: '10px' }}>Chef: {chef.username}</h3>
-                  </Form.Label>
-                  <Button
-                    variant='link'
-                    style={{ padding: 0, height: '25px'}}
-                    type='submit'
-                    onClick={(e) => setFollowed('')}
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    <Badge pill variant='primary' style={{marginLeft: '5px'}}>Follow</Badge>
-                  </Button>
-                </Form.Group>
-              </Form>
-            ) : (
-              <Form onSubmit={unfollowHandler}>
-                <Form.Group as={Row} style={{marginBottom: '0px'}}>
-                  <Form.Label>
-                    <h3 style={{ marginLeft: '10px' }}>Chef: {chef.username}</h3>
-                  </Form.Label>
-                  <Button
-                    variant='link'
-                    style={{ padding: 0, height: '25px'}}
-                    type='submit'
-                    onClick={(e) => setFollowed('')}
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    <Badge pill variant='primary' style={{marginLeft: '5px'}}>Unfollow</Badge>
-                  </Button>
-                </Form.Group>
-              </Form>
-            )}
-            <h6>
-              {Diets.length > 0 && 'Typical Recipe Diets: '}
-              {new Intl.ListFormat().format(Diets)}
-            </h6>
-            <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px'}}>
-              {Allergins.length > 0 && 'Common Allergens Avoided: '}
-              {new Intl.ListFormat().format(Allergins)}
-            </h6>
-            <p>{chef.bio}</p>
-          </Col>
-          <Col xs={12} md={5} style={{ textAlign:'center'}}>
-            <Image
-              style={{width: '300px', height: '300px'}}
-              src={chef.chefPicture}
-              rounded
-            />
-          </Col>
-        </Row>
-        <Carousel responsive={responsive}>
-          {chef.recipes && chef.recipes.map((recipe) => (
-            <div>
-              <RecipeCard recipe={recipe} />
-            </div>
-          ))}
-
-          <div style={{paddingBottom: '40px'}}>
-            <Card className="text-light mb-4 text-center" style={{ border: 'none', height: '175px', width: '225px' }}>
-              <Card.Header style={{padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px', border: 'none' }}>
-                <span>
-                  &nbsp;
-                </span>
-              </Card.Header>
-              <Link to={`/recipe/${chef.id}`} style={{zIndex: '2', textDecoration: 'none'}}>
-                <Card.Body style={{height: '175px', width: '225px', backgroundColor: '#71881B', color: 'white' }}>
-                  <div style={{paddingBottom: '5px', height: '50%'}}>View all recipes created by...</div>
-                  <div><GiCook /> {chef.username}</div>
-                </Card.Body>
-              </Link>
-              <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px', border: 'none' }}>
-                <Row>
-                  <Col>
-                    <span style={{color: '#71881B'}}>&nbsp;</span>
-                  </Col>
-                </Row>
-              </Card.Footer>
-            </Card>
-          </div>
-
-
-        </Carousel>
-      </div>
+      {initialLoader ? (
+        <PancakeLoader>Gathering chef details...</PancakeLoader>
       ) : (
-      <div>
-        <h1>Oops this is you!</h1>
+        <div>
+        {(chefInfo && chef && (chef.id === chefInfo._id)) ? (
+          <Col xs={12} style={{textAlign:'center'}}>
+            <Message variant='warning'>
+              <Form.Text className='muted'>
+                Looks like you found your public profile! Want to make a change?
+                <Link to='/profile' style={{ paddingLeft: '5px' }}>
+                  Edit you profile
+                </Link>
+                .
+              </Form.Text>
+            </Message>
+          </Col>
+        ) : (chefInfo == null) ? (
+          <Col xs={12} style={{textAlign:'center'}}>
+            <Message variant='warning'>
+              <Form.Text className='muted'>
+                <Link to='/login' style={{ paddingRight: '5px' }}>
+                  Sign in
+                </Link>
+                to follow a chef
+              </Form.Text>
+            </Message>
+          </Col>
+        ) : (
+          <div></div>
+        )}
+        {chef && (chef.isVisible === true) ? (
+        <div>
+          <Row style={{paddingBottom: '10px'}}>
+            <Col xs={12} md={7}>
+              {isChefFollowed === true ? (
+                <Form onSubmit={unfollowHandler}>
+                  <Form.Group as={Row} style={{marginBottom: '0px'}}>
+                    <Form.Label>
+                      <h3 style={{ marginLeft: '10px' }}>Chef: {chef.username}</h3>
+                    </Form.Label>
+                    {chefInfo && (
+                      <Button
+                        variant='link'
+                        style={{ padding: 0, height: '25px'}}
+                        type='submit'
+                        onClick={(e) => setFollowed('')}
+                        disabled={(chefInfo == null) ? true : false}
+                      >
+                        <Badge pill variant='primary' style={{marginLeft: '5px'}}>Unfollow</Badge>
+                      </Button>
+                    )}
+                  </Form.Group>
+                </Form>
+              ) : (
+                <Form onSubmit={followHandler}>
+                  <Form.Group as={Row} style={{marginBottom: '0px'}}>
+                    <Form.Label>
+                      <h3 style={{ marginLeft: '10px' }}>Chef: {chef.username}</h3>
+                    </Form.Label>
+                    {chefInfo && (
+                      <Button
+                        variant='link'
+                        style={{ padding: 0, height: '25px'}}
+                        type='submit'
+                        onClick={(e) => setFollowed('')}
+                        disabled={(chefInfo == null) ? true : false}
+                      >
+                        <Badge pill variant='primary' style={{marginLeft: '5px'}}>Follow</Badge>
+                      </Button>
+                    )}
+                  </Form.Group>
+                </Form>
+              )}
+              <h6>
+                {Diets.length > 0 && 'Typical Recipe Diets: '}
+                {new Intl.ListFormat().format(Diets)}
+              </h6>
+              <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px'}}>
+                {Allergins.length > 0 && 'Common Allergens Avoided: '}
+                {new Intl.ListFormat().format(Allergins)}
+              </h6>
+              <p>{chef.bio}</p>
+            </Col>
+            <Col xs={12} md={5} style={{ textAlign:'center'}}>
+              <Image
+                style={{width: '300px', height: '300px'}}
+                src={chef.chefPicture}
+                rounded
+              />
+            </Col>
+          </Row>
+          <Carousel
+            responsive={responsive}
+            centerMode={true}
+            infinite={true}
+          >
+            {chef.recipes && chef.recipes.map((recipe) => (
+              <div>
+                <RecipeCard recipe={recipe}/>
+              </div>
+            ))}
+            <EmptyRecipeCard chef={chef}/>
+          </Carousel>
+        </div>
+        ) : (
+        <div>
+          <h1>Oops this is you!</h1>
+        </div>
+        )}
       </div>
       )}
     </div>

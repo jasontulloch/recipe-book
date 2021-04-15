@@ -4,10 +4,8 @@ import { Link } from 'react-router-dom';
 import { Table, Button, Row, Col, Form, OverlayTrigger, Tooltip, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  listMyFollowedChefs,
-  unfollowChef
+  listMyFollowedChefs
 } from '../../actions/chefActions';
-import { CHEF_UNFOLLOW_RESET } from '../../constants/chefConstants';
 import { BiInfoCircle } from 'react-icons/bi'
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
@@ -25,12 +23,6 @@ const ChefMyFollowedPage = ({ match , history }) => {
   const chefMyFollowed = useSelector(state => state.chefMyFollowed)
   const { loading, error, following } = chefMyFollowed
 
-  const chefUnfollow = useSelector(state => state.chefUnfollow)
-  const {
-    success: successChefUnfollow,
-    error: errorChefUnfollow
-  } = chefUnfollow
-
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
@@ -43,21 +35,13 @@ const ChefMyFollowedPage = ({ match , history }) => {
     if(!chefInfo) {
       history.push('/login')
     }
-
-    if(successChefUnfollow) {
-      alert('Chef unfollowed')
-      setUnfollow('')
-      dispatch({ type: CHEF_UNFOLLOW_RESET })
-    }
-
     dispatch(listMyFollowedChefs(match.params.id))
 
   }, [
     dispatch,
     history,
     match,
-    chefInfo,
-    successChefUnfollow
+    chefInfo
   ])
 
   // Recipe Carousel
@@ -65,19 +49,19 @@ const ChefMyFollowedPage = ({ match , history }) => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 5
+      items: 6
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 4
+      items: 5
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 2
+      items: 3
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 1
+      items: 2
     }
   };
 
@@ -87,10 +71,14 @@ const ChefMyFollowedPage = ({ match , history }) => {
           <PancakeLoader>Finding the chefs you already love...</PancakeLoader>
         ) : (chefInfo) ? (
           <div>
-            {following.myFollowedChefsId.map(chefId => (
+            {following.chefs && following.chefs.map(chefId => (
               <div>
-                <Carousel responsive={responsive}>
-                  {following.recipes && following.recipes.filter(allRecipes => chefId.toString() === allRecipes.chef.toString()).map(recipe => (
+                <Carousel
+                  responsive={responsive}
+                  centerMode={true}
+                >
+                  <ChefCard chef={chefId} />
+                  {following.recipes && following.recipes.filter(allRecipes => chefId._id.toString() === allRecipes.chef.toString()).map(recipe => (
                     <div>
                       <RecipeCard recipe={recipe} />
                     </div>
@@ -107,17 +95,3 @@ const ChefMyFollowedPage = ({ match , history }) => {
 }
 
 export default ChefMyFollowedPage;
-
-//{following.myFollowedChefsId.map(chefId => (
-//  <div>
-//    <Carousel responsive={responsive}>
-//      {following.recipes && following.recipes.map(recipe => (
-//        <div>
-//          {chefId.toString() === recipe.chef.toString() && (
-//            <RecipeCard recipe={recipe} />
-//          )}
-//        </div>
-//      ))}
-//    </Carousel>
-//  </div>
-//))}

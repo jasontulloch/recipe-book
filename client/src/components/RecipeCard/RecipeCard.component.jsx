@@ -9,14 +9,14 @@ const RecipeCardImage = ({ recipe }) => {
 
   return (
     <div style={{paddingBottom: '40px'}}>
-      <Card className="text-light mb-4 " style={{ border: 'none', height: '175px', width: '225px' }}>
-        <Card.Header style={{textAlign: 'center', padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px' }}>
+      <Card className="text-light mb-4 " style={{ border: 'none', height: '136px', width: '175px' }}>
+        <Card.Header style={{textAlign: 'center', padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px', fontSize: '10px' }}>
           <span>
             {recipe.recipe_name.slice(0, 25) + (recipe.recipe_name.length > 25 ? "..." : "")}
           </span>
         </Card.Header>
         <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>
-          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '175px', width: '225px', backgroundColor: '#B2D732' }}/>
+          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '136px', width: '175px', backgroundColor: '#B2D732' }}/>
         </Link>
         <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>

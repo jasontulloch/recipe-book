@@ -542,35 +542,40 @@ const unfollowChef = asyncHandler(async (req, res) => {
 // @route GET /api/chef/mychefs
 // @access Private
 const getMyFollowedChefs = asyncHandler(async (req, res) => {
-  // Returns all chefs
-  const chefs = await Chef.find({})
+  // Setting number of recipes to be pulled (defined with limit below)
+  const recipeCount = 20
   // Returns the current chef
   const currentChef = await Chef.findById(req.chef._id)
   // Returns all distinct values as an array
   const myFollowedChefsId = await [... new Set(currentChef.following.map(chefId => chefId.chef))]
-  // Convert the array values to a string
-  const myFollowedChefsIdToString = myFollowedChefsId.toString()
-  // Filter all chefs to find the ones that match the array of string IDs
-  const myFollowedChefs = chefs.filter(function(chef) {
-    return myFollowedChefsIdToString.indexOf(chef._id) !== -1
-  })
-
-  const keywordChefId = myFollowedChefsId ? {
+  // Preparing to find all recipes with chefs that have ids matching what is in our array
+  const keywordRecipeChefId = myFollowedChefsId ? {
     chef: {
       $in: myFollowedChefsId
     }
   } : {}
-
+  // Preparing to find all chefs that have ids matching what is in our array
+  const keywordChefId = myFollowedChefsId ? {
+    _id: {
+      $in: myFollowedChefsId
+    }
+  } : {}
+  // Making sure recipes are published
   const isPublished = true ? {
     isPublished: {
       $eq: 'true'
     }
   } : {}
-
+  // Making sure chef profile is published
+  const isVisible = true ? {
+    isVisible: {
+      $eq: 'true'
+    }
+  } : {}
+  // Finding recipes based on chef ID - making sure published
   const recipes = await Recipe.find({
-    //and below is finding both (don't technically need the and)
     $and: [
-      {...keywordChefId},
+      {...keywordRecipeChefId},
       {...isPublished}
     ]
     // Returning only the following fields (this is what the "1" does)
@@ -589,12 +594,33 @@ const getMyFollowedChefs = asyncHandler(async (req, res) => {
     isWheat: 1,
     isSoy: 1,
     recipe_cover_image: 1
+  }).limit(recipeCount)
+  // Finding chefs based on chef ID - making sure published
+  const chefs = await Chef.find({
+    $and: [
+      {...keywordChefId},
+      {...isVisible}
+    ]
+    // Returning only the following fields (this is what the "1" does)
+  }, {
+    username: 1,
+    chefPicture: 1,
+    isVegan: 1,
+    isVegetarian: 1,
+    isGlutenFree: 1,
+    isKetogenic: 1,
+    isPescatarian: 1,
+    isDairy: 1,
+    isEgg: 1,
+    isNuts: 1,
+    isShellfish: 1,
+    isWheat: 1,
+    isSoy: 1,
+    recipe_cover_image: 1
   })
 
-
-
   // Returns the filtered array as a JSON object
-  res.json({myFollowedChefsId, recipes})
+  res.json({chefs, recipes})
 })
 
 export {

@@ -67,18 +67,8 @@ const AllChefsPage = ({ match }) => {
       ) : (
         <div>
           <Row style={{textAlign:'center'}}>
-            <Col xs={12} md={9}>
-              <h1>{sortButtonLabel} Chefs</h1>
-            </Col>
-            <Col xs={12} md={3} style={{paddingBottom: '10px'}}>
-              <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
-                <Dropdown.Item as="button" onClick={handleNewest}>Newest</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
-              </DropdownButton>
-            </Col>
             {chefs && chefs.map((chef) => (
-              <Col key={chef._id} xs={6} md={4} lg={3}>
+              <Col key={chef._id} xs={6} sm={4} md={3} lg={2}>
                 <ChefCard chef={chef} />
               </Col>
             ))}
