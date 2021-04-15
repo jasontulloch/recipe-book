@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import myRecipeSchema from './myRecipeModel.js';
 import savedRecipeSchema from './savedRecipeModel.js';
+import followingSchema from './followingModel.js';
 
 const chefSchema = mongoose.Schema(
   {
@@ -234,7 +235,8 @@ const chefSchema = mongoose.Schema(
     savedIngredients: {
       type: Array,
       default: []
-    }
+    },
+    following: [followingSchema],
   }, {
     timestamps: true,
   }

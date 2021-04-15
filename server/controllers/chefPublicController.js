@@ -43,6 +43,7 @@ const getChefs = asyncHandler(async (req, res) => {
 // @route GET /api/chefs/:id
 // @access Public
 const getChefById = asyncHandler(async (req, res) => {
+  const recipeCount = 20
   const chef = await Chef.findById(req.params.id)
 
   const isPublished = true ? {
@@ -63,7 +64,7 @@ const getChefById = asyncHandler(async (req, res) => {
       {...isPublished},
       {...keywordChefId},
     ]
-  })
+  }).limit(recipeCount)
 
   if (chef) {
     res.json({

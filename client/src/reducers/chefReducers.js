@@ -13,7 +13,18 @@ import {
   CHEF_UPDATE_PROFILE_REQUEST,
   CHEF_UPDATE_PROFILE_SUCCESS,
   CHEF_UPDATE_PROFILE_FAILURE,
-  CHEF_UPDATE_PROFILE_RESET
+  CHEF_UPDATE_PROFILE_RESET,
+  CHEF_FOLLOW_REQUEST,
+  CHEF_FOLLOW_SUCCESS,
+  CHEF_FOLLOW_FAILURE,
+  CHEF_FOLLOW_RESET,
+  CHEF_UNFOLLOW_REQUEST,
+  CHEF_UNFOLLOW_SUCCESS,
+  CHEF_UNFOLLOW_FAILURE,
+  CHEF_UNFOLLOW_RESET,
+  CHEF_MYFOLLOWED_REQUEST,
+  CHEF_MYFOLLOWED_SUCCESS,
+  CHEF_MYFOLLOWED_FAILURE,
 } from '../constants/chefConstants';
 
 export const chefLoginReducer = (state = { }, action) => {
@@ -71,6 +82,49 @@ export const chefUpdateProfileReducer = (state = { }, action) => {
       return { loading: false, error: action.payload }
     case CHEF_UPDATE_PROFILE_RESET:
       return { }
+    default:
+      return state
+  }
+}
+
+export const chefFollowReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CHEF_FOLLOW_REQUEST:
+      return { loading: true }
+    case CHEF_FOLLOW_SUCCESS:
+      return { loading: false, success: true, chefInfo: action.payload }
+    case CHEF_FOLLOW_FAILURE:
+      return { loading: false, error: action.payload }
+    case CHEF_FOLLOW_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const chefUnfollowReducer = (state = {}, action) => {
+  switch (action.type) {
+    case CHEF_UNFOLLOW_REQUEST:
+      return { loading: true }
+    case CHEF_UNFOLLOW_SUCCESS:
+      return { loading: false, success: true }
+    case CHEF_UNFOLLOW_FAILURE:
+      return { loading: false, error: action.payload }
+    case CHEF_UNFOLLOW_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const chefMyFollowedReducer = (state = { following: [] }, action) => {
+  switch (action.type) {
+    case CHEF_MYFOLLOWED_REQUEST:
+      return { loading: true, following: [] }
+    case CHEF_MYFOLLOWED_SUCCESS:
+      return { loading: false, following: action.payload }
+    case CHEF_MYFOLLOWED_FAILURE:
+      return { loading: false, error: action.payload}
     default:
       return state
   }

@@ -11,7 +11,7 @@ const AllChefsBtn = ({ history }) => {
   return (
     <div>
       <Form onSubmit={submitHandler} inline>
-        <Button type='submit' variant='outline-success' className='ml-1 p-2'>
+        <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
           Find Chefs
         </Button>
       </Form>

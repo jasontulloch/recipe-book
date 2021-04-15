@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
 import Chef from '../models/chefModel.js';
+import Recipe from '../models/recipeModel.js';
 
 // @description Auth chef & get token
 // @route POST /api/chef/login
@@ -61,6 +62,7 @@ const authChef = asyncHandler(async (req, res) => {
       savedRecipes: chef.savedRecipes,
       myRecipes: chef.myRecipes,
       savedIngredients: chef.savedIngredients,
+      following: chef.following,
       token: generateToken(chef._id),
     })
   } else {
@@ -212,7 +214,8 @@ const getChefProfile = asyncHandler(async (req, res) => {
       useMillimetres: chef.useMillimetres,
       savedRecipes: chef.savedRecipes,
       myRecipes: chef.myRecipes,
-      savedIngredients: chef.savedIngredients
+      savedIngredients: chef.savedIngredients,
+      following: chef.following
     })
   } else {
     res.status(404)
@@ -263,7 +266,8 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     useKilograms,
     useCentimetres,
     useMillimetres,
-    savedIngredients
+    savedIngredients,
+    following
   } = req.body
 
   const chef = await Chef.findById(req.chef._id)
@@ -314,6 +318,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.useCentimetres = useCentimetres
     chef.useMillimetres = useMillimetres
     chef.savedIngredients = req.body.savedIngredients || chef.savedIngredients
+    chef.following = req.body.following || chef.following
 
     if (req.body.password) {
       chef.password = req.body.password
@@ -367,6 +372,7 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       useCentimetres: updatedChef.useCentimetres,
       useMillimetres: updatedChef.useMillimetres,
       savedIngredients: updatedChef.savedIngredients,
+      following: updatedChef.following,
       token: generateToken(updatedChef._id),
     })
 
@@ -440,6 +446,7 @@ const updateChef = asyncHandler(async (req, res) => {
     chef.bio = req.body.bio || chef.bio
     chef.chefPicture = req.body.chefPicture || chef.chefPicture
     chef.isVisible = req.body.isVisible || chef.isVisible
+    chef.following = req.body.following || chef.following
     chef.diets = req.body.diets || chef.diets
 
     const updatedChef = await chef.save()
@@ -454,6 +461,7 @@ const updateChef = asyncHandler(async (req, res) => {
       bio: updatedChef.bio,
       chefPicture: updatedChef.chefPicture,
       isVisible: updatedChef.isVisible,
+      following: updatedChef.following,
       diets: updatedChef.diets,
     })
 
@@ -461,6 +469,132 @@ const updateChef = asyncHandler(async (req, res) => {
     res.status(404)
     throw new Error('Chef not found')
   }
+})
+
+// @description Follow a chef
+// @route POST /api/chef/:id/follow
+// @access Private
+const followChef = asyncHandler(async (req, res) => {
+
+  // req.chef._id works since passing chefInfo from FE and using protect middleware on BE
+  const currentChef = await Chef.findById(req.chef._id)
+  // Based on current chef id in browser
+  const chefLookup = await Chef.findById(req.params.id)
+
+  // see if following array already has the chef id (don't want to follow twice)
+  if(chefLookup) {
+    const alreadyFollowing = currentChef.following.find(
+      r => (r.chef.toString() === req.params.id.toString())
+    )
+
+    if(alreadyFollowing) {
+      res.status(400)
+      throw new Error('Chef is already being followed')
+    }
+
+    // if not already following, save chef id to array
+    const newFollowing = {
+      chef: req.params.id
+    }
+
+    currentChef.following.push(newFollowing)
+
+    await currentChef.save()
+
+    res.status(201).json({ message: 'Chef successfully followed'})
+  } else {
+    res.status(400)
+    throw new Error('Chef not found')
+  }
+})
+
+// @description Unfollow a chef
+// @route DELETE /api/chef/:id/unfollow
+// @access Private
+const unfollowChef = asyncHandler(async (req, res) => {
+
+  // req.chef._id works since passing chefInfo from FE and using protect middleware on BE
+  const currentChef = await Chef.findById(req.chef._id)
+  // Based on current chef id in browser
+  const chefLookup = await Chef.findById(req.params.id)
+
+  // Returns all distinct values as an array
+  const followedChefId = await [... new Set(currentChef.following.map(chef => chef._id))]
+  // Convert the array values to a string
+  const followedChefIdToString = followedChefId.toString()
+  // Filter all saved recipes in array to find the one that matches the current recipe ID
+  const unfollowSelectedChef = currentChef.following.find(
+    r => (r.chef.toString() === chefLookup._id.toString())
+  )
+
+  if(unfollowSelectedChef) {
+    await currentChef.following.remove(unfollowSelectedChef)
+    await currentChef.save()
+    res.json({ message: 'Chef unfollowed'})
+  } else {
+    res.status(404)
+    throw new Error('Chef not found')
+  }
+
+})
+
+// @description Fetch chefs I am following
+// @route GET /api/chef/mychefs
+// @access Private
+const getMyFollowedChefs = asyncHandler(async (req, res) => {
+  // Returns all chefs
+  const chefs = await Chef.find({})
+  // Returns the current chef
+  const currentChef = await Chef.findById(req.chef._id)
+  // Returns all distinct values as an array
+  const myFollowedChefsId = await [... new Set(currentChef.following.map(chefId => chefId.chef))]
+  // Convert the array values to a string
+  const myFollowedChefsIdToString = myFollowedChefsId.toString()
+  // Filter all chefs to find the ones that match the array of string IDs
+  const myFollowedChefs = chefs.filter(function(chef) {
+    return myFollowedChefsIdToString.indexOf(chef._id) !== -1
+  })
+
+  const keywordChefId = myFollowedChefsId ? {
+    chef: {
+      $in: myFollowedChefsId
+    }
+  } : {}
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const recipes = await Recipe.find({
+    //and below is finding both (don't technically need the and)
+    $and: [
+      {...keywordChefId},
+      {...isPublished}
+    ]
+    // Returning only the following fields (this is what the "1" does)
+  }, {
+    chef: 1,
+    recipe_name: 1,
+    isVegan: 1,
+    isVegetarian: 1,
+    isGlutenFree: 1,
+    isKetogenic: 1,
+    isPescatarian: 1,
+    isDairy: 1,
+    isEgg: 1,
+    isNuts: 1,
+    isShellfish: 1,
+    isWheat: 1,
+    isSoy: 1,
+    recipe_cover_image: 1
+  })
+
+
+
+  // Returns the filtered array as a JSON object
+  res.json({myFollowedChefsId, recipes})
 })
 
 export {
@@ -472,5 +606,8 @@ export {
   deleteChef,
   getChefByIdAdmin,
   getChefById,
-  updateChef
+  updateChef,
+  followChef,
+  unfollowChef,
+  getMyFollowedChefs
 }

@@ -6,6 +6,9 @@ import {
   chefRegisterReducer,
   chefDetailsReducer,
   chefUpdateProfileReducer,
+  chefFollowReducer,
+  chefUnfollowReducer,
+  chefMyFollowedReducer,
 } from './reducers/chefReducers';
 import {
   recipeListReducer,
@@ -36,6 +39,9 @@ const reducer = combineReducers({
   chefRegister: chefRegisterReducer,
   chefDetails: chefDetailsReducer,
   chefUpdateProfile: chefUpdateProfileReducer,
+  chefFollow: chefFollowReducer,
+  chefUnfollow: chefUnfollowReducer,
+  chefMyFollowed: chefMyFollowedReducer,
   recipeList: recipeListReducer,
   recipeListAdvancedSearch: recipeListAdvancedSearchReducer,
   recipeMyList: recipeMyListReducer,

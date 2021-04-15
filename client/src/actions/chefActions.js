@@ -12,7 +12,16 @@ import {
   CHEF_DETAILS_RESET,
   CHEF_UPDATE_PROFILE_REQUEST,
   CHEF_UPDATE_PROFILE_SUCCESS,
-  CHEF_UPDATE_PROFILE_FAILURE
+  CHEF_UPDATE_PROFILE_FAILURE,
+  CHEF_FOLLOW_REQUEST,
+  CHEF_FOLLOW_SUCCESS,
+  CHEF_FOLLOW_FAILURE,
+  CHEF_UNFOLLOW_REQUEST,
+  CHEF_UNFOLLOW_SUCCESS,
+  CHEF_UNFOLLOW_FAILURE,
+  CHEF_MYFOLLOWED_REQUEST,
+  CHEF_MYFOLLOWED_SUCCESS,
+  CHEF_MYFOLLOWED_FAILURE
 } from '../constants/chefConstants';
 import axios from 'axios';
 
@@ -172,6 +181,110 @@ export const updateChefProfile = (chef) => async (dispatch, getState) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    })
+  }
+}
+
+export const followChef = (id, chef) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CHEF_FOLLOW_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.post(
+      `/api/chef/${id}/follow`,
+      chef,
+      config
+    )
+
+    dispatch({
+      type: CHEF_FOLLOW_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: CHEF_FOLLOW_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const unfollowChef = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CHEF_UNFOLLOW_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.delete(
+      `/api/chef/${id}/unfollow`,
+      config
+    )
+
+    dispatch({
+      type: CHEF_UNFOLLOW_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: CHEF_UNFOLLOW_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const listMyFollowedChefs = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: CHEF_MYFOLLOWED_REQUEST })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    const { data } = await axios.get(
+      `/api/chef/${id}/mychefs`,
+      config
+    )
+
+    dispatch({
+      type: CHEF_MYFOLLOWED_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: CHEF_MYFOLLOWED_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
     })
   }
 }

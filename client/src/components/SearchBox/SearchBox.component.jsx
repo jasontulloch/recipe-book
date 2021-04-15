@@ -22,14 +22,15 @@ const SearchBox = ({ history }) => {
           name='q'
           onChange={(e) => setKeywordRecipeName(e.target.value)}
           placeholder='Search Recipes...'
-          className='mr-sm-1 ml-sm-2'
+          className='mr-1 ml-1 p-3'
+          style={{fontSize: '10px'}}
         ></Form.Control>
       {(keywordRecipeName.length < 1) ?  (
-          <Button type='submit' variant='outline-success' className='ml-1 p-2'>
+          <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
             Search All
           </Button>
         ) : (
-          <Button type='submit' variant='outline-success' className='ml-1 p-2'>
+          <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
             Search
           </Button>
         )}
