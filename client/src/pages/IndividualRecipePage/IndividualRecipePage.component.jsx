@@ -65,7 +65,7 @@ const IndividualRecipePage = ({ history, match }) => {
   const dispatch = useDispatch()
 
   const recipeDetails = useSelector(state => state.recipeDetails)
-  const { loading, error, recipe, chefUsername } = recipeDetails
+  const { loading, error, recipe, chefUsername, chefId } = recipeDetails
 
   const recipeUpvoteCreate = useSelector(state => state.recipeUpvoteCreate)
   const {
@@ -548,7 +548,9 @@ const IndividualRecipePage = ({ history, match }) => {
               </Row>
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
-              <h5>Chef: {chefUsername}</h5>
+              <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer'}}>
+                <h5>Chef: {chefUsername}</h5>
+              </LinkContainer>
             </Col>
             <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
               <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>

@@ -146,7 +146,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <Row>
+          <Row className="justify-content-md-center">
             <Col>
               <h1>Custom Searched Recipes</h1>
             </Col>
@@ -162,7 +162,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
           </Row>
           <Row>
             {recipes && recipes.map((recipe) => (
-              <Col key={recipe._id} xs={6} sm={6} md={4} lg={3} xl={3}>
+              <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}

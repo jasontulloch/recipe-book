@@ -19,8 +19,10 @@ import {
 } from '../../actions/chefPublicActions';
 import {
   followChef,
-  unfollowChef
+  unfollowChef,
+  getChefDetails
 } from '../../actions/chefActions';
+import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 import { CHEF_FOLLOW_RESET } from '../../constants/chefConstants';
 import { CHEF_UNFOLLOW_RESET } from '../../constants/chefConstants';
 import { RiUserFollowFill, RiUserUnfollowFill } from 'react-icons/ri';
@@ -35,6 +37,7 @@ import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.componen
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import './IndividualChefPage.styles.scss';
 
 const IndividualChefPage = ({ history, match }) => {
   const chefId = match.params.id
@@ -52,7 +55,18 @@ const IndividualChefPage = ({ history, match }) => {
   const { chefInfo } = chefLogin
 
   const chefPublicDetails = useSelector(state => state.chefPublicDetails)
-  const { loading, error, chef } = chefPublicDetails
+  const {
+    loading,
+    error,
+    chef,
+  } = chefPublicDetails
+
+  const chefDetails = useSelector(state => state.chefDetails)
+  const {
+    loading: loadingChefPrivate,
+    error: errorChefPrivate,
+    chef: chefChefPrivate
+  } = chefDetails
 
   const chefFollow = useSelector(state => state.chefFollow)
   const {
@@ -66,9 +80,21 @@ const IndividualChefPage = ({ history, match }) => {
     error: errorChefUnfollow
   } = chefUnfollow
 
-  const [isChefFollowed, setIsChefFollowed] = useState(chefInfo.folllowing && chefInfo.following.filter(chefId => chefId.chef === chef.id)._id === chef.id || false)
+  //const doesFollowExist = chefInfo.following.some(function(chef){ return chef.chef === chefId})
+  const [isChefFollowed, setIsChefFollowed] = useState(false)
+
+  const [initialLoader, setInitialLoader] = useState(true)
+  if (loading !== true) {
+    setTimeout(() => setInitialLoader(false), 2000)
+  }
 
   useEffect(() => {
+    if(initialLoader) {
+      dispatch(getChefDetails('profile'))
+      if (chefChefPrivate && chefChefPrivate.following) {
+        setIsChefFollowed(chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef.id}))
+      }
+    }
     if(successChefFollow) {
       setFollowed('')
       dispatch({ type: CHEF_FOLLOW_RESET })
@@ -85,6 +111,8 @@ const IndividualChefPage = ({ history, match }) => {
     match,
     successChefFollow,
     successChefUnfollow,
+    chefChefPrivate,
+    initialLoader
   ])
 
   const followHandler = (e) => {
@@ -138,31 +166,28 @@ const IndividualChefPage = ({ history, match }) => {
     Allergins.push('Wheat')
   }
 
-  // Recipe Carousel
+  // Recipe Carousel - required but overridden in css file
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
       items: 5
     },
+    // min: 1024
     desktop: {
-      breakpoint: { max: 3000, min: 1024 },
+      breakpoint: { max: 3000, min: 1300 },
       items: 5
     },
+    // max: 1024
     tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
+      breakpoint: { max: 1300, min: 975 },
+      items: 4
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
+      breakpoint: { max: 975, min: 0 },
+      items: 2
     }
   };
-
-  const [initialLoader, setInitialLoader] = useState(true)
-  if (loading !== true) {
-    setTimeout(() => setInitialLoader(false), 2000)
-  }
 
   return (
     <div>
@@ -200,7 +225,7 @@ const IndividualChefPage = ({ history, match }) => {
         <div>
           <Row style={{paddingBottom: '10px'}}>
             <Col xs={12} md={7}>
-              {isChefFollowed === true ? (
+              {chefInfo && isChefFollowed === true ? (
                 <Form onSubmit={unfollowHandler}>
                   <Form.Group as={Row} style={{marginBottom: '0px'}}>
                     <Form.Label>

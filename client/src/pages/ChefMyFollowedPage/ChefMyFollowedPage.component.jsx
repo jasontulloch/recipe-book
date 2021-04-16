@@ -7,12 +7,16 @@ import {
   listMyFollowedChefs
 } from '../../actions/chefActions';
 import { BiInfoCircle } from 'react-icons/bi'
+import { GoSignIn } from 'react-icons/go'
+import { IoMdCreate } from 'react-icons/io'
+import { GiCook } from 'react-icons/gi';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import ChefCard from '../../components/ChefCard/ChefCard.component';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import './ChefMyFollowedPage.styles.scss';
 
 const ChefMyFollowedPage = ({ match , history }) => {
 
@@ -44,24 +48,26 @@ const ChefMyFollowedPage = ({ match , history }) => {
     chefInfo
   ])
 
-  // Recipe Carousel
+  // Recipe Carousel - required but overridden in css file
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 6
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
       items: 5
     },
+    // min: 1024
+    desktop: {
+      breakpoint: { max: 3000, min: 1200 },
+      items: 5
+    },
+    // max: 1024
     tablet: {
-      breakpoint: { max: 1024, min: 464 },
+      breakpoint: { max: 1200, min: 975 },
       items: 3
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 2
+      breakpoint: { max: 975, min: 0 },
+      items: 1
     }
   };
 
@@ -69,9 +75,9 @@ const ChefMyFollowedPage = ({ match , history }) => {
       <div>
         {initialLoader ? (
           <PancakeLoader>Finding the chefs you already love...</PancakeLoader>
-        ) : (chefInfo) ? (
+        ) : (chefInfo && following.chefs && following.chefs.length > 0) ? (
           <div>
-            {following.chefs && following.chefs.map(chefId => (
+            {following.chefs.map(chefId => (
               <div>
                 <Carousel
                   responsive={responsive}
@@ -87,8 +93,29 @@ const ChefMyFollowedPage = ({ match , history }) => {
               </div>
             ))}
           </div>
+        ) : (chefInfo) ? (
+          <Col style={{textAlign: 'center', paddingTop: '100px'}}>
+            <p>It does not look like you are following any chefs yet... let us find you some!</p>
+            <LinkContainer to={`/chefs`}>
+              <Button>
+                <GiCook style={{fontSize: '25px'}}/>All Chefs
+              </Button>
+            </LinkContainer>
+          </Col>
         ) : (
-          <h1></h1>
+          <Col style={{textAlign: 'center', paddingTop: '100px'}}>
+            <p>Log into your account to see the chefs you love or create an account to start following our amazing chefs!</p>
+            <LinkContainer to={`/login`}>
+              <Button>
+                <GoSignIn style={{paddingRight: '5px', fontSize: '25px'}}/>Login
+              </Button>
+            </LinkContainer>
+            <LinkContainer to={`/register`} style={{marginLeft: '10px'}}>
+              <Button>
+                <IoMdCreate style={{paddingRight: '5px', fontSize: '25px'}}/>Register
+              </Button>
+            </LinkContainer>
+          </Col>
         )}
       </div>
   )

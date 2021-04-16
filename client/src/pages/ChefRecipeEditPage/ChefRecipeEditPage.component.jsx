@@ -557,7 +557,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     <Form.Text className='muted'>Specific Notes (Optional): Leave blank if none. Preparation notes will be put in parentheses for you (e.g. enter diced, ground, optional, use for pasta sauce, etc.).</Form.Text>
                   </Message>
                   <Table className='ingredientTable'>
-                    <thead style={{textAlign:'center' }} class='ingredientTableHeaders'>
+                    <thead style={{textAlign:'center' }} className='ingredientTableHeaders'>
                       <th style={{padding: '12px 0px 12px 0px', border: 'none'}}></th>
                       <th
                         style={{padding: '12px 12px 12px 12px', border: 'none'}}

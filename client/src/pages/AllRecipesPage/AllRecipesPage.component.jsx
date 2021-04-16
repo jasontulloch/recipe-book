@@ -67,7 +67,7 @@ const HomeScreen = ({ match }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <Row style={{textAlign:'center'}}>
+          <Row style={{textAlign:'center'}} className="justify-content-md-center">
             <Col xs={12} md={9}>
               <h1>{sortButtonLabel} Recipes</h1>
             </Col>
@@ -79,7 +79,7 @@ const HomeScreen = ({ match }) => {
               </DropdownButton>
             </Col>
             {recipes && recipes.map((recipe) => (
-              <Col key={recipe._id} xs={6} sm={4} md={3} lg={2}>
+              <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}

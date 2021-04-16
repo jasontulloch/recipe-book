@@ -13,7 +13,7 @@ const EmptyRecipeCard = ({ chef }) => {
             &nbsp;
           </span>
         </Card.Header>
-        <Link to={`/recipe/${chef.id}`} style={{zIndex: '2', textDecoration: 'none'}}>
+        <Link to={`/recipes/advanced-search-results/keywordCookTimeMin=0/keywordCookTimeMax=999/keywordChefName=${chef.username}/page/1/`} style={{zIndex: '2', textDecoration: 'none'}}>
           <Card.Body style={{height: '136px', width: '175px', backgroundColor: '#71881B', color: 'white' }}>
             <div style={{paddingBottom: '5px', height: '50%'}}>View all recipes created by...</div>
             <div><GiCook /> {chef.username}</div>

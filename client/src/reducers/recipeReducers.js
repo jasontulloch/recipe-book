@@ -119,7 +119,8 @@ export const recipeDetailsReducer = (state = { recipe: [] }, action) => {
       return {
         loading: false,
         recipe: action.payload.recipe,
-        chefUsername: action.payload.chefUsername
+        chefUsername: action.payload.chefUsername,
+        chefId: action.payload.chefId
       }
     case RECIPE_DETAILS_FAILURE:
       return { loading: false, error: action.payload}
