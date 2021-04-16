@@ -57,6 +57,8 @@ const IndividualRecipePage = ({ history, match }) => {
   const [useKilograms, setUseKilograms] = useState(false)
   const [useCentimetres, setUseCentimetres] = useState(false)
   const [useMillimetres, setUseMillimetres] = useState(false)
+  const [temperatureF, setTemperatureF] = useState(0)
+  const [temperatureC, setTemperatureC] = useState(0)
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -373,7 +375,7 @@ const IndividualRecipePage = ({ history, match }) => {
   const actualServingSize = recipe.serving_size
   // Return array of only the recipe's quantities and adjust for serving size
   const quantitiesArray = recipeIngredients.map((ingredient) =>
-      new Fraction(eval(eval(ingredient[0]) / actualServingSize * servingSize)).toFraction(true)
+    new Fraction((eval(ingredient[0]) / actualServingSize * servingSize).toFixed(2)).toFraction(true)
   )
   // Return array of only the recipe's measurements
   const measurementArray = recipeIngredients.map((measurement) =>
@@ -402,7 +404,8 @@ const IndividualRecipePage = ({ history, match }) => {
   )
   // Merge quantities / measurement array w Item
   const final = mergeNew.map((e, i) => e + " " + itemArray[i] + ((preparationArray[i] !== false) && " (" + preparationArray[i] + ")"))
-  const finalClean = final.map(function(x){return x.replace(' ()', '')})
+  const finalCleanBrokenFractions = final.map(function(x){return x.replace(' ()', '')})
+  const finalClean = finalCleanBrokenFractions.map(function(x){return x.replace('NaN/NaN ', '')})
 
   return (
     <div>
@@ -602,6 +605,42 @@ const IndividualRecipePage = ({ history, match }) => {
                 {Allergins.length > 0 && 'Allergins: '}
                 {new Intl.ListFormat().format(Allergins)}
               </h5>
+            </Col>
+            <Col xs={12} style={{paddingBottom: '20px'}}>
+              {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
+              <Form.Group as={Row} controlId='celsiusToFahrenheit' style={{ marginBottom: '0px' }}>
+                <h5 style= {{ marginRight: '5px' }}>Celsius:</h5>
+                <Form.Control
+                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '80px', height: '12px'}}
+                    type='number'
+                    step={5}
+                    onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
+                  >
+                </Form.Control>
+                <div style={{paddingLeft: '10px'}}>
+                  {temperatureC > 0 && (
+                    <h5> is {temperatureC.toFixed()} Degrees Fahrenheit</h5>
+                  )}
+                </div>
+              </Form.Group>
+              )}
+              {recipe.steps && recipe.steps.flat().join('').includes('Fahrenheit' || 'fahrenheit' || ' F ') && (
+              <Form.Group as={Row} controlId='fahrenheitToCelsius' style={{ marginBottom: '0px' }}>
+                <h5 style= {{ marginRight: '5px' }}>Fahrenheit:</h5>
+                <Form.Control
+                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '80px', height: '12px'}}
+                    type='number'
+                    step={5}
+                    onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
+                  >
+                </Form.Control>
+                <div style={{paddingLeft: '10px'}}>
+                  {temperatureF > 0 && (
+                    <h5> is {temperatureF.toFixed()} Degrees Celsius</h5>
+                  )}
+                </div>
+              </Form.Group>
+              )}
             </Col>
             <Col style={{ paddingTop: '15px' }} xs={12} sm={12} md={6} lg={6} xl={6}>
               <Row>

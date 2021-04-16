@@ -56,6 +56,8 @@ const ChefRecipeEditPage = ({ match, history }) => {
   const [servingSizeMessage, setServingSizeMessage] = useState('')
   const [ingredientsMessage, setIngredientsMessage] = useState('')
 
+  const [saveBeforeUploadImage, setSaveBeforeUploadImage] = useState(false)
+
   const dispatch = useDispatch()
 
   const recipeDetails = useSelector(state => state.recipeDetails)
@@ -551,7 +553,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
               <Tab eventKey='recipeIngredients' title="Recipe Ingredients">
                 <Form.Group controlId='recipeIngredients'>
                   <Message variant='warning'>
-                    <Form.Text className='muted'> Quantity: Enter ingredient quantities up to 1000 as a decimal or whole number. Hover over the info icon next to 'Quantity' for help!</Form.Text>
+                    <Form.Text className='muted'>Quantity: Enter ingredient quantities up to 1000 as a decimal or whole number. Just leave blank if there is not a defined quantity. Hover over the info icon next to 'Quantity' for help!</Form.Text>
                     <Form.Text className='muted'>Measurement: Leave blank if the ingredient does not need a unit of measurement (e.g. 1 White Onion).</Form.Text>
                     <Form.Text className='muted'>Ingredient: Only enter the ingredient name (e.g. White Onion, Tumeric, etc.).</Form.Text>
                     <Form.Text className='muted'>Specific Notes (Optional): Leave blank if none. Preparation notes will be put in parentheses for you (e.g. enter diced, ground, optional, use for pasta sauce, etc.).</Form.Text>
@@ -1055,8 +1057,17 @@ const ChefRecipeEditPage = ({ match, history }) => {
                           name='recipe_cover_image'
                           label='Choose Cover Image'
                           custom
+                          disabled={!saveBeforeUploadImage}
                           onChange={uploadFileHandler}
                         ></Form.File>
+                      </Form.Group>
+                      <Form.Group controlId='saveBeforeUploadImage' className='dietsAndAllerginsGroup'>
+                        <Form.Check
+                          inline
+                          label='I understand that uploading an image before saving my recipe will delete any unsaved content'
+                          checked={saveBeforeUploadImage}
+                          onChange={(e) => setSaveBeforeUploadImage(e.target.checked)}
+                        />
                       </Form.Group>
                       <Form.Text className='muted'>Your new image will automatically save once its uploaded.</Form.Text>
                     </Col>

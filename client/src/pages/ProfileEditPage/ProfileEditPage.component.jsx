@@ -65,6 +65,8 @@ const ProfileEditPage = ({ location, history, match }) => {
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
+  const [saveBeforeUploadImage, setSaveBeforeUploadImage] = useState(false)
+
   const dispatch = useDispatch()
 
   const chefDetails = useSelector(state => state.chefDetails)
@@ -825,8 +827,17 @@ const ProfileEditPage = ({ location, history, match }) => {
                       name='chefPicture'
                       label='Choose Profile Picture'
                       custom
+                      disabled={!saveBeforeUploadImage}
                       onChange={uploadFileHandler}
                     ></Form.File>
+                  </Form.Group>
+                  <Form.Group controlId='saveBeforeUploadImage' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='I understand that uploading an image before saving my profile will delete any unsaved content'
+                      checked={saveBeforeUploadImage}
+                      onChange={(e) => setSaveBeforeUploadImage(e.target.checked)}
+                    />
                   </Form.Group>
                   <Form.Text className='muted' style={{paddingBottom: '10px'}}>Your new image will automatically save once its uploaded.</Form.Text>
                 </Col>
