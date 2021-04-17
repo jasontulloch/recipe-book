@@ -25,14 +25,18 @@ const SearchBox = ({ history }) => {
   const recipeAllNames = useSelector(state => state.recipeAllNames)
   const { loading, error, recipeNames } = recipeAllNames
 
-  console.log(recipeNames)
-
-  const allRecipeNames = recipeNames && recipeNames.map((recipe) => (
+  let allRecipeNames = recipeNames && recipeNames.map((recipe) => (
     {
       label: recipe.recipe_name,
       value: recipe.recipe_name
     }
   ))
+
+  const [displayRecipes, setDisplayRecipes] = useState(allRecipeNames)
+  //console.log(displayRecipes)
+
+  // this works to add to my object
+  //allRecipeNames[allRecipeNames.length] = {label: 'hi', value: 'yo'}
 
   const styles = {
     container: base => {
@@ -66,24 +70,35 @@ const SearchBox = ({ history }) => {
     }
   }
 
+  const newSearchItemHandler = (e) => {
+    allRecipeNames[0] = {label: e.target.value, value: e.target.value}
+    setDisplayRecipes(allRecipeNames)
+  }
+
+  //console.log(allRecipeNames)
+
   useEffect(() => {
-    dispatch(listRecipeNames())
+    if (searchRecipeNameHandler) {
+      dispatch(listRecipeNames())
+    }
   }, [keywordRecipeName])
 
   return (
     <div>
       <Form onSubmit={submitHandler} inline>
-        <Select
-          isClearable={true}
-          options={allRecipeNames}
-          placeholder='Search Recipes...'
-          autoSize={true}
-          onChange={searchRecipeNameHandler}
-          value={allRecipeNames.filter(function(recipe) {
-            return recipe.value === keywordRecipeName
-          })}
-          styles={styles}
-        />
+        <div onKeyUp={newSearchItemHandler}>
+          <Select
+            isClearable={true}
+            options={displayRecipes}
+            placeholder='Search Recipes...'
+            autoSize={true}
+            onChange={searchRecipeNameHandler}
+            value={displayRecipes.filter(function(recipe) {
+              return recipe.value === keywordRecipeName
+            })}
+            styles={styles}
+          />
+        </div>
         {(keywordRecipeName.length < 1) ?  (
         <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
           Search All
