@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  getRecipeNames,
   getRecipes,
   getRecipesAdvancedSearchAll,
   getMyRecipes,
@@ -21,6 +22,8 @@ const router = express.Router();
 router.route('/')
   .get(getRecipes)
   .post(protect, createRecipe)
+router.route('/recipeNames')
+  .get(getRecipeNames)
 router.route('/advanced-search-results')
   .get(getRecipesAdvancedSearchAll)
 router.route('/myrecipes')

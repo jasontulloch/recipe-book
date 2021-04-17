@@ -155,7 +155,7 @@ const RecipeCardImage = ({ recipe }) => {
               )}
             </Col>
             {recipe.isVegan !== true && recipe.isVegetarian !== true && recipe.isGlutenFree !== true && recipe.isKetogenic !== true && recipe.isPescatarian !== true && recipe.isDairy !== true && recipe.isEgg !== true && recipe.isNuts !== true && recipe.isShellfish !== true && recipe.isSoy !== true && recipe.isWheat !== true && (
-              <span style={{color: '#71881B'}}><GiWheat /></span>
+              <span style={{color: '#71881B'}}>&nbsp;</span>
             )}
           </Row>
         </Card.Footer>

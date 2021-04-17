@@ -3,6 +3,9 @@ import {
   RECIPE_LIST_REQUEST,
   RECIPE_LIST_SUCCESS,
   RECIPE_LIST_FAILURE,
+  RECIPE_NAMES_REQUEST,
+  RECIPE_NAMES_SUCCESS,
+  RECIPE_NAMES_FAILURE,
   RECIPE_LIST_ADVANCED_SEARCH_REQUEST,
   RECIPE_LIST_ADVANCED_SEARCH_SUCCESS,
   RECIPE_LIST_ADVANCED_SEARCH_FAILURE,
@@ -62,6 +65,28 @@ export const listRecipes = (
   } catch (error) {
     dispatch({
       type: RECIPE_LIST_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listRecipeNames = () => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_NAMES_REQUEST })
+
+    const { data } = await axios.get(`/api/recipes/recipeNames`)
+
+    dispatch({
+      type: RECIPE_NAMES_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_NAMES_FAILURE,
       payload:
         error.response && error.response.data.message
         ? error.response.data.message

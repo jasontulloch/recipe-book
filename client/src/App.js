@@ -28,7 +28,7 @@ const App = () => {
     <Router>
       <Header />
       <main className="py-3">
-        <Container className=''>
+        <Container className='' style={{paddingTop: '70px'}}>
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfileEditPage} />

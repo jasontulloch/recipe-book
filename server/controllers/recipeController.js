@@ -2,6 +2,28 @@ import asyncHandler from 'express-async-handler';
 import Recipe from '../models/recipeModel.js';
 import Chef from '../models/chefModel.js';
 
+// @description Fetch all recipe names
+// @route GET /api/recipeNames
+// @access Public
+const getRecipeNames = asyncHandler(async (req, res) => {
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const recipeNames = await Recipe.find({
+    $and: [
+      {...isPublished}
+    ]
+  }, {
+    recipe_name: 1
+  })
+
+  res.json(recipeNames)
+})
+
 // @description Fetch all recipes
 // @route GET /api/recipes
 // @access Public
@@ -708,6 +730,7 @@ const saveIngredients = asyncHandler(async (req, res) => {
 })
 
 export {
+  getRecipeNames,
   getRecipes,
   getRecipesAdvancedSearchAll,
   getMyRecipes,

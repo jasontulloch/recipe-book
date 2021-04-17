@@ -2,6 +2,9 @@ import {
   RECIPE_LIST_REQUEST,
   RECIPE_LIST_SUCCESS,
   RECIPE_LIST_FAILURE,
+  RECIPE_NAMES_REQUEST,
+  RECIPE_NAMES_SUCCESS,
+  RECIPE_NAMES_FAILURE,
   RECIPE_LIST_ADVANCED_SEARCH_REQUEST,
   RECIPE_LIST_ADVANCED_SEARCH_SUCCESS,
   RECIPE_LIST_ADVANCED_SEARCH_FAILURE,
@@ -61,6 +64,23 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
         page: action.payload.page
       }
     case RECIPE_LIST_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning recipes, pages, and page to match what is returned in the controller
+export const recipeNamesReducer = (state = { recipeNames: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_NAMES_REQUEST:
+      return { loading: true, recipeNames: [] }
+    case RECIPE_NAMES_SUCCESS:
+      return {
+        loading: false,
+        recipeNames: action.payload,
+      }
+    case RECIPE_NAMES_FAILURE:
       return { loading: false, error: action.payload}
     default:
       return state

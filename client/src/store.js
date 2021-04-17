@@ -12,6 +12,7 @@ import {
 } from './reducers/chefReducers';
 import {
   recipeListReducer,
+  recipeNamesReducer,
   recipeListAdvancedSearchReducer,
   recipeMyListReducer,
   recipeDetailsReducer,
@@ -43,6 +44,7 @@ const reducer = combineReducers({
   chefUnfollow: chefUnfollowReducer,
   chefMyFollowed: chefMyFollowedReducer,
   recipeList: recipeListReducer,
+  recipeAllNames: recipeNamesReducer,
   recipeListAdvancedSearch: recipeListAdvancedSearchReducer,
   recipeMyList: recipeMyListReducer,
   recipeDetails: recipeDetailsReducer,
