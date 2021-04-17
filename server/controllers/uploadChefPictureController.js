@@ -12,7 +12,8 @@ const uploadChefPicture = asyncHandler(async (req, res) => {
   const uid = req.params.id
   const chef = await Chef.findById(uid)
 
-  const uploadImage = { chefPicture: req.files[0].location }
+  // console log req.files to see what is going on here - just have to find the location to save in the document
+  const uploadImage = { chefPicture: req.files[0].transforms[0].location }
 
   Chef.findByIdAndUpdate(uid, uploadImage, { new: true })
     .then((chef) => res.status(200).json({success:true, chef:chef}))

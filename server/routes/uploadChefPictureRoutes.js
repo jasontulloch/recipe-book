@@ -1,8 +1,9 @@
 import express from 'express';
 import aws from 'aws-sdk';
 import multer from 'multer';
-import multerS3 from 'multer-s3';
+import multerS3 from 'multer-s3-transform';
 import path from 'path';
+import sharp from 'sharp';
 
 import {
   uploadChefPicture,
@@ -42,13 +43,33 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'recipe-book-chef-picture',
+    shouldTransform: function (req, file, cb) {
+      cb(null, /^image/i.test(file.mimetype))
+    },
+    transforms: [{
+      id: 'original',
+      key: function (req, file, cb) {
+        cb(null, Date.now().toString() + '-' + file.originalname);
+      },
+      transform: function (req, file, cb) {
+        cb(null, sharp().resize(500,500).rotate().jpeg())
+      }
+    }, {
+      id: 'thumbnail',
+      key: function (req, file, cb) {
+        cb(null, Date.now().toString() + '-' + file.originalname);
+      },
+      transform: function (req, file, cb) {
+        cb(null, sharp().resize(500,500).rotate().jpeg())
+      }
+    }],
     acl: "public-read",
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString() + '-' + file.originalname);
-    },
+    //key: function (req, file, cb) {
+    //  cb(null, Date.now().toString() + '-' + file.originalname);
+    //},
   }),
 })
 

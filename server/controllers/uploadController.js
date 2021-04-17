@@ -12,7 +12,10 @@ const uploadRecipeCoverImage = asyncHandler(async (req, res) => {
   const uid = req.params.id
   const recipe = await Recipe.findById(uid)
 
-  const uploadImage = { recipe_cover_image: req.files[0].location }
+  // console log req.files to see what is going on here - just have to find the location to save in the document
+  const uploadImage = { recipe_cover_image: req.files[0].transforms[0].location }
+
+  console.log(req.files[0].transforms[0])
 
   Recipe.findByIdAndUpdate(uid, uploadImage, { new: true })
     .then((recipe) => res.status(200).json({success:true, recipe:recipe}))
