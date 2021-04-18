@@ -37,7 +37,7 @@ const WorldMap = ({ setTooltipContent }) => {
                         cursor: 'pointer'
                       },
                       pressed: {
-                        fill: "#E42",
+                        fill: "#aacc2b",
                         outline: "none"
                       }
                     }}

@@ -68,16 +68,15 @@ const HomeScreen = ({ match }) => {
       ) : (
         <div>
           <Row style={{textAlign:'center'}} className="justify-content-md-center">
-            <Col xs={12} md={9}>
-              <h1>{sortButtonLabel} Recipes</h1>
-            </Col>
-            <Col xs={12} md={3} style={{paddingBottom: '10px'}}>
-              <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
-                <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
-              </DropdownButton>
-            </Col>
+            {(recipes && recipes.length > 1) && (
+              <Col xs={12} style={{paddingBottom: '10px'}}>
+                <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
+                  <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
+                </DropdownButton>
+              </Col>
+            )}
             {recipes && recipes.map((recipe) => (
               <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <RecipeCard recipe={recipe} />

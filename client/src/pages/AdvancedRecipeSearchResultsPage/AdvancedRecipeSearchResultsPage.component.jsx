@@ -146,12 +146,9 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <Row className="justify-content-md-center">
-            <Col>
-              <h1>Custom Searched Recipes</h1>
-            </Col>
+          <Row style={{textAlign:'center'}} className="justify-content-md-center">
             {(recipes && recipes.length > 1) && (
-            <Col xs={12} md={3} style={{paddingBottom: '10px'}}>
+            <Col xs={12} style={{paddingBottom: '10px'}}>
               <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                 <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
@@ -159,8 +156,6 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
               </DropdownButton>
             </Col>
             )}
-          </Row>
-          <Row>
             {recipes && recipes.map((recipe) => (
               <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <RecipeCard recipe={recipe} />

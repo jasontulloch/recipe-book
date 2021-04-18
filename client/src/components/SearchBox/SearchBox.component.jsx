@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import Select from 'react-select';
 import { listRecipeNames } from '../../actions/recipeActions';
@@ -65,8 +66,7 @@ const SearchBox = ({ history }) => {
   const searchRecipeNameHandler = (e) => {
     if (e) {
       setKeywordRecipeName(e.value)
-    } else {
-      setKeywordRecipeName('')
+      history.push(`/recipes/search/keywordRecipeName=${e.value}/page/1`)
     }
   }
 
@@ -88,7 +88,6 @@ const SearchBox = ({ history }) => {
       <Form onSubmit={submitHandler} inline>
         <div onKeyUp={newSearchItemHandler}>
           <Select
-            isClearable={true}
             options={displayRecipes}
             placeholder='Search Recipes...'
             autoSize={true}
@@ -97,17 +96,23 @@ const SearchBox = ({ history }) => {
               return recipe.value === keywordRecipeName
             })}
             styles={styles}
+            theme={theme => ({
+              ...theme,
+              borderRadius: 0,
+              borderColor: 'none',
+              colors: {
+                ...theme.colors,
+                primary25: '#4bbf73',
+                primary: '#4bbf73',
+              },
+            })}
           />
         </div>
-        {(keywordRecipeName.length < 1) ?  (
-        <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
-          Search All
-        </Button>
-        ) : (
-        <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
-          Search
-        </Button>
-        )}
+        <Link to={`/recipes`} style={{zIndex: '2'}}>
+          <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
+            Search All
+          </Button>
+        </Link>
       </Form>
     </div>
   )

@@ -375,7 +375,7 @@ const IndividualRecipePage = ({ history, match }) => {
   const actualServingSize = recipe.serving_size
   // Return array of only the recipe's quantities and adjust for serving size
   const quantitiesArray = recipeIngredients.map((ingredient) =>
-    new Fraction((eval(ingredient[0]) / actualServingSize * servingSize).toFixed(2)).toFraction(true)
+    new Fraction((eval(ingredient[0]) / actualServingSize * servingSize)).toFraction(true)
   )
   // Return array of only the recipe's measurements
   const measurementArray = recipeIngredients.map((measurement) =>
@@ -561,18 +561,27 @@ const IndividualRecipePage = ({ history, match }) => {
             <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
               <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
                 <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
-                <Form.Control
-                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '40px', height: '12px'}}
-                    type='number'
-                    min={1}
-                    max={20}
-                    step={1}
-                    value={servingSize}
-                    onChange={(e) => setServingSize(e.target.value)}
-                    onKeyDown={handleKeypress}
-                    required
-                  >
-                </Form.Control>
+                <div style={{ border: '2px solid #4bbf73', height: '18px'}}>
+                  <Form.Control
+                      style={{
+                        paddingLeft: '3px',
+                        paddingRight: '3px',
+                        paddingTop: '7px',
+                        paddingBottom: '6px',
+                        width: '40px',
+                        height: '12px'
+                      }}
+                      type='number'
+                      min={1}
+                      max={20}
+                      step={1}
+                      value={servingSize}
+                      onChange={(e) => setServingSize(e.target.value)}
+                      onKeyDown={handleKeypress}
+                      required
+                    >
+                  </Form.Control>
+                </div>
                 <Form.Check
                   style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingRight: '15px', paddingTop: '5px', paddingBottom: '8px'}}
                   inline
@@ -610,13 +619,15 @@ const IndividualRecipePage = ({ history, match }) => {
               {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
               <Form.Group as={Row} controlId='celsiusToFahrenheit' style={{ marginBottom: '0px' }}>
                 <h5 style= {{ marginRight: '5px' }}>Celsius:</h5>
-                <Form.Control
-                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '80px', height: '12px'}}
-                    type='number'
-                    step={5}
-                    onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
-                  >
-                </Form.Control>
+                <div style={{border: '2px solid #4bbf73', height: '18px'}}>
+                  <Form.Control
+                      style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
+                      type='number'
+                      step={5}
+                      onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
+                    >
+                  </Form.Control>
+                </div>
                 <div style={{paddingLeft: '10px'}}>
                   {temperatureC > 0 && (
                     <h5> is {temperatureC.toFixed()} Degrees Fahrenheit</h5>
@@ -627,13 +638,15 @@ const IndividualRecipePage = ({ history, match }) => {
               {recipe.steps && recipe.steps.flat().join('').includes('Fahrenheit' || 'fahrenheit' || ' F ') && (
               <Form.Group as={Row} controlId='fahrenheitToCelsius' style={{ marginBottom: '0px' }}>
                 <h5 style= {{ marginRight: '5px' }}>Fahrenheit:</h5>
-                <Form.Control
-                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '9px', paddingBottom: '8px', width: '80px', height: '12px'}}
-                    type='number'
-                    step={5}
-                    onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
-                  >
-                </Form.Control>
+                <div style={{border: '2px solid #4bbf73', height: '18px'}}>
+                  <Form.Control
+                      style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
+                      type='number'
+                      step={5}
+                      onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
+                    >
+                  </Form.Control>
+                </div>
                 <div style={{paddingLeft: '10px'}}>
                   {temperatureF > 0 && (
                     <h5> is {temperatureF.toFixed()} Degrees Celsius</h5>
