@@ -223,7 +223,7 @@ const IndividualChefPage = ({ history, match }) => {
         )}
         {chef && (chef.isVisible === true) ? (
         <div>
-          <Row style={{paddingBottom: '10px'}}>
+          <Row style={{paddingBottom: '10px', paddingLeft: '10px'}}>
             <Col xs={12} md={7}>
               {chefInfo && isChefFollowed === true ? (
                 <Form onSubmit={unfollowHandler}>

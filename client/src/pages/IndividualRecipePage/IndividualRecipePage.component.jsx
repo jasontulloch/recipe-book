@@ -551,14 +551,14 @@ const IndividualRecipePage = ({ history, match }) => {
               </Row>
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-              <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer', paddingTop: '10px'}}>
+              <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer', paddingTop: '7.5px'}}>
                 <h5>Chef: {chefUsername}</h5>
               </LinkContainer>
             </Col>
             <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{paddingTop: '10px'}}>
               <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
             </Col>
-            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{paddingRight: '0px', paddingTop: '10px'}}>
+            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{paddingRight: '0px', paddingLeft: '30px', paddingTop: '7.5px'}}>
                 <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
                   <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
                   <div style={{ border: '2px solid #4bbf73', height: '18px'}}>
@@ -593,29 +593,29 @@ const IndividualRecipePage = ({ history, match }) => {
                 </Form.Group>
             </Col>
             {(recipe.country && recipe.country.length > 1) && (
-              <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{paddingTop: '10px'}}>
+              <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{paddingTop: '7.5px'}}>
                 <h5>Country: {recipe.country}</h5>
               </Col>
             )}
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '10px'}}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
               <h5>
                 {MealTypes.length > 0 && 'Meal Type / Course: '}
                 {new Intl.ListFormat().format(MealTypes)}
               </h5>
             </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '10px'}}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
               <h5>
                 {Diets.length > 0 && 'Diets: '}
                 {new Intl.ListFormat().format(Diets)}
               </h5>
             </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '10px'}}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
               <h5>
                 {Allergins.length > 0 && 'Allergins: '}
                 {new Intl.ListFormat().format(Allergins)}
               </h5>
             </Col>
-            <Col xs={12} style={{paddingBottom: '20px'}} style={{paddingTop: '10px'}}>
+            <Col xs={12} style={{paddingTop: '7.5px', paddingLeft: '0px', marginLeft: '30px'}}>
               {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
               <Form.Group as={Row} controlId='celsiusToFahrenheit' style={{ marginBottom: '0px' }}>
                 <h5 style= {{ marginRight: '5px' }}>Celsius:</h5>
