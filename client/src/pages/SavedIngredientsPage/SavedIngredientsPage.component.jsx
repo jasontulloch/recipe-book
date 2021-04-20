@@ -401,12 +401,12 @@ const SavedIngredientsPage = ({ history }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <Row style={{textAlign: 'center'}}>
+          <Row style={{textAlign: 'center', marginLeft: '10px'}}>
             <Form style={{width: '100%'}}>
               <Form.Group as={Row} controlId='groceryListLabel'>
                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                   <Form.Label>
-                    <h4 style= {{ marginRight: '5px' }}>My Grocery List</h4>
+                    <h4>My Grocery List</h4>
                   </Form.Label>
                 </Col>
                 <Col xs={12} sm={12} md={12} lg={12} xl={12}>

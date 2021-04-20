@@ -434,14 +434,14 @@ const IndividualRecipePage = ({ history, match }) => {
               </Link>
             </Message>
           )}
-          <Row>
-            <Col xs={12} sm={12} md={2} lg={2} xl={2} style={{paddingLeft: '0px' }}>
-              <Link className="btn btn-dark" onClick={() => browserHistory.goBack()} style={{ padding: '0px 5px 0px 5px' }}>
-                Go Back
+          <Row style={{marginLeft: '10px'}}>
+            <Col xs={12} sm={12} md={1} lg={1} xl={1} style={{paddingRight: '0px'}}>
+              <Link className="btn btn-dark" onClick={() => browserHistory.goBack()} style={{ padding: '0px 5px 0px 5px'}}>
+                Back
               </Link>
             </Col>
-            <Col xs={12} sm={12} md={10} lg={10} xl={10}>
-              <Row style={{ height: '30px' }}>
+            <Col xs={12} sm={12} md={11} lg={11} xl={11}>
+              <Row style={{ height: '30px' }} className='justify-content-center'>
               {(isRecipeSaved) ? (
                 <Form onSubmit={unsaveHandler}>
                   <Form.Group>
@@ -493,7 +493,7 @@ const IndividualRecipePage = ({ history, match }) => {
                 <Form onSubmit={upvoteHandler}>
                   <Form.Group as={Row}>
                     <Form.Label>
-                      <h4 style={{ marginLeft: '10px' }}>{recipe.recipe_name}</h4>
+                      <h4 style={{ marginLeft: '10px',  }}>{recipe.recipe_name}</h4>
                     </Form.Label>
                     <Form.Label>
                       <p style={{ marginTop: '3px', marginLeft: '10px' }}>RATING | {recipe.netVotes}</p>
@@ -550,72 +550,72 @@ const IndividualRecipePage = ({ history, match }) => {
               )}
               </Row>
             </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
-              <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer'}}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+              <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer', paddingTop: '10px'}}>
                 <h5>Chef: {chefUsername}</h5>
               </LinkContainer>
             </Col>
-            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
+            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{paddingTop: '10px'}}>
               <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
             </Col>
-            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{ paddingLeft: 0 }}>
-              <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
-                <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
-                <div style={{ border: '2px solid #4bbf73', height: '18px'}}>
-                  <Form.Control
-                      style={{
-                        paddingLeft: '3px',
-                        paddingRight: '3px',
-                        paddingTop: '7px',
-                        paddingBottom: '6px',
-                        width: '40px',
-                        height: '12px'
-                      }}
-                      type='number'
-                      min={1}
-                      max={20}
-                      step={1}
-                      value={servingSize}
-                      onChange={(e) => setServingSize(e.target.value)}
-                      onKeyDown={handleKeypress}
-                      required
-                    >
-                  </Form.Control>
-                </div>
-                <Form.Check
-                  style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingRight: '15px', paddingTop: '5px', paddingBottom: '8px'}}
-                  inline
-                  label='Metric?'
-                  checked={isMetric}
-                  onChange={(e) => setIsMetric(e.target.checked)}
-                  disabled={(chefInfo == null) ? true : false}
-                />
-              </Form.Group>
+            <Col xs={12} sm={6} md={6} lg={4} xl={4} style={{paddingRight: '0px', paddingTop: '10px'}}>
+                <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
+                  <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
+                  <div style={{ border: '2px solid #4bbf73', height: '18px'}}>
+                    <Form.Control
+                        style={{
+                          paddingLeft: '3px',
+                          paddingRight: '3px',
+                          paddingTop: '7px',
+                          paddingBottom: '6px',
+                          width: '40px',
+                          height: '12px'
+                        }}
+                        type='number'
+                        min={1}
+                        max={20}
+                        step={1}
+                        value={servingSize}
+                        onChange={(e) => setServingSize(e.target.value)}
+                        onKeyDown={handleKeypress}
+                        required
+                      >
+                    </Form.Control>
+                  </div>
+                  <Form.Check
+                    style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingTop: '5px', paddingBottom: '8px'}}
+                    inline
+                    label='Metric?'
+                    checked={isMetric}
+                    onChange={(e) => setIsMetric(e.target.checked)}
+                    disabled={(chefInfo == null) ? true : false}
+                  />
+                </Form.Group>
             </Col>
             {(recipe.country && recipe.country.length > 1) && (
-              <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{ paddingLeft: 0 }}>
+              <Col xs={12} sm={12} md={12} lg={4} xl={4} style={{paddingTop: '10px'}}>
                 <h5>Country: {recipe.country}</h5>
               </Col>
             )}
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '10px'}}>
               <h5>
                 {MealTypes.length > 0 && 'Meal Type / Course: '}
                 {new Intl.ListFormat().format(MealTypes)}
               </h5>
             </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '10px'}}>
               <h5>
                 {Diets.length > 0 && 'Diets: '}
                 {new Intl.ListFormat().format(Diets)}
               </h5>
             </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ paddingLeft: 0 }}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '10px'}}>
               <h5>
                 {Allergins.length > 0 && 'Allergins: '}
                 {new Intl.ListFormat().format(Allergins)}
               </h5>
             </Col>
-            <Col xs={12} style={{paddingBottom: '20px'}}>
+            <Col xs={12} style={{paddingBottom: '20px'}} style={{paddingTop: '10px'}}>
               {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
               <Form.Group as={Row} controlId='celsiusToFahrenheit' style={{ marginBottom: '0px' }}>
                 <h5 style= {{ marginRight: '5px' }}>Celsius:</h5>

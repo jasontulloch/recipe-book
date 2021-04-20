@@ -19,7 +19,7 @@ const HomePage = () => {
 
       <ul>
         <li>Clean + easy to read recipes with nothing in between</li>
-        <li>Advanced search capabilities to find the exact recipes you are looking for... search by recipe name, country, chef, common allergins, diets, meal types / courses, etc.</li>
+        <li>Advanced search capabilities to find the exact recipes you are looking for... search by recipe name, country, chef, common allergens, diets, meal types / courses, etc.</li>
         <li>Real recipes posted by real people and ranked by you... how else will we ever find our what the best recipes in the world actually are?</li>
         <li>Flexible recipes that can be changed between the imperial and metric system while also being adjusted for the exact serving size you need. Simply put, we want anyone and everyone to be able to use our service.</li>
         <li>Ability to create a grocery list based on the recipe you want to cook. Premium members can send receive the grocery list in an email or text.</li>

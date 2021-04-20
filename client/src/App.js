@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import Header from './components/Header/Header.component';
+import IconSidebar from './components/IconSidebar/IconSidebar.component';
 import Footer from './components/Footer/Footer.component';
 
 //import HomePage from './pages/HomePage/HomePage.component';
@@ -27,8 +28,9 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <main className="py-3">
-        <Container className='' style={{paddingTop: '70px'}}>
+      <IconSidebar />
+      <main className="py-2">
+        <div className='' style={{paddingTop: '70px', marginLeft: '40px', marginRight: '40px'}}>
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfileEditPage} />
@@ -119,7 +121,7 @@ const App = () => {
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordIsVegan=:keywordIsVegan/keywordIsVegetarian=:keywordIsVegetarian/keywordIsGlutenFree=:keywordIsGlutenFree/keywordIsKetogenic=:keywordIsKetogenic/keywordIsPescatarian=:keywordIsPescatarian/keywordIsDairy=:keywordIsDairy/keywordIsEgg=:keywordIsEgg/keywordIsNuts=:keywordIsNuts/keywordIsShellfish=:keywordIsShellfish/keywordIsSoy=:keywordIsSoy/keywordIsWheat=:keywordIsWheat/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/keywordIsMainDish=:keywordIsMainDish/keywordIsSideSauce=:keywordIsSideSauce/keywordIsDessert=:keywordIsDessert/keywordIsSnack=:keywordIsSnack/keywordIsAppetizer=:keywordIsAppetizer/keywordIsDrink=:keywordIsDrink/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
 
           <Route path='/' component={WorldMapPage} exact />
-        </Container>
+        </div>
       </main>
       <Footer />
     </Router>

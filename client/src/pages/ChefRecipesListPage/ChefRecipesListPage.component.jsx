@@ -88,7 +88,7 @@ const ChefRecipesListPage = ({ match , history }) => {
                 <i className='fas fa-plus'> Create a Recipe</i>
               </Button>
             </Col>
-            <Table striped bordered hover responsive className='table-sm'>
+            <Table striped bordered hover responsive className='table-sm' style={{marginLeft: '10px'}}>
               <thead>
                 <tr>
                   <th>MY RECIPES</th>

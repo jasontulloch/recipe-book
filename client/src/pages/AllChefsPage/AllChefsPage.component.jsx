@@ -65,8 +65,8 @@ const AllChefsPage = ({ match }) => {
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div>
-          <Row style={{textAlign:'center'}} className="justify-content-md-center">
+        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center">
+          <Row>
             {chefs && chefs.map((chef) => (
               <Col key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <ChefCard chef={chef} />

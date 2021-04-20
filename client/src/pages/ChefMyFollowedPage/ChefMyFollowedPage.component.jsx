@@ -76,7 +76,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
         {initialLoader ? (
           <PancakeLoader>Finding the chefs you already love...</PancakeLoader>
         ) : (chefInfo && following.chefs && following.chefs.length > 0) ? (
-          <div>
+          <div style={{marginLeft: '30px'}}>
             {following.chefs.map(chefId => (
               <div>
                 <Carousel

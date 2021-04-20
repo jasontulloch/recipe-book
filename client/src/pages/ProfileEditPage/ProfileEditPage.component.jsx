@@ -399,6 +399,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                 placeholder='Enter a chefname'
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                maxLength={25}
                 required
               >
               </Form.Control>
@@ -504,7 +505,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                 <Form.Text>Particular diet? This will help us show you exactly what you are looking for.</Form.Text>
               </Col>
               <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Form.Label className='allerginsLabel'>Allergins</Form.Label>
+                <Form.Label className='allerginsLabel'>Allergens</Form.Label>
               </Col>
               <Col style={{textAlign: 'center'}}>
                 <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
@@ -557,7 +558,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                 </Form.Group>
               </Col>
               <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
-                <Form.Text>Should we avoid any common allergins?</Form.Text>
+                <Form.Text>Should we avoid any common allergens?</Form.Text>
               </Col>
               <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Form.Label className='allerginsLabel'>Meal Course / Type</Form.Label>
@@ -637,10 +638,28 @@ const ProfileEditPage = ({ location, history, match }) => {
               <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
                 <Form.Text>What type of meal are you normally searching for?</Form.Text>
               </Col>
-              <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+              <Col style={{textAlign: 'center', borderTop: '1px dotted', paddingTop: '10px'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Form.Group controlId='bio'>
+                  <Form.Label>Chef Bio</Form.Label>
+                  <Form.Control
+                    as='textarea'
+                    rows='5'
+                    maxLength='900'
+                    placeholder='Enter bio'
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                  >
+                  </Form.Control>
+                  <Form.Text className='muted'>Your bio will be public</Form.Text>
+                </Form.Group>
+              </Col>
+              <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Message variant='warning' style={{textAlign: 'center', width: '100%', marginTop: '5px'}}>
+                  <Form.Text>The following measurement options are optional. By selecting a measurement, you can control how the measurements recipes are presented in.</Form.Text>
+                </Message>
                 <Form.Label className='allerginsLabel'>Measurement (Imperial / US System)</Form.Label>
               </Col>
-              <Col style={{textAlign: 'center'}}>
+              <Col style={{textAlign: 'center', paddingBottom: '10px'}}>
                 <Form.Group controlId='useTeaspoons' className='measurementsGroup'>
                   <Form.Check
                     inline
@@ -725,7 +744,7 @@ const ProfileEditPage = ({ location, history, match }) => {
               <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Form.Label className='allerginsLabel'>Measurement (Metric System)</Form.Label>
               </Col>
-              <Col style={{textAlign: 'center'}}>
+              <Col style={{textAlign: 'center', paddingBottom: '20px'}}>
                 <Form.Group controlId='isMetric' className='measurementsMetricToggleGroup'>
                   <Form.Check
                     inline
@@ -783,21 +802,6 @@ const ProfileEditPage = ({ location, history, match }) => {
                   />
                 </Form.Group>
               </Col>
-              <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Form.Group controlId='bio'>
-                  <Form.Label>Chef Bio</Form.Label>
-                  <Form.Control
-                    as='textarea'
-                    rows='5'
-                    maxLength='900'
-                    placeholder='Enter bio'
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                  >
-                  </Form.Control>
-                  <Form.Text className='muted'>Your bio will be public</Form.Text>
-                </Form.Group>
-              </Col>
             </Row>
           </Tab>
 
@@ -814,7 +818,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                   <Form.Group controlId='coverImage' className='imagesGroup'>
                     <FormContainer>
                       <Image
-                        style={{width: '50%', textAlign: 'left', minWidth: '330px'}}
+                        style={{width: '50%', textAlign: 'left', minWidth: '200px'}}
                         className="chefPicture"
                         src={chefPicture}
                         key={Date.now()}

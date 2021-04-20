@@ -398,7 +398,6 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   return (
     <div>
       <div style={{textAlign: 'center'}}>
-        <h1>Advanced Search</h1>
         <p style={{marginBottom: '0px'}}>Looking for the most popular recipe? Don't worry, you can sort after your search.</p>
         <p>How about a different serving size? All recipes can be adjusted on their individual page.</p>
       </div>
@@ -611,19 +610,19 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
           <Col>
               {(searchByAllergin === true) ? (
                 <div>
-                  <p>Pre-checked allergin search parameters are based on your profile so you can get cooking faster.</p>
+                  <p>Pre-checked allergen search parameters are based on your profile so you can get cooking faster.</p>
                     {Allergins && Allergins.length > 0 && (
                       <Message variant='warning'>
                         <Form.Text>Find me all recipes that exclude: {new Intl.ListFormat().format(Allergins)}</Form.Text>
                       </Message>
                     )}
                   <Button onClick={(e) => setSearchByAllergin(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
-                    Exclude common allergins from search.
+                    Exclude common allergens from search.
                   </Button>
                 </div>
               ) : (
                 <Button onClick={(e) => setSearchByAllergin(true)} variant='outline-success' className='p-2' style={{width: '50%'}}>
-                  Filter by common allergins?
+                  Filter by common allergens?
                 </Button>
               )}
           </Col>

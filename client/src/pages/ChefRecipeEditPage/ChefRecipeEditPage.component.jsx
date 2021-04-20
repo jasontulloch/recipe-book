@@ -313,7 +313,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
 
   function handleKeypressCookTime (e) {
     const characterCode = e.keyCode
-    if (characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) {
+    if ((characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) || e.target.value > 999) {
       e.preventDefault()
       setCookTimeMessage('Cooking times must be between 1 and 999 minutes.')
       setTimeout(function() {
@@ -324,7 +324,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
 
   function handleKeypressServingSize (e) {
     const characterCode = e.keyCode
-    if (characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) {
+    if ((characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) || e.target.value > 20) {
       e.preventDefault()
       setServingSizeMessage('Serving sizes must be between 1 and 20 servings.')
       setTimeout(function() {
@@ -518,7 +518,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     placeholder={60}
                     value={cook_time}
                     onChange={(e) => setCookTime(e.target.value)}
-                    onKeyDown={handleKeypressCookTime}
+                    onKeyUp={handleKeypressCookTime}
                     min={1}
                     max={999}
                   >
@@ -537,7 +537,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                     placeholder='How many servings does your recipe have?'
                     value={serving_size}
                     onChange={(e) => setServingSize(e.target.value)}
-                    onKeyDown={handleKeypressServingSize}
+                    onKeyUp={handleKeypressServingSize}
                     min={1}
                     max={20}
                   >
@@ -903,7 +903,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
                     <Form.Label className='allerginsLabel'>Allergins</Form.Label>
                   </Col>
-                  <Col>
+                  <Col style={{textAlign: 'center'}}>
                     <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
@@ -1045,6 +1045,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       <Form.Group controlId='coverImage' className='imagesGroup'>
                         <FormContainer>
                           <Image
+                            style={{width: '50%', textAlign: 'left', minWidth: '200px'}}
                             className="recipeCoverImage"
                             src={recipe_cover_image}
                             key={Date.now()}

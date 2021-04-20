@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 const FormContainer = ({ children }) => {
   return (
     <Container>
-      <Row className='justify-content-center'>
+      <Row className='justify-content-center' style={{marginLeft: '40px', marginRight: '40px'}}>
         <Col xs={12} sm={12} md={12} lg={12} xl={12}>
           {children}
         </Col>

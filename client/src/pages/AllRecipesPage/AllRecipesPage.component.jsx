@@ -66,10 +66,10 @@ const HomeScreen = ({ match }) => {
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div>
-          <Row style={{textAlign:'center'}} className="justify-content-md-center">
+        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center">
+          <Row>
             {(recipes && recipes.length > 1) && (
-              <Col xs={12} style={{paddingBottom: '10px'}}>
+              <Col xs={12} style={{paddingBottom: '10px', paddingRight: '30px'}}>
                 <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                   <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
                   <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
