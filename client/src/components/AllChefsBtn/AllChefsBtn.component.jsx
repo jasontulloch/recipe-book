@@ -5,7 +5,7 @@ const AllChefsBtn = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    history.push('/chefs')
+    history.push('/chefs/page/1')
   }
 
   return (

@@ -256,7 +256,7 @@ export const unfollowChef = (id) => async (dispatch, getState) => {
   }
 }
 
-export const listMyFollowedChefs = (chefInfo) => async (dispatch, getState) => {
+export const listMyFollowedChefs = (chefInfo, pageNumber = '') => async (dispatch, getState) => {
   try {
     dispatch({ type: CHEF_MYFOLLOWED_REQUEST })
 
@@ -270,7 +270,7 @@ export const listMyFollowedChefs = (chefInfo) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.get(
-      `/api/chef/${chefInfo._id}/mychefs`,
+      `/api/chef/${chefInfo._id}/mychefs?pageNumber=${pageNumber}`,
       config
     )
 

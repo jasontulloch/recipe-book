@@ -8,7 +8,7 @@ const EmptyRecipeCard = ({ chef }) => {
   return (
     <div style={{paddingBottom: '40px'}}>
       <Card className="text-light mb-4 text-center" style={{ border: 'none', height: '136px', width: '175px' }}>
-        <Card.Header style={{padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px', border: 'none' }}>
+        <Card.Header style={{padding: '3px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px', border: 'none' }}>
           <span>
             &nbsp;
           </span>

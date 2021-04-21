@@ -542,8 +542,11 @@ const unfollowChef = asyncHandler(async (req, res) => {
 // @route GET /api/chef/mychefs
 // @access Private
 const getMyFollowedChefs = asyncHandler(async (req, res) => {
-  // Setting number of recipes to be pulled (defined with limit below)
-  const recipeCount = 20
+  // Setting number of recipes and chefs to be pulled (defined with limit below)
+
+  const pageChefSize = 10
+  const page = Number(req.query.pageNumber) || 1
+
   // Returns the current chef
   const currentChef = await Chef.findById(req.chef._id)
   // Returns all distinct values as an array
@@ -594,7 +597,7 @@ const getMyFollowedChefs = asyncHandler(async (req, res) => {
     isWheat: 1,
     isSoy: 1,
     recipe_cover_image: 1
-  }).limit(recipeCount)
+  })
   // Finding chefs based on chef ID - making sure published
   const chefs = await Chef.find({
     $and: [
@@ -616,11 +619,23 @@ const getMyFollowedChefs = asyncHandler(async (req, res) => {
     isShellfish: 1,
     isWheat: 1,
     isSoy: 1,
-    recipe_cover_image: 1
+    recipe_cover_image: 1,
+    myRecipes: 1,
+  })
+  .limit(pageChefSize)
+  .skip(pageChefSize * (page - 1))
+
+  const finalRecipes = chefs.map(chefId => (recipes.filter(allRecipes => chefId._id.toString() === allRecipes.chef.toString())).slice(0,10)).flat()
+
+  const countChefs = await Chef.countDocuments({
+    $and: [
+      {...keywordChefId},
+      {...isVisible}
+    ]
   })
 
   // Returns the filtered array as a JSON object
-  res.json({chefs, recipes})
+  res.json({finalRecipes, chefs, page, pages: Math.ceil(countChefs / pageChefSize) })
 })
 
 export {

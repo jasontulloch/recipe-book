@@ -117,12 +117,18 @@ export const chefUnfollowReducer = (state = {}, action) => {
   }
 }
 
-export const chefMyFollowedReducer = (state = { following: [] }, action) => {
+export const chefMyFollowedReducer = (state = { chefs: [], finalRecipes: [] }, action) => {
   switch (action.type) {
     case CHEF_MYFOLLOWED_REQUEST:
-      return { loading: true, following: [] }
+      return { loading: true, chefs: [], recipes: [] }
     case CHEF_MYFOLLOWED_SUCCESS:
-      return { loading: false, following: action.payload }
+      return {
+        loading: false,
+        chefs: action.payload.chefs,
+        finalRecipes: action.payload.finalRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
     case CHEF_MYFOLLOWED_FAILURE:
       return { loading: false, error: action.payload}
     default:

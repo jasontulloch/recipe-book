@@ -44,9 +44,9 @@ const App = () => {
           <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName/page/:pageNumber' component={AllRecipesPage} />
           <Route path='/grocerylist' component={SavedIngredientsPage} exact />
           <Route path='/recipes/page/:pageNumber' component={AllRecipesPage} exact />
-          <Route path='/chefs' component={AllChefsPage} exact />
+          <Route path='/chefs/page/:pageNumber' component={AllChefsPage} exact />
           <Route path='/chefs/:id' component={IndividualChefPage} exact />
-          <Route path='/mychefs' component={ChefMyFollowedPage} exact />
+          <Route path='/mychefs/page/:pageNumber' component={ChefMyFollowedPage} exact />
 
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordRecipeName=:keywordRecipeName/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>

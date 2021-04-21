@@ -13,6 +13,8 @@ import { GiCook } from 'react-icons/gi';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import ChefCard from '../../components/ChefCard/ChefCard.component';
+import EmptyRecipeCard from '../../components/EmptyRecipeCard/EmptyRecipeCard.component';
+import PaginateMyChefs from '../../components/PaginateMyChefs/PaginateMyChefs.component';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -21,11 +23,12 @@ import './ChefMyFollowedPage.styles.scss';
 const ChefMyFollowedPage = ({ match , history }) => {
 
   const [unfollow, setUnfollow] = useState('')
+  const pageNumber = match.params.pageNumber || 1
 
   const dispatch = useDispatch()
 
   const chefMyFollowed = useSelector(state => state.chefMyFollowed)
-  const { loading, error, following } = chefMyFollowed
+  const { loading, error, chefs, finalRecipes, pages, page } = chefMyFollowed
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
@@ -39,13 +42,14 @@ const ChefMyFollowedPage = ({ match , history }) => {
     if(!chefInfo) {
       history.push('/login')
     }
-    dispatch(listMyFollowedChefs(match.params.id))
+    dispatch(listMyFollowedChefs(match.params.id, pageNumber))
 
   }, [
     dispatch,
     history,
     match,
-    chefInfo
+    chefInfo,
+    pageNumber
   ])
 
   // Recipe Carousel - required but overridden in css file
@@ -75,23 +79,36 @@ const ChefMyFollowedPage = ({ match , history }) => {
       <div>
         {initialLoader ? (
           <PancakeLoader>Finding the chefs you already love...</PancakeLoader>
-        ) : (chefInfo && following.chefs && following.chefs.length > 0) ? (
+        ) : (chefInfo && chefs && chefs.length > 0) ? (
           <div style={{marginLeft: '30px'}}>
-            {following.chefs.map(chefId => (
+            {chefs.map(chefId => (
               <div>
                 <Carousel
                   responsive={responsive}
                   centerMode={true}
                 >
                   <ChefCard chef={chefId} />
-                  {following.recipes && following.recipes.filter(allRecipes => chefId._id.toString() === allRecipes.chef.toString()).map(recipe => (
+                  {finalRecipes && finalRecipes.filter(allRecipes => chefId._id.toString() === allRecipes.chef.toString()).map(recipe => (
                     <div>
                       <RecipeCard recipe={recipe} />
                     </div>
                   ))}
+                  {chefId.myRecipes.length > 10 && (
+                    <div>
+                      <EmptyRecipeCard chef={chefId}/>
+                    </div>
+                  )}
                 </Carousel>
               </div>
             ))}
+            <Row>
+              <Col xs={12}>
+                <PaginateMyChefs
+                  pages={pages}
+                  page={page}
+                />
+              </Col>
+            </Row>
           </div>
         ) : (chefInfo) ? (
           <Col style={{textAlign: 'center', paddingTop: '100px'}}>

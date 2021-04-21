@@ -292,7 +292,9 @@ const IndividualChefPage = ({ history, match }) => {
                 <RecipeCard recipe={recipe}/>
               </div>
             ))}
-            <EmptyRecipeCard chef={chef}/>
+            {chef.count > 5 && (
+              <EmptyRecipeCard chef={chef}/>
+            )}
           </Carousel>
         </div>
         ) : (

@@ -9,8 +9,6 @@ import {
 } from '../constants/chefPublicConstants';
 
 export const listChefs = (
-  createdAtSort = '',
-  netVotesSort = '',
   pageNumber = ''
 ) => async (dispatch) => {
 
@@ -18,7 +16,7 @@ export const listChefs = (
     dispatch({ type: CHEF_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/chefs?createdAtSort=${createdAtSort}&netVotesSort=${netVotesSort}&pageNumber=${pageNumber}`
+      `/api/chefs?pageNumber=${pageNumber}`
     )
 
     dispatch({

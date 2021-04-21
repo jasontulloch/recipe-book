@@ -22,16 +22,15 @@ const getChefs = asyncHandler(async (req, res) => {
   })
 
   // Sort will order createdAt from newest to older (-1) to flip
-  const netVotesSort = req.query.netVotesSort
-  const createdAtSort = req.query.createdAtSort
-  const trendingSort = 0
+  //const netVotesSort = req.query.netVotesSort
+  //const createdAtSort = req.query.createdAtSort
+  //const trendingSort = 0
 
   const chefs = await Chef.find({
     $and: [
       {...isVisible}
     ]
   })
-    .sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
     .limit(pageSize)
     .skip(pageSize * (page - 1))
 
@@ -43,7 +42,7 @@ const getChefs = asyncHandler(async (req, res) => {
 // @route GET /api/chefs/:id
 // @access Public
 const getChefById = asyncHandler(async (req, res) => {
-  const recipeCount = 20
+  const recipeCount = 10
   const chef = await Chef.findById(req.params.id)
 
   const isPublished = true ? {
@@ -66,6 +65,13 @@ const getChefById = asyncHandler(async (req, res) => {
     ]
   }).limit(recipeCount)
 
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {...keywordChefId},
+    ]
+  })
+
   if (chef) {
     res.json({
       id: chef._id,
@@ -86,7 +92,8 @@ const getChefById = asyncHandler(async (req, res) => {
       isMetric: chef.Metric,
       myRecipes: chef.myRecipes,
       isVisible: chef.isVisible,
-      recipes: recipes
+      recipes: recipes,
+      count: count
     })
   } else {
     res.status(404)
