@@ -95,6 +95,7 @@ const SearchBox = ({ history }) => {
             value={displayRecipes.filter(function(recipe) {
               return recipe.value === keywordRecipeName
             })}
+            noOptionsMessage={() => null}
             styles={styles}
             theme={theme => ({
               ...theme,

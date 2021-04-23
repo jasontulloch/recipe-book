@@ -396,7 +396,7 @@ const SavedIngredientsPage = ({ history }) => {
   }
 
   return (
-    <div>
+    <div style={{paddingLeft: '30px', paddingRight: '30px'}}>
       {error ? (
         <Message>{error}</Message>
       ) : (

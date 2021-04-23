@@ -18,3 +18,15 @@
 .dietsAndAllerginsGroup {
   margin-bottom: 0px;
 }
+
+@media only screen and (max-width: 415px) {
+  div.chefProfileMobile {
+    padding-top: 40px;
+    width: 100vw;
+    margin-left: 0px !important;
+  }
+
+  div.profileNewPictureMobileButton.custom.custom-file {
+    min-width: 275px !important;
+  }
+}

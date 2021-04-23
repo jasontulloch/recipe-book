@@ -12,6 +12,8 @@ import { RECIPE_CREATE_RESET } from '../../constants/recipeConstants';
 import { BiInfoCircle } from 'react-icons/bi'
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
+import './ChefRecipesListPage.styles.scss';
+
 const ChefRecipesListPage = ({ match , history }) => {
 
   const dispatch = useDispatch()
@@ -74,12 +76,12 @@ const ChefRecipesListPage = ({ match , history }) => {
   }
 
   return (
-      <div>
+      <div className="chefRecipesListPageMobile" style={{paddingLeft: '30px', paddingRight: '10px'}}>
         {initialLoader ?  (
           <PancakeLoader>Collecting all of your recipes...</PancakeLoader>
         ) : (
           <Row>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ textAlign: 'center', paddingBottom: '15px' }}>
+            <Col className="recipeListButtonMobile" xs={12} style={{ textAlign: 'center', paddingBottom: '15px' }}>
               <Button
                 style={{margin: '5px', padding: '15px', width: '100%', backgroundColor: '#343a40' }}
                 onClick={createRecipeHandler}
@@ -88,7 +90,7 @@ const ChefRecipesListPage = ({ match , history }) => {
                 <i className='fas fa-plus'> Create a Recipe</i>
               </Button>
             </Col>
-            <Table striped bordered hover responsive className='table-sm' style={{marginLeft: '10px'}}>
+            <Table striped bordered hover responsive className='table-sm' style={{marginLeft: '20px'}}>
               <thead>
                 <tr>
                   <th>MY RECIPES</th>

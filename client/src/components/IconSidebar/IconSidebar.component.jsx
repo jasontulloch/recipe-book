@@ -75,14 +75,13 @@ const IconSidebar = ({ history }) => {
                   >
                     <LinkContainer
                       to='/myrecipes'
-                      className="sidebarIcon"
                       style={{paddingLeft: '5px',
                         paddingRight: '5px',
                         color: 'rgba(255,255,255,0.5)' }}
                       onClick={createRecipeHandler}
                     >
                       <Nav.Link>
-                        <IoMdCreate style={{ fontSize: '1.25rem' }}/>
+                        <IoMdCreate className="sidebarIcon" style={{ fontSize: '1.25rem' }}/>
                       </Nav.Link>
                     </LinkContainer>
                   </OverlayTrigger>
@@ -94,9 +93,9 @@ const IconSidebar = ({ history }) => {
                       </Tooltip>
                     }
                   >
-                    <LinkContainer to='/mychefs/page/1' className="sidebarIcon" style={{paddingLeft: '5px', paddingRight: '5px' ,color: 'rgba(255,255,255,0.5)' }}>
+                    <LinkContainer to='/mychefs/page/1' style={{paddingLeft: '5px', paddingRight: '5px' ,color: 'rgba(255,255,255,0.5)' }}>
                       <Nav.Link>
-                        <GiCook style={{ fontSize: '1.25rem' }}/>
+                        <GiCook className="sidebarIcon" style={{ fontSize: '1.25rem' }}/>
                       </Nav.Link>
                     </LinkContainer>
                   </OverlayTrigger>
@@ -110,7 +109,7 @@ const IconSidebar = ({ history }) => {
                   >
                     <LinkContainer to='/savedrecipes' style={{paddingLeft: '5px', paddingRight: '5px', color: 'rgba(255,255,255,0.5)'}}>
                       <Nav.Link>
-                        <GiBookmark style={{ fontSize: '1.25rem' }}/>
+                        <GiBookmark className="sidebarIcon" style={{ fontSize: '1.25rem' }}/>
                       </Nav.Link>
                     </LinkContainer>
                   </OverlayTrigger>
@@ -124,7 +123,7 @@ const IconSidebar = ({ history }) => {
                   >
                     <LinkContainer to='/myrecipes' style={{paddingLeft: '5px', paddingRight: '5px', color: 'rgba(255,255,255,0.5)'}}>
                       <Nav.Link>
-                        <GiBookCover style={{ fontSize: '1.25rem' }}/>
+                        <GiBookCover className="sidebarIcon" style={{ fontSize: '1.25rem' }}/>
                       </Nav.Link>
                     </LinkContainer>
                   </OverlayTrigger>
@@ -138,7 +137,7 @@ const IconSidebar = ({ history }) => {
                   >
                     <LinkContainer to='/grocerylist' style={{paddingLeft: '5px', paddingRight: '5px', color: 'rgba(255,255,255,0.5)'}}>
                       <Nav.Link>
-                        <HiOutlineClipboardList style={{ fontSize: '1.25rem' }}/>
+                        <HiOutlineClipboardList className="sidebarIcon" style={{ fontSize: '1.25rem' }}/>
                       </Nav.Link>
                     </LinkContainer>
                   </OverlayTrigger>

@@ -8,15 +8,15 @@ import { GiAvocado, GiMilkCarton, GiRawEgg, GiPeanut, GiNautilusShell, GiCoffeeB
 const ChefCard = ({ chef }) => {
 
   return (
-    <div style={{paddingBottom: '40px'}}>
-      <Card className="text-light mb-4 " style={{ border: 'none', height: '136px', width: '175px' }}>
+    <div className="chefCardMobile" style={{paddingBottom: '40px'}}>
+      <Card className="text-light mb-4 chefCardMobile" style={{ border: 'none', height: '136px', width: '175px' }}>
         <Card.Header style={{textAlign: 'center', padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px', fontSize: '10px' }}>
           <span>
             {chef.username.slice(0, 25) + (chef.username > 25 ? "..." : "")}
           </span>
         </Card.Header>
         <Link to={`/chefs/${chef._id}`} style={{zIndex: '2'}}>
-          <Card.Img src={chef.chefPicture} alt={chef.chefPicture} style={{height: '136px', width: '175px', backgroundColor: '#B2D732' }}/>
+          <Card.Img className="chefCardMobile" src={chef.chefPicture} alt={chef.chefPicture} style={{height: '136px', width: '175px', backgroundColor: '#B2D732' }}/>
         </Link>
         <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>

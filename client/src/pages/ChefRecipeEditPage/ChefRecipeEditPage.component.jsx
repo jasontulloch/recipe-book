@@ -436,7 +436,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   }
 
   return (
-    <div>
+    <div style={{paddingLeft: '30px', paddingRight: '30px'}}>
       {initialLoader ?  (
         <PancakeLoader>Flipping to your recipe now...</PancakeLoader>
       ) : (
@@ -492,7 +492,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   </Form.Control>
                   <Form.Text>
                     {recipe_name.length > 25 && (
-                      <Message variant='warning'>We only display the first 25 characters of a recipe name in the search results... try simplifying the recipe name. Currently, your recipe will read as "{recipe_name.slice(0, 25) + (recipe_name.length > 25 ? "..." : "")}"</Message>
+                      <Message variant='warning'>We only display the first 25 characters of a recipe name in the search results. However, chefs will be able to see the full recipe name when they hover over the recipe name. Currently, your recipe will display as "{recipe_name.slice(0, 25) + (recipe_name.length > 25 ? "..." : "")}"</Message>
                     )}
                   </Form.Text>
                 </Form.Group>
@@ -512,7 +512,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                   <Form.Text className='muted'>Help users find your recipe. Not certain? Leave blank.</Form.Text>
                 </Form.Group>
                 <Form.Group controlId='cookTime'>
-                  <Form.Label>Cook Time</Form.Label>
+                  <Form.Label>Cook Time (Minutes)</Form.Label>
                   <Form.Control
                     type='number'
                     placeholder={60}

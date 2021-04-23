@@ -1,0 +1,33 @@
+@media only screen and (max-width: 415px) {
+  div.advancedRecipeSearchResultsPageMobileRow.row {
+    width: 97.5vw;
+  }
+
+  div.advancedRecipeSearchResultsPageMobilePaginate.row {
+    width: 97.5vw;
+  }
+
+  div.advancedRecipeSearchResultsSortButtonCol.col-12 {
+    padding-left: 0px;
+  }
+
+  div.advancedRecipeSearchResultsPageMobile {
+    padding-top: 30px;
+    display: block;
+    margin-left: 20px !important;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  div.advancedRecipeSearchResultsPageRecipeCardMobile.col {
+    min-width: 90vw !important;
+    max-width: 90vw !important;
+    height: 45vh;
+    padding: 0px;
+  }
+
+  div.advancedRecipeSearchResultsPageMobile2Div {
+    padding-left: 0px !important;
+  }
+
+}

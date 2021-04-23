@@ -11,6 +11,8 @@ import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 import { BiInfoCircle } from 'react-icons/bi'
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 
+import './ChefSavedRecipesListPage.styles.scss';
+
 const ChefSavedRecipesListPage = ({ match , history }) => {
 
   const [unsave, setUnsave] = useState('')
@@ -63,11 +65,11 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   }
 
   return (
-      <div>
+      <div className="chefSavedRecipesListPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
         {initialLoader ?  (
           <PancakeLoader>Finding the recipes you already love...</PancakeLoader>
         ) : savedRecipes.length > 0 ? (
-          <Row>
+          <Row className="chefSavedRecipesMobileRow" style={{paddingLeft: '30px'}}>
             <Table striped bordered hover responsive className='table-sm'>
               <thead>
                 <tr>

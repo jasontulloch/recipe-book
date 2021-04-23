@@ -344,527 +344,530 @@ const ProfileEditPage = ({ location, history, match }) => {
   }
 
   return (
-    <FormContainer className="profileEditPage">
-      <Col xs={12}  style={{textAlign: 'center'}}>
-        {warningMessage !== '' && (
-          <Message variant='danger'>{warningMessage}</Message>
-        )}
-        {successMessage !== '' && (
-          <Message variant='success'>{successMessage}</Message>
-        )}
-      </Col>
-      <h1 style={{textAlign: 'center'}}>Chef Profile</h1>
-      <Form className='profileEditPageForm' onSubmit={submitHandler}>
-        <Tabs fill id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
-          <Tab eventKey='auth' title="General">
-            <Col xs={12} style={{textAlign:'center'}}>
-              <Form.Group controlId='isVisible' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Make your chef profile public'
-                  checked={isVisible}
-                  onChange={(e) => setIsVisible(e.target.checked)}
-                />
+    <div style={{paddingLeft: '30px', paddingRight: '30px'}}>
+      <FormContainer className="profileEditPage">
+        <Col xs={12} className="chefProfileMobile" style={{textAlign: 'center'}}>
+          {warningMessage !== '' && (
+            <Message variant='danger'>{warningMessage}</Message>
+          )}
+          {successMessage !== '' && (
+            <Message variant='success'>{successMessage}</Message>
+          )}
+        </Col>
+        <h1 style={{textAlign: 'center'}}>Chef Profile</h1>
+        <Form className='profileEditPageForm' onSubmit={submitHandler}>
+          <Tabs fill id="profileEditPageTabs" activeKey={key} onSelect={(k) => setKey(k)}>
+            <Tab eventKey='auth' title="General">
+              <Col xs={12} style={{textAlign:'center'}}>
+                <Form.Group controlId='isVisible' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Make your chef profile public'
+                    checked={isVisible}
+                    onChange={(e) => setIsVisible(e.target.checked)}
+                  />
+                </Form.Group>
+                <Form.Text>Other chefs will be able to find and follow you. Your name, contact information, and log in information will never be shared.</Form.Text>
+              </Col>
+              <Form.Group controlId='first_name'>
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter your first name'
+                  value={first_name}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                >
+                </Form.Control>
               </Form.Group>
-              <Form.Text>Other chefs will be able to find and follow you. Your name, contact information, and log in information will never be shared.</Form.Text>
-            </Col>
-            <Form.Group controlId='first_name'>
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter your first name'
-                value={first_name}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              >
-              </Form.Control>
-            </Form.Group>
 
-            <Form.Group controlId='last_name'>
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter your last name'
-                value={last_name}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              >
-              </Form.Control>
-            </Form.Group>
+              <Form.Group controlId='last_name'>
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter your last name'
+                  value={last_name}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                >
+                </Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId='username'>
-              <Form.Label>Chefname</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter a chefname'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                maxLength={25}
-                required
-              >
-              </Form.Control>
-              <Form.Text className='muted'>Your username will be public.</Form.Text>
-            </Form.Group>
+              <Form.Group controlId='username'>
+                <Form.Label>Chefname</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter a chefname'
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  maxLength={25}
+                  required
+                >
+                </Form.Control>
+                <Form.Text className='muted'>Your username will be public.</Form.Text>
+              </Form.Group>
 
-            <Form.Group controlId='email'>
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter your email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              >
-              </Form.Control>
-              <Form.Text>We will never email you or share your email with anyone without your permission.</Form.Text>
-            </Form.Group>
+              <Form.Group controlId='email'>
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type='email'
+                  placeholder='Enter your email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                >
+                </Form.Control>
+                <Form.Text>We will never email you or share your email with anyone without your permission.</Form.Text>
+              </Form.Group>
 
-            <Form.Group controlId='phone_number'>
-              <Form.Label>Phone Number</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter your phone number'
-                value={phone_number}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                required
-              >
-              </Form.Control>
-              <Form.Text>We will never message you or share your phone number with anyone without your permission.</Form.Text>
-            </Form.Group>
+              <Form.Group controlId='phone_number'>
+                <Form.Label>Phone Number</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter your phone number'
+                  value={phone_number}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
+                >
+                </Form.Control>
+                <Form.Text>We will never message you or share your phone number with anyone without your permission.</Form.Text>
+              </Form.Group>
 
-            <Form.Group controlId='password'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Enter your password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              >
-              </Form.Control>
-            </Form.Group>
+              <Form.Group controlId='password'>
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type='password'
+                  placeholder='Enter your password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                >
+                </Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId='confirmPassword'>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Confirm password'
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              >
-              </Form.Control>
-            </Form.Group>
-          </Tab>
-          <Tab eventKey='chef-detail' title="Chef Detail">
-            <Row>
-              <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Form.Label className='dietsLabel'>Diets</Form.Label>
-              </Col>
-              <Col style={{textAlign: 'center'}}>
-                <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Vegan'
-                    checked={isVegan}
-                    onChange={isVeganHandler}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Vegetarian'
-                    checked={isVegetarian}
-                    onChange={isVegetarianHandler}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Gluten Free'
-                    checked={isGlutenFree}
-                    onChange={(e) => setIsGlutenFree(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Ketogenic'
-                    checked={isKetogenic}
-                    onChange={(e) => setIsKetogenic(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isPescatarian' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Pescatarian'
-                    checked={isPescatarian}
-                    onChange={(e) => setIsPescatarian(e.target.checked)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
-                <Form.Text>Particular diet? This will help us show you exactly what you are looking for.</Form.Text>
-              </Col>
-              <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Form.Label className='allerginsLabel'>Allergens</Form.Label>
-              </Col>
-              <Col style={{textAlign: 'center'}}>
-                <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Dairy'
-                    checked={isDairy}
-                    onChange={(e) => setIsDairy(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Egg'
-                    checked={isEgg}
-                    onChange={(e) => setIsEgg(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Nuts'
-                    checked={isNuts}
-                    onChange={(e) => setIsNuts(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Shellfish'
-                    checked={isShellfish}
-                    onChange={(e) => setIsShellfish(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Soy'
-                    checked={isSoy}
-                    onChange={(e) => setIsSoy(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Wheat'
-                    checked={isWheat}
-                    onChange={(e) => setIsWheat(e.target.checked)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
-                <Form.Text>Should we avoid any common allergens?</Form.Text>
-              </Col>
-              <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Form.Label className='allerginsLabel'>Meal Course / Type</Form.Label>
-              </Col>
-              <Col style={{textAlign: 'center'}}>
-                <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Breakfast or Brunch'
-                    checked={isBreakfastBrunch}
-                    type='radio'
-                    name='mealTypeRadio'
-                    onChange={mealTypeRadioBB}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Main Dish'
-                    checked={isMainDish}
-                    type='radio'
-                    name='mealTypeRadio'
-                    onChange={mealTypeRadioMD}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Side or Sauce'
-                    checked={isSideSauce}
-                    type='radio'
-                    name='mealTypeRadio'
-                    onChange={mealTypeRadioSS}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Dessert'
-                    checked={isDessert}
-                    type='radio'
-                    name='mealTypeRadio'
-                    onChange={mealTypeRadioDe}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Snack'
-                    checked={isSnack}
-                    type='radio'
-                    name='mealTypeRadio'
-                    onChange={mealTypeRadioS}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
-                  <Form.Check
-                    inline
-                    label='Appetizer'
-                    checked={isAppetizer}
-                    type='radio'
-                    name='mealTypeRadio'
-                    onChange={mealTypeRadioA}
-                  />
-                </Form.Group>
-                <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
-                <Form.Check
-                  inline
-                  label='Drink'
-                  checked={isDrink}
-                  type='radio'
-                  name='mealTypeRadio'
-                  onChange={mealTypeRadioDr}
-                />
-                </Form.Group>
-              </Col>
-              <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
-                <Form.Text>What type of meal are you normally searching for?</Form.Text>
-              </Col>
-              <Col style={{textAlign: 'center', borderTop: '1px dotted', paddingTop: '10px'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Form.Group controlId='bio'>
-                  <Form.Label>Chef Bio</Form.Label>
-                  <Form.Control
-                    as='textarea'
-                    rows='5'
-                    maxLength='900'
-                    placeholder='Enter bio'
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                  >
-                  </Form.Control>
-                  <Form.Text className='muted'>Your bio will be public</Form.Text>
-                </Form.Group>
-              </Col>
-              <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Message variant='warning' style={{textAlign: 'center', width: '100%', marginTop: '5px'}}>
-                  <Form.Text>The following measurement options are optional. By selecting a measurement, you can control how the measurements recipes are presented in.</Form.Text>
-                </Message>
-                <Form.Label className='allerginsLabel'>Measurement (Imperial / US System)</Form.Label>
-              </Col>
-              <Col style={{textAlign: 'center', paddingBottom: '10px'}}>
-                <Form.Group controlId='useTeaspoons' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Teaspoons'
-                    checked={useTeaspoons}
-                    onChange={(e) => setUseTeaspoons(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useTablespoons' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Tablespoons'
-                    checked={useTablespoons}
-                    onChange={(e) => setUseTablespoons(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useFluidOunces' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Fluid Ounces'
-                    checked={useFluidOunces}
-                    onChange={(e) => setUseFluidOunces(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useCups' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Cups'
-                    checked={useCups}
-                    onChange={(e) => setUseCups(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='usePints' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Pints'
-                    checked={usePints}
-                    onChange={(e) => setUsePints(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useQuarts' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Quarts'
-                    checked={useQuarts}
-                    onChange={(e) => setUseQuarts(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useGallons' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Gallons'
-                    checked={useGallons}
-                    onChange={(e) => setUseGallons(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useOunces' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Ounces'
-                    checked={useOunces}
-                    onChange={(e) => setUseOunces(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='usePounds' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Pounds'
-                    checked={usePounds}
-                    onChange={(e) => setUsePounds(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useInches' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Inches'
-                    checked={useInches}
-                    onChange={(e) => setUseInches(e.target.checked)}
-                  />
-                </Form.Group>
-              </Col>
-              <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Form.Label className='allerginsLabel'>Measurement (Metric System)</Form.Label>
-              </Col>
-              <Col style={{textAlign: 'center', paddingBottom: '20px'}}>
-                <Form.Group controlId='isMetric' className='measurementsMetricToggleGroup'>
-                  <Form.Check
-                    inline
-                    label='Use the metric system on default?'
-                    checked={isMetric}
-                    onChange={(e) => setIsMetric(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useMillilitres' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Millilitres?'
-                    checked={useMillilitres}
-                    onChange={(e) => setUseMillilitres(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useLitres' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Litres'
-                    checked={useLitres}
-                    onChange={(e) => setUseLitres(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useGrams' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Grams'
-                    checked={useGrams}
-                    onChange={(e) => setUseGrams(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useKilograms' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Kilograms'
-                    checked={useKilograms}
-                    onChange={(e) => setUseKilograms(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useCentimetres' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Centimetres'
-                    checked={useCentimetres}
-                    onChange={(e) => setUseCentimetres(e.target.checked)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='useMillimetres' className='measurementsGroup'>
-                  <Form.Check
-                    inline
-                    label='Millimetres'
-                    checked={useMillimetres}
-                    onChange={(e) => setUseMillimetres(e.target.checked)}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Tab>
-
-
-          <Tab eventKey='chefPicture' title="Chef Profile Picture">
-            {uploading === false ? (
+              <Form.Group controlId='confirmPassword'>
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type='password'
+                  placeholder='Confirm password'
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                >
+                </Form.Control>
+              </Form.Group>
+            </Tab>
+            <Tab eventKey='chef-detail' title="Chef Detail">
               <Row>
-                <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center' }}>
-                  <Message variant='warning'>
-                    <Form.Text className='muted'>A great picture is key to a great chef. For the best results, upload a square 3024px x 3024px photo. This picture will be public.</Form.Text>
-                  </Message>
+                <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label className='dietsLabel'>Diets</Form.Label>
                 </Col>
                 <Col style={{textAlign: 'center'}}>
-                  <Form.Group controlId='coverImage' className='imagesGroup'>
-                    <FormContainer>
-                      <Image
-                        style={{width: '50%', textAlign: 'left', minWidth: '200px'}}
-                        className="chefPicture"
-                        src={chefPicture}
-                        key={Date.now()}
-                        rounded
-                      />
-                    </FormContainer>
-                    <Form.File
-                      style={{width: '50%', textAlign: 'left', minWidth: '330px'}}
-                      id='cover-image-file'
-                      name='chefPicture'
-                      label='Choose Profile Picture'
-                      custom
-                      disabled={!saveBeforeUploadImage}
-                      onChange={uploadFileHandler}
-                    ></Form.File>
-                  </Form.Group>
-                  <Form.Group controlId='saveBeforeUploadImage' className='dietsAndAllerginsGroup'>
+                  <Form.Group controlId='isVegan' className='dietsAndAllerginsGroup'>
                     <Form.Check
                       inline
-                      label='I understand that uploading an image before saving my profile will delete any unsaved content'
-                      checked={saveBeforeUploadImage}
-                      onChange={(e) => setSaveBeforeUploadImage(e.target.checked)}
+                      label='Vegan'
+                      checked={isVegan}
+                      onChange={isVeganHandler}
                     />
                   </Form.Group>
-                  <Form.Text className='muted' style={{paddingBottom: '10px'}}>Your new image will automatically save once its uploaded.</Form.Text>
+                  <Form.Group controlId='isVegetarian' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Vegetarian'
+                      checked={isVegetarian}
+                      onChange={isVegetarianHandler}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isGlutenFree' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Gluten Free'
+                      checked={isGlutenFree}
+                      onChange={(e) => setIsGlutenFree(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isKetogenic' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Ketogenic'
+                      checked={isKetogenic}
+                      onChange={(e) => setIsKetogenic(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isPescatarian' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Pescatarian'
+                      checked={isPescatarian}
+                      onChange={(e) => setIsPescatarian(e.target.checked)}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
+                  <Form.Text>Particular diet? This will help us show you exactly what you are looking for.</Form.Text>
+                </Col>
+                <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label className='allerginsLabel'>Allergens</Form.Label>
+                </Col>
+                <Col style={{textAlign: 'center'}}>
+                  <Form.Group controlId='isDairy' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Dairy'
+                      checked={isDairy}
+                      onChange={(e) => setIsDairy(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isEgg' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Egg'
+                      checked={isEgg}
+                      onChange={(e) => setIsEgg(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isNuts' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Nuts'
+                      checked={isNuts}
+                      onChange={(e) => setIsNuts(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isShellfish' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Shellfish'
+                      checked={isShellfish}
+                      onChange={(e) => setIsShellfish(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isSoy' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Soy'
+                      checked={isSoy}
+                      onChange={(e) => setIsSoy(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isWheat' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Wheat'
+                      checked={isWheat}
+                      onChange={(e) => setIsWheat(e.target.checked)}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
+                  <Form.Text>Should we avoid any common allergens?</Form.Text>
+                </Col>
+                <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label className='allerginsLabel'>Meal Course / Type</Form.Label>
+                </Col>
+                <Col style={{textAlign: 'center'}}>
+                  <Form.Group controlId='isBreakfastBrunch' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Breakfast or Brunch'
+                      checked={isBreakfastBrunch}
+                      type='radio'
+                      name='mealTypeRadio'
+                      onChange={mealTypeRadioBB}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isMainDish' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Main Dish'
+                      checked={isMainDish}
+                      type='radio'
+                      name='mealTypeRadio'
+                      onChange={mealTypeRadioMD}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isSideSauce' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Side or Sauce'
+                      checked={isSideSauce}
+                      type='radio'
+                      name='mealTypeRadio'
+                      onChange={mealTypeRadioSS}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isDessert' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Dessert'
+                      checked={isDessert}
+                      type='radio'
+                      name='mealTypeRadio'
+                      onChange={mealTypeRadioDe}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isSnack' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Snack'
+                      checked={isSnack}
+                      type='radio'
+                      name='mealTypeRadio'
+                      onChange={mealTypeRadioS}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isAppetizer' className='dietsAndAllerginsGroup'>
+                    <Form.Check
+                      inline
+                      label='Appetizer'
+                      checked={isAppetizer}
+                      type='radio'
+                      name='mealTypeRadio'
+                      onChange={mealTypeRadioA}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='isDrink' className='dietsAndAllerginsGroup'>
+                  <Form.Check
+                    inline
+                    label='Drink'
+                    checked={isDrink}
+                    type='radio'
+                    name='mealTypeRadio'
+                    onChange={mealTypeRadioDr}
+                  />
+                  </Form.Group>
+                </Col>
+                <Col xs={12} style={{textAlign: 'center', paddingBottom: '10px'}}>
+                  <Form.Text>What type of meal are you normally searching for?</Form.Text>
+                </Col>
+                <Col style={{textAlign: 'center', borderTop: '1px dotted', paddingTop: '10px'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Group controlId='bio'>
+                    <Form.Label>Chef Bio</Form.Label>
+                    <Form.Control
+                      as='textarea'
+                      rows='5'
+                      maxLength='900'
+                      placeholder='Enter bio'
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                    >
+                    </Form.Control>
+                    <Form.Text className='muted'>Your bio will be public</Form.Text>
+                  </Form.Group>
+                </Col>
+                <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Message variant='warning' style={{textAlign: 'center', width: '100%', marginTop: '5px'}}>
+                    <Form.Text>The following measurement options are optional. By selecting a measurement, you can control how the measurements recipes are presented in.</Form.Text>
+                  </Message>
+                  <Form.Label className='allerginsLabel'>Measurement (Imperial / US System)</Form.Label>
+                </Col>
+                <Col style={{textAlign: 'center', paddingBottom: '10px'}}>
+                  <Form.Group controlId='useTeaspoons' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Teaspoons'
+                      checked={useTeaspoons}
+                      onChange={(e) => setUseTeaspoons(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useTablespoons' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Tablespoons'
+                      checked={useTablespoons}
+                      onChange={(e) => setUseTablespoons(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useFluidOunces' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Fluid Ounces'
+                      checked={useFluidOunces}
+                      onChange={(e) => setUseFluidOunces(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useCups' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Cups'
+                      checked={useCups}
+                      onChange={(e) => setUseCups(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='usePints' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Pints'
+                      checked={usePints}
+                      onChange={(e) => setUsePints(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useQuarts' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Quarts'
+                      checked={useQuarts}
+                      onChange={(e) => setUseQuarts(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useGallons' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Gallons'
+                      checked={useGallons}
+                      onChange={(e) => setUseGallons(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useOunces' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Ounces'
+                      checked={useOunces}
+                      onChange={(e) => setUseOunces(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='usePounds' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Pounds'
+                      checked={usePounds}
+                      onChange={(e) => setUsePounds(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useInches' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Inches'
+                      checked={useInches}
+                      onChange={(e) => setUseInches(e.target.checked)}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col style={{textAlign: 'center', borderTop: '1px dotted'}} xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <Form.Label className='allerginsLabel'>Measurement (Metric System)</Form.Label>
+                </Col>
+                <Col style={{textAlign: 'center', paddingBottom: '20px'}}>
+                  <Form.Group controlId='isMetric' className='measurementsMetricToggleGroup'>
+                    <Form.Check
+                      inline
+                      label='Use the metric system on default?'
+                      checked={isMetric}
+                      onChange={(e) => setIsMetric(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useMillilitres' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Millilitres?'
+                      checked={useMillilitres}
+                      onChange={(e) => setUseMillilitres(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useLitres' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Litres'
+                      checked={useLitres}
+                      onChange={(e) => setUseLitres(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useGrams' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Grams'
+                      checked={useGrams}
+                      onChange={(e) => setUseGrams(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useKilograms' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Kilograms'
+                      checked={useKilograms}
+                      onChange={(e) => setUseKilograms(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useCentimetres' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Centimetres'
+                      checked={useCentimetres}
+                      onChange={(e) => setUseCentimetres(e.target.checked)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='useMillimetres' className='measurementsGroup'>
+                    <Form.Check
+                      inline
+                      label='Millimetres'
+                      checked={useMillimetres}
+                      onChange={(e) => setUseMillimetres(e.target.checked)}
+                    />
+                  </Form.Group>
                 </Col>
               </Row>
-            ) : (
-              <PancakeLoader>Uploading chef profile picture...</PancakeLoader>
-            )}
-          </Tab>
-        </Tabs>
-        <Row>
-          <Col style={{textAlign: 'center'}}>
-            <Button type='submit' variant='primary'>
-              Update
-            </Button>
-          </Col>
-          <Col xs={12} style={{textAlign: 'center', paddingTop: '10px' }}>
-            {successMessage !== '' && (
-              <Message variant='success'>{successMessage}</Message>
-            )}
-          </Col>
-        </Row>
-      </Form>
-    </FormContainer>
+            </Tab>
+
+
+            <Tab eventKey='chefPicture' title="Chef Profile Picture">
+              {uploading === false ? (
+                <Row>
+                  <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center' }}>
+                    <Message variant='warning'>
+                      <Form.Text className='muted'>A great picture is key to a great chef. For the best results, upload a square 3024px x 3024px photo. This picture will be public.</Form.Text>
+                    </Message>
+                  </Col>
+                  <Col style={{textAlign: 'center'}}>
+                    <Form.Group controlId='coverImage' className='imagesGroup'>
+                      <FormContainer>
+                        <Image
+                          style={{width: '50%', textAlign: 'left', minWidth: '200px'}}
+                          className="chefPicture"
+                          src={chefPicture}
+                          key={Date.now()}
+                          rounded
+                        />
+                      </FormContainer>
+                      <Form.File
+                        className="profileNewPictureMobileButton"
+                        style={{width: '50%', textAlign: 'left', minWidth: '330px'}}
+                        id='cover-image-file'
+                        name='chefPicture'
+                        label='Choose Profile Picture'
+                        custom
+                        disabled={!saveBeforeUploadImage}
+                        onChange={uploadFileHandler}
+                      ></Form.File>
+                    </Form.Group>
+                    <Form.Group controlId='saveBeforeUploadImage' className='dietsAndAllerginsGroup'>
+                      <Form.Check
+                        inline
+                        label='I understand that uploading an image before saving my profile will delete any unsaved content'
+                        checked={saveBeforeUploadImage}
+                        onChange={(e) => setSaveBeforeUploadImage(e.target.checked)}
+                      />
+                    </Form.Group>
+                    <Form.Text className='muted' style={{paddingBottom: '10px'}}>Your new image will automatically save once its uploaded.</Form.Text>
+                  </Col>
+                </Row>
+              ) : (
+                <PancakeLoader>Uploading chef profile picture...</PancakeLoader>
+              )}
+            </Tab>
+          </Tabs>
+          <Row>
+            <Col style={{textAlign: 'center'}}>
+              <Button type='submit' variant='primary'>
+                Update
+              </Button>
+            </Col>
+            <Col xs={12} style={{textAlign: 'center', paddingTop: '10px' }}>
+              {successMessage !== '' && (
+                <Message variant='success'>{successMessage}</Message>
+              )}
+            </Col>
+          </Row>
+        </Form>
+      </FormContainer>
+    </div>
   )
 }
 

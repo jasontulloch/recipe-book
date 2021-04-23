@@ -37,6 +37,7 @@ import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.componen
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+
 import './IndividualChefPage.styles.scss';
 
 const IndividualChefPage = ({ history, match }) => {
@@ -190,7 +191,7 @@ const IndividualChefPage = ({ history, match }) => {
   };
 
   return (
-    <div>
+    <div className="individualChefPageMobile" style={{paddingLeft: '50px'}}>
       {initialLoader ? (
         <PancakeLoader>Gathering chef details...</PancakeLoader>
       ) : (
@@ -229,7 +230,7 @@ const IndividualChefPage = ({ history, match }) => {
                 <Form onSubmit={unfollowHandler}>
                   <Form.Group as={Row} style={{marginBottom: '0px'}}>
                     <Form.Label>
-                      <h3 style={{ marginLeft: '10px' }}>Chef: {chef.username}</h3>
+                      <h3 style={{ marginLeft: '10px' }}>{chef.username}</h3>
                     </Form.Label>
                     {chefInfo && (
                       <Button
@@ -248,7 +249,7 @@ const IndividualChefPage = ({ history, match }) => {
                 <Form onSubmit={followHandler}>
                   <Form.Group as={Row} style={{marginBottom: '0px'}}>
                     <Form.Label>
-                      <h3 style={{ marginLeft: '10px' }}>Chef: {chef.username}</h3>
+                      <h3 style={{ marginLeft: '10px' }}>{chef.username}</h3>
                     </Form.Label>
                     {chefInfo && (
                       <Button

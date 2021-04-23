@@ -11,6 +11,8 @@ import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.componen
 //import SortButton from '../../components/SortButton/SortButton.component';
 import Message from '../../components/Message/Message.component';
 
+import './AdvancedRecipeSearchResultsPage.styles.scss';
+
 const AdvancedRecipeSearchResultsPage = ({ match }) => {
   //This needs to match the route in the App.js file
   const keywordRecipeName = match.params.keywordRecipeName || ''
@@ -139,16 +141,16 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   }
 
   return (
-    <div>
+    <div className="advancedRecipeSearchResultsPageMobile" style={{paddingLeft: '40px'}}>
       {initialLoader ?  (
         <PancakeLoader>Finding recipes exactly how you like them...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div>
-          <Row style={{textAlign:'center'}} className="justify-content-md-center">
+        <div className="justify-content-md-center advancedRecipeSearchResultsPageMobile2Div">
+          <Row className="advancedRecipeSearchResultsPageMobileRow" style={{textAlign:'center'}}>
             {(recipes && recipes.length > 1) && (
-            <Col xs={12} style={{paddingBottom: '10px'}}>
+            <Col xs={12} className="advancedRecipeSearchResultsSortButtonCol" style={{paddingBottom: '10px'}}>
               <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                 <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
@@ -157,7 +159,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
             </Col>
             )}
             {recipes && recipes.map((recipe) => (
-              <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+              <Col className="advancedRecipeSearchResultsPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
@@ -178,7 +180,7 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
             )}
           </Row>
 
-            <Row>
+            <Row className="advancedRecipeSearchResultsPageMobilePaginate">
               <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                 <AdvancedSearchPaginate
                   pages={pages}

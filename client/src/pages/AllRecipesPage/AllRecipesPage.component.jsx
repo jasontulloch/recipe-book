@@ -10,6 +10,8 @@ import Paginate from '../../components/Paginate/Paginate.component';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import Message from '../../components/Message/Message.component';
 
+import './AllRecipesPage.styles.scss';
+
 const HomeScreen = ({ match }) => {
   const keywordRecipeName = match.params.keywordRecipeName
   const pageNumber = match.params.pageNumber || 1
@@ -60,16 +62,16 @@ const HomeScreen = ({ match }) => {
   }
 
   return (
-    <div>
+    <div className="allRecipesPageMobile" style={{paddingLeft: '30px'}}>
       {initialLoader ?  (
         <PancakeLoader>Finding yummy recipes...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center">
-          <Row>
+        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center allRecipesPageMobile2Div">
+          <Row className="allRecipesPageMobileRow">
             {(recipes && recipes.length > 1) && (
-              <Col xs={12} style={{paddingBottom: '10px', paddingRight: '30px'}}>
+              <Col className="allRecipesSortButtonCol" xs={12} style={{paddingBottom: '10px', paddingRight: '30px'}}>
                 <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                   <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
                   <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
@@ -78,7 +80,7 @@ const HomeScreen = ({ match }) => {
               </Col>
             )}
             {recipes && recipes.map((recipe) => (
-              <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+              <Col className="allRecipesPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <RecipeCard recipe={recipe} />
               </Col>
             ))}
@@ -98,7 +100,7 @@ const HomeScreen = ({ match }) => {
               </Col>
             )}
           </Row>
-          <Row>
+          <Row className="allRecipesPageMobilePaginate">
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
               <Paginate
                 pages={pages}

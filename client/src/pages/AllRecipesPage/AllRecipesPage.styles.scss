@@ -1,0 +1,43 @@
+@media only screen and (max-width: 415px) {
+  div.allRecipesPageMobileRow.row {
+    width: 97.5vw;
+  }
+
+  div.allRecipesPageMobilePaginate.row {
+    width: 97.5vw;
+  }
+
+  div.allRecipesSortButtonCol.col-12 {
+    padding-left: 0px;
+  }
+
+  div.allRecipesPageMobile {
+    padding-top: 30px;
+    display: block;
+    margin-left: 20px !important;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  div.allRecipesPageRecipeCardMobile.col {
+    min-width: 90vw !important;
+    max-width: 90vw !important;
+    height: 45vh;
+    padding: 0px;
+  }
+
+  div.justify-content-md-center.allRecipesPageMobile2Div {
+    padding-left: 0px !important;
+  }
+
+  img.card-img.recipeCardMobile {
+    width: 90vw !important;
+    height: 35vh !important;
+  }
+
+  div.recipeCardMobile {
+    width: 90vw !important;
+    height: 90vh !important;
+    padding-bottom: 20px !important;
+  }
+}

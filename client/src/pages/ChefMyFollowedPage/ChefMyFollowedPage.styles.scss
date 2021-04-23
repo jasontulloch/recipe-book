@@ -2,3 +2,22 @@
     max-width: 190px;
     min-width: 190px;
 }
+
+@media only screen and (max-width: 415px) {
+  .react-multi-carousel-item {
+    max-width: 350px;
+    min-width: 350px;
+  }
+
+  img.card-img.chefCardMobile {
+    width: 80vw !important;
+    height: 30vh !important;
+  }
+
+  div.chefCardMobile {
+    width: 80vw !important;
+    height: 80vh !important;
+    padding-bottom: 20px !important;
+  }
+
+}

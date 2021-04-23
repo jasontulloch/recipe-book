@@ -9,6 +9,8 @@ import {
 } from '../../actions/recipeActions';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 
+import './ChefSavedRecipesDeletePage.styles.scss';
+
 const ChefSavedRecipesListPage = ({ match , history }) => {
 
   const [unsave, setUnsave] = useState('')
@@ -57,7 +59,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   }
 
   return (
-      <div>
+      <div className="deleteSavedRecipeMobile" style={{paddingLeft: '40px', textAlign: 'center'}}>
         <Link className="btn btn-light my-3" to='/savedrecipes'>
           Go Back
         </Link>

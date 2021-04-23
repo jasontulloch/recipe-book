@@ -10,6 +10,8 @@ import PaginateAllChefs from '../../components/PaginateAllChefs/PaginateAllChefs
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import Message from '../../components/Message/Message.component';
 
+import './AllChefsPage.styles.scss';
+
 const AllChefsPage = ({ match }) => {
   const pageNumber = match.params.pageNumber || 1
 
@@ -33,16 +35,16 @@ const AllChefsPage = ({ match }) => {
 
 
   return (
-    <div>
+    <div className="allChefsPageMobile" style={{paddingLeft: '30px'}}>
       {initialLoader ?  (
         <PancakeLoader>Finding great chefs...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center">
-          <Row>
+        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center allChefsPageMobile2Div">
+          <Row className="allChefsPageMobileRow">
             {chefs && chefs.map((chef) => (
-              <Col key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+              <Col className="allChefsPageChefCardMobile" key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                 <ChefCard chef={chef} />
               </Col>
             ))}
@@ -62,7 +64,7 @@ const AllChefsPage = ({ match }) => {
               </Col>
             )}
           </Row>
-          <Row>
+          <Row className="allChefsPageMobilePaginate">
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
               <PaginateAllChefs
                 pages={pages}
