@@ -18,7 +18,7 @@ const ChefCard = ({ chef }) => {
         <Link to={`/chefs/${chef._id}`} style={{zIndex: '2'}}>
           <Card.Img className="chefCardMobile" src={chef.chefPicture} alt={chef.chefPicture} style={{height: '136px', width: '175px', backgroundColor: '#B2D732' }}/>
         </Link>
-        <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
+        <Card.Footer style={{fontSize: '12.5px', paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>
             <Col style={{display: 'flex', justifyContent: 'space-around'}}>
               {(chef.isVegan === true) && (

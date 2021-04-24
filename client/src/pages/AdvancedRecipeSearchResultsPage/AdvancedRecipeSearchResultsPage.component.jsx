@@ -141,16 +141,16 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   }
 
   return (
-    <div className="advancedRecipeSearchResultsPageMobile" style={{paddingLeft: '40px'}}>
+    <div className="advancedRecipeSearchResultsPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
       {initialLoader ?  (
         <PancakeLoader>Finding recipes exactly how you like them...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div className="justify-content-md-center advancedRecipeSearchResultsPageMobile2Div">
-          <Row className="advancedRecipeSearchResultsPageMobileRow" style={{textAlign:'center'}}>
+        <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="advancedRecipeSearchResultsPageMobile2Div">
+          <Row className="advancedRecipeSearchResultsPageMobileRow">
             {(recipes && recipes.length > 1) && (
-            <Col xs={12} className="advancedRecipeSearchResultsSortButtonCol" style={{paddingBottom: '10px'}}>
+            <Col xs={12} className="advancedRecipeSearchResultsSortButtonCol" style={{paddingBottom: '10px', textAlign: 'left'}}>
               <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                 <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>

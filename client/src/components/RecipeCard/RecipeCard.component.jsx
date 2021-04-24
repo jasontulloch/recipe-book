@@ -33,7 +33,7 @@ const RecipeCardImage = ({ recipe }) => {
         <Link to={`/recipe/${recipe._id}`} style={{zIndex: '2'}}>
           <Card.Img className="recipeCardMobile" src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '136px', width: '175px', backgroundColor: '#B2D732' }}/>
         </Link>
-        <Card.Footer style={{paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
+        <Card.Footer style={{fontSize: '12.5px', paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>
           <Row>
             <Col style={{display: 'flex', justifyContent: 'space-around'}}>
               {(recipe.isVegan === true) && (

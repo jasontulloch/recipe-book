@@ -29,7 +29,7 @@ const App = () => {
     <Router>
       <Header />
       <IconSidebar />
-      <main className="py-2" style={{maxWidth: '100%', overflowX: 'hidden'}}>
+      <main className="py-2" style={{maxWidth: '100vw', overflowX: 'hidden'}}>
         <div style={{paddingTop: '70px'}}>
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />

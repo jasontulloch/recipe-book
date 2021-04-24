@@ -11,6 +11,8 @@ import Message from '../../components/Message/Message.component';
 
 import axios from 'axios';
 
+import './SavedIngredientsPage.styles.scss';
+
 const SavedIngredientsPage = ({ history }) => {
 
   // These are required in the model so need to pass the current values in or profile would return '' otherwise
@@ -396,7 +398,7 @@ const SavedIngredientsPage = ({ history }) => {
   }
 
   return (
-    <div style={{paddingLeft: '30px', paddingRight: '30px'}}>
+    <div style={{paddingLeft: '30px', paddingRight: '30px'}} className="savedIngredientsPageMobile">
       {error ? (
         <Message>{error}</Message>
       ) : (

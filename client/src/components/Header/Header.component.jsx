@@ -23,7 +23,7 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" collapseOnSelect style={{padding: '11px 6px 11px 6px'}}>
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" collapseOnSelect style={{padding: '11px 11px 6px', maxWidth: '100vw'}}>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>RecipeBook</Navbar.Brand>

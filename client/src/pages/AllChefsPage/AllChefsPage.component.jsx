@@ -35,13 +35,13 @@ const AllChefsPage = ({ match }) => {
 
 
   return (
-    <div className="allChefsPageMobile" style={{paddingLeft: '30px'}}>
+    <div className="allChefsPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
       {initialLoader ?  (
         <PancakeLoader>Finding great chefs...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center allChefsPageMobile2Div">
+        <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allChefsPageMobile2Div">
           <Row className="allChefsPageMobileRow">
             {chefs && chefs.map((chef) => (
               <Col className="allChefsPageChefCardMobile" key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>

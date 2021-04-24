@@ -37,6 +37,7 @@ import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.componen
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import { isBrowser } from 'react-device-detect';
 
 import './IndividualChefPage.styles.scss';
 
@@ -188,7 +189,7 @@ const IndividualChefPage = ({ history, match }) => {
       breakpoint: { max: 975, min: 0 },
       items: 2
     }
-  };
+  }
 
   return (
     <div className="individualChefPageMobile" style={{paddingLeft: '50px'}}>
@@ -283,20 +284,33 @@ const IndividualChefPage = ({ history, match }) => {
               />
             </Col>
           </Row>
-          <Carousel
-            responsive={responsive}
-            centerMode={true}
-            infinite={true}
-          >
-            {chef.recipes && chef.recipes.map((recipe) => (
-              <div>
-                <RecipeCard recipe={recipe}/>
-              </div>
-            ))}
-            {chef.count > 5 && (
-              <EmptyRecipeCard chef={chef}/>
-            )}
-          </Carousel>
+          {(isBrowser) ? (
+            <Carousel
+              responsive={responsive}
+              centerMode={true}
+              infinite={true}
+            >
+              {chef.recipes && chef.recipes.map((recipe) => (
+                <div>
+                  <RecipeCard recipe={recipe}/>
+                </div>
+              ))}
+              {chef.count > 5 && (
+                <EmptyRecipeCard chef={chef}/>
+              )}
+            </Carousel>
+          ) : (
+            <div className="individualChefPageRecipeCardMobile">
+              {chef.recipes && chef.recipes.map((recipe) => (
+                <div>
+                  <RecipeCard recipe={recipe}/>
+                </div>
+              ))}
+              {chef.count > 5 && (
+                <EmptyRecipeCard chef={chef}/>
+              )}
+            </div>
+          )}
         </div>
         ) : (
         <div>

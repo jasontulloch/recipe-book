@@ -28,3 +28,42 @@
   content: "Step #" counter(elementcounter);
   counter-increment: elementcounter;
 }
+
+@media only screen and (max-width: 415px) {
+  div.individualRecipePageFirstRowMobile.row {
+    padding-top: 30px;
+  }
+
+  h4.individualRecipePageFontSizeMobile {
+    font-size: .75rem;
+  }
+  h5.individualRecipePageFontSizeMobile {
+    font-size: .75rem;
+  }
+  p.individualRecipePageFontSizeMobile {
+    font-size: .75rem;
+  }
+  li.individualRecipePageFontSizeMobile {
+    font-size: .75rem;
+  }
+
+  div.indvidualRecipePageChefMobile.col-12 {
+    padding-top: 50px;
+  }
+  form.individualRecipePageRecipeNameFormMobile {
+    height: 15px;
+    padding-left: 20px;
+    padding-right: auto;
+  }
+  form.individualRecipePageRating {
+    padding-left: auto;
+  }
+  div.individualRecipePageRatingFormGroupMobile.form-group.row {
+    padding-left: 25px;
+  }
+
+  div.individualRecipePageServingSizeColMobile.col-xl4.col-lg-4.col-md-6.col-sm-6.col-12 {
+    padding-left: 15px !important;
+  }
+
+}

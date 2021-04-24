@@ -62,16 +62,16 @@ const HomeScreen = ({ match }) => {
   }
 
   return (
-    <div className="allRecipesPageMobile" style={{paddingLeft: '30px'}}>
+    <div className="allRecipesPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
       {initialLoader ?  (
         <PancakeLoader>Finding yummy recipes...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div style={{textAlign:'center', paddingLeft: '30px'}} className="justify-content-md-center allRecipesPageMobile2Div">
+        <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allRecipesPageMobile2Div">
           <Row className="allRecipesPageMobileRow">
             {(recipes && recipes.length > 1) && (
-              <Col className="allRecipesSortButtonCol" xs={12} style={{paddingBottom: '10px', paddingRight: '30px'}}>
+              <Col className="allRecipesSortButtonCol" xs={12} style={{paddingBottom: '10px', textAlign: 'left'}}>
                 <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
                   <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
                   <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
