@@ -39,9 +39,12 @@ app.use('/api/text', textGroceryListRoutes)
 
 const __dirname = path.resolve()
 
+// Save images locally - delete later
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/client/build')))
-  app.get("*", (req, res) =>
+  app.get("/*", (req, res) =>
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   )
 } else {
@@ -49,9 +52,6 @@ if(process.env.NODE_ENV === 'production') {
     res.send('API is running...')
   })
 }
-
-// Save images locally - delete later
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use(notFound)
 app.use(errorHandler)
