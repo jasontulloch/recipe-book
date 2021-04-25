@@ -229,9 +229,9 @@ const IndividualChefPage = ({ history, match }) => {
             <Col xs={12} md={7}>
               {chefInfo && isChefFollowed === true ? (
                 <Form onSubmit={unfollowHandler}>
-                  <Form.Group as={Row} style={{marginBottom: '0px'}}>
+                  <Form.Group as={Row} style={{marginBottom: '0px'}} className='justify-content-center'>
                     <Form.Label>
-                      <h3 style={{ marginLeft: '10px' }}>{chef.username}</h3>
+                      <h3 style={{ marginLeft: '10px', marginRight: '10px', fontSize: '1.5rem' }}>{chef.username}</h3>
                     </Form.Label>
                     {chefInfo && (
                       <Button
@@ -248,9 +248,9 @@ const IndividualChefPage = ({ history, match }) => {
                 </Form>
               ) : (
                 <Form onSubmit={followHandler}>
-                  <Form.Group as={Row} style={{marginBottom: '0px'}}>
-                    <Form.Label>
-                      <h3 style={{ marginLeft: '10px' }}>{chef.username}</h3>
+                  <Form.Group as={Row} style={{marginBottom: '0px'}} className='justify-content-center'>
+                    <Form.Label className="individualChefPageNameMobile">
+                      <h3 style={{ marginLeft: '10px', marginRight: '10px', fontSize: '1.25rem' }}>{chef.username}</h3>
                     </Form.Label>
                     {chefInfo && (
                       <Button
@@ -260,19 +260,21 @@ const IndividualChefPage = ({ history, match }) => {
                         onClick={(e) => setFollowed('')}
                         disabled={(chefInfo == null) ? true : false}
                       >
-                        <Badge pill variant='primary' style={{marginLeft: '5px'}}>Follow</Badge>
+                        <Badge pill variant='primary' style={{marginLeft: '0px'}}>Follow</Badge>
                       </Button>
                     )}
                   </Form.Group>
                 </Form>
               )}
-              <h6>
-                {Diets.length > 0 && 'Typical Recipe Diets: '}
-                {Diets}
+              <h6 style={{textAlign: 'center'}}>
+                {Diets.length > 0 && Diets.map((diet) => (
+                  <Badge pill variant='primary' style={{marginRight: '5px'}}>{diet}</Badge>
+                ))}
               </h6>
-              <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px'}}>
-                {Allergins.length > 0 && 'Common Allergens Avoided: '}
-                {Allergins}
+              <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px', textAlign: 'center'}}>
+                {Allergins.length > 0 && Allergins.map((allergin) => (
+                  <Badge pill variant='primary' style={{marginRight: '5px'}}>{allergin}</Badge>
+                ))}
               </h6>
               <p>{chef.bio}</p>
             </Col>

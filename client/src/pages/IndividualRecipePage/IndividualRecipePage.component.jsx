@@ -11,7 +11,8 @@ import {
   Button,
   Form,
   Tooltip,
-  OverlayTrigger
+  OverlayTrigger,
+  Badge
 } from 'react-bootstrap';
 import {
   listRecipeDetails,
@@ -448,7 +449,7 @@ const IndividualRecipePage = ({ history, match }) => {
                 <Row style={{ height: '30px' }} className='justify-content-center'>
                 {(isRecipeSaved) ? (
                   <Form onSubmit={unsaveHandler}>
-                    <Form.Group>
+                    <Form.Group style={{ paddingTop: '0px', paddingRight: '0px', marginLeft: '0px', height: '25px'}}>
                       <OverlayTrigger
                         placement='bottom'
                         overlay={
@@ -459,7 +460,7 @@ const IndividualRecipePage = ({ history, match }) => {
                       >
                         <Button
                           variant='link'
-                          style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
+                          style={{paddingTop: '0px', paddingBottom: '0px'}}
                           type='submit'
                           onClick={(e) => setSave('')}
                           disabled={(chefInfo == null) ? true : false}
@@ -471,7 +472,7 @@ const IndividualRecipePage = ({ history, match }) => {
                   </Form>
                 ) : (
                   <Form onSubmit={saveHandler}>
-                    <Form.Group>
+                    <Form.Group style={{ paddingTop: '0px', paddingRight: '0px', marginLeft: '0px', height: '25px'}}>
                       <OverlayTrigger
                         placement='bottom'
                         overlay={
@@ -482,7 +483,7 @@ const IndividualRecipePage = ({ history, match }) => {
                       >
                         <Button
                           variant='link'
-                          style={{ marginRight: '12.25px', padding: 0, height: '25px'}}
+                          style={{paddingTop: '0px', paddingBottom: '0px'}}
                           type='submit'
                           onClick={(e) => setSave('')}
                           disabled={(chefInfo == null) ? true : false}
@@ -728,22 +729,17 @@ const IndividualRecipePage = ({ history, match }) => {
               </Col>
             )}
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
-              <h5 className="individualRecipePageFontSizeMobile">
-                {MealTypes.length > 0 && 'Meal Type / Course: '}
-                {MealTypes}
-              </h5>
-            </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
-              <h5 className="individualRecipePageFontSizeMobile">
-                {Diets.length > 0 && 'Diets: '}
-                {Diets}
-              </h5>
-            </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
-              <h5 className="individualRecipePageFontSizeMobile">
-                {Allergins.length > 0 && 'Allergins: '}
-                {Allergins}
-              </h5>
+              <h6 style={{textAlign: 'center'}}>
+                {MealTypes.length > 0 && MealTypes.map((mealtype) => (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{mealtype}</Badge>
+                ))}
+                {Diets.length > 0 && Diets.map((diet) => (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{diet}</Badge>
+                ))}
+                {Allergins.length > 0 && Allergins.map((allergin) => (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{allergin}</Badge>
+                ))}
+              </h6>
             </Col>
             <Col xs={12} style={{paddingTop: '7.5px', paddingLeft: '0px', marginLeft: '30px'}}>
               {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
