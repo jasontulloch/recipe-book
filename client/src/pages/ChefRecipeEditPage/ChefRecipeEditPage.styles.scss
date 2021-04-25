@@ -1,3 +1,21 @@
+@media only screen and (max-width: 415px) {
+  div.chefRecipeEditPageMobile {
+    padding-top: 30px;
+  }
+  table.ingredientTable.table {
+    overflow-x: auto;
+  }
+  .ingredientTableSectionAmount {
+    width: auto;
+  }
+  .ingredientTableSectionMeasurement {
+    width: auto;
+  }
+  .ingredientsTableSectionIngredient{
+    width: auto;
+  }
+}
+
 .stepListOrder {
   list-style-type: none;
   counter-reset: elementcounter;

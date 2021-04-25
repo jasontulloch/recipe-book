@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 
+import './AllChefsBtn.styles.scss';
+
 const AllChefsBtn = ({ history }) => {
 
   const submitHandler = (e) => {
@@ -10,8 +12,8 @@ const AllChefsBtn = ({ history }) => {
 
   return (
     <div>
-      <Form onSubmit={submitHandler} inline className="justify-content-md-center">
-        <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
+      <Form onSubmit={submitHandler} inline>
+        <Button type='submit' variant='outline-success' className='ml-1 p-1 allChefsBtnMobile' style={{fontSize: '8.5px'}}>
           Find Chefs
         </Button>
       </Form>

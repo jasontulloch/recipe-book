@@ -64,7 +64,7 @@ const HomeScreen = ({ match }) => {
   return (
     <div className="allRecipesPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
       {initialLoader ?  (
-        <PancakeLoader>Finding yummy recipes...</PancakeLoader>
+        <PancakeLoader className="allRecipesPagePancakeMobile">Finding yummy recipes...</PancakeLoader>
       ) : error ? (
         <Message>{error}</Message>
       ) : (

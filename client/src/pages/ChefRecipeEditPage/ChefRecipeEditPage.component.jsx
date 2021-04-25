@@ -436,7 +436,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
   }
 
   return (
-    <div style={{paddingLeft: '30px', paddingRight: '30px'}}>
+    <div style={{paddingLeft: '30px', paddingRight: '30px'}} className="chefRecipeEditPageMobile">
       {initialLoader ?  (
         <PancakeLoader>Flipping to your recipe now...</PancakeLoader>
       ) : (

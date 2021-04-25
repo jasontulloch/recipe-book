@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -11,6 +11,8 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { GiBookmark, GiBookCover, GiCook } from 'react-icons/gi';
 import { HiOutlineClipboardList } from 'react-icons/hi'
 
+import './Header.styles.scss';
+
 const Header = () => {
   const dispatch = useDispatch()
 
@@ -19,25 +21,33 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logout())
+    setExpanded(false)
   }
+
+  // Close hamburger on click
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top" collapseOnSelect style={{padding: '11px 11px 6px', maxWidth: '100vw'}}>
+      <Navbar bg="dark" variant="dark" expand="lg" expanded={expanded} fixed="top" collapseOnSelect style={{padding: '11px 11px 6px', maxWidth: '100vw'}}>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>RecipeBook</Navbar.Brand>
+            <Navbar.Brand onClick={() => setExpanded(false)}>RecipeBook</Navbar.Brand>
           </LinkContainer>
-          <Route render={({ history }) => <SearchBox history={history} />} />
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <div onClick={() => setExpanded(false)}>
+            <Route render={({ history }) => <SearchBox history={history} />} />
+          </div>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(expanded ? false : "expanded")} />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Route render={({ history }) => <AdvancedSearchBtn history={history} />}/>
-            <Route render={({ history }) => <AllChefsBtn history={history} />} />
+            <div onClick={() => setExpanded(false)}>
+              <Route render={({ history }) => <AdvancedSearchBtn history={history} />}/>
+              <Route render={({ history }) => <AllChefsBtn history={history} />} />
+            </div>
             {chefInfo ? (
               <Nav className="ml-auto">
-                <NavDropdown title={chefInfo.username} id='username'>
+                <NavDropdown className="headerProfileDropdownMobile" title={chefInfo.username} id='username'>
                   <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => setExpanded(false)}>Profile</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
@@ -47,7 +57,7 @@ const Header = () => {
             ) : (
               <Nav className="ml-auto">
                 <LinkContainer to='/login'>
-                  <Nav.Link>
+                  <Nav.Link onClick={() => setExpanded(false)}>
                     <i className='fas fa-user'></i>
                     Sign In
                   </Nav.Link>

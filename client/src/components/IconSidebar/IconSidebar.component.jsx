@@ -53,7 +53,7 @@ const IconSidebar = ({ history }) => {
 
   return (
     <div>
-      {chefInfo && (
+      {chefInfo ? (
           <div
             style={{
               height: '100%',
@@ -144,6 +144,18 @@ const IconSidebar = ({ history }) => {
                 </Nav>
 
           </div>
+      ) : (
+        <div
+          style={{
+            height: '100%',
+            width: '30px',
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            paddingTop: '100px',
+            backgroundColor: '#343a40',
+          }}>
+        </div>
       )}
     </div>
 
