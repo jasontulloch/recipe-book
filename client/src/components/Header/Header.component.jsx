@@ -39,10 +39,8 @@ const Header = () => {
           </div>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(expanded ? false : "expanded")} />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <div onClick={() => setExpanded(false)}>
-              <Route render={({ history }) => <AdvancedSearchBtn history={history} />}/>
-              <Route render={({ history }) => <AllChefsBtn history={history} />} />
-            </div>
+            <Route render={({ history }) => <AdvancedSearchBtn history={history} />}/>
+            <Route render={({ history }) => <AllChefsBtn history={history} />} />
             {chefInfo ? (
               <Nav className="ml-auto">
                 <NavDropdown className="headerProfileDropdownMobile" title={chefInfo.username} id='username'>

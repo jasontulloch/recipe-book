@@ -1,6 +1,5 @@
 {
   "name": "recipe-book",
-  "homepage": ".",
   "version": "1.0.0",
   "description": "RecipeBook App",
   "main": "server.js",
