@@ -39,9 +39,11 @@ const Header = () => {
           </div>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(expanded ? false : "expanded")} />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Route render={({ history }) => <AdvancedSearchBtn history={history} />}/>
-            <Route render={({ history }) => <AllChefsBtn history={history} />} />
-            {chefInfo ? (
+            <div onClick={() => setExpanded(false)}>
+              <Route render={({ history }) => <AdvancedSearchBtn style={{display: 'inline-block'}} history={history} />}/>
+              <Route render={({ history }) => <AllChefsBtn style={{display: 'inline-block'}} history={history} />} />
+            </div>
+          {chefInfo ? (
               <Nav className="ml-auto">
                 <NavDropdown className="headerProfileDropdownMobile" title={chefInfo.username} id='username'>
                   <LinkContainer to='/profile'>

@@ -301,6 +301,7 @@ const IndividualChefPage = ({ history, match }) => {
             </Carousel>
           ) : (
             <div className="individualChefPageRecipeCardMobile">
+              <h4 style={{textAlign: 'center', paddingTop: '20px', borderTop: 'dotted 3px' }}>My Recipes</h4>
               {chef.recipes && chef.recipes.map((recipe) => (
                 <div>
                   <RecipeCard recipe={recipe}/>

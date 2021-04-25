@@ -11,7 +11,7 @@ const AdvancedSearchBtn = ({ history }) => {
   }
 
   return (
-    <div className="advancedSearchBtnMobile">
+    <div className="advancedSearchBtnMobile" style={{display: 'inline-block'}}>
       <Form onSubmit={submitHandler} inline>
         <Button type='submit' variant='outline-success' className='ml-1 p-1 advancedSearchBtnButtonMobile' style={{fontSize: '8.5px'}}>
           Advanced Search

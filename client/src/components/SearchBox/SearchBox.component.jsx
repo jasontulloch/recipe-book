@@ -44,7 +44,7 @@ const SearchBox = ({ history }) => {
       //console.log('container:', base)
       return {
         ...base,
-        width: 200,
+        width: 175,
         fontSize:7.5,
         zIndex: 100,
       }

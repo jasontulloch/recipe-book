@@ -4,20 +4,18 @@
 }
 
 @media only screen and (max-width: 415px) {
-  .react-multi-carousel-item {
-    max-width: 350px;
-    min-width: 350px;
+  div.chefMyFollowedPageChefCardMobile.col {
+    min-width: 87.5vw !important;
+    max-width: 87.5vw !important;
+    height: 43.5vh;
   }
 
-  img.card-img.chefCardMobile {
-    width: 80vw !important;
-    height: 30vh !important;
+  div.chefMyFollowedPageMobileRow.row {
+    width: 95vw;
+    padding-top: 30px;
   }
 
-  div.chefCardMobile {
-    width: 80vw !important;
-    height: 80vh !important;
-    padding-bottom: 20px !important;
+  div.chefMyFollowedPageFirstDivMobile {
+    padding-left: 10px !important;
   }
-
 }

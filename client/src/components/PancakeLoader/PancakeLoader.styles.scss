@@ -3,15 +3,16 @@
 @media only screen and (max-width: 415px) {
   .pancakeLoader-container {
     height: 75vh;
-    width: 55vw;
+    width: 100vw !important;
+    padding-left: 0px !important;
     overflow: hidden;
   }
   div#pancakeLoader-area {
-    left: 135px !important;
   }
 
   .pancakeLoader-label {
-    font-size: 4vh !important;
+    font-size: 3vh !important;
+    width: 70vw !important;
   }
 
 }
