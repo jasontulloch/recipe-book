@@ -272,7 +272,7 @@ const IndividualChefPage = ({ history, match }) => {
               </h6>
               <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px'}}>
                 {Allergins.length > 0 && 'Common Allergens Avoided: '}
-                {new Intl.ListFormat().format(Allergins)}
+                {Allergins}
               </h6>
               <p>{chef.bio}</p>
             </Col>

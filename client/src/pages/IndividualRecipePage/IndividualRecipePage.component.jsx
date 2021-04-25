@@ -730,19 +730,19 @@ const IndividualRecipePage = ({ history, match }) => {
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
               <h5 className="individualRecipePageFontSizeMobile">
                 {MealTypes.length > 0 && 'Meal Type / Course: '}
-                {new Intl.ListFormat().format(MealTypes)}
+                {MealTypes}
               </h5>
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
               <h5 className="individualRecipePageFontSizeMobile">
                 {Diets.length > 0 && 'Diets: '}
-                {new Intl.ListFormat().format(Diets)}
+                {Diets}
               </h5>
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '7.5px'}}>
               <h5 className="individualRecipePageFontSizeMobile">
                 {Allergins.length > 0 && 'Allergins: '}
-                {new Intl.ListFormat().format(Allergins)}
+                {Allergins}
               </h5>
             </Col>
             <Col xs={12} style={{paddingTop: '7.5px', paddingLeft: '0px', marginLeft: '30px'}}>
