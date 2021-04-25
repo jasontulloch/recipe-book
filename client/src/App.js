@@ -31,6 +31,7 @@ const App = () => {
       <IconSidebar />
       <main className="py-2" style={{maxWidth: '100vw', overflowX: 'hidden'}}>
         <div style={{paddingTop: '70px'}}>
+          <Route path='/recipe/:id' component={IndividualRecipePage} exact />
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfileEditPage} />
@@ -39,7 +40,7 @@ const App = () => {
           <Route path='/savedrecipes' component={ChefSavedRecipesListPage} exact />
           <Route path='/savedrecipes/:id' component={ChefSavedRecipesDeletePage} exact />
           <Route path='/recipes' component={AllRecipesPage} exact />
-          <Route path='/recipe/:id' basename="/recipe" component={IndividualRecipePage} exact />
+
           <Route path='/recipes/advanced-search' component={AdvancedRecipeSearchPage} exact />
           <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName/page/:pageNumber' component={AllRecipesPage} />
           <Route path='/grocerylist' component={SavedIngredientsPage} exact />
