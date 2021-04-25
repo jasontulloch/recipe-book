@@ -17,6 +17,7 @@ import ChefSavedRecipesDeletePage from './pages/ChefSavedRecipesDeletePage/ChefS
 import AllRecipesPage from './pages/AllRecipesPage/AllRecipesPage.component';
 import AdvancedRecipeSearchPage from './pages/AdvancedRecipeSearchPage/AdvancedRecipeSearchPage.component';
 import AdvancedRecipeSearchResultsPage from './pages/AdvancedRecipeSearchResultsPage/AdvancedRecipeSearchResultsPage.component';
+import IndividualRecipesPlaceholder from './pages/IndividualRecipesPlaceholder/IndividualRecipesPlaceholder.component';
 import IndividualRecipePage from './pages/IndividualRecipePage/IndividualRecipePage.component';
 import SavedIngredientsPage from './pages/SavedIngredientsPage/SavedIngredientsPage.component';
 import WorldMapPage from './pages/WorldMapPage/WorldMapPage.component';
@@ -31,7 +32,6 @@ const App = () => {
       <IconSidebar />
       <main className="py-2" style={{maxWidth: '100vw', overflowX: 'hidden'}}>
         <div style={{paddingTop: '70px'}}>
-          <Route path='/recipe/:id' component={IndividualRecipePage} exact />
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfileEditPage} />
@@ -40,7 +40,8 @@ const App = () => {
           <Route path='/savedrecipes' component={ChefSavedRecipesListPage} exact />
           <Route path='/savedrecipes/:id' component={ChefSavedRecipesDeletePage} exact />
           <Route path='/recipes' component={AllRecipesPage} exact />
-
+          <Route path='/recipe' component={IndividualRecipesPlaceholder} exact />
+          <Route path='/recipe/:id' component={IndividualRecipePage} exact />
           <Route path='/recipes/advanced-search' component={AdvancedRecipeSearchPage} exact />
           <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName/page/:pageNumber' component={AllRecipesPage} />
           <Route path='/grocerylist' component={SavedIngredientsPage} exact />
