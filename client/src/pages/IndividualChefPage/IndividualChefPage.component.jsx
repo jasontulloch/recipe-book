@@ -268,7 +268,7 @@ const IndividualChefPage = ({ history, match }) => {
               )}
               <h6>
                 {Diets.length > 0 && 'Typical Recipe Diets: '}
-                {new Intl.ListFormat().format(Diets)}
+                {Diets}
               </h6>
               <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px'}}>
                 {Allergins.length > 0 && 'Common Allergens Avoided: '}
