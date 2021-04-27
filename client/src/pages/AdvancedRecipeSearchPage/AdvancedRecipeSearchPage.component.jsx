@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Countries from '../../lists/countries';
 import Message from '../../components/Message/Message.component';
@@ -535,8 +535,10 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                   <p>Pre-checked diet search parameters are based on your profile so you can get cooking faster.</p>
                   {Diets && Diets.length > 0 && (
                     <Message variant='warning'>
-                      <Form.Text>Find me all recipes that are: {new Intl.ListFormat().format(Diets)}</Form.Text>
-                      <Form.Text>Ignoring all recipes that are: {new Intl.ListFormat().format(DietsExclude)}</Form.Text>
+                      <Form.Text>Find me all recipes that are: </Form.Text>
+                      <Form.Text>{Diets.map((diet) => (<Badge pill variant='primary' style={{marginRight: '3px', marginBottom: '3px'}}>{diet}</Badge>))}</Form.Text>
+                      <Form.Text>Ignoring all recipes that are: </Form.Text>
+                      <Form.Text>{DietsExclude.map((diet) => (<Badge pill variant='primary' style={{marginRight: '3px', marginBottom: '3px'}}>{diet}</Badge>))}</Form.Text>
                     </Message>
                   )}
                   <Button onClick={(e) => setSearchByDiet(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
@@ -613,7 +615,8 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                   <p>Pre-checked allergen search parameters are based on your profile so you can get cooking faster.</p>
                     {Allergins && Allergins.length > 0 && (
                       <Message variant='warning'>
-                        <Form.Text>Find me all recipes that exclude: {new Intl.ListFormat().format(Allergins)}</Form.Text>
+                        <Form.Text>Find me all recipes that exclude: </Form.Text>
+                        <Form.Text>{Allergins.map((allergin) => (<Badge pill variant='primary' style={{marginRight: '3px', marginBottom: '3px'}}>{allergin}</Badge>))}</Form.Text>                        
                       </Message>
                     )}
                   <Button onClick={(e) => setSearchByAllergin(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>

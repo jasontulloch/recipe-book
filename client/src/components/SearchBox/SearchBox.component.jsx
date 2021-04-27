@@ -33,11 +33,14 @@ const SearchBox = ({ history }) => {
     }
   ))
 
+
   const [displayRecipes, setDisplayRecipes] = useState(allRecipeNames)
   //console.log(displayRecipes)
 
   // this works to add to my object
   //allRecipeNames[allRecipeNames.length] = {label: 'hi', value: 'yo'}
+
+  console.log(displayRecipes)
 
   const styles = {
     container: base => {

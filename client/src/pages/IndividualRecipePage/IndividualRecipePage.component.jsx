@@ -440,7 +440,7 @@ const IndividualRecipePage = ({ history, match }) => {
             )}
           </div>
 
-          <Row style={{marginLeft: '30px', marginRight: '20px'}} className="individualRecipePageFirstRowMobile">
+          <Row style={{marginLeft: '20px', marginRight: '10px'}} className="individualRecipePageFirstRowMobile">
             <Col xs={12} style={{textAlign: 'center'}}>
                 <h2 className="individualRecipePageFontSizeMobile" style={{ marginLeft: '25px'}}>{recipe.recipe_name}</h2>
                 <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer'}}>
@@ -720,27 +720,27 @@ const IndividualRecipePage = ({ history, match }) => {
                 </OverlayTrigger>
               </Form>
             </Col>
-            <Col style={{ paddingTop: '15px'}} xs={12} md={6}>
+            <Col className="indvidualRecipePageIngredientsMobile" style={{ paddingTop: '15px'}} xs={12} md={6}>
               <Row>
                 <Col style={{textAlign: 'center'}}>
                   <h4 className="individualRecipePageFontSizeMobile" style={{paddingLeft: '0px', textAlign: 'center'}}>Ingredients</h4>
                 </Col>
               </Row>
-              <ul>
+              <ul className="indvidualRecipePageIngredientListMobile">
                 {finalClean && finalClean.map((obj) => (
                   <li className="individualRecipePageFontSizeMobile">{obj}</li>
                 ))}
               </ul>
             </Col>
-            <Col xs={12} md={6} style={{ paddingLeft: '0px', paddingTop: '15px' }}>
+            <Col className="indvidualRecipePageStepsContainerMobile" xs={12} md={6} style={{ paddingLeft: '0px', paddingTop: '15px' }}>
               <h4 className="individualRecipePageFontSizeMobile" style={{paddingLeft: '0px', textAlign: 'center'}}>Steps</h4>
-              <ol>
+              <ol className="indvidualRecipePageStepsMobile">
                 {recipe.steps && recipe.steps.map((step) => (
                   <li className="individualRecipePageFontSizeMobile">{step}</li>
                 ))}
               </ol>
             </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
+            <Col className="indvidualRecipePageNotesMobile" xs={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
               {recipe.notes && recipe.notes !== '' && (
                 <div>
                   <h4 className="individualRecipePageFontSizeMobile">Recipe Notes</h4>

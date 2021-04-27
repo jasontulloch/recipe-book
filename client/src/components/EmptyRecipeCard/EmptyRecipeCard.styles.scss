@@ -1,0 +1,17 @@
+@media only screen and (max-width: 415px) {
+
+  div.text-light.mb-4.text-center.emptyRecipeCardMobile.card {
+    min-width: 87.5vw !important;
+    max-width: 87.5vw !important;
+    height: 42.5vh;
+    font-size: 20px;
+    padding: 0px;
+  }
+
+  // Actual recipe card image sizing
+  div.emptyRecipeCardBodyMobile.card-body {
+    width: 87.5vw !important;
+    height: 30vh !important;
+  }
+
+}
