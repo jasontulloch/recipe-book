@@ -42,6 +42,8 @@ const getChefs = asyncHandler(async (req, res) => {
 // @route GET /api/chefs/:id
 // @access Public
 const getChefById = asyncHandler(async (req, res) => {
+  const page = Number(req.query.pageNumber) || 1
+
   const recipeCount = 10
   const chef = await Chef.findById(req.params.id)
 
@@ -63,7 +65,9 @@ const getChefById = asyncHandler(async (req, res) => {
       {...isPublished},
       {...keywordChefId},
     ]
-  }).limit(recipeCount)
+  })
+    .limit(recipeCount)
+    .skip(recipeCount * (page - 1))
 
   const count = await Recipe.countDocuments({
     $and: [
@@ -74,26 +78,11 @@ const getChefById = asyncHandler(async (req, res) => {
 
   if (chef) {
     res.json({
-      id: chef._id,
-      username: chef.username,
-      chefPicture: chef.chefPicture,
-      bio: chef.bio,
-      isVegan: chef.isVegan,
-      isVegetarian: chef.isVegetarian,
-      isGlutenFree: chef.isGlutenFree,
-      isKetogenic: chef.isKetogenic,
-      isPescatarian: chef.isPescatarian,
-      isDairy: chef.isDairy,
-      isEgg: chef.Egg,
-      isNuts: chef.isNuts,
-      isShellfish: chef.Shellfish,
-      isSoy: chef.Soy,
-      isWheat: chef.Wheat,
-      isMetric: chef.Metric,
-      myRecipes: chef.myRecipes,
-      isVisible: chef.isVisible,
-      recipes: recipes,
-      count: count
+      chef,
+      recipes,
+      count,
+      page,
+      pages: Math.ceil(count / recipeCount)
     })
   } else {
     res.status(404)

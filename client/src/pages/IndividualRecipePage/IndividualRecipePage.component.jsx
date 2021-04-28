@@ -443,9 +443,16 @@ const IndividualRecipePage = ({ history, match }) => {
           <Row style={{marginLeft: '20px', marginRight: '10px'}} className="individualRecipePageFirstRowMobile">
             <Col xs={12} style={{textAlign: 'center'}}>
                 <h2 className="individualRecipePageFontSizeMobile" style={{ marginLeft: '25px'}}>{recipe.recipe_name}</h2>
-                <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer'}}>
-                  <h5 className="individualRecipePageFontSizeMobile" style={{fontStyle: 'italic'}}>Crafted By {chefUsername}</h5>
-                </LinkContainer>
+                <div>
+                  <span>
+                    <h5 className="individualRecipePageFontSizeMobile" style={{fontStyle: 'italic', display: 'inline'}}>Crafted By </h5>
+                  </span>
+                  <span>
+                    <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer', display: 'inline'}}>
+                      <h5 className="individualRecipePageFontSizeMobile" style={{fontStyle: 'italic'}}>{chefUsername}</h5>
+                    </LinkContainer>
+                  </span>
+                </div>
             </Col>
             <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
               <Row style={{height: '40px'}}>
@@ -457,24 +464,15 @@ const IndividualRecipePage = ({ history, match }) => {
                         <Form.Label>
                           <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
                         </Form.Label>
-                        <OverlayTrigger
-                          placement='right'
-                          overlay={
-                            <Tooltip id={'tooltip-right'}>
-                              Downvote recipe
-                            </Tooltip>
-                          }
+                        <Button
+                          variant='link'
+                          style={{ padding: 0, height: '25px'}}
+                          type='submit'
+                          onClick={(e) => setVote(-1)}
+                          disabled={(chefInfo == null) ? true : false}
                         >
-                          <Button
-                            variant='link'
-                            style={{ padding: 0, height: '25px'}}
-                            type='submit'
-                            onClick={(e) => setVote(-1)}
-                            disabled={(chefInfo == null) ? true : false}
-                          >
-                            <FaThumbsDown style={{ marginLeft: '5px'}}/>
-                          </Button>
-                        </OverlayTrigger>
+                          <FaThumbsDown style={{ marginLeft: '5px'}}/>
+                        </Button>
                       </Form.Group>
                     </Form>
                   ) : (recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === -1) ? (
@@ -483,24 +481,15 @@ const IndividualRecipePage = ({ history, match }) => {
                         <Form.Label>
                           <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
                         </Form.Label>
-                        <OverlayTrigger
-                          placement='right'
-                          overlay={
-                            <Tooltip id={'tooltip-right'}>
-                              Upvote recipe... This will not save the recipe
-                            </Tooltip>
-                          }
+                        <Button
+                          variant='link'
+                          style={{ padding: 0, height: '25px'}}
+                          type='submit'
+                          onClick={(e) => setVote(1)}
+                          disabled={(chefInfo == null) ? true : false}
                         >
-                          <Button
-                            variant='link'
-                            style={{ padding: 0, height: '25px'}}
-                            type='submit'
-                            onClick={(e) => setVote(1)}
-                            disabled={(chefInfo == null) ? true : false}
-                          >
-                            <FaThumbsUp style={{ marginLeft: '5px'}}/>
-                          </Button>
-                        </OverlayTrigger>
+                          <FaThumbsUp style={{ marginLeft: '5px'}}/>
+                        </Button>
                       </Form.Group>
                     </Form>
                   ) : (
@@ -510,46 +499,28 @@ const IndividualRecipePage = ({ history, match }) => {
                           <Form.Label>
                             <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
                           </Form.Label>
-                          <OverlayTrigger
-                            placement='right'
-                            overlay={
-                              <Tooltip id={'tooltip-right'}>
-                                Upvote recipe... This will not save the recipe
-                              </Tooltip>
-                            }
+                          <Button
+                            variant='link'
+                            style={{ padding: 0, height: '25px', marginLeft: '10px', marginRight: '40px'}}
+                            type='submit'
+                            onClick={(e) => setVote(1)}
+                            disabled={(chefInfo == null) ? true : false}
                           >
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px', marginLeft: '10px', marginRight: '40px'}}
-                              type='submit'
-                              onClick={(e) => setVote(1)}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <FaThumbsUp style={{ }}/>
-                            </Button>
-                          </OverlayTrigger>
+                            <FaThumbsUp style={{ }}/>
+                          </Button>
                         </Form.Group>
                       </Form>
                       <Form onSubmit={downvoteHandler}>
                         <Form.Group as={Row}>
-                          <OverlayTrigger
-                            placement='right'
-                            overlay={
-                              <Tooltip id={'tooltip-right'}>
-                                Downvote recipe
-                              </Tooltip>
-                            }
+                          <Button
+                            variant='link'
+                            style={{ padding: 0, height: '25px'}}
+                            type='submit'
+                            onClick={(e) => setVote(-1)}
+                            disabled={(chefInfo == null) ? true : false}
                           >
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setVote(-1)}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <FaThumbsDown style={{ }} />
-                            </Button>
-                          </OverlayTrigger>
+                            <FaThumbsDown style={{ }} />
+                          </Button>
                         </Form.Group>
                       </Form>
                     </Row>
@@ -557,18 +528,9 @@ const IndividualRecipePage = ({ history, match }) => {
                 </div>
               ) : (
                 <Form>
-                  <OverlayTrigger
-                    placement='top'
-                    overlay={
-                      <Tooltip id={'tooltip-top'}>
-                        You must have an account to upvote or downvote recipes
-                      </Tooltip>
-                    }
-                  >
-                    <Form.Label>
-                      <p>RATING | {recipe.netVotes}</p>
-                    </Form.Label>
-                  </OverlayTrigger>
+                  <Form.Label>
+                    <p>RATING | {recipe.netVotes}</p>
+                  </Form.Label>
                 </Form>
               )}
               </Row>
@@ -699,14 +661,6 @@ const IndividualRecipePage = ({ history, match }) => {
               </Form>
             )}
               <Form onSubmit={saveIngredientsHandler}>
-                <OverlayTrigger
-                  placement='bottom'
-                  overlay={
-                    <Tooltip id={'tooltip-bottom'}>
-                      Grocery list can be sent to your mobile device
-                    </Tooltip>
-                  }
-                >
                 <Button
                   variant='outline-success'
                   className='ml-1 p-1'
@@ -717,7 +671,6 @@ const IndividualRecipePage = ({ history, match }) => {
                 >
                   Add ingredients to grocery list
                 </Button>
-                </OverlayTrigger>
               </Form>
             </Col>
             <Col className="indvidualRecipePageIngredientsMobile" style={{ paddingTop: '15px'}} xs={12} md={6}>

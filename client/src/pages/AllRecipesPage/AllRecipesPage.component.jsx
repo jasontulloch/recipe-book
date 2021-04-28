@@ -12,15 +12,21 @@ import Message from '../../components/Message/Message.component';
 
 import './AllRecipesPage.styles.scss';
 
-const HomeScreen = ({ match }) => {
+const HomeScreen = ({ match, history }) => {
   const keywordRecipeName = match.params.keywordRecipeName
   const pageNumber = match.params.pageNumber || 1
   const urlBaseRecipes = true
 
   // Sorting variables
-  const [netVotesSort, setNetVotesSort] = useState('')
-  const [createdAtSort, setCreatedAtSort] = useState(-1)
-  const [sortButtonLabel, setSortButtonLabel] = useState('Most Recent')
+  const [netVotesSort, setNetVotesSort] = useState(
+    localStorage.getItem('netVotesSortLocalStorage') || ''
+  )
+  const [createdAtSort, setCreatedAtSort] = useState(
+    localStorage.getItem('createdAtSortLocalStorage') || -1
+  )
+  const [sortButtonLabel, setSortButtonLabel] = useState(
+    localStorage.getItem('sortButtonLabelLocalStorage') || 'Most Recent'
+  )
 
   const dispatch = useDispatch()
 
@@ -33,7 +39,17 @@ const HomeScreen = ({ match }) => {
   // This is firing off the action to get products in state
   useEffect(() => {
     dispatch(listRecipes(keywordRecipeName, createdAtSort, netVotesSort, pageNumber))
-  }, [dispatch, keywordRecipeName, createdAtSort, netVotesSort, pageNumber])
+    localStorage.setItem('createdAtSortLocalStorage', createdAtSort)
+    localStorage.setItem('netVotesSortLocalStorage', netVotesSort)
+    localStorage.setItem('sortButtonLabelLocalStorage', sortButtonLabel)
+  }, [
+    dispatch,
+    keywordRecipeName,
+    createdAtSort,
+    netVotesSort,
+    sortButtonLabel,
+    pageNumber
+  ])
 
   const [initialLoader, setInitialLoader] = useState(true)
   if (loading !== true) {
@@ -42,23 +58,35 @@ const HomeScreen = ({ match }) => {
 
   const handleMostRecent = (e) => {
     e.preventDefault()
+    history.push('/recipes/page/1')
     setCreatedAtSort(-1)
+    localStorage.setItem('createdAtSortLocalStorage', -1)
     setNetVotesSort('')
+    localStorage.setItem('netVotesSortLocalStorage', '')
     setSortButtonLabel('Most Recent')
+    localStorage.setItem('sortButtonLabelLocalStorage', 'Most Recent')
   }
 
   const handleHighestRanking = (e) => {
     e.preventDefault()
+    history.push('/recipes/page/1')
     setNetVotesSort(-1)
+    localStorage.setItem('netVotesSortLocalStorage', -1)
     setCreatedAtSort('')
+    localStorage.setItem('createdAtSortLocalStorage', '')
     setSortButtonLabel('Highest Ranking')
+    localStorage.setItem('sortButtonLabelLocalStorage', 'Highest Ranking')
   }
 
   const handleLowestRanking = (e) => {
     e.preventDefault()
+    history.push('/recipes/page/1')
     setNetVotesSort(1)
+    localStorage.setItem('netVotesSortLocalStorage', 1)
     setCreatedAtSort('')
+    localStorage.setItem('createdAtSortLocalStorage', '')
     setSortButtonLabel('Lowest Ranking')
+    localStorage.setItem('sortButtonLabelLocalStorage', 'Lowest Ranking')
   }
 
   return (

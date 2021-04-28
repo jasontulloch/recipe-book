@@ -536,9 +536,9 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                   {Diets && Diets.length > 0 && (
                     <Message variant='warning'>
                       <Form.Text>Find me all recipes that are: </Form.Text>
-                      <Form.Text>{Diets.map((diet) => (<Badge pill variant='primary' style={{marginRight: '3px', marginBottom: '3px'}}>{diet}</Badge>))}</Form.Text>
+                      <Form.Text>{Diets.map((diet) => (<Badge pill variant='primary' style={{marginRight: '3px'}}>{diet}</Badge>))}</Form.Text>
                       <Form.Text>Ignoring all recipes that are: </Form.Text>
-                      <Form.Text>{DietsExclude.map((diet) => (<Badge pill variant='primary' style={{marginRight: '3px', marginBottom: '3px'}}>{diet}</Badge>))}</Form.Text>
+                      <Form.Text>{DietsExclude.map((diet) => (<Badge pill variant='primary' style={{marginRight: '3px'}}>{diet}</Badge>))}</Form.Text>
                     </Message>
                   )}
                   <Button onClick={(e) => setSearchByDiet(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>
@@ -616,7 +616,7 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
                     {Allergins && Allergins.length > 0 && (
                       <Message variant='warning'>
                         <Form.Text>Find me all recipes that exclude: </Form.Text>
-                        <Form.Text>{Allergins.map((allergin) => (<Badge pill variant='primary' style={{marginRight: '3px', marginBottom: '3px'}}>{allergin}</Badge>))}</Form.Text>                        
+                        <Form.Text>{Allergins.map((allergin) => (<Badge pill variant='primary' style={{marginRight: '3px'}}>{allergin}</Badge>))}</Form.Text>
                       </Message>
                     )}
                   <Button onClick={(e) => setSearchByAllergin(false)} variant='outline-success' className='p-2' style={{width: '50%'}}>

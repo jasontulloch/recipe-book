@@ -30,11 +30,14 @@ export const chefListReducer = (state = { chefs: [] }, action) => {
 export const chefPublicDetailsReducer = (state = { chef: [] }, action) => {
   switch (action.type) {
     case CHEF_PUBLIC_DETAILS_REQUEST:
-      return { loading: true, ...state }
+      return { loading: true, chef: [] }
     case CHEF_PUBLIC_DETAILS_SUCCESS:
       return {
         loading: false,
-        chef: action.payload,
+        chef: action.payload.chef,
+        recipes: action.payload.recipes,
+        pages: action.payload.pages,
+        page: action.payload.page
       }
     case CHEF_PUBLIC_DETAILS_FAILURE:
       return { loading: false, error: action.payload}

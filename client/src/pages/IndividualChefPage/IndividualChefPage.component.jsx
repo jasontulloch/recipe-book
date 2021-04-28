@@ -34,6 +34,7 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import EmptyRecipeCard from '../../components/EmptyRecipeCard/EmptyRecipeCard.component';
 import Message from '../../components/Message/Message.component';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
+import PaginateAllChefs from '../../components/PaginateAllChefs/PaginateAllChefs.component';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -42,6 +43,7 @@ import { isBrowser } from 'react-device-detect';
 import './IndividualChefPage.styles.scss';
 
 const IndividualChefPage = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1
   const chefId = match.params.id
 
   const [followed, setFollowed] = useState('')
@@ -61,6 +63,9 @@ const IndividualChefPage = ({ history, match }) => {
     loading,
     error,
     chef,
+    recipes,
+    pages,
+    page
   } = chefPublicDetails
 
   const chefDetails = useSelector(state => state.chefDetails)
@@ -94,7 +99,7 @@ const IndividualChefPage = ({ history, match }) => {
     if(initialLoader) {
       dispatch(getChefDetails('profile'))
       if (chefChefPrivate && chefChefPrivate.following) {
-        setIsChefFollowed(chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef.id}))
+        setIsChefFollowed(chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef._id}))
       }
     }
     if(successChefFollow) {
@@ -107,14 +112,15 @@ const IndividualChefPage = ({ history, match }) => {
       dispatch({ type: CHEF_UNFOLLOW_RESET })
       setIsChefFollowed(false)
     }
-    dispatch(getChefPublicDetails(match.params.id))
+    dispatch(getChefPublicDetails(match.params.id, pageNumber))
   }, [
     dispatch,
     match,
     successChefFollow,
     successChefUnfollow,
     chefChefPrivate,
-    initialLoader
+    initialLoader,
+    pageNumber
   ])
 
   const followHandler = (e) => {
@@ -223,7 +229,7 @@ const IndividualChefPage = ({ history, match }) => {
         ) : (
           <div></div>
         )}
-        {chef && (chef.isVisible === true) ? (
+        {chef && (chef.isVisible === true) && (
         <div>
           <Row style={{paddingBottom: '10px', paddingLeft: '10px'}}>
             <Col xs={12} md={7}>
@@ -287,37 +293,33 @@ const IndividualChefPage = ({ history, match }) => {
             </Col>
           </Row>
           {(isBrowser) ? (
-            <Carousel
-              responsive={responsive}
-              centerMode={true}
-              infinite={true}
-            >
-              {chef.recipes && chef.recipes.map((recipe) => (
-                <div>
-                  <RecipeCard recipe={recipe}/>
-                </div>
-              ))}
-              {chef.count > 5 && (
-                <EmptyRecipeCard chef={chef}/>
-              )}
-            </Carousel>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <Row>
+                {recipes && recipes.map((recipe) => (
+                  <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                    <RecipeCard recipe={recipe}/>
+                  </Col>
+                ))}
+              </Row>
+            </div>
           ) : (
             <div className="individualChefPageRecipeCardMobile">
               <h4 style={{textAlign: 'center', paddingTop: '20px', borderTop: 'dotted 3px' }}>My Recipes</h4>
-              {chef.recipes && chef.recipes.map((recipe) => (
+              {recipes && recipes.map((recipe) => (
                 <div>
                   <RecipeCard recipe={recipe}/>
                 </div>
               ))}
-              {chef.count > 5 && (
-                <EmptyRecipeCard chef={chef}/>
-              )}
             </div>
           )}
-        </div>
-        ) : (
-        <div>
-          <h1>Oops this is you!</h1>
+          <Row className="allChefsPageMobilePaginate">
+            <Col xs={12}>
+              <PaginateAllChefs
+                pages={pages}
+                page={page}
+              />
+            </Col>
+          </Row>
         </div>
         )}
       </div>

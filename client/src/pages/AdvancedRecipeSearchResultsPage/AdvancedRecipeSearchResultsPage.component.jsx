@@ -53,9 +53,16 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     setTimeout(() => setInitialLoader(false), 3000)
   }
 
-  const [netVotesSort, setNetVotesSort] = useState(-1)
-  const [createdAtSort, setCreatedAtSort] = useState(-1)
-  const [sortButtonLabel, setSortButtonLabel] = useState('Most Recent')
+  // Sorting variables
+  const [netVotesSort, setNetVotesSort] = useState(
+    localStorage.getItem('netVotesSortAdvLocalStorage') || ''
+  )
+  const [createdAtSort, setCreatedAtSort] = useState(
+    localStorage.getItem('createdAtSortAdvLocalStorage') || -1
+  )
+  const [sortButtonLabel, setSortButtonLabel] = useState(
+    localStorage.getItem('sortButtonLabelAdvLocalStorage') || 'Most Recent'
+  )
 
   //Now we need to account for keywords in the BE - first by updating actions
   useEffect(() => {
@@ -89,6 +96,9 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         pageNumber
       )
     )
+    localStorage.setItem('createdAtSortAdvLocalStorage', createdAtSort)
+    localStorage.setItem('netVotesSortAdvLocalStorage', netVotesSort)
+    localStorage.setItem('sortButtonLabelAdvLocalStorage', sortButtonLabel)
   }, [
     dispatch,
     keywordRecipeName,
@@ -116,28 +126,41 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
     keywordIsDrink,
     netVotesSort,
     createdAtSort,
+    sortButtonLabel,
     pageNumber
   ])
 
   const handleMostRecent = (e) => {
     e.preventDefault()
-    setNetVotesSort('')
+    //history.push('/recipes/page/1')
     setCreatedAtSort(-1)
+    localStorage.setItem('createdAtSortAdvLocalStorage', -1)
+    setNetVotesSort('')
+    localStorage.setItem('netVotesSortAdvLocalStorage', '')
     setSortButtonLabel('Most Recent')
+    localStorage.setItem('sortButtonLabelAdvLocalStorage', 'Most Recent')
   }
 
   const handleHighestRanking = (e) => {
     e.preventDefault()
-    setCreatedAtSort(-1)
+    //history.push('/recipes/page/1')
     setNetVotesSort(-1)
+    localStorage.setItem('netVotesSortAdvLocalStorage', -1)
+    setCreatedAtSort('')
+    localStorage.setItem('createdAtSortAdvLocalStorage', '')
     setSortButtonLabel('Highest Ranking')
+    localStorage.setItem('sortButtonLabelAdvLocalStorage', 'Highest Ranking')
   }
 
   const handleLowestRanking = (e) => {
     e.preventDefault()
-    setCreatedAtSort('')
+    //history.push('/recipes/page/1')
     setNetVotesSort(1)
+    localStorage.setItem('netVotesSortAdvLocalStorage', 1)
+    setCreatedAtSort('')
+    localStorage.setItem('createdAtSortAdvLocalStorage', '')
     setSortButtonLabel('Lowest Ranking')
+    localStorage.setItem('sortButtonLabelAdvLocalStorage', 'Lowest Ranking')
   }
 
   return (

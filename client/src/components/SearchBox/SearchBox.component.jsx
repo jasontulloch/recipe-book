@@ -18,7 +18,7 @@ const SearchBox = ({ history }) => {
       history.push(`/recipes/search/keywordRecipeName=${keywordRecipeName}/page/1`)
       // Need to set keyword recipe name to another variable and then clear
     } else {
-      history.push('/recipes')
+      history.push('/recipes/page/1')
     }
     setKeywordRecipeName('')
   }
@@ -112,7 +112,7 @@ const SearchBox = ({ history }) => {
             })}
           />
         </div>
-        <Link to={`/recipes`} style={{zIndex: '2'}}>
+        <Link to={`/recipes/page/1`} style={{zIndex: '2'}}>
           <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
             Search All
           </Button>

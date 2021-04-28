@@ -337,7 +337,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
       {...keywordIsDrink}
     ]
   })
-  .sort({'createdAt': createdAtSort, 'netVotes':netVotesSort})
+  .sort({'netVotes':netVotesSort, 'createdAt': createdAtSort})
   .limit(pageSize)
   .skip(pageSize * (page - 1))
 

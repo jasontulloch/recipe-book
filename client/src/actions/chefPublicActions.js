@@ -34,11 +34,11 @@ export const listChefs = (
   }
 }
 
-export const getChefPublicDetails = (id) => async (dispatch, getState) => {
+export const getChefPublicDetails = (id, pageNumber = '') => async (dispatch, getState) => {
   try {
     dispatch({ type: CHEF_PUBLIC_DETAILS_REQUEST })
 
-    const { data } = await axios.get(`/api/chefs/${id}`)
+    const { data } = await axios.get(`/api/chefs/${id}?pageNumber=${pageNumber}`)
 
     dispatch({
       type: CHEF_PUBLIC_DETAILS_SUCCESS,
