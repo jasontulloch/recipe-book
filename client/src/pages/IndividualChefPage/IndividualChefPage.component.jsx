@@ -34,7 +34,7 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import EmptyRecipeCard from '../../components/EmptyRecipeCard/EmptyRecipeCard.component';
 import Message from '../../components/Message/Message.component';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
-import PaginateAllChefs from '../../components/PaginateAllChefs/PaginateAllChefs.component';
+import PaginateIndividualChef from '../../components/PaginateIndividualChef/PaginateIndividualChef.component';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -71,6 +71,7 @@ const IndividualChefPage = ({ history, match }) => {
   const chefDetails = useSelector(state => state.chefDetails)
   const {
     loading: loadingChefPrivate,
+    success: successChefPrivate,
     error: errorChefPrivate,
     chef: chefChefPrivate
   } = chefDetails
@@ -87,40 +88,40 @@ const IndividualChefPage = ({ history, match }) => {
     error: errorChefUnfollow
   } = chefUnfollow
 
-  //const doesFollowExist = chefInfo.following.some(function(chef){ return chef.chef === chefId})
-  const [isChefFollowed, setIsChefFollowed] = useState(false)
-
   const [initialLoader, setInitialLoader] = useState(true)
   if (loading !== true) {
     setTimeout(() => setInitialLoader(false), 2000)
   }
 
+  // needed to get the chef details on page initialization
+  const [initializeChefProfile, setInitializeChefProfile] = useState(true)
+
   useEffect(() => {
-    if(initialLoader) {
+    if (initializeChefProfile === true) {
+      setInitializeChefProfile(false)
       dispatch(getChefDetails('profile'))
-      if (chefChefPrivate && chefChefPrivate.following) {
-        setIsChefFollowed(chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef._id}))
-      }
+      dispatch(getChefPublicDetails(chefId, pageNumber))
     }
     if(successChefFollow) {
-      setFollowed('')
+      //setFollowed('')
       dispatch({ type: CHEF_FOLLOW_RESET })
-      setIsChefFollowed(true)
+      dispatch(getChefDetails('profile'))
     }
     if(successChefUnfollow) {
-      setUnfollowed('')
+      //setUnfollowed('')
       dispatch({ type: CHEF_UNFOLLOW_RESET })
-      setIsChefFollowed(false)
+      dispatch(getChefDetails('profile'))
     }
-    dispatch(getChefPublicDetails(match.params.id, pageNumber))
   }, [
     dispatch,
     match,
     successChefFollow,
     successChefUnfollow,
     chefChefPrivate,
+    successChefPrivate,
     initialLoader,
-    pageNumber
+    pageNumber,
+    chefId
   ])
 
   const followHandler = (e) => {
@@ -233,7 +234,7 @@ const IndividualChefPage = ({ history, match }) => {
         <div>
           <Row style={{paddingBottom: '10px', paddingLeft: '10px'}}>
             <Col xs={12} md={7}>
-              {chefInfo && isChefFollowed === true ? (
+              {chefInfo && chefChefPrivate && chefChefPrivate.following && chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef._id}) ? (
                 <Form onSubmit={unfollowHandler}>
                   <Form.Group as={Row} style={{marginBottom: '0px'}} className='justify-content-center'>
                     <Form.Label>
@@ -314,9 +315,10 @@ const IndividualChefPage = ({ history, match }) => {
           )}
           <Row className="allChefsPageMobilePaginate">
             <Col xs={12}>
-              <PaginateAllChefs
+              <PaginateIndividualChef
                 pages={pages}
                 page={page}
+                id={chefId}
               />
             </Col>
           </Row>

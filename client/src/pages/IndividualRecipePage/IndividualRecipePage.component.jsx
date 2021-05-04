@@ -304,6 +304,16 @@ const IndividualRecipePage = ({ history, match }) => {
     }
   }
 
+  function handleKeypressMobile (e) {
+    const characterCode = e.keyCode
+    if ((characterCode > 31 && (characterCode < 48 || characterCode > 57) && !(characterCode == 46 || characterCode == 8)) || e.target.value > 20 || e.target.value < 1) {
+      e.preventDefault()
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 3000)
+    }
+  }
+
   // Build custom array of imperial standards based on whether chef wants to use them
   const imperialStandards = []
   try {
@@ -377,6 +387,13 @@ const IndividualRecipePage = ({ history, match }) => {
   // Actual recipe serving size
   const actualServingSize = recipe.serving_size
   // Return array of only the recipe's quantities and adjust for serving size
+  if(servingSize > 20) {
+    setServingSize(20)
+    setWarningMessage('Serving sizes must be between 1 and 20.')
+    setTimeout(function() {
+      setWarningMessage('')
+    }, 3000)
+  }
   const quantitiesArray = recipeIngredients.map((ingredient) =>
     new Fraction((eval(ingredient[0]) / actualServingSize * servingSize)).toFraction(true)
   )
@@ -552,43 +569,84 @@ const IndividualRecipePage = ({ history, match }) => {
               </h6>
             </Col>
             <Col xs={12} style={{paddingTop: '20px'}}>
-              <Row>
-                <Col xs={12} md={6} style={{display: 'flex', justifyContent: 'center'}}>
-                  <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
-                    <h5 className="individualRecipePageFontSizeMobile" style= {{ marginRight: '5px' }}>Serving Size:</h5>
-                    <div style={{ border: '2px solid #4bbf73', height: '18px'}}>
-                      <Form.Control
-                          style={{
-                            paddingLeft: '3px',
-                            paddingRight: '3px',
-                            paddingTop: '7px',
-                            paddingBottom: '6px',
-                            width: '40px',
-                            height: '12px'
-                          }}
-                          type='number'
-                          min={1}
-                          max={20}
-                          step={1}
-                          value={servingSize}
-                          onChange={(e) => setServingSize(e.target.value)}
-                          onKeyDown={handleKeypress}
-                          required
-                        >
-                      </Form.Control>
-                    </div>
-                    <Form.Check
-                      style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingTop: '5px', paddingBottom: '8px'}}
-                      inline
-                      label='Metric?'
-                      checked={isMetric}
-                      onChange={(e) => setIsMetric(e.target.checked)}
-                      disabled={(chefInfo == null) ? true : false}
-                    />
-                  </Form.Group>
-                </Col>
+              <Row style={{display: 'flex', justifyContent: 'center'}}>
+                {(isBrowser) ? (
+                  <Col xs={12} md={6} style={{display: 'flex', justifyContent: 'center'}}>
+                    <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
+                      <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
+                      <div style={{ border: '2px solid #4bbf73', height: '18px'}}>
+                        <Form.Control
+                            style={{
+                              paddingLeft: '3px',
+                              paddingRight: '3px',
+                              paddingTop: '7px',
+                              paddingBottom: '6px',
+                              width: '40px',
+                              height: '12px'
+                            }}
+                            type='number'
+                            min={1}
+                            max={20}
+                            step={1}
+                            value={servingSize}
+                            onChange={(e) => setServingSize(e.target.value)}
+                            onKeyDown={handleKeypress}
+                            required
+                          >
+                        </Form.Control>
+                      </div>
+                      <Form.Check
+                        style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingTop: '5px', paddingBottom: '8px'}}
+                        inline
+                        label='Metric?'
+                        checked={isMetric}
+                        onChange={(e) => setIsMetric(e.target.checked)}
+                        disabled={(chefInfo == null) ? true : false}
+                      />
+                    </Form.Group>
+                  </Col>
+                ) : (
+                  <div>
+                    <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
+                      <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
+                    </Col>
+                    <Col xs={12} style={{display: 'flex', justifyContent: 'center', paddingBottom: '10px'}}>
+                      <div style={{ border: '2px solid #4bbf73', height: '30px'}}>
+                        <Form.Control
+                            style={{
+                              paddingLeft: '3px',
+                              paddingRight: '3px',
+                              paddingTop: '7px',
+                              paddingBottom: '6px',
+                              width: '40px',
+                              height: '25px',
+                              fontSize: '18px'
+                            }}
+                            type='number'
+                            min={1}
+                            max={20}
+                            step={1}
+                            value={servingSize}
+                            onChange={(e) => setServingSize(e.target.value)}
+                            onKeyUp={handleKeypressMobile}
+                            required
+                          >
+                        </Form.Control>
+                      </div>
+
+                      <Form.Check
+                        style={{ paddingLeft: '5px', width: '60px', height: '30px', paddingTop: '5px', paddingBottom: '8px'}}
+                        inline
+                        label='Metric?'
+                        checked={isMetric}
+                        onChange={(e) => setIsMetric(e.target.checked)}
+                        disabled={(chefInfo == null) ? true : false}
+                      />
+                    </Col>
+                  </div>
+                )}
                 <Col xs={12} md={6} style={{textAlign:'center'}}>
-                  <h5 className="individualRecipePageFontSizeMobile">Cook Time: {time_convert(recipe.cook_time)}</h5>
+                  <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
                 </Col>
               </Row>
             </Col>

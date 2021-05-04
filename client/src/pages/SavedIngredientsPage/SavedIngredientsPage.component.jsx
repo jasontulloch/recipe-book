@@ -398,7 +398,7 @@ const SavedIngredientsPage = ({ history }) => {
   }
 
   return (
-    <div style={{paddingLeft: '30px', paddingRight: '30px'}} className="savedIngredientsPageMobile">
+    <div style={{paddingLeft: '50px', paddingRight: '30px'}} className="savedIngredientsPageMobile">
       {error ? (
         <Message>{error}</Message>
       ) : (
@@ -411,17 +411,20 @@ const SavedIngredientsPage = ({ history }) => {
                     <h4>My Grocery List</h4>
                   </Form.Label>
                 </Col>
-                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <Form.Check
-                    style={{ padding: '5px', height: '25px'}}
-                    inline
-                    label='Only display ingredients?'
-                    checked={displayIngredientOnly}
-                    onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
-                  />
-                </Col>
+                {savedIngredients.length !== 0 && (
+                  <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <Form.Check
+                      style={{ padding: '5px', height: '25px'}}
+                      inline
+                      label='Only display ingredients?'
+                      checked={displayIngredientOnly}
+                      onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
+                    />
+                  </Col>
+                )}
               </Form.Group>
             </Form>
+            {savedIngredients.length !== 0 && (
             <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
               <Form onSubmit={emailGroceryListHandler}>
                 <Button
@@ -434,6 +437,8 @@ const SavedIngredientsPage = ({ history }) => {
                 </Button>
               </Form>
             </Col>
+            )}
+            {savedIngredients.length !== 0 && (
             <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
               <Form onSubmit={textGroceryListHandler}>
                 <Button
@@ -446,6 +451,7 @@ const SavedIngredientsPage = ({ history }) => {
                 </Button>
               </Form>
             </Col>
+            )}
             {(temporarilyDisableEmailButton === true) && (successEmailMessage !== "") && (
               <Col xs={12} style={{textAlign: 'center'}}>
                 <Form.Text style={{paddingTop: '10px'}}>
