@@ -616,7 +616,7 @@ const IndividualRecipePage = ({ history, match }) => {
                             style={{
                               paddingLeft: '3px',
                               paddingRight: '3px',
-                              paddingTop: '7px',
+                              paddingTop: '0px',
                               paddingBottom: '6px',
                               width: '40px',
                               height: '25px',
