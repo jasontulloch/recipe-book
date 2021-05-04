@@ -650,20 +650,31 @@ const IndividualRecipePage = ({ history, match }) => {
                 </Col>
               </Row>
             </Col>
-            <Col xs={12} style={{paddingTop: '7.5px', paddingLeft: '0px', marginLeft: '30px', display: 'flex', justifyContent: 'center'}}>
+            <Col xs={12} style={{paddingTop: '7.5px', paddingLeft: '0px', marginLeft: '10px', display: 'flex', justifyContent: 'center'}}>
               {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
-              <Form.Group as={Row} controlId='celsiusToFahrenheit' style={{ marginBottom: '0px' }}>
+              <Form.Group as={Row} controlId='celsiusToFahrenheit' style={{ marginBottom: '0px', display: 'flex', justifyContent: 'center' }}>
                 <h5 className="individualRecipePageFontSizeMobile" style= {{ marginRight: '5px' }}>Celsius:</h5>
+                {(isBrowser) ? (
                 <div style={{border: '2px solid #4bbf73', height: '18px'}}>
                   <Form.Control
-                      style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
-                      type='number'
-                      step={5}
-                      onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
+                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
+                    type='number'
+                    step={5}
+                    onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
+                  >
+                  </Form.Control>
+                </div>
+                ) : (
+                <div style={{border: '2px solid #4bbf73', height: '30px'}}>
+                  <Form.Control
+                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '0px', paddingBottom: '6px', width: '80px', height: '25px'}}
+                    type='number'
+                    onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
                     >
                   </Form.Control>
                 </div>
-                <div style={{paddingLeft: '10px'}}>
+                )}
+                <div style={{paddingLeft: '5px'}}>
                   {temperatureC > 0 && (
                     <h5 className="individualRecipePageFontSizeMobile"> is {temperatureC.toFixed()} Degrees Fahrenheit</h5>
                   )}
@@ -671,18 +682,29 @@ const IndividualRecipePage = ({ history, match }) => {
               </Form.Group>
               )}
               {recipe.steps && recipe.steps.flat().join('').includes('Fahrenheit' || 'fahrenheit' || ' F ') && (
-              <Form.Group as={Row} controlId='fahrenheitToCelsius' style={{ marginBottom: '0px' }}>
+              <Form.Group as={Row} controlId='fahrenheitToCelsius' style={{ marginBottom: '0px', display: 'flex', justifyContent: 'center' }}>
                 <h5 className="individualRecipePageFontSizeMobile" style= {{ marginRight: '5px' }}>Fahrenheit:</h5>
+                {(isBrowser) ? (
                 <div style={{border: '2px solid #4bbf73', height: '18px'}}>
                   <Form.Control
-                      style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
-                      type='number'
-                      step={5}
-                      onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
-                    >
+                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
+                    type='number'
+                    step={5}
+                    onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
+                  >
                   </Form.Control>
                 </div>
-                <div style={{paddingLeft: '10px'}}>
+                ) : (
+                <div style={{border: '2px solid #4bbf73', height: '30px'}}>
+                  <Form.Control
+                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '0px', paddingBottom: '6px', width: '80px', height: '25px'}}
+                    type='number'
+                    onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
+                  >
+                  </Form.Control>
+                </div>
+                )}
+                <div style={{paddingLeft: '5px'}}>
                   {temperatureF > 0 && (
                     <h5 className="individualRecipePageFontSizeMobile"> is {temperatureF.toFixed()} Degrees Celsius</h5>
                   )}

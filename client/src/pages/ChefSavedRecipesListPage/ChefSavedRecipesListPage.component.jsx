@@ -78,7 +78,6 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                   <th>COUNTRY</th>
                   <th className='d-none d-md-table-cell'>COOK TIME</th>
                   <th className='d-none d-md-table-cell'>SERVING SIZE</th>
-                  <th>VIEW</th>
                   <th>REMOVE</th>
                 </tr>
               </thead>
@@ -88,7 +87,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                     <td>
                       <Link
                         to={`/recipe/${recipe._id}`}
-                        style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {textDecoration: 'none'}}>
+                        style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {textDecoration: 'underline'}}>
                         {recipe.recipe_name}
                       </Link>
                       {recipe.isPublished === false && (
@@ -108,13 +107,6 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                     <td>{recipe.country}</td>
                     <td className='d-none d-md-table-cell'>{recipe.cook_time}</td>
                     <td className='d-none d-md-table-cell'>{recipe.serving_size}</td>
-                    <td>
-                      <LinkContainer to={`/recipe/${recipe._id}`}>
-                        <Button variant='light' className='btn-sm'>
-                          <i className='fas fa-edit'></i>
-                        </Button>
-                      </LinkContainer>
-                    </td>
                     <td>
                       <LinkContainer to={`/savedrecipes/${recipe._id}`}>
                         <Button variant='danger' className='btn-sm'>

@@ -112,7 +112,7 @@ const ChefRecipesListPage = ({ match , history }) => {
                       <td>
                         <Link
                           to={`/recipe/${recipe._id}`}
-                          style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {textDecoration: 'none'}}>
+                          style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {textDecoration: 'underline'}}>
                           {recipe.recipe_name}
                         </Link>
                         {recipe.isPublished === false && (
