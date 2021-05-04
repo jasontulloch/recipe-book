@@ -635,7 +635,7 @@ const IndividualRecipePage = ({ history, match }) => {
                       </div>
 
                       <Form.Check
-                        style={{ paddingLeft: '5px', width: '60px', height: '30px', paddingTop: '5px', paddingBottom: '8px'}}
+                        style={{ paddingLeft: '5px', paddingTop: '5px', paddingBottom: '8px'}}
                         inline
                         label='Metric?'
                         checked={isMetric}
