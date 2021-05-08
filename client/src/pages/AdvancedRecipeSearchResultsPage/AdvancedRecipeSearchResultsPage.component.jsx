@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
+import FilterBtn from '../../components/FilterBtn/FilterBtn.component';
 import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
 
 import AdvancedSearchPaginate from '../../components/AdvancedSearchPaginate/AdvancedSearchPaginate.component';
@@ -173,13 +174,9 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
         <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="advancedRecipeSearchResultsPageMobile2Div">
           <Row className="advancedRecipeSearchResultsPageMobileRow">
             {(recipes && recipes.length > 1) && (
-            <Col xs={12} className="advancedRecipeSearchResultsSortButtonCol" style={{paddingBottom: '10px', textAlign: 'left'}}>
-              <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
-                <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
-              </DropdownButton>
-            </Col>
+              <Col xs={12} className="advancedRecipeSearchResultsSortButtonCol" style={{paddingBottom: '10px', textAlign: 'left'}}>
+                <FilterBtn />
+              </Col>
             )}
             {recipes && recipes.map((recipe) => (
               <Col className="advancedRecipeSearchResultsPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>

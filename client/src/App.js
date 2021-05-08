@@ -1,10 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, useRouteMatch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import Header from './components/Header/Header.component';
 import IconSidebar from './components/IconSidebar/IconSidebar.component';
 import Footer from './components/Footer/Footer.component';
+
+import FilterBtn from './components/FilterBtn/FilterBtn.component';
 
 //import HomePage from './pages/HomePage/HomePage.component';
 import LoginPage from './pages/LoginPage/LoginPage.component';
@@ -26,6 +28,58 @@ import IndividualChefPage from './pages/IndividualChefPage/IndividualChefPage.co
 import ChefMyFollowedPage from './pages/ChefMyFollowedPage/ChefMyFollowedPage.component';
 
 const App = () => {
+
+  const filters = [
+    '/keywordIsVegan=:keywordIsVegan',
+    '/keywordIsVegetarian=:keywordIsVegetarian',
+    '/keywordIsGlutenFree=:keywordIsGlutenFree',
+    '/keywordIsKetogenic=:keywordIsKetogenic',
+    '/keywordIsPescatarian=:keywordIsPescatarian',
+    '/keywordIsDairy=:keywordIsDairy',
+    '/keywordIsEgg=:keywordIsEgg',
+    '/keywordIsNuts=:keywordIsNuts',
+    '/keywordIsShellfish=:keywordIsShellfish',
+    '/keywordIsSoy=:keywordIsSoy',
+    '/keywordIsWheat=:keywordIsWheat',
+    '/keywordIsVegan=:keywordIsVegan/keywordIsVegetarian=:keywordIsVegetarian/keywordIsGlutenFree=:keywordIsGlutenFree/keywordIsKetogenic=:keywordIsKetogenic/keywordIsPescatarian=:keywordIsPescatarian/keywordIsDairy=:keywordIsDairy/keywordIsEgg=:keywordIsEgg/keywordIsNuts=:keywordIsNuts/keywordIsShellfish=:keywordIsShellfish/keywordIsSoy=:keywordIsSoy/keywordIsWheat=:keywordIsWheat'
+  ]
+  const filtersUrl = []
+  for (var h = 0; h < filters.length; h++) {
+    filtersUrl.push(filters[h]);
+  }
+  for (var i = 0; i < filters.length - 1; i++) {
+    for (var j = i + 1; j < filters.length; j++) {
+      filtersUrl.push(filters[i] + filters[j]);
+    }
+  }
+  for (var i = 0; i < filters.length - 1; i++) {
+    for (var j = i + 1; j < filters.length; j++) {
+      for (var k = j + 1; k < filters.length; k++) {
+        filtersUrl.push(filters[i] + filters[j] + filters[k]);
+      }
+    }
+  }
+  for (var i = 0; i < filters.length - 1; i++) {
+    for (var j = i + 1; j < filters.length; j++) {
+      for (var k = j + 1; k < filters.length; k++) {
+        for (var l = k + 1; l < filters.length; l++) {
+          filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l]);
+        }
+      }
+    }
+  }
+  for (var i = 0; i < filters.length - 1; i++) {
+    for (var j = i + 1; j < filters.length; j++) {
+      for (var k = j + 1; k < filters.length; k++) {
+        for (var l = k + 1; l < filters.length; l++) {
+          for (var m = l + 1; m < filters.length; m++) {
+            filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m]);
+          }
+        }
+      }
+    }
+  }
+
   return (
     <Router>
       <Header />
@@ -50,18 +104,9 @@ const App = () => {
           <Route path='/chefs/:id/page/:pageNumber' component={IndividualChefPage} exact />
           <Route path='/mychefs/page/:pageNumber' component={ChefMyFollowedPage} exact />
 
-          <Route path='/recipes/advanced-search-results/keywordIsVegan=:keywordIsVegan/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsVegetarian=:keywordIsVegetarian/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsGlutenFree=:keywordIsGlutenFree/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsKetogenic=:keywordIsKetogenic/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsPescatarian=:keywordIsPescatarian/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-
-          <Route path='/recipes/advanced-search-results/keywordIsDairy=:keywordIsDairy/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsEgg=:keywordIsEgg/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsNuts=:keywordIsNuts/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsShellfish=:keywordIsShellfish/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsSoy=:keywordIsSoy/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-          <Route path='/recipes/advanced-search-results/keywordIsWheat=:keywordIsWheat/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          {(filtersUrl) && filtersUrl.map((items) =>
+            <Route path={`/recipes/advanced-search-results${items}/page/:pageNumber`} component={AdvancedRecipeSearchResultsPage} exact/>
+          )}
 
           <Route path='/recipes/advanced-search-results/keywordIsAppetizer=:keywordIsAppetizer/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
