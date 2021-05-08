@@ -16,8 +16,6 @@ import ChefCard from '../../components/ChefCard/ChefCard.component';
 import EmptyRecipeCard from '../../components/EmptyRecipeCard/EmptyRecipeCard.component';
 import PaginateMyChefs from '../../components/PaginateMyChefs/PaginateMyChefs.component';
 
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
 import './ChefMyFollowedPage.styles.scss';
 
 import { isBrowser } from 'react-device-detect';
@@ -54,67 +52,19 @@ const ChefMyFollowedPage = ({ match , history }) => {
     pageNumber
   ])
 
-  // Recipe Carousel - required but overridden in css file
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    // min: 1024
-    desktop: {
-      breakpoint: { max: 3000, min: 1200 },
-      items: 5
-    },
-    // max: 1024
-    tablet: {
-      breakpoint: { max: 1200, min: 975 },
-      items: 3
-    },
-    mobile: {
-      breakpoint: { max: 975, min: 0 },
-      items: 1
-    }
-  };
-
   return (
       <div style={{paddingLeft: '30px'}} className="chefMyFollowedPageFirstDivMobile">
         {initialLoader ? (
           <PancakeLoader>Finding the chefs you already love...</PancakeLoader>
         ) : (chefInfo && chefs && chefs.length > 0) ? (
-          <div style={{marginLeft: '30px'}}>
-            {(isBrowser) ? (
-              <div>
-                {chefs.map(chefId => (
-                  <div>
-                    <Carousel
-                      responsive={responsive}
-                      centerMode={true}
-                    >
-                      <ChefCard chef={chefId} />
-                      {finalRecipes && finalRecipes.filter(allRecipes => chefId._id.toString() === allRecipes.chef.toString()).map(recipe => (
-                        <div>
-                          <RecipeCard recipe={recipe} />
-                        </div>
-                      ))}
-                      {chefId.myRecipes.length > 10 && (
-                        <div>
-                          <EmptyRecipeCard chef={chefId}/>
-                        </div>
-                      )}
-                    </Carousel>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <Row className="chefMyFollowedPageMobileRow">
-                {chefs && chefs.map((chef) => (
-                  <Col className="chefMyFollowedPageChefCardMobile" key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
-                    <ChefCard chef={chef} />
-                  </Col>
-                ))}
-              </Row>
-            )}
+          <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allChefsPageMobile2Div">
+            <Row className="allChefsPageMobileRow">
+              {chefs && chefs.map((chef) => (
+                <Col className="allChefsPageChefCardMobile" key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                  <ChefCard chef={chef} />
+                </Col>
+              ))}
+            </Row>
             <Row>
               <Col xs={12}>
                 <PaginateMyChefs

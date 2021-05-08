@@ -367,7 +367,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                     onChange={(e) => setIsVisible(e.target.checked)}
                   />
                 </Form.Group>
-                <Form.Text>Other chefs will be able to find and follow you. Your name, contact information, and log in information will never be shared.</Form.Text>
+                <Form.Text>Other chefs will be able to view your profile and follow you. Your name, contact information, and log in information will never be shared.</Form.Text>
               </Col>
               <Form.Group controlId='first_name'>
                 <Form.Label>First Name</Form.Label>
@@ -656,7 +656,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                 </Col>
                 <Col style={{textAlign: 'center'}} xs={12} sm={12} md={12} lg={12} xl={12}>
                   <Message variant='warning' style={{textAlign: 'center', width: '100%', marginTop: '5px'}}>
-                    <Form.Text>The following measurement options are optional. By selecting a measurement, you can control how the measurements recipes are presented in.</Form.Text>
+                    <Form.Text>The following measurement options are optional. You can now decide the unit of measurements a recipe is presented in (e.g. cups and tablespoons only).</Form.Text>
                   </Message>
                   <Form.Label className='allerginsLabel'>Measurement (Imperial / US System)</Form.Label>
                 </Col>
@@ -812,7 +812,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                 <Row>
                   <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center' }}>
                     <Message variant='warning'>
-                      <Form.Text className='muted'>A great picture is key to a great chef. For the best results, upload a square 3024px x 3024px photo. This picture will be public.</Form.Text>
+                      <Form.Text className='muted'>A great picture is key to a great chef. This picture will be public and viewable by others.</Form.Text>
                     </Message>
                   </Col>
                   <Col style={{textAlign: 'center'}}>
@@ -840,7 +840,7 @@ const ProfileEditPage = ({ location, history, match }) => {
                     <Form.Group controlId='saveBeforeUploadImage' className='dietsAndAllerginsGroup'>
                       <Form.Check
                         inline
-                        label='I understand that uploading an image before saving my profile will delete any unsaved content'
+                        label='I understand that uploading an image before saving my profile will delete any unsaved content. The picture I am uploading is my own and authorized to be used by RecipeBook throughout its platform.'
                         checked={saveBeforeUploadImage}
                         onChange={(e) => setSaveBeforeUploadImage(e.target.checked)}
                       />

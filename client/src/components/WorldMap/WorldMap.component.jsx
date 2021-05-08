@@ -15,7 +15,7 @@ const WorldMap = ({ setTooltipContent }) => {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map(geo => (
-                <Link to={`/recipes/advanced-search-results/keywordCookTimeMin=0/keywordCookTimeMax=90/keywordCountry=${geo.properties.NAME}/page/1`}>
+                <Link to={`/recipes/advanced-search-results/keywordCountry=${geo.properties.NAME}/page/1`}>
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}

@@ -32,6 +32,7 @@ import './IndividualRecipePage.styles.scss';
 import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes, FaFileDownload } from 'react-icons/fa';
 import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
 import Message from '../../components/Message/Message.component';
+import ClickableBadge from '../../components/ClickableBadge/ClickableBadge.component';
 import Fraction from 'fraction.js'
 
 import { isBrowser, isMobile } from 'react-device-detect';
@@ -196,6 +197,10 @@ const IndividualRecipePage = ({ history, match }) => {
       save
     }))
     setIsRecipeSaved(true)
+    setSuccessMessage('Recipe successfully saved to your RecipeBook.')
+    setTimeout(function() {
+      setSuccessMessage('')
+    }, 5000)
   }
 
   // If statemet is temporarily, just lets me click the button and if error will toggle to save
@@ -205,18 +210,25 @@ const IndividualRecipePage = ({ history, match }) => {
       unsave
     }))
     setIsRecipeSaved(false)
+    setSuccessMessage('Recipe successfully removed from your RecipeBook.')
+    setTimeout(function() {
+      setSuccessMessage('')
+    }, 5000)
   }
 
   // Save ingredients
+  const [showGroceryListMessage, setShowGroceryListMessage] = useState(false)
   const saveIngredientsHandler = (e) => {
     e.preventDefault()
     dispatch(saveRecipeIngredients(match.params.id, {
       saveIngredients
     }))
+    setShowGroceryListMessage(true)
     setSuccessMessage('Recipe ingredients successfully added to your grocery list... go to ')
     setTimeout(function() {
       setSuccessMessage('')
-    }, 3000)
+      setShowGroceryListMessage(false)
+    }, 10000)
   }
 
   const Diets = []
@@ -300,7 +312,7 @@ const IndividualRecipePage = ({ history, match }) => {
       setWarningMessage('Use the increment and decrement arrows to modify the serve size.')
       setTimeout(function() {
         setWarningMessage('')
-      }, 3000)
+      }, 5000)
     }
   }
 
@@ -310,7 +322,7 @@ const IndividualRecipePage = ({ history, match }) => {
       e.preventDefault()
       setTimeout(function() {
         setWarningMessage('')
-      }, 3000)
+      }, 5000)
     }
   }
 
@@ -395,7 +407,7 @@ const IndividualRecipePage = ({ history, match }) => {
     }, 3000)
   }
   const quantitiesArray = recipeIngredients.map((ingredient) =>
-    new Fraction((eval(ingredient[0]) / actualServingSize * servingSize)).toFraction(true)
+    new Fraction((eval(ingredient[0]) / actualServingSize * servingSize).toFixed(2)).toFraction(true)
   )
   // Return array of only the recipe's measurements
   const measurementArray = recipeIngredients.map((measurement) =>
@@ -447,12 +459,17 @@ const IndividualRecipePage = ({ history, match }) => {
                   to get the most from RecipeBook
               </Message>
             )}
-            {successMessage !== '' && (
+            {(successMessage !== '' && showGroceryListMessage === true) && (
               <Message className="indvidualRecipePageMessageMobile" variant='success'>
                 {successMessage}
                 <Link to='/grocerylist' style={{ paddingTop: 0, paddingBottom: 0 }}>
                   My Grocery List
                 </Link>
+              </Message>
+            )}
+            {(successMessage !== '' && showGroceryListMessage === false) && (
+              <Message className="indvidualRecipePageMessageMobile" variant='success'>
+                {successMessage}
               </Message>
             )}
           </div>
@@ -555,16 +572,16 @@ const IndividualRecipePage = ({ history, match }) => {
             <Col xs={12} style={{borderBottom: 'dotted 3px'}}>
               <h6 style={{textAlign: 'center'}}>
                 {(recipe.country && recipe.country.length > 1) && (
-                  <Badge pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{recipe.country}</Badge>
+                  <ClickableBadge country={recipe.country} style={{marginRight: '5px', marginBottom: '3px'}}>{recipe.country}</ClickableBadge>
                 )}
                 {MealTypes.length > 0 && MealTypes.map((mealtype) => (
-                  <Badge pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{mealtype}</Badge>
+                  <ClickableBadge mealtype={mealtype} style={{marginRight: '5px', marginBottom: '3px'}}>{mealtype}</ClickableBadge>
                 ))}
                 {Diets.length > 0 && Diets.map((diet) => (
-                  <Badge pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{diet}</Badge>
+                  <ClickableBadge diet={diet} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{diet}</ClickableBadge>
                 ))}
                 {Allergins.length > 0 && Allergins.map((allergin) => (
-                  <Badge pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{allergin}</Badge>
+                  <ClickableBadge allergin={allergin} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{allergin}</ClickableBadge>
                 ))}
               </h6>
             </Col>
@@ -723,7 +740,7 @@ const IndividualRecipePage = ({ history, match }) => {
                   onClick={(e) => setSave('')}
                   disabled={(chefInfo == null) ? true : false}
                 >
-                  Remove recipe from recipebook
+                  Remove recipe from RecipeBook
                 </Button>
               </Form>
             ) : (
@@ -736,7 +753,7 @@ const IndividualRecipePage = ({ history, match }) => {
                   onClick={(e) => setSave('')}
                   disabled={(chefInfo == null) ? true : false}
                 >
-                  Add recipe to recipebook
+                  Save recipe to RecipeBook
                 </Button>
               </Form>
             )}

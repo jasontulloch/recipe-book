@@ -1065,7 +1065,7 @@ const ChefRecipeEditPage = ({ match, history }) => {
                       <Form.Group controlId='saveBeforeUploadImage' className='dietsAndAllerginsGroup'>
                         <Form.Check
                           inline
-                          label='I understand that uploading an image before saving my recipe will delete any unsaved content'
+                          label='I understand that uploading an image before saving my recipe will delete any unsaved content. The picture I am uploading is my own and authorized to be used by RecipeBook throughout its platform.'
                           checked={saveBeforeUploadImage}
                           onChange={(e) => setSaveBeforeUploadImage(e.target.checked)}
                         />

@@ -50,6 +50,29 @@ const App = () => {
           <Route path='/chefs/:id/page/:pageNumber' component={IndividualChefPage} exact />
           <Route path='/mychefs/page/:pageNumber' component={ChefMyFollowedPage} exact />
 
+          <Route path='/recipes/advanced-search-results/keywordIsVegan=:keywordIsVegan/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsVegetarian=:keywordIsVegetarian/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsGlutenFree=:keywordIsGlutenFree/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsKetogenic=:keywordIsKetogenic/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsPescatarian=:keywordIsPescatarian/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+
+          <Route path='/recipes/advanced-search-results/keywordIsDairy=:keywordIsDairy/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsEgg=:keywordIsEgg/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsNuts=:keywordIsNuts/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsShellfish=:keywordIsShellfish/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsSoy=:keywordIsSoy/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsWheat=:keywordIsWheat/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+
+          <Route path='/recipes/advanced-search-results/keywordIsAppetizer=:keywordIsAppetizer/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsDessert=:keywordIsDessert/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsDrink=:keywordIsDrink/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsMainDish=:keywordIsMainDish/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsSideSauce=:keywordIsSideSauce/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          <Route path='/recipes/advanced-search-results/keywordIsSnack=:keywordIsSnack/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+
+          <Route path='/recipes/advanced-search-results/keywordCountry=:keywordCountry/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordRecipeName=:keywordRecipeName/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordCountry=:keywordCountry/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>

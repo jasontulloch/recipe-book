@@ -35,6 +35,7 @@ import EmptyRecipeCard from '../../components/EmptyRecipeCard/EmptyRecipeCard.co
 import Message from '../../components/Message/Message.component';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import PaginateIndividualChef from '../../components/PaginateIndividualChef/PaginateIndividualChef.component';
+import ClickableBadge from '../../components/ClickableBadge/ClickableBadge.component';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -112,6 +113,7 @@ const IndividualChefPage = ({ history, match }) => {
       dispatch({ type: CHEF_UNFOLLOW_RESET })
       dispatch(getChefDetails('profile'))
     }
+    dispatch(getChefPublicDetails(chefId, pageNumber))
   }, [
     dispatch,
     match,
@@ -232,7 +234,7 @@ const IndividualChefPage = ({ history, match }) => {
         )}
         {chef && (chef.isVisible === true) && (
         <div>
-          <Row style={{paddingBottom: '10px', paddingLeft: '10px'}}>
+          <Row style={{paddingBottom: '10px', paddingLeft: '0px', paddingRight: '10px'}}>
             <Col xs={12} md={7}>
               {chefInfo && chefChefPrivate && chefChefPrivate.following && chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef._id}) ? (
                 <Form onSubmit={unfollowHandler}>
@@ -275,12 +277,12 @@ const IndividualChefPage = ({ history, match }) => {
               )}
               <h6 style={{textAlign: 'center'}}>
                 {Diets.length > 0 && Diets.map((diet) => (
-                  <Badge pill variant='primary' style={{marginRight: '5px'}}>{diet}</Badge>
+                  <ClickableBadge diet={diet} style={{marginRight: '5px', marginTop: '5px'}}>{diet}</ClickableBadge>
                 ))}
               </h6>
               <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px', textAlign: 'center'}}>
                 {Allergins.length > 0 && Allergins.map((allergin) => (
-                  <Badge pill variant='primary' style={{marginRight: '5px'}}>{allergin}</Badge>
+                  <ClickableBadge allergin={allergin} style={{marginRight: '5px', marginTop: '5px'}}></ClickableBadge>
                 ))}
               </h6>
               <p>{chef.bio}</p>
@@ -294,8 +296,8 @@ const IndividualChefPage = ({ history, match }) => {
             </Col>
           </Row>
           {(isBrowser) ? (
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-              <Row>
+            <div>
+              <Row style={{display: 'flex', justifyContent: 'center'}}>
                 {recipes && recipes.map((recipe) => (
                   <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                     <RecipeCard recipe={recipe}/>

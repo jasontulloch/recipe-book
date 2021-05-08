@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Countries from '../../lists/countries';
 import Message from '../../components/Message/Message.component';
 
-const AdvancedRecipeSearchPage = ({ history, match }) => {
+const AdvancedRecipeSearchPageTest = ({ history, match }) => {
   const [keywordRecipeName, setKeywordRecipeName] = useState('')
   const [keywordCountry, setKeywordCountry] = useState('')
   const [keywordChefName, setKeywordChefName] = useState('')
@@ -739,4 +739,4 @@ const AdvancedRecipeSearchPage = ({ history, match }) => {
   )
 }
 
-export default AdvancedRecipeSearchPage;
+export default AdvancedRecipeSearchPageTest;
