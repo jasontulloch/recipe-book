@@ -30,6 +30,8 @@ import ChefMyFollowedPage from './pages/ChefMyFollowedPage/ChefMyFollowedPage.co
 const App = () => {
 
   const filters = [
+    '/keywordRecipeName=:keywordRecipeName',
+    '/keywordCountry=:keywordCountry',
     '/keywordIsVegan=:keywordIsVegan',
     '/keywordIsVegetarian=:keywordIsVegetarian',
     '/keywordIsGlutenFree=:keywordIsGlutenFree',
@@ -38,47 +40,43 @@ const App = () => {
     '/keywordIsDairy=:keywordIsDairy',
     '/keywordIsEgg=:keywordIsEgg',
     '/keywordIsNuts=:keywordIsNuts',
-    '/keywordIsShellfish=:keywordIsShellfish',
-    '/keywordIsSoy=:keywordIsSoy',
-    '/keywordIsWheat=:keywordIsWheat',
-    '/keywordIsVegan=:keywordIsVegan/keywordIsVegetarian=:keywordIsVegetarian/keywordIsGlutenFree=:keywordIsGlutenFree/keywordIsKetogenic=:keywordIsKetogenic/keywordIsPescatarian=:keywordIsPescatarian/keywordIsDairy=:keywordIsDairy/keywordIsEgg=:keywordIsEgg/keywordIsNuts=:keywordIsNuts/keywordIsShellfish=:keywordIsShellfish/keywordIsSoy=:keywordIsSoy/keywordIsWheat=:keywordIsWheat'
   ]
+  const filtersLength = 10
   const filtersUrl = []
-  for (var h = 0; h < filters.length; h++) {
+  for (var h = 0; h < filtersLength; h++) {
     filtersUrl.push(filters[h]);
   }
-  for (var i = 0; i < filters.length - 1; i++) {
-    for (var j = i + 1; j < filters.length; j++) {
+  for (var i = 0; i < filtersLength - 1; i++) {
+    for (var j = i + 1; j < filtersLength; j++) {
       filtersUrl.push(filters[i] + filters[j]);
-    }
-  }
-  for (var i = 0; i < filters.length - 1; i++) {
-    for (var j = i + 1; j < filters.length; j++) {
-      for (var k = j + 1; k < filters.length; k++) {
+      for (var k = j + 1; k < filtersLength; k++) {
         filtersUrl.push(filters[i] + filters[j] + filters[k]);
-      }
-    }
-  }
-  for (var i = 0; i < filters.length - 1; i++) {
-    for (var j = i + 1; j < filters.length; j++) {
-      for (var k = j + 1; k < filters.length; k++) {
-        for (var l = k + 1; l < filters.length; l++) {
+        for (var l = k + 1; l < filtersLength; l++) {
           filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l]);
-        }
-      }
-    }
-  }
-  for (var i = 0; i < filters.length - 1; i++) {
-    for (var j = i + 1; j < filters.length; j++) {
-      for (var k = j + 1; k < filters.length; k++) {
-        for (var l = k + 1; l < filters.length; l++) {
-          for (var m = l + 1; m < filters.length; m++) {
+          for (var m = l + 1; m < filtersLength; m++) {
             filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m]);
+            for (var n = m + 1; n < filtersLength; n++) {
+              filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n]);
+              for (var o = n + 1; o < filtersLength; o++) {
+                filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o]);
+                for (var p = o + 1; p < filtersLength; p++) {
+                  filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p]);
+                  for (var q = p + 1; q < filtersLength; q++) {
+                    filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p] + filters[q]);
+                    for (var r = q + 1; r < filtersLength; r++) {
+                      filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p] + filters[q] + filters[r]);
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
   }
+
+  console.log(filtersUrl)
 
   return (
     <Router>
@@ -115,8 +113,6 @@ const App = () => {
           <Route path='/recipes/advanced-search-results/keywordIsMainDish=:keywordIsMainDish/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordIsSideSauce=:keywordIsSideSauce/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordIsSnack=:keywordIsSnack/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
-
-          <Route path='/recipes/advanced-search-results/keywordCountry=:keywordCountry/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
 
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordRecipeName=:keywordRecipeName/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
