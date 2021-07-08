@@ -8,7 +8,7 @@ import WorldMap from '../../components/WorldMap/WorldMap.component';
 const WorldMapPage = () => {
   const [content, setContent] = useState("");
   return (
-    <div style={{paddingTop: '0px', width: '100%', paddingLeft:'30px', paddingRight: '30px'}}>
+    <div style={{paddingTop: '0px', width: '100%', paddingLeft:'200px', paddingRight: '30px'}}>
       {(isBrowser) ? (
         <div>
           <WorldMap setTooltipContent={setContent} style={{paddingTop: '0px', width: '100%'}}/>

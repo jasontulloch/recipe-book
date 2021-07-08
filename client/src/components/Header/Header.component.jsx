@@ -29,20 +29,11 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" expanded={expanded} fixed="top" collapseOnSelect style={{padding: '11px 11px 6px', maxWidth: '100vw'}}>
-        <Container>
-          <LinkContainer to='/'>
-            <Navbar.Brand onClick={() => setExpanded(false)}>RecipeBook</Navbar.Brand>
-          </LinkContainer>
-          <div onClick={() => setExpanded(false)}>
-            <Route render={({ history }) => <SearchBox history={history} />} />
-          </div>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(expanded ? false : "expanded")} />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <div onClick={() => setExpanded(false)}>
-              <Route render={({ history }) => <AdvancedSearchBtn style={{display: 'inline-block'}} history={history} />}/>
-              <Route render={({ history }) => <AllChefsBtn style={{display: 'inline-block'}} history={history} />} />
-            </div>
+      <Navbar bg="dark" variant="dark" fixed="top" style={{padding: '11px 11px 6px', height: '40px'}}>
+            <LinkContainer to='/'>
+              <Navbar.Brand onClick={() => setExpanded(false)}>RecipeBook</Navbar.Brand>
+            </LinkContainer>
+
           {chefInfo ? (
               <Nav className="ml-auto">
                 <NavDropdown className="headerProfileDropdownMobile" title={chefInfo.username} id='username'>
@@ -64,8 +55,6 @@ const Header = () => {
                 </LinkContainer>
               </Nav>
             )}
-          </Navbar.Collapse>
-        </Container>
       </Navbar>
     </header>
   )

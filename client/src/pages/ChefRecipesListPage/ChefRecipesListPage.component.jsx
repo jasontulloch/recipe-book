@@ -76,7 +76,7 @@ const ChefRecipesListPage = ({ match , history }) => {
   }
 
   return (
-      <div className="chefRecipesListPageMobile" style={{paddingLeft: '30px', paddingRight: '10px'}}>
+      <div className="chefRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '10px'}}>
         {initialLoader ?  (
           <PancakeLoader>Collecting all of your recipes...</PancakeLoader>
         ) : (

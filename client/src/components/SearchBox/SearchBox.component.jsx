@@ -48,7 +48,7 @@ const SearchBox = ({ history }) => {
       return {
         ...base,
         width: 175,
-        fontSize:7.5,
+        fontSize:12,
         zIndex: 100,
       }
     },
@@ -112,11 +112,6 @@ const SearchBox = ({ history }) => {
             })}
           />
         </div>
-        <Link to={`/recipes/page/1`} style={{zIndex: '2'}}>
-          <Button type='submit' variant='outline-success' className='ml-1 p-1' style={{fontSize: '8.5px'}}>
-            Search All
-          </Button>
-        </Link>
       </Form>
     </div>
   )

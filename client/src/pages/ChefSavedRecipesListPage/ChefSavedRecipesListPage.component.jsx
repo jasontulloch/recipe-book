@@ -65,7 +65,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   }
 
   return (
-      <div className="chefSavedRecipesListPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
+      <div className="chefSavedRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
         {initialLoader ?  (
           <PancakeLoader>Finding the recipes you already love...</PancakeLoader>
         ) : savedRecipes.length > 0 ? (

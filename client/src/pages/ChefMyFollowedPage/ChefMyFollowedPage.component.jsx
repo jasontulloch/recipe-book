@@ -53,7 +53,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
   ])
 
   return (
-      <div style={{paddingLeft: '30px'}} className="chefMyFollowedPageFirstDivMobile">
+      <div style={{paddingLeft: '200px'}} className="chefMyFollowedPageFirstDivMobile">
         {initialLoader ? (
           <PancakeLoader>Finding the chefs you already love...</PancakeLoader>
         ) : (chefInfo && chefs && chefs.length > 0) ? (

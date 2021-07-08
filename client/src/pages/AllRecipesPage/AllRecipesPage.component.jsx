@@ -96,7 +96,7 @@ const HomeScreen = ({ match, history }) => {
       ) : error ? (
         <Message>{error}</Message>
       ) : (
-        <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allRecipesPageMobile2Div">
+        <div style={{paddingLeft: '200px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allRecipesPageMobile2Div">
           <Row className="allRecipesPageMobileRow">
             {(recipes && recipes.length > 1) && (
               <Col className="allRecipesSortButtonCol" xs={12} style={{paddingBottom: '10px', textAlign: 'left'}}>

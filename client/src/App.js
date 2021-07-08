@@ -106,6 +106,8 @@ const App = () => {
             <Route path={`/recipes/advanced-search-results${items}/page/:pageNumber`} component={AdvancedRecipeSearchResultsPage} exact/>
           )}
 
+          <Route path='/recipes/advanced-search-results/:keywordRecipeName?/:keywordCountry?/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+
           <Route path='/recipes/advanced-search-results/keywordIsAppetizer=:keywordIsAppetizer/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordIsDessert=:keywordIsDessert/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
