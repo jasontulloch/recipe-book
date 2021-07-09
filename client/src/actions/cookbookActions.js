@@ -1,0 +1,70 @@
+import axios from 'axios';
+import {
+  COOKBOOK_CREATE_REQUEST,
+  COOKBOOK_CREATE_SUCCESS,
+  COOKBOOK_CREATE_FAILURE,
+  COOKBOOK_MYLIST_REQUEST,
+  COOKBOOK_MYLIST_SUCCESS,
+  COOKBOOK_MYLIST_FAILURE,
+} from '../constants/cookbookConstants';
+
+export const createCookbook = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: COOKBOOK_CREATE_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    const { data } = await axios.post(`/api/cookbooks`, {}, config)
+
+    dispatch({
+      type: COOKBOOK_CREATE_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: COOKBOOK_CREATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+export const listMyCookbooks = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: COOKBOOK_MYLIST_REQUEST })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    const { data } = await axios.get('/api/cookbooks/mycookbooks', config)
+
+    dispatch({
+      type: COOKBOOK_MYLIST_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: COOKBOOK_MYLIST_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}

@@ -14,7 +14,12 @@ import {
   listMyRecipes,
   createRecipe,
 } from '../../actions/recipeActions';
+import {
+  createCookbook,
+  listMyCookbooks,
+} from '../../actions/cookbookActions';
 import { RECIPE_CREATE_RESET } from '../../constants/recipeConstants';
+import { COOKBOOK_CREATE_RESET } from '../../constants/cookbookConstants';
 
 import { isBrowser } from 'react-device-detect';
 
@@ -34,18 +39,37 @@ const IconSidebar = ({ history }) => {
     recipe: createdRecipe,
   } = recipeCreate
 
+  const cookbookCreate = useSelector(state => state.cookbookCreate)
+  const {
+    loading: loadingCookbookCreate,
+    error: errorCookbookCreate,
+    success: successCookbookCreate,
+    cookbook: createdCookbook,
+  } = cookbookCreate
+
+  const cookbookMyList = useSelector(state => state.cookbookMyList)
+  const { loading, error, cookbooks } = cookbookMyList
+
   useEffect(() => {
     dispatch({ type: RECIPE_CREATE_RESET })
+    dispatch({ type: COOKBOOK_CREATE_RESET })
 
     if(successCreate) {
       dispatch(listMyRecipes())
     }
+
+    if(successCookbookCreate || cookbooks) {
+      dispatch(listMyCookbooks())
+    }
+
   }, [
     dispatch,
     history,
     chefInfo,
     successCreate,
-    createdRecipe
+    createdRecipe,
+    successCookbookCreate,
+    createCookbook
   ])
 
   const createRecipeHandler = () => {
@@ -53,7 +77,7 @@ const IconSidebar = ({ history }) => {
   }
 
   const createCookbookHandler = () => {
-    dispatch(createRecipe())
+    dispatch(createCookbook())
   }
 
   return (
@@ -197,27 +221,24 @@ const IconSidebar = ({ history }) => {
                     </div>
                   </Nav.Link>
                 </LinkContainer>
-                <div className='sidebarScroller' style={{ }}>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
-                  <div>hisadasdsdsaasd</div>
+                <div className='sidebarScroller'>
+                  {(cookbooks === undefined || cookbooks.length == 0) ? (
+                    <div></div>
+                  ) : (
+                    cookbooks.map(cookbook => (
+                      <div className="sidebarIcon" style={{paddingTop: '5px'}}>
+                        {cookbook.cookbook_name.length > 18 ? (
+                          <div>{cookbook.cookbook_name.slice(0, 18) + (cookbook.cookbook_name.length > 18 ? "..." : "")}</div>
+                        ) : (
+                          <LinkContainer to={`/cookbooks/${cookbook._id}`} style={{paddingLeft: '0px', paddingBottom: '0px', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                            <Nav.Link>
+                              <div className="sidebarIcon">{cookbook.cookbook_name}</div>
+                            </Nav.Link>
+                          </LinkContainer>
+                        )}
+                      </div>
+                    ))
+                  )}
                 </div>
             </Nav>
           </div>

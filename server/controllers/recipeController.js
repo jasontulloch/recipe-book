@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Recipe from '../models/recipeModel.js';
 import Chef from '../models/chefModel.js';
+import Cookbook from '../models/cookbookModel.js';
 
 // @description Fetch all recipe names
 // @route GET /api/recipeNames
@@ -729,6 +730,44 @@ const saveIngredients = asyncHandler(async (req, res) => {
     }
 })
 
+// @description Save a recipe to cookbook
+// @route POST /api/recipes/:id/saveToCookbook
+// @access Private
+const saveRecipeToCookbook = asyncHandler(async (req, res) => {
+  const {
+    _id,
+    cookbookId,
+  } = req.body
+
+  const recipe = await Recipe.findById(req.params.id)
+  const chef = await Chef.findById(req.chef._id)
+  const cookbook = await Cookbook.findById(cookbookId)
+
+  if(recipe) {
+    const alreadySavedToCookbook = cookbook.recipes.find(
+      r => (r._id.toString() === recipe._id.toString())
+    )
+
+    if(alreadySavedToCookbook) {
+      res.status(400)
+      throw new Error('Recipe has already been saved to this cookbook')
+    }
+
+    const savedRecipe = {
+      _id: req._id
+    }
+
+    cookbook.recipes.push(recipe._id)
+
+    await cookbook.save()
+
+    res.status(201).json({ message: 'Cookbook saved'})
+  } else {
+    res.status(400)
+    throw new Error('Cookbook not saved')
+  }
+})
+
 export {
   getRecipeNames,
   getRecipes,
@@ -743,5 +782,6 @@ export {
   createRecipeDownvote,
   saveRecipe,
   unsaveRecipe,
-  saveIngredients
+  saveIngredients,
+  saveRecipeToCookbook
 }

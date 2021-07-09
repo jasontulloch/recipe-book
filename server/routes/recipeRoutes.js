@@ -13,7 +13,8 @@ import {
   createRecipeDownvote,
   saveRecipe,
   unsaveRecipe,
-  saveIngredients
+  saveIngredients,
+  saveRecipeToCookbook,
 } from '../controllers/recipeController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
@@ -43,5 +44,7 @@ router.route('/:id')
   .get(getRecipeById)
   .delete(protect, deleteRecipe)
   .put(protect, updateRecipe)
+  router.route('/:id/saveToCookbook')
+    .post(protect, saveRecipeToCookbook)
 
 export default router;

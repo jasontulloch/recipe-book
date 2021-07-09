@@ -237,6 +237,10 @@ const chefSchema = mongoose.Schema(
       default: []
     },
     following: [followingSchema],
+    cookbooks: {
+      type: Array,
+      default: []
+    },
   }, {
     timestamps: true,
   }

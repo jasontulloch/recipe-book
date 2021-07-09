@@ -1,0 +1,83 @@
+import asyncHandler from 'express-async-handler';
+import Cookbook from '../models/cookbookModel.js';
+import Chef from '../models/chefModel.js';
+import Recipe from '../models/recipeModel.js';
+
+// @description Create a cookbook
+// @route POST /api/cookbook
+// @access Private
+const createCookbook = asyncHandler(async (req, res) => {
+  const cookbook = new Cookbook({
+    chef: req.chef._id,
+    cookbook_name: 'Sample Cookbook',
+    isPrivate: true,
+    isPremium: false,
+    recipes: [],
+    description: ''
+  })
+
+  const createdCookbook = await cookbook.save()
+  res.status(201).json(createdCookbook)
+
+  const chef = await Chef.findById(req.chef._id)
+  if(cookbook) {
+    const cookbookAlreadyExists = chef.cookbooks.find(
+      r => (r._id.toString() === cookbook._id.toString())
+    )
+
+    if(cookbookAlreadyExists) {
+      res.status(400)
+      throw new Error('Cookbook has already been created')
+    }
+
+    chef.cookbooks.push(cookbook._id)
+    await chef.save()
+
+  } else {
+    res.status(400)
+    throw new Error('Cookbook not created')
+  }
+})
+
+// @description Fetch my cookbooks
+// @route GET /api/recipe/mycookbooks
+// @access Private
+const getMyCookbooks = asyncHandler(async (req, res) => {
+  // Returns all cookbooks
+  const cookbooks = await Cookbook.find({})
+  // Returns the current chef
+  const chef = await Chef.findById(req.chef._id)
+  // Returns all distinct values as an array
+  const myCookbookId = await [... new Set(chef.cookbooks.map(id => id._id))]
+  // Convert the array values to a string
+  const myCookbookIdToString = myCookbookId.toString()
+  // Filter all cookbooks to find the ones that match the array of string IDs
+  const myCookbooks = cookbooks.filter(function(cookbook) {
+    return myCookbookIdToString.indexOf(cookbook._id) !== -1
+  })
+  // Returns the filtered array as a JSON object
+  res.json(myCookbooks)
+})
+
+// matching the Cookbook Model Id with whats in the URL
+// @description Fetch single cookbook
+// @route GET /api/cookbooks/:id
+// @access Public
+const getCookbookById = asyncHandler(async (req, res) => {
+  const cookbook = await Cookbook.findById(req.params.id)
+
+  if (cookbook) {
+    // Returns all distinct values as an array
+    const cookbookRecipes = await [... new Set(cookbook.recipes.map(id => id.recipe_name))]
+    res.json({ cookbookRecipes })
+  } else {
+    res.status(404)
+    throw new Error('Cookbook not found')
+  }
+})
+
+export {
+  createCookbook,
+  getMyCookbooks,
+  getCookbookById,
+}

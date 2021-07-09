@@ -35,7 +35,7 @@ const AllChefsPage = ({ match }) => {
 
 
   return (
-    <div className="allChefsPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
+    <div className="allChefsPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
       {initialLoader ?  (
         <PancakeLoader>Finding great chefs...</PancakeLoader>
       ) : error ? (

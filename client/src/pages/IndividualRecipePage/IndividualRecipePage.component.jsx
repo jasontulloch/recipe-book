@@ -12,7 +12,9 @@ import {
   Form,
   Tooltip,
   OverlayTrigger,
-  Badge
+  Badge,
+  DropdownButton,
+  Dropdown,
 } from 'react-bootstrap';
 import {
   listRecipeDetails,
@@ -21,12 +23,17 @@ import {
   saveRecipe,
   unsaveRecipe,
   saveRecipeIngredients,
+  saveRecipeToCookbook,
 } from '../../actions/recipeActions';
+import {
+  listMyCookbooks,
+} from '../../actions/cookbookActions';
 import { RECIPE_CREATE_UPVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_CREATE_DOWNVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_INGREDIENTS_RESET } from '../../constants/recipeConstants';
+import { RECIPE_SAVE_TO_COOKBOOK_RESET } from '../../constants/recipeConstants';
 import Unitz from 'unitz'
 import './IndividualRecipePage.styles.scss';
 import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes, FaFileDownload } from 'react-icons/fa';
@@ -63,6 +70,8 @@ const IndividualRecipePage = ({ history, match }) => {
   const [useMillimetres, setUseMillimetres] = useState(false)
   const [temperatureF, setTemperatureF] = useState(0)
   const [temperatureC, setTemperatureC] = useState(0)
+
+  const [saveToCookbook, setSaveToCookbook] = useState('')
 
   const [warningMessage, setWarningMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -102,6 +111,19 @@ const IndividualRecipePage = ({ history, match }) => {
     success: successRecipeSaveIngredients,
     error: errorRecipeSaveIngredients
   } = recipeSaveIngredients
+
+  const recipeSaveToCookbook = useSelector(state => state.recipeSaveToCookbook)
+  const {
+    success: successRecipeSaveToCookbook,
+    error: errorRecipeSaveToCookbook
+  } = recipeSaveToCookbook
+
+  const cookbookMyList = useSelector(state => state.cookbookMyList)
+  const {
+    loading: loadingCookbook,
+    error: errorCookbook,
+    cookbooks
+  } = cookbookMyList
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
@@ -164,6 +186,10 @@ const IndividualRecipePage = ({ history, match }) => {
       setSaveIngredients('')
       dispatch({ type: RECIPE_SAVE_INGREDIENTS_RESET })
     }
+    if(successRecipeSaveToCookbook) {
+      setSaveToCookbook('')
+      dispatch({ type: RECIPE_SAVE_TO_COOKBOOK_RESET })
+    }
     dispatch(listRecipeDetails(match.params.id))
   }, [
     dispatch,
@@ -173,6 +199,7 @@ const IndividualRecipePage = ({ history, match }) => {
     successRecipeSave,
     successRecipeUnsave,
     successRecipeSaveIngredients,
+    successRecipeSaveToCookbook,
     isMetric
   ])
 
@@ -229,6 +256,20 @@ const IndividualRecipePage = ({ history, match }) => {
       setSuccessMessage('')
       setShowGroceryListMessage(false)
     }, 10000)
+  }
+
+  const [cookbookId, setCookbookId] = useState('')
+  const saveToCookbookHandler = (e) => {
+    e.preventDefault()
+    console.log(cookbookId)
+    dispatch(saveRecipeToCookbook(match.params.id, {
+      cookbookId,
+      saveToCookbook,
+    }))
+    setSuccessMessage('Recipe successfully saved to Cookbook.')
+    setTimeout(function() {
+      setSuccessMessage('')
+    }, 5000)
   }
 
   const Diets = []
@@ -440,7 +481,7 @@ const IndividualRecipePage = ({ history, match }) => {
   const finalClean = finalCleanBrokenFractions.map(function(x){return x.replace('NaN/NaN ', '')})
 
   return (
-    <div style={{paddingLeft: '30px', paddingRight:'30px'}} className="individualRecipePage">
+    <div style={{paddingLeft: '200px', paddingRight:'30px'}} className="individualRecipePage">
       {recipe.isPublished === true ? (
         <div>
           <div className="individualRecipePageMessagesMobile" style={{paddingLeft: '30px'}}>
@@ -769,6 +810,54 @@ const IndividualRecipePage = ({ history, match }) => {
                   Add ingredients to grocery list
                 </Button>
               </Form>
+            </Col>
+            <Col xs={12} style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
+              <Form onSubmit={saveToCookbookHandler}>
+                {(cookbooks === undefined || cookbooks.length == 0) ? (
+                  <div></div>
+                ) : (
+
+                  cookbooks.map(cookbook => (
+                    <div className="sidebarIcon" style={{paddingTop: '5px'}}>
+                      {cookbook.cookbook_name.length > 18 ? (
+                        <div>{cookbook.cookbook_name.slice(0, 18) + (cookbook.cookbook_name.length > 18 ? "..." : "")}</div>
+                      ) : (
+                        <Button
+                          variant='outline-success'
+                          className='ml-1 p-1'
+                          style={{fontSize: '8.5px', lineHeight: '10px'}}
+                          type='submit'
+                          onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
+                          disabled={(chefInfo == null) ? true : false}
+                        >
+                          {cookbook.cookbook_name}
+                        </Button>
+                      )}
+                    </div>
+                  ))
+                )}
+              </Form>
+            </Col>
+            <Col xs={12} style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
+              {(cookbooks === undefined || cookbooks.length == 0) ? (
+                <div></div>
+              ) : (
+                <DropdownButton
+                  title="Add to Cookbook"
+                  variant='outline-success'
+                >
+                  {cookbooks.map(cookbook => (
+                    <Form onSubmit={saveToCookbookHandler}>
+                      <Dropdown.Item
+                        type='submit'
+                        onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id); saveToCookbookHandler(e) }}
+                      >
+                        {cookbook.cookbook_name}
+                      </Dropdown.Item>
+                    </Form>
+                  ))}
+                </DropdownButton>
+              )}
             </Col>
             <Col className="indvidualRecipePageIngredientsMobile" style={{ paddingTop: '15px'}} xs={12} md={6}>
               <Row>

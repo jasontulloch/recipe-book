@@ -396,7 +396,7 @@ const AdvancedRecipeSearchPageTest = ({ history, match }) => {
   }
 
   return (
-    <div style={{paddingLeft: '40px', paddingTop: '30px', paddingRight: '10px'}}>
+    <div style={{paddingLeft: '210px', paddingRight: '10px'}}>
       <div style={{textAlign: 'center'}}>
         <p style={{marginBottom: '0px'}}>Looking for the most popular recipe? Don't worry, you can sort after your search.</p>
         <p>How about a different serving size? All recipes can be adjusted on their individual page.</p>

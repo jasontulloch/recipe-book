@@ -41,7 +41,10 @@ import {
   RECIPE_MYSAVED_FAILURE,
   RECIPE_SAVE_INGREDIENTS_REQUEST,
   RECIPE_SAVE_INGREDIENTS_SUCCESS,
-  RECIPE_SAVE_INGREDIENTS_FAILURE
+  RECIPE_SAVE_INGREDIENTS_FAILURE,
+  RECIPE_SAVE_TO_COOKBOOK_REQUEST,
+  RECIPE_SAVE_TO_COOKBOOK_SUCCESS,
+  RECIPE_SAVE_TO_COOKBOOK_FAILURE,
 } from '../constants/recipeConstants';
 
 export const listRecipes = (
@@ -470,7 +473,7 @@ export const unsaveRecipe = (id) => async (dispatch, getState) => {
   }
 }
 
-export const saveRecipeIngredients = (recipeId, recipe) => async (dispatch, getState) => {
+export const saveRecipeIngredients = (recipeId, recipe, cookbookId) => async (dispatch, getState) => {
   try {
     dispatch({
       type: RECIPE_SAVE_INGREDIENTS_REQUEST
@@ -488,6 +491,7 @@ export const saveRecipeIngredients = (recipeId, recipe) => async (dispatch, getS
     await axios.post(
       `/api/recipes/${recipeId}/saveIngredients`,
       recipe,
+      cookbookId,
       config
     )
 
@@ -498,6 +502,42 @@ export const saveRecipeIngredients = (recipeId, recipe) => async (dispatch, getS
   } catch (error) {
     dispatch({
       type: RECIPE_SAVE_INGREDIENTS_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const saveRecipeToCookbook = (recipeId, recipe) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_SAVE_TO_COOKBOOK_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.post(
+      `/api/recipes/${recipeId}/saveToCookbook`,
+      recipe,
+      config
+    )
+
+    dispatch({
+      type: RECIPE_SAVE_TO_COOKBOOK_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: RECIPE_SAVE_TO_COOKBOOK_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -49,6 +49,10 @@ import {
   RECIPE_SAVE_INGREDIENTS_SUCCESS,
   RECIPE_SAVE_INGREDIENTS_FAILURE,
   RECIPE_SAVE_INGREDIENTS_RESET,
+  RECIPE_SAVE_TO_COOKBOOK_REQUEST,
+  RECIPE_SAVE_TO_COOKBOOK_SUCCESS,
+  RECIPE_SAVE_TO_COOKBOOK_FAILURE,
+  RECIPE_SAVE_TO_COOKBOOK_RESET,
 } from '../constants/recipeConstants';
 
 // Returning recipes, pages, and page to match what is returned in the controller
@@ -263,6 +267,21 @@ export const recipeSaveIngredientsReducer = (state = {}, action) => {
     case RECIPE_SAVE_INGREDIENTS_FAILURE:
       return { loading: false, error: action.payload }
     case RECIPE_SAVE_INGREDIENTS_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const recipeSaveToCookbookReducer = (state = {}, action) => {
+  switch (action.type) {
+    case RECIPE_SAVE_TO_COOKBOOK_REQUEST:
+      return { loading: true }
+    case RECIPE_SAVE_TO_COOKBOOK_SUCCESS:
+      return { loading: false, success: true }
+    case RECIPE_SAVE_TO_COOKBOOK_FAILURE:
+      return { loading: false, error: action.payload }
+    case RECIPE_SAVE_TO_COOKBOOK_RESET:
       return {}
     default:
       return state

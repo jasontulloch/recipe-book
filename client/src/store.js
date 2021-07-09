@@ -24,12 +24,17 @@ import {
   recipeSaveReducer,
   recipeUnsaveReducer,
   recipeMySavedReducer,
-  recipeSaveIngredientsReducer
+  recipeSaveIngredientsReducer,
+  recipeSaveToCookbookReducer,
 } from './reducers/recipeReducers';
 import {
   chefListReducer,
   chefPublicDetailsReducer,
 } from './reducers/chefPublicReducers';
+import {
+  cookbookCreateReducer,
+  cookbookMyListReducer,
+} from './reducers/cookbookReducers';
 import {
   emailGroceryListReducer,
   textGroceryListReducer,
@@ -57,8 +62,11 @@ const reducer = combineReducers({
   recipeUnsave: recipeUnsaveReducer,
   recipeMySaved: recipeMySavedReducer,
   recipeSaveIngredients: recipeSaveIngredientsReducer,
+  recipeSaveToCookbook: recipeSaveToCookbookReducer,
   chefList: chefListReducer,
   chefPublicDetails: chefPublicDetailsReducer,
+  cookbookCreate: cookbookCreateReducer,
+  cookbookMyList: cookbookMyListReducer,
   emailGroceryList: emailGroceryListReducer,
   textGroceryList: textGroceryListReducer
 })
