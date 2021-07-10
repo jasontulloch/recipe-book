@@ -27,6 +27,8 @@ import AllChefsPage from './pages/AllChefsPage/AllChefsPage.component';
 import IndividualChefPage from './pages/IndividualChefPage/IndividualChefPage.component';
 import ChefMyFollowedPage from './pages/ChefMyFollowedPage/ChefMyFollowedPage.component';
 
+import CookbookDetailsPage from './pages/CookbookDetailsPage/CookbookDetailsPage.component';
+
 const App = () => {
 
   const filters = [
@@ -101,6 +103,7 @@ const App = () => {
           <Route path='/chefs/page/:pageNumber' component={AllChefsPage} exact />
           <Route path='/chefs/:id/page/:pageNumber' component={IndividualChefPage} exact />
           <Route path='/mychefs/page/:pageNumber' component={ChefMyFollowedPage} exact />
+          <Route path='/cookbooks/:id' component={CookbookDetailsPage} exact />
 
           {(filtersUrl) && filtersUrl.map((items) =>
             <Route path={`/recipes/advanced-search-results${items}/page/:pageNumber`} component={AdvancedRecipeSearchResultsPage} exact/>

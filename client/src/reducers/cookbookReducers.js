@@ -6,6 +6,10 @@ import {
   COOKBOOK_MYLIST_REQUEST,
   COOKBOOK_MYLIST_SUCCESS,
   COOKBOOK_MYLIST_FAILURE,
+  COOKBOOK_DETAILS_REQUEST,
+  COOKBOOK_DETAILS_SUCCESS,
+  COOKBOOK_DETAILS_FAILURE,
+  COOKBOOK_DETAILS_RESET,
 } from '../constants/cookbookConstants';
 
 export const cookbookCreateReducer = (state = {}, action) => {
@@ -31,6 +35,25 @@ export const cookbookMyListReducer = (state = { cookbooks: [] }, action) => {
       return { loading: false, cookbooks: action.payload }
     case COOKBOOK_MYLIST_FAILURE:
       return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+export const cookbookDetailsReducer = (state = { cookbook: [] }, action) => {
+  switch (action.type) {
+    case COOKBOOK_DETAILS_REQUEST:
+      return { loading: true, ...state }
+    case COOKBOOK_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        cookbook: action.payload.cookbook,
+        myCookbookRecipes: action.payload.myCookbookRecipes
+      }
+    case COOKBOOK_DETAILS_FAILURE:
+      return { loading: false, error: action.payload}
+    case COOKBOOK_DETAILS_RESET:
+      return { recipe: {} }
     default:
       return state
   }

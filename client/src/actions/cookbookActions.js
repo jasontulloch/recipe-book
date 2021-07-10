@@ -6,6 +6,9 @@ import {
   COOKBOOK_MYLIST_REQUEST,
   COOKBOOK_MYLIST_SUCCESS,
   COOKBOOK_MYLIST_FAILURE,
+  COOKBOOK_DETAILS_REQUEST,
+  COOKBOOK_DETAILS_SUCCESS,
+  COOKBOOK_DETAILS_FAILURE,
 } from '../constants/cookbookConstants';
 
 export const createCookbook = () => async (dispatch, getState) => {
@@ -61,6 +64,27 @@ export const listMyCookbooks = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: COOKBOOK_MYLIST_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listCookbookDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: COOKBOOK_DETAILS_REQUEST })
+
+    const { data } = await axios.get(`/api/cookbooks/${id}`)
+
+    dispatch({
+      type: COOKBOOK_DETAILS_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: COOKBOOK_DETAILS_FAILURE,
       payload:
         error.response && error.response.data.message
         ? error.response.data.message

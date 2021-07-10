@@ -66,10 +66,25 @@ const getMyCookbooks = asyncHandler(async (req, res) => {
 const getCookbookById = asyncHandler(async (req, res) => {
   const cookbook = await Cookbook.findById(req.params.id)
 
+  // Returns all recipes
+  const recipes = await Recipe.find({
+
+  }, {
+
+  })
+
   if (cookbook) {
-    // Returns all distinct values as an array
-    const cookbookRecipes = await [... new Set(cookbook.recipes.map(id => id.recipe_name))]
-    res.json({ cookbookRecipes })
+    // Returns all distinct id values as an array
+    const cookbookRecipeIds = await [... new Set(cookbook.recipes.map(id => id._id))]
+    // Convert the array values to a string
+    const myCookbookRecipeIdsToString = cookbookRecipeIds.toString()
+    // Filter all recipes to find the ones that match the array of string IDs
+    const myCookbookRecipes = recipes.filter(function(recipe) {
+      return myCookbookRecipeIdsToString.indexOf(recipe._id) !== -1
+    })
+
+    // Returns the filtered array as a JSON object
+    res.json({ cookbook, myCookbookRecipes })
   } else {
     res.status(404)
     throw new Error('Cookbook not found')

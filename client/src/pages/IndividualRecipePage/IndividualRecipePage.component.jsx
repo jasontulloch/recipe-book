@@ -188,6 +188,18 @@ const IndividualRecipePage = ({ history, match }) => {
     }
     if(successRecipeSaveToCookbook) {
       setSaveToCookbook('')
+      setSuccessMessage('Recipe successfully saved to Cookbook.')
+      setTimeout(function() {
+        setSuccessMessage('')
+      }, 5000)
+      dispatch({ type: RECIPE_SAVE_TO_COOKBOOK_RESET })
+    }
+    if(errorRecipeSaveToCookbook) {
+      setSaveToCookbook('')
+      setWarningMessage('Recipe has already been saved to this cookbook')
+      setTimeout(function() {
+        setWarningMessage('')
+      }, 5000)
       dispatch({ type: RECIPE_SAVE_TO_COOKBOOK_RESET })
     }
     dispatch(listRecipeDetails(match.params.id))
@@ -200,6 +212,7 @@ const IndividualRecipePage = ({ history, match }) => {
     successRecipeUnsave,
     successRecipeSaveIngredients,
     successRecipeSaveToCookbook,
+    errorRecipeSaveToCookbook,
     isMetric
   ])
 
@@ -266,10 +279,6 @@ const IndividualRecipePage = ({ history, match }) => {
       cookbookId,
       saveToCookbook,
     }))
-    setSuccessMessage('Recipe successfully saved to Cookbook.')
-    setTimeout(function() {
-      setSuccessMessage('')
-    }, 5000)
   }
 
   const Diets = []
