@@ -1,26 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
-import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card } from 'react-bootstrap';
+import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  listCookbookDetails
+  listCookbookDetails,
 } from '../../actions/cookbookActions';
+import {
+  removeRecipeFromCookbook,
+} from '../../actions/recipeActions';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 import { IoLocationOutline } from 'react-icons/io5'
 import { IoMdCreate } from 'react-icons/io'
+import { BiInfoCircle } from 'react-icons/bi'
 import { GiBookmark, GiRank3, GiFoodTruck } from 'react-icons/gi'
 import { MdTimer, MdFormatListNumbered, MdLocalGroceryStore, MdDelete } from 'react-icons/md'
+
+import { RECIPE_REMOVE_FROM_COOKBOOK_RESET } from '../../constants/recipeConstants';
 
 import './CookbookDetailsPage.styles.scss';
 
 const CookbookDetailsPage = ({ match , history }) => {
 
+  const cookbookId = match.params.id
+  const [removeFromCookbook, setRemoveFromCookbook] = useState('')
+  const [removeFromCookbookId, setRemoveFromCookbookId] = useState('')
+
   const dispatch = useDispatch()
 
   const cookbookDetails = useSelector(state => state.cookbookDetails)
   const { loading, error, cookbook, myCookbookRecipes } = cookbookDetails
+
+  const recipeRemoveFromCookbook = useSelector(state => state.recipeRemoveFromCookbook)
+  const {
+    success: successRecipeRemoveFromCookbook,
+    error: errorRecipeRemoveFromCookbook
+  } = recipeRemoveFromCookbook
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
@@ -31,12 +47,26 @@ const CookbookDetailsPage = ({ match , history }) => {
   }
 
   useEffect(() => {
-    dispatch(listCookbookDetails(match.params.id))
+    dispatch(listCookbookDetails(cookbookId))
+    if(successRecipeRemoveFromCookbook) {
+      setRemoveFromCookbook('')
+      dispatch({ type: RECIPE_REMOVE_FROM_COOKBOOK_RESET })
+    }
   }, [
     dispatch,
     history,
     chefInfo,
+    cookbookId,
+    successRecipeRemoveFromCookbook
   ])
+
+  const removeRecipeFromCookbookHandler = (e) => {
+    e.preventDefault()
+    dispatch(removeRecipeFromCookbook(match.params.id, {
+      removeFromCookbook
+    }))
+    console.log(removeFromCookbook)
+  }
 
   return (
       <div className="chefRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
@@ -50,12 +80,12 @@ const CookbookDetailsPage = ({ match , history }) => {
               </span>
               <p>{cookbook.description}</p>
             </div>
-
             <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
               <thead style={{borderBottom: 'solid 1px #dedede'}}>
                 <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
                   <th style={{paddingRight: '0px', width: '115px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
+                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px', width: '10px'}}></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><IoLocationOutline style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><MdTimer style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><GiFoodTruck style={{width: '20px', height: '20px'}}/></th>
@@ -72,13 +102,16 @@ const CookbookDetailsPage = ({ match , history }) => {
                 ) : (
                   myCookbookRecipes.map(recipe => (
                     <tr key={recipe.id}>
-                      <td style={{paddingRight: '0px', paddingBottom: '0px'}}>
+                      <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
                         <Card style={{border: 'none', maxWidth: '100px'}}>
                           <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px'}} />
                         </Card>
                       </td>
-                      <td className="align-middle" style={{maxWidth: '200px'}}>
-                        <Link to={`/recipe/${recipe._id}`}>
+                      <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '0px'}}>
+                        <Link
+                          to={`/recipe/${recipe._id}`}
+                          style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
+                        >
                           {recipe.recipe_name.length > 60 ? (
                             <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
                               {recipe.recipe_name.slice(0, 60) + (recipe.recipe_name.length > 60 ? "..." : "")}
@@ -100,6 +133,20 @@ const CookbookDetailsPage = ({ match , history }) => {
                             </div>
                           )}
                         </Link>
+                      </td>
+                      <td className="align-middle" style={{padding: '0px'}}>
+                        {recipe.isPublished === false && (
+                          <OverlayTrigger
+                            placement='bottom'
+                            overlay={
+                              <Tooltip id={'tooltip-bottom'}>
+                                The chef has unpublished this recipe and appears to be making some edits!
+                              </Tooltip>
+                            }
+                          >
+                            <span><BiInfoCircle /></span>
+                          </OverlayTrigger>
+                        )}
                       </td>
                       <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.country}</td>
                       <td className="align-middle" style={{textAlign: 'center', width: '35px'}}>{recipe.cook_time}</td>
@@ -177,11 +224,17 @@ const CookbookDetailsPage = ({ match , history }) => {
                       </td>
                       <td className="align-middle" style={{textAlign: 'center', width: '50px', padding: '0px', paddingRight: '20px'}}>
                         {(chefInfo && cookbook.chef === chefInfo._id) && (
-                          <LinkContainer to={`/myrecipes/${recipe._id}/edit`} style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                            <Button variant='light' className='btn-sm' style={{width: '30px', height: '30px'}}>
+                          <Form onSubmit={removeRecipeFromCookbookHandler} style={{paddingLeft: '5px', paddingRight: '5px'}}>
+                            <Button
+                              variant='light'
+                              type='submit'
+                              className='btn-sm'
+                              onClick={(e) => setRemoveFromCookbook(recipe._id)}
+                              style={{width: '30px', height: '30px'}}
+                            >
                               <MdDelete style={{width: '20px', height: '20px'}}/>
                             </Button>
-                          </LinkContainer>
+                          </Form>
                         )}
                       </td>
                     </tr>

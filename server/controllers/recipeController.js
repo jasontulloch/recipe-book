@@ -768,6 +768,39 @@ const saveRecipeToCookbook = asyncHandler(async (req, res) => {
   }
 })
 
+// @description Remove a recipe from cookbook
+// @route DELETE /api/recipes/:id/removeFromCookbook
+// @access Private
+const removeRecipeFromCookbook = asyncHandler(async (req, res) => {
+  const {
+    _id,
+    recipeId,
+  } = req.body
+
+  const recipe = await Recipe.findById(recipeId)
+  const chef = await Chef.findById(req.chef._id)
+  const cookbook = await Cookbook.findById(req.params.id)
+
+  if(recipe) {
+    const alreadySavedToCookbook = cookbook.recipes.find(
+      r => (r._id.toString() === recipe._id.toString())
+    )
+
+    if(alreadySavedToCookbook) {
+      cookbook.recipes.delete(recipe._id)
+      await cookbook.save()
+      res.status(201).json({ message: 'Recipe removed from cookbook'})
+
+    } else {
+      throw new Error('Recipe is not in this cookbook')
+    }
+
+  } else {
+    res.status(400)
+    throw new Error('Cookbook not removed')
+  }
+})
+
 export {
   getRecipeNames,
   getRecipes,
@@ -783,5 +816,6 @@ export {
   saveRecipe,
   unsaveRecipe,
   saveIngredients,
-  saveRecipeToCookbook
+  saveRecipeToCookbook,
+  removeRecipeFromCookbook
 }

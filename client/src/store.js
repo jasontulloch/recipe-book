@@ -26,6 +26,7 @@ import {
   recipeMySavedReducer,
   recipeSaveIngredientsReducer,
   recipeSaveToCookbookReducer,
+  recipeRemoveFromCookbookReducer,
 } from './reducers/recipeReducers';
 import {
   chefListReducer,
@@ -64,6 +65,7 @@ const reducer = combineReducers({
   recipeMySaved: recipeMySavedReducer,
   recipeSaveIngredients: recipeSaveIngredientsReducer,
   recipeSaveToCookbook: recipeSaveToCookbookReducer,
+  recipeRemoveFromCookbook: recipeRemoveFromCookbookReducer,
   chefList: chefListReducer,
   chefPublicDetails: chefPublicDetailsReducer,
   cookbookCreate: cookbookCreateReducer,

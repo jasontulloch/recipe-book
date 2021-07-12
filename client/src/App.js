@@ -85,7 +85,7 @@ const App = () => {
       <Header />
       <IconSidebar />
       <main className="py-2" style={{maxWidth: '100vw', overflowX: 'hidden'}}>
-        <div style={{paddingTop: '70px'}}>
+        <div style={{paddingTop: '40px'}}>
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfileEditPage} />

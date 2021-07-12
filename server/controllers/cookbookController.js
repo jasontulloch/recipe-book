@@ -66,14 +66,14 @@ const getMyCookbooks = asyncHandler(async (req, res) => {
 const getCookbookById = asyncHandler(async (req, res) => {
   const cookbook = await Cookbook.findById(req.params.id)
 
-  // Returns all recipes
-  const recipes = await Recipe.find({
-
-  }, {
-
-  })
-
   if (cookbook) {
+
+      // Returns all recipes
+      const recipes = await Recipe.find({
+
+      }, {
+
+      })
     // Returns all distinct id values as an array
     const cookbookRecipeIds = await [... new Set(cookbook.recipes.map(id => id._id))]
     // Convert the array values to a string
@@ -82,6 +82,15 @@ const getCookbookById = asyncHandler(async (req, res) => {
     const myCookbookRecipes = recipes.filter(function(recipe) {
       return myCookbookRecipeIdsToString.indexOf(recipe._id) !== -1
     })
+
+    // Returns all distinct recipe chef id values as an array
+    //const cookbookRecipeChefIds = await [... new Set(myCookbookRecipes.map(recipe => recipe.chef))]
+    // For each chef id
+
+
+    // This works for just one recipe
+    //const chef = await Chef.findById(recipe.chef)
+    //const chefUsername = chef.username
 
     // Returns the filtered array as a JSON object
     res.json({ cookbook, myCookbookRecipes })

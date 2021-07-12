@@ -45,6 +45,9 @@ import {
   RECIPE_SAVE_TO_COOKBOOK_REQUEST,
   RECIPE_SAVE_TO_COOKBOOK_SUCCESS,
   RECIPE_SAVE_TO_COOKBOOK_FAILURE,
+  RECIPE_REMOVE_FROM_COOKBOOK_REQUEST,
+  RECIPE_REMOVE_FROM_COOKBOOK_SUCCESS,
+  RECIPE_REMOVE_FROM_COOKBOOK_FAILURE,
 } from '../constants/recipeConstants';
 
 export const listRecipes = (
@@ -538,6 +541,42 @@ export const saveRecipeToCookbook = (recipeId, recipe) => async (dispatch, getSt
   } catch (error) {
     dispatch({
       type: RECIPE_SAVE_TO_COOKBOOK_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const removeRecipeFromCookbook = (recipeId, recipe) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_REMOVE_FROM_COOKBOOK_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.delete(
+      `/api/recipes/${recipeId}/removeFromCookbook`,
+      recipe,
+      config
+    )
+
+    dispatch({
+      type: RECIPE_REMOVE_FROM_COOKBOOK_SUCCESS,
+    })
+
+  } catch (error) {
+    dispatch({
+      type: RECIPE_REMOVE_FROM_COOKBOOK_FAILURE,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
