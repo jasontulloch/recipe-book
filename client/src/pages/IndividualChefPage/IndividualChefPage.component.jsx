@@ -201,7 +201,7 @@ const IndividualChefPage = ({ history, match }) => {
   }
 
   return (
-    <div className="individualChefPageMobile" style={{paddingLeft: '50px'}}>
+    <div className="individualChefPageMobile" style={{paddingLeft: '230px'}}>
       {initialLoader ? (
         <PancakeLoader>Gathering chef details...</PancakeLoader>
       ) : (

@@ -25,7 +25,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   const dispatch = useDispatch()
 
   const recipeMySaved = useSelector(state => state.recipeMySaved)
-  const { loading, error, savedRecipes } = recipeMySaved
+  const { loading, error, savedRecipes, chefNames } = recipeMySaved
 
   const recipeUnsave = useSelector(state => state.recipeUnsave)
   const {
@@ -119,14 +119,14 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                           </div>
                         )}
                       </Link>
-                      <Link to={`/recipe/${recipe._id}`}>
-                        {recipe.chef.length > 15 ? (
+                      <Link to={`/chefs/${recipe.chef}/page/1`}>
+                        {chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? (
                           <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
-                            {recipe.chef.slice(0, 15) + (recipe.chef.length > 15 ? "..." : "")}
+                            {chefNames.find( ({ _id }) => _id === recipe.chef ).username.slice(0, 15) + (chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? "..." : "")}
                           </div>
                         ) : (
                           <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
-                            {recipe.chef}
+                            {chefNames.find( ({ _id }) => _id === recipe.chef ).username}
                           </div>
                         )}
                       </Link>
@@ -145,7 +145,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                         </OverlayTrigger>
                       )}
                     </td>
-                    <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.country}</td>
+                    <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.country < 1 ? 'n/a' : recipe.country}</td>
                     <td className="align-middle" style={{textAlign: 'center', width: '35px'}}>{recipe.cook_time}</td>
                     <td className="align-middle" style={{width: '225px'}}>
                       {(recipe.isVegan === true && (

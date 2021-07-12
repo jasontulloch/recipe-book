@@ -5,6 +5,7 @@ import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Form } from 're
 import { useDispatch, useSelector } from 'react-redux';
 import {
   listCookbookDetails,
+  updateCookbook
 } from '../../actions/cookbookActions';
 import {
   removeRecipeFromCookbook,
@@ -18,6 +19,7 @@ import { GiBookmark, GiRank3, GiFoodTruck } from 'react-icons/gi'
 import { MdTimer, MdFormatListNumbered, MdLocalGroceryStore, MdDelete } from 'react-icons/md'
 
 import { RECIPE_REMOVE_FROM_COOKBOOK_RESET } from '../../constants/recipeConstants';
+import { COOKBOOK_UPDATE_RESET, COOKBOOK_DETAILS_RESET } from '../../constants/cookbookConstants';
 
 import './CookbookDetailsPage.styles.scss';
 
@@ -26,6 +28,11 @@ const CookbookDetailsPage = ({ match , history }) => {
   const cookbookId = match.params.id
   const [removeFromCookbook, setRemoveFromCookbook] = useState('')
   const [removeFromCookbookId, setRemoveFromCookbookId] = useState('')
+  const [cookbook_name, setCookbookName] = useState('')
+  const [desription, setDescription] = useState('')
+  const [isPrivate, setIsPrivate] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
+  const [cookbook_cover_image, setCookbookCoverImage] = useState('')
 
   const dispatch = useDispatch()
 
@@ -37,6 +44,13 @@ const CookbookDetailsPage = ({ match , history }) => {
     success: successRecipeRemoveFromCookbook,
     error: errorRecipeRemoveFromCookbook
   } = recipeRemoveFromCookbook
+
+  const cookbookUpdate = useSelector(state => state.cookbookUpdate)
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate
+  } = cookbookUpdate
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
@@ -52,12 +66,26 @@ const CookbookDetailsPage = ({ match , history }) => {
       setRemoveFromCookbook('')
       dispatch({ type: RECIPE_REMOVE_FROM_COOKBOOK_RESET })
     }
+    if(successUpdate) {
+      dispatch({ type: COOKBOOK_UPDATE_RESET })
+      dispatch({ type: COOKBOOK_DETAILS_RESET })
+    } else {
+      if(!cookbook.cookbook_name || cookbook._id !== cookbookId) {
+        dispatch(listCookbookDetails(cookbookId))
+      } else {
+        setCookbookName(cookbook.cookbook_name)
+        setDescription(cookbook.description)
+        setIsPrivate(cookbook.isPrivate)
+        setIsPremium(cookbook.isPremium)
+        setCookbookCoverImage(cookbook.cookbook_cover_image)
+      }
+    }
   }, [
     dispatch,
     history,
     chefInfo,
     cookbookId,
-    successRecipeRemoveFromCookbook
+    successRecipeRemoveFromCookbook,
   ])
 
   const removeRecipeFromCookbookHandler = (e) => {
@@ -148,7 +176,7 @@ const CookbookDetailsPage = ({ match , history }) => {
                           </OverlayTrigger>
                         )}
                       </td>
-                      <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.country}</td>
+                      <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.country < 1 ? 'n/a' : recipe.country}</td>
                       <td className="align-middle" style={{textAlign: 'center', width: '35px'}}>{recipe.cook_time}</td>
                       <td className="align-middle" style={{width: '225px'}}>
                         {(recipe.isVegan === true && (

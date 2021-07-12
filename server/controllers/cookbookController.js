@@ -13,7 +13,8 @@ const createCookbook = asyncHandler(async (req, res) => {
     isPrivate: true,
     isPremium: false,
     recipes: [],
-    description: ''
+    description: '',
+    cookbook_cover_image: '/images/defaultRecipeCoverImage.jpg',
   })
 
   const createdCookbook = await cookbook.save()
@@ -85,16 +86,12 @@ const getCookbookById = asyncHandler(async (req, res) => {
 
     // Returns all distinct recipe chef id values as an array
     const cookbookRecipeChefIds = await [... new Set(myCookbookRecipes.map(recipe => recipe.chef))]
-    // For each chef id
+    // For each chef id return the id and the username --- filtering to get the name on the front end
     const chefNames = await Chef.find({
       "_id": { "$in": cookbookRecipeChefIds }
     }, {
       username: 1
     })
-
-
-    //const chef = await Chef.findById(cookbookRecipeChefIds)
-    //const chefUsername = chef.username
 
     // Returns the filtered array as a JSON object
     res.json({ cookbook, myCookbookRecipes, chefNames })
@@ -104,8 +101,39 @@ const getCookbookById = asyncHandler(async (req, res) => {
   }
 })
 
+// @description Update a recipe
+// @route PUT /api/:id
+// @access Private
+const updateCookbook = asyncHandler(async (req, res) => {
+  const {
+    cookbook_name,
+    description,
+    isPrivate,
+    isPremium,
+    cookbook_cover_image
+  } = req.body
+
+  const cookbook = await Cookbook.findById(req.params.id)
+
+  if(cookbook) {
+    cookbook.cookbook_name = cookbook_name
+    cookbook.description = description
+    cookbook.isPrivate = isPrivate
+    cookbook.isPremium = isPremium
+    cookbook.cookbook_cover_image = cookbook_cover_image
+
+    const updatedCookbook = await cookbook.save()
+    res.json(updatedCookbook)
+
+  } else {
+      res.status(404)
+      throw new Error('Recipe not found')
+  }
+})
+
 export {
   createCookbook,
   getMyCookbooks,
   getCookbookById,
+  updateCookbook
 }

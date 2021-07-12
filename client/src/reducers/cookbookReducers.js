@@ -10,6 +10,10 @@ import {
   COOKBOOK_DETAILS_SUCCESS,
   COOKBOOK_DETAILS_FAILURE,
   COOKBOOK_DETAILS_RESET,
+  COOKBOOK_UPDATE_REQUEST,
+  COOKBOOK_UPDATE_SUCCESS,
+  COOKBOOK_UPDATE_FAILURE,
+  COOKBOOK_UPDATE_RESET,
 } from '../constants/cookbookConstants';
 
 export const cookbookCreateReducer = (state = {}, action) => {
@@ -54,7 +58,22 @@ export const cookbookDetailsReducer = (state = { cookbook: [] }, action) => {
     case COOKBOOK_DETAILS_FAILURE:
       return { loading: false, error: action.payload}
     case COOKBOOK_DETAILS_RESET:
-      return { recipe: {} }
+      return { cookbook: {} }
+    default:
+      return state
+  }
+}
+
+export const cookbookUpdateReducer = (state = { cookbook: {} }, action) => {
+  switch (action.type) {
+    case COOKBOOK_UPDATE_REQUEST:
+      return { loading: true }
+    case COOKBOOK_UPDATE_SUCCESS:
+      return { loading: false, success: true, cookbook: action.payload }
+    case COOKBOOK_UPDATE_FAILURE:
+      return { loading: false, error: action.payload }
+    case COOKBOOK_UPDATE_RESET:
+      return { cookbook: {} }
     default:
       return state
   }

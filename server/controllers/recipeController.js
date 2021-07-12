@@ -383,8 +383,18 @@ const getMySavedRecipes = asyncHandler(async (req, res) => {
   const mySavedRecipes = recipes.filter(function(recipe) {
     return mySavedRecipesIdToString.indexOf(recipe._id) !== -1
   })
+
+  // Returns all distinct recipe chef id values as an array
+  const savedRecipeChefIds = await [... new Set(mySavedRecipes.map(recipe => recipe.chef))]
+  // For each chef id return the id and the username --- filtering to get the name on the front end
+  const chefNames = await Chef.find({
+    "_id": { "$in": savedRecipeChefIds }
+  }, {
+    username: 1
+  })
+
   // Returns the filtered array as a JSON object
-  res.json(mySavedRecipes)
+  res.json({ mySavedRecipes, chefNames })
 })
 
 // matching the Recipe Model Id with whats in the URL

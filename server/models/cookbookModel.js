@@ -29,6 +29,10 @@ const cookbookSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    cookbook_cover_image: {
+      type: String,
+      required: false
+    },
   }, {
     timestamps: true,
   }

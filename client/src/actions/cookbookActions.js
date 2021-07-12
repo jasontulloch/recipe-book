@@ -9,6 +9,9 @@ import {
   COOKBOOK_DETAILS_REQUEST,
   COOKBOOK_DETAILS_SUCCESS,
   COOKBOOK_DETAILS_FAILURE,
+  COOKBOOK_UPDATE_REQUEST,
+  COOKBOOK_UPDATE_SUCCESS,
+  COOKBOOK_UPDATE_FAILURE,
 } from '../constants/cookbookConstants';
 
 export const createCookbook = () => async (dispatch, getState) => {
@@ -89,6 +92,44 @@ export const listCookbookDetails = (id) => async (dispatch) => {
         error.response && error.response.data.message
         ? error.response.data.message
         : error.message,
+    })
+  }
+}
+
+export const updateCookbook = (cookbook) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: COOKBOOK_UPDATE_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    const { data } = await axios.put(`/api/cookbooks/${cookbook._id}`, cookbook, config)
+
+    dispatch({
+      type: COOKBOOK_UPDATE_SUCCESS,
+      payload: data
+    })
+
+    dispatch({
+      type: COOKBOOK_DETAILS_SUCCESS,
+      payload: data
+    })
+
+  } catch (error) {
+    dispatch({
+      type: COOKBOOK_UPDATE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
     })
   }
 }
