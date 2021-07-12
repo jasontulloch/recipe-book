@@ -48,7 +48,8 @@ export const cookbookDetailsReducer = (state = { cookbook: [] }, action) => {
       return {
         loading: false,
         cookbook: action.payload.cookbook,
-        myCookbookRecipes: action.payload.myCookbookRecipes
+        myCookbookRecipes: action.payload.myCookbookRecipes,
+        chefNames: action.payload.chefNames
       }
     case COOKBOOK_DETAILS_FAILURE:
       return { loading: false, error: action.payload}

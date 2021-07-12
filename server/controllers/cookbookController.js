@@ -84,16 +84,20 @@ const getCookbookById = asyncHandler(async (req, res) => {
     })
 
     // Returns all distinct recipe chef id values as an array
-    //const cookbookRecipeChefIds = await [... new Set(myCookbookRecipes.map(recipe => recipe.chef))]
+    const cookbookRecipeChefIds = await [... new Set(myCookbookRecipes.map(recipe => recipe.chef))]
     // For each chef id
+    const chefNames = await Chef.find({
+      "_id": { "$in": cookbookRecipeChefIds }
+    }, {
+      username: 1
+    })
 
 
-    // This works for just one recipe
-    //const chef = await Chef.findById(recipe.chef)
+    //const chef = await Chef.findById(cookbookRecipeChefIds)
     //const chefUsername = chef.username
 
     // Returns the filtered array as a JSON object
-    res.json({ cookbook, myCookbookRecipes })
+    res.json({ cookbook, myCookbookRecipes, chefNames })
   } else {
     res.status(404)
     throw new Error('Cookbook not found')

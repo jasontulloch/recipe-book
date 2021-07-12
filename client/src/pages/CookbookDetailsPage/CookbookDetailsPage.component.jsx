@@ -30,7 +30,7 @@ const CookbookDetailsPage = ({ match , history }) => {
   const dispatch = useDispatch()
 
   const cookbookDetails = useSelector(state => state.cookbookDetails)
-  const { loading, error, cookbook, myCookbookRecipes } = cookbookDetails
+  const { loading, error, cookbook, myCookbookRecipes, chefNames } = cookbookDetails
 
   const recipeRemoveFromCookbook = useSelector(state => state.recipeRemoveFromCookbook)
   const {
@@ -122,14 +122,14 @@ const CookbookDetailsPage = ({ match , history }) => {
                             </div>
                           )}
                         </Link>
-                        <Link to={`/recipe/${recipe._id}`}>
-                          {recipe.chef.length > 15 ? (
+                        <Link to={`/chefs/${recipe.chef}/page/1`}>
+                          {chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? (
                             <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
-                              {recipe.chef.slice(0, 15) + (recipe.chef.length > 15 ? "..." : "")}
+                              {chefNames.find( ({ _id }) => _id === recipe.chef ).username.slice(0, 15) + (chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? "..." : "")}
                             </div>
                           ) : (
                             <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
-                              {recipe.chef}
+                              {chefNames.find( ({ _id }) => _id === recipe.chef ).username}
                             </div>
                           )}
                         </Link>

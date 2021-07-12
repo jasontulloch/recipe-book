@@ -53,6 +53,7 @@ const IconSidebar = ({ history }) => {
   useEffect(() => {
     dispatch({ type: RECIPE_CREATE_RESET })
     dispatch({ type: COOKBOOK_CREATE_RESET })
+    dispatch(listMyCookbooks())
 
     if(successCreate) {
       dispatch(listMyRecipes())
