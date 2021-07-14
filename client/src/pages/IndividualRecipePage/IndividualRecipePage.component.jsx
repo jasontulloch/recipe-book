@@ -216,7 +216,7 @@ const IndividualRecipePage = ({ history, match }) => {
     successRecipeSaveIngredients,
     successRecipeSaveToCookbook,
     errorRecipeSaveToCookbook,
-    isMetric
+    isMetric,
   ])
 
   const upvoteHandler = (e) => {
@@ -755,34 +755,45 @@ const IndividualRecipePage = ({ history, match }) => {
             </Col>
             <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
               <DropdownButton title="More Features" style={{height: '25px', paddingRight: '5px'}}>
-                  <Form onSubmit={saveIngredientsHandler}>
-                    <Button
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      onClick={(e) => setSaveIngredients('')}
-                      disabled={(chefInfo == null) ? true : false}
-                    >
-                      Add ingredients to grocery list
-                    </Button>
-                  </Form>
-                  <Form onSubmit={textGroceryListHandler}>
-                    <Button
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      disabled={(chefInfo == null || temporarilyDisableTextButton) ? true : false}
-                    >
-                      Text Me Ingredients
-                    </Button>
-                  </Form>
-                  <Form onSubmit={emailGroceryListHandler}>
-                    <Button
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      disabled={(chefInfo == null || temporarilyDisableEmailButton) ? true : false}
-                    >
-                      Email Me Ingredients
-                    </Button>
-                  </Form>
+                <Form onSubmit={saveIngredientsHandler}>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    onClick={(e) => setSaveIngredients('')}
+                    disabled={(chefInfo == null) ? true : false}
+                  >
+                    Add ingredients to grocery list
+                  </Button>
+                </Form>
+                <Form onSubmit={textGroceryListHandler}>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chefInfo == null || temporarilyDisableTextButton) ? true : false}
+                  >
+                    Text Me Ingredients
+                  </Button>
+                </Form>
+                <Form onSubmit={emailGroceryListHandler}>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chefInfo == null || temporarilyDisableEmailButton) ? true : false}
+                  >
+                    Email Me Ingredients
+                  </Button>
+                </Form>
+                <Dropdown.Divider style={{marginTop: '0px', marginBottom: '0px'}} />
+                <Form>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    disabled={(chefInfo == null || temporarilyDisableEmailButton) ? true : false}
+                    onClick={(e) => history.push(`/chefs/${recipe.chef}/page/1`)}
+                  >
+                    View Chef Page
+                  </Button>
+                </Form>
+                <RecipeImagesModal recipe={recipe} style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}/>
               </DropdownButton>
               <DropdownButton title="Add to Cookbook" style={{height: '25px', paddingLeft: '5px'}}>
                 <Form onSubmit={saveToCookbookHandler}>
@@ -1006,9 +1017,6 @@ const IndividualRecipePage = ({ history, match }) => {
                   <p className="individualRecipePageFontSizeMobile">{recipe.notes}</p>
                 </div>
               )}
-            </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center', paddingBottom: '20px'}}>
-              <RecipeImagesModal recipe={recipe}/>
             </Col>
           </Row>
         </div>

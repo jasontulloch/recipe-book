@@ -13,8 +13,12 @@ const RecipeImagesModal = ({ recipe, loading }) => {
 
   return (
     <div>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
-        RECIPE IMAGES
+      <Button
+        variant="primary"
+        onClick={() => setModalShow(true)}
+        style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+      >
+        View Recipe Image
       </Button>
 
       <Modal
