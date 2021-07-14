@@ -37,6 +37,7 @@ import {
   cookbookMyListReducer,
   cookbookDetailsReducer,
   cookbookUpdateReducer,
+  cookbookDeleteReducer,
 } from './reducers/cookbookReducers';
 import {
   emailGroceryListReducer,
@@ -73,6 +74,7 @@ const reducer = combineReducers({
   cookbookMyList: cookbookMyListReducer,
   cookbookDetails: cookbookDetailsReducer,
   cookbookUpdate: cookbookUpdateReducer,
+  cookbookDelete: cookbookDeleteReducer,
   emailGroceryList: emailGroceryListReducer,
   textGroceryList: textGroceryListReducer
 })

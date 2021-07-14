@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
-import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Form } from 'react-bootstrap';
+import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Form, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   listCookbookDetails,
-  updateCookbook
+  updateCookbook,
+  listMyCookbooks
 } from '../../actions/cookbookActions';
 import {
   removeRecipeFromCookbook,
 } from '../../actions/recipeActions';
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
+import Message from '../../components/Message/Message.component';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 import { IoLocationOutline } from 'react-icons/io5'
 import { IoMdCreate } from 'react-icons/io'
@@ -29,15 +31,20 @@ const CookbookDetailsPage = ({ match , history }) => {
   const [removeFromCookbook, setRemoveFromCookbook] = useState('')
   const [removeFromCookbookId, setRemoveFromCookbookId] = useState('')
   const [cookbook_name, setCookbookName] = useState('')
-  const [desription, setDescription] = useState('')
+  const [description, setDescription] = useState('')
   const [isPrivate, setIsPrivate] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
   const [cookbook_cover_image, setCookbookCoverImage] = useState('')
 
+  const [warningMessage, setWarningMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+
+  const [editCookbookDetails, setEditCookbookDetails] = useState(false)
+
   const dispatch = useDispatch()
 
   const cookbookDetails = useSelector(state => state.cookbookDetails)
-  const { loading, error, cookbook, myCookbookRecipes, chefNames } = cookbookDetails
+  const { loading, error, success, cookbook, myCookbookRecipes, chefNames } = cookbookDetails
 
   const recipeRemoveFromCookbook = useSelector(state => state.recipeRemoveFromCookbook)
   const {
@@ -61,7 +68,6 @@ const CookbookDetailsPage = ({ match , history }) => {
   }
 
   useEffect(() => {
-    dispatch(listCookbookDetails(cookbookId))
     if(successRecipeRemoveFromCookbook) {
       setRemoveFromCookbook('')
       dispatch({ type: RECIPE_REMOVE_FROM_COOKBOOK_RESET })
@@ -69,7 +75,9 @@ const CookbookDetailsPage = ({ match , history }) => {
     if(successUpdate) {
       dispatch({ type: COOKBOOK_UPDATE_RESET })
       dispatch({ type: COOKBOOK_DETAILS_RESET })
+      dispatch(listMyCookbooks())
     } else {
+      // this check makes sure the FE updates if we look at a different cookbook
       if(!cookbook.cookbook_name || cookbook._id !== cookbookId) {
         dispatch(listCookbookDetails(cookbookId))
       } else {
@@ -86,15 +94,42 @@ const CookbookDetailsPage = ({ match , history }) => {
     chefInfo,
     cookbookId,
     successRecipeRemoveFromCookbook,
+    successUpdate,
+    cookbook.cookbook_name,
+    cookbook.description,
+    cookbook.isPrivate,
+    cookbook.setIsPremium,
+    cookbook.cookbook_cover_image
   ])
 
-  const removeRecipeFromCookbookHandler = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(removeRecipeFromCookbook(match.params.id, {
-      removeFromCookbook
-    }))
-    console.log(removeFromCookbook)
+    setEditCookbookDetails(false)
+    dispatch(
+      updateCookbook({
+        _id: cookbookId,
+        cookbook_name,
+        description,
+        isPrivate,
+        isPremium,
+        cookbook_cover_image,
+      })
+    )
   }
+
+  const [recipeId, setRecipeId] = ('')
+  const removeRecipeFromCookbookHandler = () => {
+    console.log(recipeId)
+    if(window.confirm('Are you sure? You can not undo this action.')) {
+      dispatch(removeRecipeFromCookbook(match.params.id, {
+        cookbookId,
+        recipeId
+      }))
+    }
+    console.log(recipeId)
+  }
+
+  console.log(recipeId)
 
   return (
       <div className="chefRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
@@ -102,12 +137,92 @@ const CookbookDetailsPage = ({ match , history }) => {
           <PancakeLoader>Loading cookbook...</PancakeLoader>
         ) : (
           <Row>
-            <div style={{marginLeft: '30px'}}>
-              <span>
-                <h3>{cookbook.cookbook_name}</h3>
-              </span>
-              <p>{cookbook.description}</p>
-            </div>
+            {warningMessage !== '' && (
+              <Message variant='danger'>{warningMessage}</Message>
+            )}
+            {successMessage !== '' && (
+              <Message variant='success'>{successMessage}</Message>
+            )}
+            {(myCookbookRecipes === undefined || myCookbookRecipes.length == 0 && chefInfo._id === cookbook.chef) && (
+              <div style={{marginLeft: '30px', width: '100%', textAlign: 'center'}}>
+                <Message variant='warning'>Looks like your cookbook does not have any recipes yet. Go to any recipe page to add it to this cookbook...</Message>
+              </div>
+            )}
+            {editCookbookDetails === false ? (
+              <div style={{marginLeft: '30px'}}>
+                <Form>
+                  <Form.Label>
+                    <h3>
+                      {cookbook.cookbook_name}
+                    </h3>
+                  </Form.Label>
+                  <Form.Check
+                    className="align-middle"
+                    inline
+                    style={{paddingBottom: '10px', marginLeft: '10px'}}
+                    type="switch"
+                    id="custom-switch"
+                    label="Edit"
+                    onChange={(e) => setEditCookbookDetails(true)}
+                  />
+                </Form>
+                <p>{cookbook.description}</p>
+              </div>
+            ) : (
+              <div style={{marginLeft: '30px', maxWidth: '50%'}}>
+                <Form inline onSubmit={submitHandler}>
+                  <h3>
+                    <Form.Control
+                      style={{width: '25vw'}}
+                      inline
+                      type='text'
+                      placeholder={cookbook.cookbook_name}
+                      value={cookbook_name}
+                      maxLength={40}
+                      minLength={5}
+                      onChange={(e) => setCookbookName(e.target.value)}
+                    >
+                    </Form.Control>
+                  </h3>
+                  <Button
+                    type='submit'
+                    variant='primary'
+                    className="align-middle"
+                    style={{marginBottom: '10px', marginLeft: '10px'}}
+                    onChange={(e) => setEditCookbookDetails(false)}
+                  >
+                    Save Changes
+                  </Button>
+                  <p>
+                    <Form.Control
+                      style={{width: '80vw'}}
+                      inline
+                      as='textarea'
+                      rows={3}
+                      placeholder={cookbook.description}
+                      value={description}
+                      maxLength={300}
+                      minLength={0}
+                      onChange={(e) => setDescription(e.target.value)}
+                    >
+                    </Form.Control>
+                  </p>
+
+                </Form>
+                <Row>
+                  <Form.Check
+                    className="align-middle"
+                    inline
+                    style={{paddingBottom: '10px', marginLeft: '10px'}}
+                    label="Share?"
+                    type="switch"
+                    id="custom-switch"
+                    checked={isPrivate}
+                    onChange={(e) => setIsPrivate(e.target.checked)}
+                  />
+                </Row>
+              </div>
+            )}
             <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
               <thead style={{borderBottom: 'solid 1px #dedede'}}>
                 <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
@@ -180,58 +295,58 @@ const CookbookDetailsPage = ({ match , history }) => {
                       <td className="align-middle" style={{textAlign: 'center', width: '35px'}}>{recipe.cook_time}</td>
                       <td className="align-middle" style={{width: '225px'}}>
                         {(recipe.isVegan === true && (
-                          <ClickableBadgeBooleans isVegan={recipe.isVegan} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isVegan={recipe.isVegan} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isVegetarian === true && (
-                          <ClickableBadgeBooleans isVegetarian={recipe.isVegetarian} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isVegetarian={recipe.isVegetarian} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isGlutenFree === true && (
-                          <ClickableBadgeBooleans isGlutenFree={recipe.isGlutenFree} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isGlutenFree={recipe.isGlutenFree} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isKetogenic === true && (
-                          <ClickableBadgeBooleans isKetogenic={recipe.isKetogenic} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isKetogenic={recipe.isKetogenic} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isPescatarian === true && (
-                          <ClickableBadgeBooleans isPescatarian={recipe.isPescatarian} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isPescatarian={recipe.isPescatarian} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isDairy === true && (
-                          <ClickableBadgeBooleans isDairy={recipe.isDairy} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isDairy={recipe.isDairy} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isEgg === true && (
-                          <ClickableBadgeBooleans isEgg={recipe.isEgg} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isEgg={recipe.isEgg} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isNuts === true && (
-                          <ClickableBadgeBooleans isNuts={recipe.isNuts} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isNuts={recipe.isNuts} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isShellfish === true && (
-                          <ClickableBadgeBooleans isShellfish={recipe.isShellfish} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isShellfish={recipe.isShellfish} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isSoy === true && (
-                          <ClickableBadgeBooleans isSoy={recipe.isSoy} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isSoy={recipe.isSoy} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isWheat === true && (
-                          <ClickableBadgeBooleans isWheat={recipe.isWheat} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isWheat={recipe.isWheat} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isAppetizer === true && (
-                          <ClickableBadgeBooleans isAppetizer={recipe.isAppetizer} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isAppetizer={recipe.isAppetizer} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isBreakfastBrunch === true && (
-                          <ClickableBadgeBooleans isBreakfastBrunch={recipe.isBreakfastBrunch} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isBreakfastBrunch={recipe.isBreakfastBrunch} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isDessert === true && (
-                          <ClickableBadgeBooleans isDessert={recipe.isDessert} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isDessert={recipe.isDessert} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isDrink === true && (
-                          <ClickableBadgeBooleans isDrink={recipe.isDrink} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isDrink={recipe.isDrink} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isMainDish === true && (
-                          <ClickableBadgeBooleans isMainDish={recipe.isMainDish} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isMainDish={recipe.isMainDish} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isSideSauce === true && (
-                          <ClickableBadgeBooleans isSideSauce={recipe.isSideSauce} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isSideSauce={recipe.isSideSauce} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                         {(recipe.isSnack === true && (
-                          <ClickableBadgeBooleans isSnack={recipe.isSnack} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
+                          <ClickableBadgeBooleans isSnack={recipe.isSnack} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
                       </td>
                       <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.netVotes}</td>
@@ -252,12 +367,12 @@ const CookbookDetailsPage = ({ match , history }) => {
                       </td>
                       <td className="align-middle" style={{textAlign: 'center', width: '50px', padding: '0px', paddingRight: '20px'}}>
                         {(chefInfo && cookbook.chef === chefInfo._id) && (
-                          <Form onSubmit={removeRecipeFromCookbookHandler} style={{paddingLeft: '5px', paddingRight: '5px'}}>
+                          <Form style={{paddingLeft: '5px', paddingRight: '5px'}}>
                             <Button
                               variant='light'
                               type='submit'
                               className='btn-sm'
-                              onClick={(e) => setRemoveFromCookbook(recipe._id)}
+                              onChange={(e) => setRecipeId(recipe._id)}
                               style={{width: '30px', height: '30px'}}
                             >
                               <MdDelete style={{width: '20px', height: '20px'}}/>

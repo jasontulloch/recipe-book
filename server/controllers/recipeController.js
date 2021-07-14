@@ -760,6 +760,7 @@ const saveRecipeToCookbook = asyncHandler(async (req, res) => {
 
     if(alreadySavedToCookbook) {
       res.status(400)
+      console.log(match)
       throw new Error('Recipe has already been saved to this cookbook')
     }
 
@@ -783,13 +784,13 @@ const saveRecipeToCookbook = asyncHandler(async (req, res) => {
 // @access Private
 const removeRecipeFromCookbook = asyncHandler(async (req, res) => {
   const {
-    _id,
+    cookbookId,
     recipeId,
   } = req.body
 
   const recipe = await Recipe.findById(recipeId)
   const chef = await Chef.findById(req.chef._id)
-  const cookbook = await Cookbook.findById(req.params.id)
+  const cookbook = await Cookbook.findById(match.params.id)
 
   if(recipe) {
     const alreadySavedToCookbook = cookbook.recipes.find(
@@ -797,7 +798,7 @@ const removeRecipeFromCookbook = asyncHandler(async (req, res) => {
     )
 
     if(alreadySavedToCookbook) {
-      cookbook.recipes.delete(recipe._id)
+      cookbook.recipes.remove(recipe._id)
       await cookbook.save()
       res.status(201).json({ message: 'Recipe removed from cookbook'})
 
@@ -809,7 +810,32 @@ const removeRecipeFromCookbook = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error('Cookbook not removed')
   }
+  res.json(req.body)
+
 })
+
+// const deleteRecipe = asyncHandler(async (req, res) => {
+//   const recipe = await Recipe.findById(req.params.id)
+//   const chef = await Chef.findById(req.chef._id)
+//
+//   if(recipe) {
+//     await recipe.remove()
+//
+//     const removeFromMyRecipes = chef.myRecipes.find(
+//       r => (r._id.toString() === recipe._id.toString())
+//     )
+//
+//     if(removeFromMyRecipes) {
+//         chef.myRecipes.remove(recipe._id)
+//         await chef.save()
+//     }
+//
+//     res.json({ message: 'Recipe removed'})
+//   } else {
+//     res.status(404)
+//     throw new Error('Recipe not found')
+//   }
+// })
 
 export {
   getRecipeNames,

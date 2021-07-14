@@ -28,6 +28,8 @@ import {
 import {
   listMyCookbooks,
 } from '../../actions/cookbookActions';
+import { getChefDetails } from '../../actions/chefActions';
+import { emailGroceryList, textGroceryList } from '../../actions/groceryListActions';
 import { RECIPE_CREATE_UPVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_CREATE_DOWNVOTE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_RESET } from '../../constants/recipeConstants';
@@ -37,6 +39,7 @@ import { RECIPE_SAVE_TO_COOKBOOK_RESET } from '../../constants/recipeConstants';
 import Unitz from 'unitz'
 import './IndividualRecipePage.styles.scss';
 import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes, FaFileDownload } from 'react-icons/fa';
+import { RiHeartAddLine, RiHeartAddFill } from 'react-icons/ri';
 import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
 import Message from '../../components/Message/Message.component';
 import ClickableBadge from '../../components/ClickableBadge/ClickableBadge.component';
@@ -274,10 +277,9 @@ const IndividualRecipePage = ({ history, match }) => {
   const [cookbookId, setCookbookId] = useState('')
   const saveToCookbookHandler = (e) => {
     e.preventDefault()
-    console.log(cookbookId)
     dispatch(saveRecipeToCookbook(match.params.id, {
-      cookbookId,
       saveToCookbook,
+      cookbookId
     }))
   }
 
@@ -489,6 +491,57 @@ const IndividualRecipePage = ({ history, match }) => {
   const finalCleanBrokenFractions = final.map(function(x){return x.replace(' ()', '')})
   const finalClean = finalCleanBrokenFractions.map(function(x){return x.replace('NaN/NaN ', '')})
 
+  // Using so someone can not spam email or text messages (disables all buttons temporarily)
+  const [temporarilyDisableEmailButton, setTemporarilyDisableEmailButton] = useState(false)
+  const [temporarilyDisableTextButton, setTemporarilyDisableTextButton] = useState(false)
+  const [successEmailMessage, setSuccessEmailMessage] = useState('')
+  const [successTextMessage, setSuccessTextMessage] = useState('')
+
+  // Have to remap ingredients to match how we send messages (array format), making sure converted with serving size and metric
+  // If empty currently returning 'null' so returning '' if that is true
+  const groceryListStandard = merge
+  const sendRecipeIngredients = quantitiesArray.map((e, i) => [(mergeNew[i].split(/(\s+)/).filter(e => e.trim().length > 0))[0],((mergeNew[i].split(/(\s+)/).filter(e => e.trim().length > 0))[1]) || '',itemArray[i],preparationArray[i]])
+
+  // Text and email recipe ingredients directly from indivudal recipe page
+  // Note that this does NOT overwrite the savedIngredients saved in the database
+  const textGroceryListHandler = (e) => {
+    e.preventDefault()
+    setSuccessMessage(`Your saved ingredients are on their way to you! They will be sent to ${chefInfo.phone_number}`)
+    setTemporarilyDisableEmailButton(true)
+    setTemporarilyDisableTextButton(true)
+    setTimeout(function() {
+      setSuccessMessage('')
+      setTemporarilyDisableEmailButton(false)
+      setTemporarilyDisableTextButton(false)
+    }, 20000)
+    dispatch(textGroceryList({
+      _id: chefInfo._id,
+      first_name: chefInfo.first_name,
+      last_name: chefInfo.last_name,
+      phone_number: chefInfo.phone_number,
+      savedIngredients: sendRecipeIngredients
+    }))
+  }
+
+  const emailGroceryListHandler = (e) => {
+    e.preventDefault()
+    setSuccessEmailMessage(`Your saved ingredients are on their way to you! They will be sent to ${chefInfo.email}`)
+    setTemporarilyDisableEmailButton(true)
+    setTemporarilyDisableTextButton(true)
+    setTimeout(function() {
+      setSuccessEmailMessage('')
+      setTemporarilyDisableEmailButton(false)
+      setTemporarilyDisableTextButton(false)
+    }, 20000)
+    dispatch(emailGroceryList({
+      _id: chefInfo._id,
+      first_name: chefInfo.first_name,
+      last_name: chefInfo.last_name,
+      email: chefInfo.email,
+      savedIngredients: sendRecipeIngredients
+    }))
+  }
+
   return (
     <div style={{paddingLeft: '200px', paddingRight:'30px'}} className="individualRecipePage">
       {recipe.isPublished === true ? (
@@ -538,86 +591,231 @@ const IndividualRecipePage = ({ history, match }) => {
                   </span>
                 </div>
             </Col>
+
+
             <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
               <Row style={{height: '40px'}}>
-              {(chefInfo) ? (
-                <div>
-                  {(recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === 1) ? (
-                    <Form onSubmit={downvoteHandler}>
-                      <Form.Group as={Row}>
-                        <Form.Label>
-                          <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
-                        </Form.Label>
-                        <Button
-                          variant='link'
-                          style={{ padding: 0, height: '25px'}}
-                          type='submit'
-                          onClick={(e) => setVote(-1)}
-                          disabled={(chefInfo == null) ? true : false}
-                        >
-                          <FaThumbsDown style={{ marginLeft: '5px'}}/>
-                        </Button>
-                      </Form.Group>
-                    </Form>
-                  ) : (recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === -1) ? (
-                    <Form onSubmit={upvoteHandler}>
-                      <Form.Group as={Row}>
-                        <Form.Label>
-                          <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
-                        </Form.Label>
-                        <Button
-                          variant='link'
-                          style={{ padding: 0, height: '25px'}}
-                          type='submit'
-                          onClick={(e) => setVote(1)}
-                          disabled={(chefInfo == null) ? true : false}
-                        >
-                          <FaThumbsUp style={{ marginLeft: '5px'}}/>
-                        </Button>
-                      </Form.Group>
-                    </Form>
-                  ) : (
-                    <Row>
-                      <Form onSubmit={upvoteHandler}>
-                        <Form.Group as={Row}>
-                          <Form.Label>
-                            <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
-                          </Form.Label>
-                          <Button
-                            variant='link'
-                            style={{ padding: 0, height: '25px', marginLeft: '10px', marginRight: '40px'}}
-                            type='submit'
-                            onClick={(e) => setVote(1)}
-                            disabled={(chefInfo == null) ? true : false}
-                          >
-                            <FaThumbsUp style={{ }}/>
-                          </Button>
-                        </Form.Group>
-                      </Form>
-                      <Form onSubmit={downvoteHandler}>
-                        <Form.Group as={Row}>
-                          <Button
-                            variant='link'
-                            style={{ padding: 0, height: '25px'}}
-                            type='submit'
-                            onClick={(e) => setVote(-1)}
-                            disabled={(chefInfo == null) ? true : false}
-                          >
-                            <FaThumbsDown style={{ }} />
-                          </Button>
-                        </Form.Group>
-                      </Form>
-                    </Row>
-                  )}
-                </div>
-              ) : (
-                <Form>
-                  <Form.Label>
-                    <p>RATING | {recipe.netVotes}</p>
-                  </Form.Label>
-                </Form>
-              )}
+                {(chefInfo) ? (
+                  <div>
+                    {(recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === 1) ? (
+                      <Row>
+                        {(isRecipeSaved) ? (
+                          <Form onSubmit={unsaveHandler}>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setSave('')}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <RiHeartAddFill style={{marginRight: '25px'}}/>
+                            </Button>
+                          </Form>
+                        ) : (
+                          <Form onSubmit={saveHandler}>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setSave('')}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <RiHeartAddLine style={{marginRight: '25px'}}/>
+                            </Button>
+                          </Form>
+                        )}
+                        <Form onSubmit={downvoteHandler}>
+                          <Form.Group as={Row}>
+                            <Form.Label>
+                              <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
+                            </Form.Label>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setVote(-1)}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <FaThumbsDown style={{ marginLeft: '5px'}}/>
+                            </Button>
+                          </Form.Group>
+                        </Form>
+                      </Row>
+                    ) : (recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === -1) ? (
+                      <Row>
+                        {(isRecipeSaved) ? (
+                          <Form onSubmit={unsaveHandler}>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setSave('')}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <RiHeartAddFill style={{marginRight: '25px'}}/>
+                            </Button>
+                          </Form>
+                        ) : (
+                          <Form onSubmit={saveHandler}>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setSave('')}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <RiHeartAddLine style={{marginRight: '25px'}}/>
+                            </Button>
+                          </Form>
+                        )}
+                        <Form onSubmit={upvoteHandler}>
+                          <Form.Group as={Row}>
+                            <Form.Label>
+                              <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
+                            </Form.Label>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setVote(1)}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <FaThumbsUp style={{ marginLeft: '5px'}}/>
+                            </Button>
+                          </Form.Group>
+                        </Form>
+                      </Row>
+                    ) : (
+                      <Row>
+                        {(isRecipeSaved) ? (
+                          <Form onSubmit={unsaveHandler}>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setSave('')}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <RiHeartAddFill style={{marginRight: '25px'}}/>
+                            </Button>
+                          </Form>
+                        ) : (
+                          <Form onSubmit={saveHandler}>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setSave('')}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <RiHeartAddLine style={{marginRight: '25px'}}/>
+                            </Button>
+                          </Form>
+                        )}
+                        <Form onSubmit={upvoteHandler}>
+                          <Form.Group as={Row}>
+                            <Form.Label>
+                              <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
+                            </Form.Label>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px', marginLeft: '10px', marginRight: '40px'}}
+                              type='submit'
+                              onClick={(e) => setVote(1)}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <FaThumbsUp style={{ }}/>
+                            </Button>
+                          </Form.Group>
+                        </Form>
+                        <Form onSubmit={downvoteHandler}>
+                          <Form.Group as={Row}>
+                            <Button
+                              variant='link'
+                              style={{ padding: 0, height: '25px'}}
+                              type='submit'
+                              onClick={(e) => setVote(-1)}
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              <FaThumbsDown style={{ }} />
+                            </Button>
+                          </Form.Group>
+                        </Form>
+                      </Row>
+                    )}
+                  </div>
+                ) : (
+                  <Form>
+                    <Form.Label>
+                      <p>RATING | {recipe.netVotes}</p>
+                    </Form.Label>
+                  </Form>
+                )}
               </Row>
+            </Col>
+            <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
+              <DropdownButton title="More Features" style={{height: '25px', paddingRight: '5px'}}>
+                  <Form onSubmit={saveIngredientsHandler}>
+                    <Button
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      onClick={(e) => setSaveIngredients('')}
+                      disabled={(chefInfo == null) ? true : false}
+                    >
+                      Add ingredients to grocery list
+                    </Button>
+                  </Form>
+                  <Form onSubmit={textGroceryListHandler}>
+                    <Button
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      disabled={(chefInfo == null || temporarilyDisableTextButton) ? true : false}
+                    >
+                      Text Me Ingredients
+                    </Button>
+                  </Form>
+                  <Form onSubmit={emailGroceryListHandler}>
+                    <Button
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      disabled={(chefInfo == null || temporarilyDisableEmailButton) ? true : false}
+                    >
+                      Email Me Ingredients
+                    </Button>
+                  </Form>
+              </DropdownButton>
+              <DropdownButton title="Add to Cookbook" style={{height: '25px', paddingLeft: '5px'}}>
+                <Form onSubmit={saveToCookbookHandler}>
+                  {(cookbooks === undefined || cookbooks.length == 0) ? (
+                    <div></div>
+                  ) : (
+
+                    cookbooks.map(cookbook => (
+                      <div className="sidebarIcon">
+                        {cookbook.cookbook_name.length > 25 ? (
+                          <Button
+                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                            type='submit'
+                            onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
+                            disabled={(chefInfo == null) ? true : false}
+                          >
+                            {cookbook.cookbook_name.slice(0, 25) + (cookbook.cookbook_name.length > 25 ? "..." : "")}
+                          </Button>
+                        ) : (
+                          <Button
+                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                            type='submit'
+                            onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
+                            disabled={(chefInfo == null) ? true : false}
+                          >
+                            {cookbook.cookbook_name}
+                          </Button>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </Form>
+              </DropdownButton>
             </Col>
             <Col xs={12} style={{borderBottom: 'dotted 3px'}}>
               <h6 style={{textAlign: 'center'}}>
@@ -706,6 +904,8 @@ const IndividualRecipePage = ({ history, match }) => {
                         inline
                         label='Metric?'
                         checked={isMetric}
+                        type="switch"
+                        id="custom-switch"
                         onChange={(e) => setIsMetric(e.target.checked)}
                         disabled={(chefInfo == null) ? true : false}
                       />
@@ -777,95 +977,6 @@ const IndividualRecipePage = ({ history, match }) => {
                   )}
                 </div>
               </Form.Group>
-              )}
-            </Col>
-            <Col xs={12} style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
-            {(isRecipeSaved) ? (
-              <Form onSubmit={unsaveHandler}>
-                <Button
-                  variant='outline-success'
-                  className='ml-1 p-1'
-                  style={{fontSize: '8.5px', lineHeight: '10px'}}
-                  type='submit'
-                  onClick={(e) => setSave('')}
-                  disabled={(chefInfo == null) ? true : false}
-                >
-                  Remove recipe from RecipeBook
-                </Button>
-              </Form>
-            ) : (
-              <Form onSubmit={saveHandler}>
-                <Button
-                  variant='outline-success'
-                  className='ml-1 p-1'
-                  style={{fontSize: '8.5px', lineHeight: '10px'}}
-                  type='submit'
-                  onClick={(e) => setSave('')}
-                  disabled={(chefInfo == null) ? true : false}
-                >
-                  Save recipe to RecipeBook
-                </Button>
-              </Form>
-            )}
-              <Form onSubmit={saveIngredientsHandler}>
-                <Button
-                  variant='outline-success'
-                  className='ml-1 p-1'
-                  style={{fontSize: '8.5px', lineHeight: '10px'}}
-                  type='submit'
-                  onClick={(e) => setSaveIngredients('')}
-                  disabled={(chefInfo == null) ? true : false}
-                >
-                  Add ingredients to grocery list
-                </Button>
-              </Form>
-            </Col>
-            <Col xs={12} style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
-              <Form onSubmit={saveToCookbookHandler}>
-                {(cookbooks === undefined || cookbooks.length == 0) ? (
-                  <div></div>
-                ) : (
-
-                  cookbooks.map(cookbook => (
-                    <div className="sidebarIcon" style={{paddingTop: '5px'}}>
-                      {cookbook.cookbook_name.length > 18 ? (
-                        <div>{cookbook.cookbook_name.slice(0, 18) + (cookbook.cookbook_name.length > 18 ? "..." : "")}</div>
-                      ) : (
-                        <Button
-                          variant='outline-success'
-                          className='ml-1 p-1'
-                          style={{fontSize: '8.5px', lineHeight: '10px'}}
-                          type='submit'
-                          onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
-                          disabled={(chefInfo == null) ? true : false}
-                        >
-                          {cookbook.cookbook_name}
-                        </Button>
-                      )}
-                    </div>
-                  ))
-                )}
-              </Form>
-            </Col>
-            <Col xs={12} style={{display: 'flex', justifyContent: 'center', marginTop: '10px'}}>
-              {(cookbooks === undefined || cookbooks.length == 0) ? (
-                <div></div>
-              ) : (
-                <DropdownButton
-                  title="Add to Cookbook"
-                  variant='outline-success'
-                >
-                  {cookbooks.map(cookbook => (
-                    <Form onSubmit={saveToCookbookHandler}>
-                      <Dropdown.Item
-                        type='submit'
-                        onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id); saveToCookbookHandler(e) }}
-                      >
-                        {cookbook.cookbook_name}
-                      </Dropdown.Item>
-                    </Form>
-                  ))}
-                </DropdownButton>
               )}
             </Col>
             <Col className="indvidualRecipePageIngredientsMobile" style={{ paddingTop: '15px'}} xs={12} md={6}>

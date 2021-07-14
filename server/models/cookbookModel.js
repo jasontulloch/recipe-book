@@ -14,7 +14,7 @@ const cookbookSchema = mongoose.Schema(
     isPrivate: {
       type: Boolean,
       required: true,
-      default: true
+      default: false
     },
     isPremium: {
       type: Boolean,

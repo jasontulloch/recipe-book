@@ -17,6 +17,7 @@ import {
 import {
   createCookbook,
   listMyCookbooks,
+  listCookbookDetails
 } from '../../actions/cookbookActions';
 import { RECIPE_CREATE_RESET } from '../../constants/recipeConstants';
 import { COOKBOOK_CREATE_RESET } from '../../constants/cookbookConstants';
@@ -61,6 +62,7 @@ const IconSidebar = ({ history }) => {
 
     if(successCookbookCreate || cookbooks) {
       dispatch(listMyCookbooks())
+
     }
 
   }, [
@@ -228,8 +230,12 @@ const IconSidebar = ({ history }) => {
                   ) : (
                     cookbooks.map(cookbook => (
                       <div className="sidebarIcon" style={{paddingTop: '5px'}}>
-                        {cookbook.cookbook_name.length > 18 ? (
-                          <div>{cookbook.cookbook_name.slice(0, 18) + (cookbook.cookbook_name.length > 18 ? "..." : "")}</div>
+                        {cookbook.cookbook_name.length > 17 ? (
+                          <LinkContainer to={`/cookbooks/${cookbook._id}`} style={{paddingLeft: '0px', paddingBottom: '0px', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                            <Nav.Link>
+                              <div className="sidebarIcon">{cookbook.cookbook_name.slice(0, 17) + (cookbook.cookbook_name.length > 17 ? "..." : "")}</div>
+                            </Nav.Link>
+                          </LinkContainer>
                         ) : (
                           <LinkContainer to={`/cookbooks/${cookbook._id}`} style={{paddingLeft: '0px', paddingBottom: '0px', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
                             <Nav.Link>

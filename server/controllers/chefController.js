@@ -596,7 +596,7 @@ const getMyFollowedChefs = asyncHandler(async (req, res) => {
     isShellfish: 1,
     isWheat: 1,
     isSoy: 1,
-    recipe_cover_image: 1
+    recipe_cover_image: 1,
   })
   // Finding chefs based on chef ID - making sure published
   const chefs = await Chef.find({
@@ -621,6 +621,9 @@ const getMyFollowedChefs = asyncHandler(async (req, res) => {
     isSoy: 1,
     recipe_cover_image: 1,
     myRecipes: 1,
+    isVisible: 1,
+    cookbooks: 1,
+    isMetric: 1
   })
   .limit(pageChefSize)
   .skip(pageChefSize * (page - 1))

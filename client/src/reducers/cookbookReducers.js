@@ -14,6 +14,9 @@ import {
   COOKBOOK_UPDATE_SUCCESS,
   COOKBOOK_UPDATE_FAILURE,
   COOKBOOK_UPDATE_RESET,
+  COOKBOOK_DELETE_REQUEST,
+  COOKBOOK_DELETE_SUCCESS,
+  COOKBOOK_DELETE_FAILURE,
 } from '../constants/cookbookConstants';
 
 export const cookbookCreateReducer = (state = {}, action) => {
@@ -74,6 +77,19 @@ export const cookbookUpdateReducer = (state = { cookbook: {} }, action) => {
       return { loading: false, error: action.payload }
     case COOKBOOK_UPDATE_RESET:
       return { cookbook: {} }
+    default:
+      return state
+  }
+}
+
+export const cookbookDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case COOKBOOK_DELETE_REQUEST:
+      return { loading: true }
+    case COOKBOOK_DELETE_SUCCESS:
+      return { loading: false, success: true }
+    case COOKBOOK_DELETE_FAILURE:
+      return { loading: false, error: action.payload }
     default:
       return state
   }

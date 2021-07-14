@@ -476,7 +476,7 @@ export const unsaveRecipe = (id) => async (dispatch, getState) => {
   }
 }
 
-export const saveRecipeIngredients = (recipeId, recipe, cookbookId) => async (dispatch, getState) => {
+export const saveRecipeIngredients = (recipeId, recipe) => async (dispatch, getState) => {
   try {
     dispatch({
       type: RECIPE_SAVE_INGREDIENTS_REQUEST
@@ -494,7 +494,6 @@ export const saveRecipeIngredients = (recipeId, recipe, cookbookId) => async (di
     await axios.post(
       `/api/recipes/${recipeId}/saveIngredients`,
       recipe,
-      cookbookId,
       config
     )
 
@@ -549,7 +548,7 @@ export const saveRecipeToCookbook = (recipeId, recipe) => async (dispatch, getSt
   }
 }
 
-export const removeRecipeFromCookbook = (recipeId, recipe) => async (dispatch, getState) => {
+export const removeRecipeFromCookbook = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: RECIPE_REMOVE_FROM_COOKBOOK_REQUEST
@@ -564,11 +563,7 @@ export const removeRecipeFromCookbook = (recipeId, recipe) => async (dispatch, g
       }
     }
 
-    await axios.delete(
-      `/api/recipes/${recipeId}/removeFromCookbook`,
-      recipe,
-      config
-    )
+    await axios.delete(`/api/recipes/${id}/removeFromCookbook`, config)
 
     dispatch({
       type: RECIPE_REMOVE_FROM_COOKBOOK_SUCCESS,

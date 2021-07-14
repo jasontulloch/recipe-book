@@ -12,6 +12,9 @@ import {
   COOKBOOK_UPDATE_REQUEST,
   COOKBOOK_UPDATE_SUCCESS,
   COOKBOOK_UPDATE_FAILURE,
+  COOKBOOK_DELETE_REQUEST,
+  COOKBOOK_DELETE_SUCCESS,
+  COOKBOOK_DELETE_FAILURE,
 } from '../constants/cookbookConstants';
 
 export const createCookbook = () => async (dispatch, getState) => {
@@ -130,6 +133,37 @@ export const updateCookbook = (cookbook) => async (dispatch, getState) => {
         error.response && error.response.data.message
         ? error.response.data.message
         : error.message
+    })
+  }
+}
+
+export const deleteCookbook = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: COOKBOOK_DELETE_REQUEST
+    })
+
+    const { chefLogin: { chefInfo } } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${chefInfo.token}`
+      }
+    }
+
+    await axios.delete(`/api/cookbooks/${id}`, config)
+
+    dispatch({
+      type: COOKBOOK_DELETE_SUCCESS
+    })
+
+  } catch (error) {
+    dispatch({
+      type: COOKBOOK_DELETE_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
     })
   }
 }

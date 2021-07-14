@@ -102,7 +102,7 @@ const getCookbookById = asyncHandler(async (req, res) => {
 })
 
 // @description Update a recipe
-// @route PUT /api/:id
+// @route PUT /api/cookbooks/:id
 // @access Private
 const updateCookbook = asyncHandler(async (req, res) => {
   const {
@@ -127,7 +127,33 @@ const updateCookbook = asyncHandler(async (req, res) => {
 
   } else {
       res.status(404)
-      throw new Error('Recipe not found')
+      throw new Error('Cookbook not found')
+  }
+})
+
+// @description Delete a cookbook
+// @route DELETE /api/cookbooks/:id
+// @access Private
+const deleteCookbook = asyncHandler(async (req, res) => {
+  const cookbook = await Cookbook.findById(req.params.id)
+  const chef = await Chef.findById(req.chef._id)
+
+  if(cookbook) {
+    await cookbook.remove()
+
+    const removeFromMyCookbooks = chef.cookbooks.find(
+      r => (r._id.toString() === cookbook._id.toString())
+    )
+
+    if(removeFromMyCookbooks) {
+        chef.cookbooks.remove(cookbook._id)
+        await chef.save()
+    }
+
+    res.json({ message: 'Cookbook removed'})
+  } else {
+    res.status(404)
+    throw new Error('Cookbook not found')
   }
 })
 
@@ -135,5 +161,6 @@ export {
   createCookbook,
   getMyCookbooks,
   getCookbookById,
-  updateCookbook
+  updateCookbook,
+  deleteCookbook
 }
