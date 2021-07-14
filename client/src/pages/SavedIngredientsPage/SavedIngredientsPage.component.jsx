@@ -13,6 +13,9 @@ import axios from 'axios';
 
 import './SavedIngredientsPage.styles.scss';
 
+// Importing functions for organization - test
+import MessageIngredients from '../../functions/MessageIngredients';
+
 const SavedIngredientsPage = ({ history }) => {
 
   // These are required in the model so need to pass the current values in or profile would return '' otherwise
@@ -394,8 +397,19 @@ const SavedIngredientsPage = ({ history }) => {
       phone_number: chef.phone_number,
       savedIngredients: chef.savedIngredients
     }))
-    console.log(chef.phone_number)
   }
+
+  // Use when I want to create a text component
+  // <MessageIngredients
+  //   dispatch={dispatch}
+  //   successTextMessage={successTextMessage}
+  //   setSuccessTextMessage={setSuccessTextMessage}
+  //   temporarilyDisableEmailButton={temporarilyDisableEmailButton}
+  //   setTemporarilyDisableEmailButton={setTemporarilyDisableEmailButton}
+  //   temporarilyDisableTextButton={temporarilyDisableTextButton}
+  //   setTemporarilyDisableTextButton={setTemporarilyDisableTextButton}
+  //   chef={chef}
+  // />
 
   return (
     <div style={{paddingLeft: '220px', paddingRight: '30px'}} className="savedIngredientsPageMobile">

@@ -755,6 +755,36 @@ const IndividualRecipePage = ({ history, match }) => {
             </Col>
             <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
               <DropdownButton title="More Features" style={{height: '25px', paddingRight: '5px'}}>
+                <Form.Group style={{ width: '100%', marginBottom: '0px'}}>
+                  <Button className="disabled-button" style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}>Serving Size:</Button>
+                  <div style={{height: '25px'}}>
+                    <div style={{ border: '2px solid #4bbf73', width: '33%', display: 'inline-block'}}>
+                      <Form.Control
+                          style={{padding: '5px', height: '21px'}}
+                          type='number'
+                          min={1}
+                          max={20}
+                          step={1}
+                          value={servingSize}
+                          onChange={(e) => setServingSize(e.target.value)}
+                          onKeyDown={handleKeypress}
+                          required
+                        >
+                      </Form.Control>
+                    </div>
+                    <div style={{ width: '67%', display: 'inline-block', paddingLeft: '5px'}}>
+                      <Form.Check
+                        type='switch'
+                        id='custom-switch'
+                        inline
+                        label='Metric?'
+                        checked={isMetric}
+                        onChange={(e) => setIsMetric(e.target.checked)}
+                        disabled={(chefInfo == null) ? true : false}
+                      />
+                    </div>
+                  </div>
+                </Form.Group>
                 <Form onSubmit={saveIngredientsHandler}>
                   <Button
                     style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
@@ -846,84 +876,7 @@ const IndividualRecipePage = ({ history, match }) => {
             </Col>
             <Col xs={12} style={{paddingTop: '20px'}}>
               <Row style={{display: 'flex', justifyContent: 'center'}}>
-                {(isBrowser) ? (
-                  <Col xs={12} md={6} style={{display: 'flex', justifyContent: 'center'}}>
-                    <Form.Group as={Row} controlId='cookTime' style={{ marginBottom: '0px' }}>
-                      <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
-                      <div style={{ border: '2px solid #4bbf73', height: '18px'}}>
-                        <Form.Control
-                            style={{
-                              paddingLeft: '3px',
-                              paddingRight: '3px',
-                              paddingTop: '7px',
-                              paddingBottom: '6px',
-                              width: '40px',
-                              height: '12px'
-                            }}
-                            type='number'
-                            min={1}
-                            max={20}
-                            step={1}
-                            value={servingSize}
-                            onChange={(e) => setServingSize(e.target.value)}
-                            onKeyDown={handleKeypress}
-                            required
-                          >
-                        </Form.Control>
-                      </div>
-                      <Form.Check
-                        style={{ paddingLeft: '5px', width: '40px', height: '20px', paddingTop: '5px', paddingBottom: '8px'}}
-                        inline
-                        label='Metric?'
-                        checked={isMetric}
-                        onChange={(e) => setIsMetric(e.target.checked)}
-                        disabled={(chefInfo == null) ? true : false}
-                      />
-                    </Form.Group>
-                  </Col>
-                ) : (
-                  <div>
-                    <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
-                      <h5 style= {{ marginRight: '5px' }}>Serving Size:</h5>
-                    </Col>
-                    <Col xs={12} style={{display: 'flex', justifyContent: 'center', paddingBottom: '10px'}}>
-                      <div style={{ border: '2px solid #4bbf73', height: '30px'}}>
-                        <Form.Control
-                            style={{
-                              paddingLeft: '3px',
-                              paddingRight: '3px',
-                              paddingTop: '0px',
-                              paddingBottom: '6px',
-                              width: '40px',
-                              height: '25px',
-                              fontSize: '18px'
-                            }}
-                            type='number'
-                            min={1}
-                            max={20}
-                            step={1}
-                            value={servingSize}
-                            onChange={(e) => setServingSize(e.target.value)}
-                            onKeyUp={handleKeypressMobile}
-                            required
-                          >
-                        </Form.Control>
-                      </div>
-
-                      <Form.Check
-                        style={{ paddingLeft: '5px', paddingTop: '5px', paddingBottom: '8px'}}
-                        inline
-                        label='Metric?'
-                        checked={isMetric}
-                        type="switch"
-                        id="custom-switch"
-                        onChange={(e) => setIsMetric(e.target.checked)}
-                        disabled={(chefInfo == null) ? true : false}
-                      />
-                    </Col>
-                  </div>
-                )}
-                <Col xs={12} md={6} style={{textAlign:'center'}}>
+                <Col xs={12} md={12} style={{textAlign:'center'}}>
                   <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
                 </Col>
               </Row>
