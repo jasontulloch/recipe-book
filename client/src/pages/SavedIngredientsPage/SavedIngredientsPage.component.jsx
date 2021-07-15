@@ -1,6 +1,6 @@
 import React, { useState, useEffect, setState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Button, Form, DropdownButton } from 'react-bootstrap';
+import { Row, Col, Button, Form, DropdownButton, Badge } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
 import { emailGroceryList, textGroceryList } from '../../actions/groceryListActions';
@@ -489,140 +489,139 @@ const SavedIngredientsPage = ({ history }) => {
               </Col>
             )}
           </Row>
-            <Form onSubmit={addNewIngredientHandler}>
-              <Row style={{textAlign: 'center', height: '75px'}}>
-                <Col xs={12} sm={6} md={3} style={{height: '100%'}}>
-                  <Form.Group controlId='newIngredientQuantity'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='1/3'
-                      required
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col xs={12} sm={6} md={3}>
-                  <Form.Group controlId='newIngredientMeasurement'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='Cup'
-                      required
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col xs={12} sm={6} md={3}>
-                  <Form.Group controlId='newIngredientName'>
-                    <Form.Control
-                      key='index'
-                      type='text'
-                      placeholder='Basmati Rice'
-                      required
-                    >
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-                <Col xs={12} sm={6} md={3} style={{textAlign: 'center', paddingRight: '10px'}}>
-                  <Button
-                    type='submit'
-                    variant='primary'
-                    style={{fontSize: '10px', lineHeight: '20px', paddingLeft: '5px', paddingRight: '5px'}}
-                  >
-                    Add New Ingredient
-                  </Button>
-                </Col>
-              </Row>
+          <Row style={{borderBottom: 'dotted 1px', paddingBottom: '25px'}}>
+            <Form inline onSubmit={addNewIngredientHandler} style={{width: '100%'}}>
+              <div style={{width: '100px', marginRight: '5px'}}>
+                <Form.Control
+                  id='newIngredientQuantity'
+                  key='index'
+                  type='text'
+                  placeholder='1/3'
+                  required
+                  style={{width: '100%'}}
+                >
+                </Form.Control>
+              </div>
+              <div style={{width: '100px', marginRight: '5px'}}>
+                <Form.Control
+                  id='newIngredientMeasurement'
+                  key='index'
+                  type='text'
+                  placeholder='Cup'
+                  required
+                  style={{width: '100%'}}
+                >
+                </Form.Control>
+              </div>
+              <div style={{width: '24.5%', marginRight: '5px'}}>
+                <Form.Control
+                  id='newIngredientName'
+                  key='index'
+                  type='text'
+                  placeholder='Basmati Rice'
+                  required
+                  style={{width: '100%'}}
+                >
+                </Form.Control>
+              </div>
+              <div style={{right: '50px', position: 'absolute'}}>
+                <Button
+                  type='submit'
+                  variant='primary'
+                  style={{fontSize: '10px', lineHeight: '20px', paddingLeft: '5px', paddingRight: '5px', width: '100%'}}
+                >
+                  Add New Ingredient
+                </Button>
+              </div>
             </Form>
-            {savedIngredients.length !== 0 && (
-            <Row>
-              <Col xs={12} style={{textAlign: 'center'}}>
-                <DropdownButton title="Send Grocery List" style={{paddingRight: '5px'}}>
-                  <Form onSubmit={textGroceryListHandler}>
-                    <Button
-                      variant='primary'
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      disabled={(chef == null || chef.phone_number === '') ? true : false}
-                    >
-                      Text Me Grocery List
-                    </Button>
-                  </Form>
-                  <Form onSubmit={emailGroceryListHandler}>
-                    <Button
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      disabled={(chef == null || chef.email === '') ? true : false}
-                    >
-                      Email Me Grocery List
-                    </Button>
-                  </Form>
-                  <Form onSubmit={textGroceryListPartnerChefHandler}>
-                    <Button
-                      variant='primary'
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      disabled={(chef == null || chef.connect_phone_number === '') ? true : false}
-                    >
-                      Text {chef.connect_first_name} Grocery List
-                    </Button>
-                  </Form>
-                  <Form onSubmit={emailGroceryListPartnerChefHandler}>
-                    <Button
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      disabled={(chef == null || chef.connect_email === '') ? true : false}
-                    >
-                      Email {chef.connect_first_name} Grocery List
-                    </Button>
-                  </Form>
-                </DropdownButton>
-              </Col>
-            </Row>
-            )}
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px', textAlign: 'center'}}>
+          </Row>
+          {savedIngredients.length !== 0 && (
+          <Row style={{paddingTop: '15px'}}>
+            <Col style={{textAlign: 'center'}}>
+              <DropdownButton className="groceryListDropdown" title="Send Grocery List" style={{paddingRight: '5px'}}>
+                <Form onSubmit={textGroceryListHandler}>
+                  <Button
+                    variant='primary'
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chef == null || chef.phone_number === '') ? true : false}
+                  >
+                    Text Me Grocery List
+                  </Button>
+                </Form>
+                <Form onSubmit={emailGroceryListHandler}>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chef == null || chef.email === '') ? true : false}
+                  >
+                    Email Me Grocery List
+                  </Button>
+                </Form>
+                <Form onSubmit={textGroceryListPartnerChefHandler}>
+                  <Button
+                    variant='primary'
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chef == null || chef.connect_phone_number === '') ? true : false}
+                  >
+                    Text {chef.connect_first_name} Grocery List
+                  </Button>
+                </Form>
+                <Form onSubmit={emailGroceryListPartnerChefHandler}>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chef == null || chef.connect_email === '') ? true : false}
+                  >
+                    Email {chef.connect_first_name} Grocery List
+                  </Button>
+                </Form>
+              </DropdownButton>
+            </Col>
+            <Col style={{textAlign: 'center'}}>
+              <Button
+                variant='primary'
+                style={{padding: '5px', lineHeight: '10px', height: '24px'}}
+                onClick={clearAllIngredientsHandler}
+              >
+                Clear All Ingredients
+              </Button>
+            </Col>
+            <Col xs={12} style={{paddingTop: '10px', textAlign: 'center'}}>
+              <Message>Click an ingredient to remove it from your grocery list</Message>
+            </Col>
+          </Row>
+          )}
+          <Col style={{paddingTop: '10px'}}>
+            <h6 style={{textAlign: 'center'}}>
               {(displayIngredientOnly == true && savedIngredients.length !== 0) && (
                 savedIngredients.map((groceries, index) =>
-                  <Row>
-                    <Col xs={1} sm={1} md={1} lg={1} xl={1} style={{padding: '0px', textAlign: 'right'}}>
-                      <Button
-                        variant='link'
-                        style={{ marginRight: '12.25px', padding: '0px 0px 12.5px 0px', height: '30px'}}
-                        value={index}
-                        onClick={removeIngredientHandler}
-                        >
-                        <FaTrash />
-                      </Button>
-                    </Col>
-                    <Col xs={11} sm={11} md={11} lg={11} xl={11} style={{textAlign: 'left'}}>
-                      <p style={{marginBottom: '0px'}}>{groceries[2].toUpperCase()}</p>
-                    </Col>
-                  </Row>
-              ))}
+                  <div style={{display: 'inline-block'}}>
+                    <Button
+                      style={{borderRadius: '10rem', fontSize: '10px', padding: '0px 5px 0px 5px', margin: '5px'}}
+                      onClick={removeIngredientHandler}
+                      value={index}
+                    >
+                      {groceries[2].toUpperCase()}
+                    </Button>
+                  </div>
+                )
+              )}
               {(displayIngredientOnly == false && savedIngredients.length !== 0) && (
                 savedIngredients.map((groceries, index) =>
-                  <Row>
+                  <div style={{display: 'inline-block'}}>
                     <Button
-                      variant='link'
-                      style={{ marginRight: '12.25px', padding: 0, height: '30px'}}
-                      value={index}
+                      style={{borderRadius: '10rem', fontSize: '10px', padding: '0px 5px 0px 5px', margin: '5px'}}
                       onClick={removeIngredientHandler}
-                      >
-                      <FaTrash />
+                      value={index}
+                    >
+                      {groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}
                     </Button>
-                    <p style={{marginBottom: '0px'}}>{groceries[0]} {groceries[1].toUpperCase()} {groceries[2].toUpperCase()}</p>
-                  </Row>
-              ))}
-            </Col>
-          <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
-            <Button
-              variant='primary'
-              style={{padding: '5px', marginLeft: '5px'}}
-              onClick={clearAllIngredientsHandler}
-            >
-              Clear All Ingredients
-            </Button>
+                  </div>
+                )
+              )}
+            </h6>
           </Col>
         </div>
       )}
