@@ -55,8 +55,6 @@ const ChefMyFollowedPage = ({ match , history }) => {
     pageNumber
   ])
 
-  console.log(chefs.map(chef => (chef.myRecipes.filter(item => !!item._id)).length))
-
   return (
       <div style={{paddingLeft: '200px'}} className="chefMyFollowedPageFirstDivMobile">
         {initialLoader ? (

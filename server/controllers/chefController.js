@@ -19,6 +19,10 @@ const authChef = asyncHandler(async (req, res) => {
       username: chef.username,
       email: chef.email,
       phone_number: chef.phone_number,
+      connect_first_name: chef.connect_first_name,
+      connect_last_name: chef.connect_last_name,
+      connect_email: chef.connect_email,
+      connect_phone_number: chef.connect_phone_number,
       bio: chef.bio,
       chefPicture: chef.chefPicture,
       isVisible: chef.isVisible,
@@ -103,6 +107,10 @@ const registerChef = asyncHandler(async (req, res) => {
     username,
     email,
     phone_number,
+    connect_first_name,
+    connect_last_name,
+    connect_email,
+    connect_phone_number,
     chefPicture: '/images/defaultRecipeCoverImage.jpg',
     isVegan: false,
     isVegetarian: false,
@@ -133,6 +141,10 @@ const registerChef = asyncHandler(async (req, res) => {
       username: chef.username,
       email: chef.email,
       phone_number: chef.phone_number,
+      connect_first_name: chef.connect_first_name,
+      connect_last_name: chef.connect_last_name,
+      connect_email: chef.connect_email,
+      connect_phone_number: chef.connect_phone_number,
       chefPicture: chef.chefPicture,
       isVegan: chef.isVegan,
       isVegetarian: chef.isVegetarian,
@@ -174,6 +186,10 @@ const getChefProfile = asyncHandler(async (req, res) => {
       username: chef.username,
       email: chef.email,
       phone_number: chef.phone_number,
+      connect_first_name: chef.connect_first_name,
+      connect_last_name: chef.connect_last_name,
+      connect_email: chef.connect_email,
+      connect_phone_number: chef.connect_phone_number,
       bio: chef.bio,
       chefPicture: chef.chefPicture,
       isVisible: chef.isVisible,
@@ -279,6 +295,10 @@ const updateChefProfile = asyncHandler(async (req, res) => {
     chef.username = req.body.username || chef.username
     chef.email = req.body.email || chef.email
     chef.phone_number = req.body.phone_number || chef.phone_number
+    chef.connect_first_name = req.body.connect_first_name || chef.connect_first_name
+    chef.connect_last_name = req.body.connect_last_name || chef.connect_last_name
+    chef.connect_email = req.body.connect_email || chef.connect_email
+    chef.connect_phone_number = req.body.connect_phone_number || chef.phone_number
     chef.bio = req.body.bio || chef.bio
     chef.chefPicture = req.body.chefPicture || chef.chefPicture
     chef.isVisible = isVisible
@@ -333,6 +353,10 @@ const updateChefProfile = asyncHandler(async (req, res) => {
       username: updatedChef.username,
       email: updatedChef.email,
       phone_number: updatedChef.phone_number,
+      connect_first_name: updatedChef.connect_first_name,
+      connect_last_name: updatedChef.connect_last_name,
+      connect_email: updatedChef.connect_email,
+      connect_phone_number: updatedChef.connect_phone_number,
       bio: updatedChef.bio,
       chefPicture: updatedChef.chefPicture,
       isVisible: updatedChef.isVisible,

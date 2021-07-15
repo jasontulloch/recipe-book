@@ -80,8 +80,6 @@ const ChefCookbooksListPage = ({ match , history }) => {
     dispatch(createCookbook())
   }
 
-  console.log(cookbooks)
-
   return (
       <div className="chefRecipesListPageMobile" style={{paddingLeft: '220px', paddingRight: '10px'}}>
         {initialLoader ?  (

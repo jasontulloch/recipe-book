@@ -492,8 +492,6 @@ const IndividualRecipePage = ({ history, match }) => {
   const finalClean = finalCleanBrokenFractions.map(function(x){return x.replace('NaN/NaN ', '')})
 
   // Using so someone can not spam email or text messages (disables all buttons temporarily)
-  const [temporarilyDisableEmailButton, setTemporarilyDisableEmailButton] = useState(false)
-  const [temporarilyDisableTextButton, setTemporarilyDisableTextButton] = useState(false)
   const [successEmailMessage, setSuccessEmailMessage] = useState('')
   const [successTextMessage, setSuccessTextMessage] = useState('')
 
@@ -506,13 +504,9 @@ const IndividualRecipePage = ({ history, match }) => {
   // Note that this does NOT overwrite the savedIngredients saved in the database
   const textGroceryListHandler = (e) => {
     e.preventDefault()
-    setSuccessMessage(`Your saved ingredients are on their way to you! They will be sent to ${chefInfo.phone_number}`)
-    setTemporarilyDisableEmailButton(true)
-    setTemporarilyDisableTextButton(true)
+    setSuccessMessage(`Recipe ingredients are on their way to you! They will be sent to ${chefInfo.phone_number}`)
     setTimeout(function() {
       setSuccessMessage('')
-      setTemporarilyDisableEmailButton(false)
-      setTemporarilyDisableTextButton(false)
     }, 20000)
     dispatch(textGroceryList({
       _id: chefInfo._id,
@@ -523,21 +517,48 @@ const IndividualRecipePage = ({ history, match }) => {
     }))
   }
 
+  const textGroceryListPartnerChefHandler = (e) => {
+    e.preventDefault()
+    setSuccessMessage(`Recipe ingredients are on their way to ${chefInfo.connect_first_name}! They will be sent to ${chefInfo.connect_phone_number}`)
+    setTimeout(function() {
+      setSuccessMessage('')
+    }, 20000)
+    dispatch(textGroceryList({
+      _id: chefInfo._id,
+      first_name: chefInfo.connect_first_name,
+      last_name: chefInfo.connect_last_name,
+      phone_number: chefInfo.connect_phone_number,
+      savedIngredients: sendRecipeIngredients
+    }))
+  }
+
+
   const emailGroceryListHandler = (e) => {
     e.preventDefault()
-    setSuccessEmailMessage(`Your saved ingredients are on their way to you! They will be sent to ${chefInfo.email}`)
-    setTemporarilyDisableEmailButton(true)
-    setTemporarilyDisableTextButton(true)
+    setSuccessEmailMessage(`Recipe ingredients are on their way to ${chefInfo.connect_first_name}! They will be sent to ${chefInfo.connect_email}`)
     setTimeout(function() {
-      setSuccessEmailMessage('')
-      setTemporarilyDisableEmailButton(false)
-      setTemporarilyDisableTextButton(false)
+      setSuccessMessage('')
     }, 20000)
     dispatch(emailGroceryList({
       _id: chefInfo._id,
       first_name: chefInfo.first_name,
       last_name: chefInfo.last_name,
       email: chefInfo.email,
+      savedIngredients: sendRecipeIngredients
+    }))
+  }
+
+  const emailGroceryListPartnerChefHandler = (e) => {
+    e.preventDefault()
+    setSuccessEmailMessage(`Recipe ingredients are on their way to ${chefInfo.connect_first_name}! They will be sent to ${chefInfo.connect_email}`)
+    setTimeout(function() {
+      setSuccessMessage('')
+    }, 20000)
+    dispatch(emailGroceryList({
+      _id: chefInfo._id,
+      first_name: chefInfo.connect_first_name,
+      last_name: chefInfo.connect_last_name,
+      email: chefInfo.connect_email,
       savedIngredients: sendRecipeIngredients
     }))
   }
@@ -795,11 +816,12 @@ const IndividualRecipePage = ({ history, match }) => {
                     Add ingredients to grocery list
                   </Button>
                 </Form>
+                <Dropdown.Divider style={{marginTop: '0px', marginBottom: '0px'}} />
                 <Form onSubmit={textGroceryListHandler}>
                   <Button
                     style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
                     type='submit'
-                    disabled={(chefInfo == null || temporarilyDisableTextButton) ? true : false}
+                    disabled={(chefInfo == null) ? true : false}
                   >
                     Text Me Ingredients
                   </Button>
@@ -808,16 +830,34 @@ const IndividualRecipePage = ({ history, match }) => {
                   <Button
                     style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
                     type='submit'
-                    disabled={(chefInfo == null || temporarilyDisableEmailButton) ? true : false}
+                    disabled={(chefInfo == null) ? true : false}
                   >
                     Email Me Ingredients
+                  </Button>
+                </Form>
+                <Form onSubmit={textGroceryListPartnerChefHandler}>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chefInfo == null) ? true : false}
+                  >
+                    Text {chefInfo.connect_first_name} Ingredients
+                  </Button>
+                </Form>
+                <Form onSubmit={emailGroceryListPartnerChefHandler}>
+                  <Button
+                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                    type='submit'
+                    disabled={(chefInfo == null) ? true : false}
+                  >
+                    Email {chefInfo.connect_first_name} Ingredients
                   </Button>
                 </Form>
                 <Dropdown.Divider style={{marginTop: '0px', marginBottom: '0px'}} />
                 <Form>
                   <Button
                     style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    disabled={(chefInfo == null || temporarilyDisableEmailButton) ? true : false}
+                    disabled={(chefInfo == null) ? true : false}
                     onClick={(e) => history.push(`/chefs/${recipe.chef}/page/1`)}
                   >
                     View Chef Page

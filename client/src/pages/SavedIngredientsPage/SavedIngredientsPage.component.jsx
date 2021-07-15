@@ -1,6 +1,6 @@
 import React, { useState, useEffect, setState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Button, Form } from 'react-bootstrap';
+import { Row, Col, Button, Form, DropdownButton } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import { getChefDetails, updateChefProfile } from '../../actions/chefActions';
 import { emailGroceryList, textGroceryList } from '../../actions/groceryListActions';
@@ -24,6 +24,10 @@ const SavedIngredientsPage = ({ history }) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [phone_number, setPhoneNumber] = useState('')
+  const [connect_first_name, setConnectFirstName] = useState('')
+  const [connect_last_name, setConnectLastName] = useState('')
+  const [connect_email, setConnectEmail] = useState('')
+  const [connect_phone_number, setConnectPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isVegan, setIsVegan] = useState(false)
@@ -121,6 +125,10 @@ const SavedIngredientsPage = ({ history }) => {
         setUsername(chef.username)
         setEmail(chef.email)
         setPhoneNumber(chef.phone_number)
+        setConnectFirstName(chef.connect_first_name)
+        setConnectLastName(chef.connect_last_name)
+        setConnectEmail(chef.connect_email)
+        setConnectPhoneNumber(chef.connect_phone_number)
         setBio(chef.bio)
         setChefPicture(chef.chefPicture)
         setIsVisible(chef.isVisible)
@@ -185,6 +193,10 @@ const SavedIngredientsPage = ({ history }) => {
         username,
         email,
         phone_number,
+        connect_first_name,
+        connect_last_name,
+        connect_email,
+        connect_phone_number,
         password,
         bio,
         chefPicture,
@@ -240,6 +252,10 @@ const SavedIngredientsPage = ({ history }) => {
       username,
       email,
       phone_number,
+      connect_first_name,
+      connect_last_name,
+      connect_email,
+      connect_phone_number,
       password,
       bio,
       chefPicture,
@@ -313,6 +329,10 @@ const SavedIngredientsPage = ({ history }) => {
         username,
         email,
         phone_number,
+        connect_first_name,
+        connect_last_name,
+        connect_email,
+        connect_phone_number,
         password,
         bio,
         chefPicture,
@@ -356,20 +376,14 @@ const SavedIngredientsPage = ({ history }) => {
       }))
   }
 
-  const [temporarilyDisableEmailButton, setTemporarilyDisableEmailButton] = useState(false)
-  const [temporarilyDisableTextButton, setTemporarilyDisableTextButton] = useState(false)
   const [successEmailMessage, setSuccessEmailMessage] = useState('')
   const [successTextMessage, setSuccessTextMessage] = useState('')
 
   const emailGroceryListHandler = (e) => {
     e.preventDefault()
     setSuccessEmailMessage(`Your saved ingredients are on their way to you! They will be sent to ${chef.email}`)
-    setTemporarilyDisableEmailButton(true)
-    setTemporarilyDisableTextButton(true)
     setTimeout(function() {
       setSuccessEmailMessage('')
-      setTemporarilyDisableEmailButton(false)
-      setTemporarilyDisableTextButton(false)
     }, 20000)
     dispatch(emailGroceryList({
       _id: chef._id,
@@ -383,18 +397,44 @@ const SavedIngredientsPage = ({ history }) => {
   const textGroceryListHandler = (e) => {
     e.preventDefault()
     setSuccessTextMessage(`Your saved ingredients are on their way to you! They will be sent to ${chef.phone_number}`)
-    setTemporarilyDisableEmailButton(true)
-    setTemporarilyDisableTextButton(true)
     setTimeout(function() {
       setSuccessTextMessage('')
-      setTemporarilyDisableEmailButton(false)
-      setTemporarilyDisableTextButton(false)
     }, 20000)
     dispatch(textGroceryList({
       _id: chef._id,
       first_name: chef.first_name,
       last_name: chef.last_name,
       phone_number: chef.phone_number,
+      savedIngredients: chef.savedIngredients
+    }))
+  }
+
+  const textGroceryListPartnerChefHandler = (e) => {
+    e.preventDefault()
+    setSuccessMessage(`Recipe ingredients are on their way to ${chef.connect_first_name}! They will be sent to ${chef.connect_phone_number}`)
+    setTimeout(function() {
+      setSuccessTextMessage('')
+    }, 20000)
+    dispatch(textGroceryList({
+      _id: chef._id,
+      first_name: chef.connect_first_name,
+      last_name: chef.connect_last_name,
+      phone_number: chef.connect_phone_number,
+      savedIngredients: chef.savedIngredients
+    }))
+  }
+
+  const emailGroceryListPartnerChefHandler = (e) => {
+    e.preventDefault()
+    setSuccessEmailMessage(`Recipe ingredients are on their way to ${chef.connect_first_name}! They will be sent to ${chef.connect_email}`)
+    setTimeout(function() {
+      setSuccessEmailMessage('')
+    }, 20000)
+    dispatch(emailGroceryList({
+      _id: chef._id,
+      first_name: chef.connect_first_name,
+      last_name: chef.connect_last_name,
+      email: chef.connect_email,
       savedIngredients: chef.savedIngredients
     }))
   }
@@ -417,68 +457,129 @@ const SavedIngredientsPage = ({ history }) => {
         <Message>{error}</Message>
       ) : (
         <div>
-          <Row style={{textAlign: 'center', marginLeft: '10px'}}>
-            <Form style={{width: '100%'}}>
-              <Form.Group as={Row} controlId='groceryListLabel'>
-                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <Form.Label>
-                    <h4>My Grocery List</h4>
-                  </Form.Label>
-                </Col>
-                {savedIngredients.length !== 0 && (
-                  <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+          {(successTextMessage !== '') && (
+            <Message variant='success'>
+              {successTextMessage}
+            </Message>
+          )}
+          {(successEmailMessage !== '') && (
+            <Message variant='success'>
+              {successEmailMessage}
+            </Message>
+          )}
+          <Row>
+            <Col>
+              <h3>MY GROCERY LIST</h3>
+            </Col>
+            {savedIngredients.length !== 0 && (
+              <Col style={{textAlign: 'right'}}>
+                <Form>
+                  <Form.Group controlId='groceryListLabel'>
                     <Form.Check
-                      style={{ padding: '5px', height: '25px'}}
+                      type='switch'
+                      id='custom-switch'
+                      style={{ padding: '5px', height: '15px'}}
                       inline
-                      label='Only display ingredients?'
+                      label='Hide Quantities?'
                       checked={displayIngredientOnly}
                       onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
                     />
-                  </Col>
-                )}
-              </Form.Group>
+                  </Form.Group>
+                </Form>
+              </Col>
+            )}
+          </Row>
+            <Form onSubmit={addNewIngredientHandler}>
+              <Row style={{textAlign: 'center', height: '75px'}}>
+                <Col xs={12} sm={6} md={3} style={{height: '100%'}}>
+                  <Form.Group controlId='newIngredientQuantity'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='1/3'
+                      required
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col xs={12} sm={6} md={3}>
+                  <Form.Group controlId='newIngredientMeasurement'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='Cup'
+                      required
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col xs={12} sm={6} md={3}>
+                  <Form.Group controlId='newIngredientName'>
+                    <Form.Control
+                      key='index'
+                      type='text'
+                      placeholder='Basmati Rice'
+                      required
+                    >
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col xs={12} sm={6} md={3} style={{textAlign: 'center', paddingRight: '10px'}}>
+                  <Button
+                    type='submit'
+                    variant='primary'
+                    style={{fontSize: '10px', lineHeight: '20px', paddingLeft: '5px', paddingRight: '5px'}}
+                  >
+                    Add New Ingredient
+                  </Button>
+                </Col>
+              </Row>
             </Form>
             {savedIngredients.length !== 0 && (
-            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
-              <Form onSubmit={emailGroceryListHandler}>
-                <Button
-                  variant='primary'
-                  style={{padding: '0px', marginTop: '5px', marginRight: '0px', width: '200px' }}
-                  type='submit'
-                  disabled={temporarilyDisableEmailButton}
-                >
-                  Email Grocery List
-                </Button>
-              </Form>
-            </Col>
-            )}
-            {savedIngredients.length !== 0 && (
-            <Col xs={12} sm={6} md={6} lg={6} xl={6} style={{textAlign: 'center'}}>
-              <Form onSubmit={textGroceryListHandler}>
-                <Button
-                  variant='primary'
-                  style={{padding: '0px', marginTop: '5px', marginRight: '0px', width: '200px' }}
-                  type='submit'
-                  disabled={temporarilyDisableTextButton}
-                >
-                  Text Grocery List
-                </Button>
-              </Form>
-            </Col>
-            )}
-            {(temporarilyDisableEmailButton === true) && (successEmailMessage !== "") && (
+            <Row>
               <Col xs={12} style={{textAlign: 'center'}}>
-                <Form.Text style={{paddingTop: '10px'}}>
-                  <Message variant='success'>{successEmailMessage}</Message>
-                </Form.Text>
+                <DropdownButton title="Send Grocery List" style={{paddingRight: '5px'}}>
+                  <Form onSubmit={textGroceryListHandler}>
+                    <Button
+                      variant='primary'
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      disabled={(chef == null || chef.phone_number === '') ? true : false}
+                    >
+                      Text Me Grocery List
+                    </Button>
+                  </Form>
+                  <Form onSubmit={emailGroceryListHandler}>
+                    <Button
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      disabled={(chef == null || chef.email === '') ? true : false}
+                    >
+                      Email Me Grocery List
+                    </Button>
+                  </Form>
+                  <Form onSubmit={textGroceryListPartnerChefHandler}>
+                    <Button
+                      variant='primary'
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      disabled={(chef == null || chef.connect_phone_number === '') ? true : false}
+                    >
+                      Text {chef.connect_first_name} Grocery List
+                    </Button>
+                  </Form>
+                  <Form onSubmit={emailGroceryListPartnerChefHandler}>
+                    <Button
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      disabled={(chef == null || chef.connect_email === '') ? true : false}
+                    >
+                      Email {chef.connect_first_name} Grocery List
+                    </Button>
+                  </Form>
+                </DropdownButton>
               </Col>
-            )}
-            {(temporarilyDisableTextButton === true) && (successTextMessage !== "") && (
-              <Col xs={12} style={{textAlign: 'center'}}>
-                <Form.Text style={{paddingTop: '10px'}}>
-                  <Message variant='success'>{successTextMessage}</Message>
-                </Form.Text>
-              </Col>
+            </Row>
             )}
             <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px', textAlign: 'center'}}>
               {(displayIngredientOnly == true && savedIngredients.length !== 0) && (
@@ -514,52 +615,6 @@ const SavedIngredientsPage = ({ history }) => {
                   </Row>
               ))}
             </Col>
-          </Row>
-          <Form onSubmit={addNewIngredientHandler}>
-            <Row style={{textAlign: 'center'}}>
-              <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{paddingTop: '15px', textAlign: 'center' }}>
-                <Form.Label>Add a new ingredient</Form.Label>
-              </Col>
-              <Col xs={12} sm={12} md={6} lg={6} xl={4}>
-                <Form.Group controlId='newIngredientQuantity'>
-                  <Form.Control
-                    key='index'
-                    type='text'
-                    placeholder='1/3'
-                    required
-                  >
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col xs={12} sm={12} md={6} lg={6} xl={4}>
-                <Form.Group controlId='newIngredientMeasurement'>
-                  <Form.Control
-                    key='index'
-                    type='text'
-                    placeholder='Cup'
-                    required
-                  >
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col xs={12} sm={12} md={12} lg={12} xl={4}>
-                <Form.Group controlId='newIngredientName'>
-                  <Form.Control
-                    key='index'
-                    type='text'
-                    placeholder='Basmati Rice'
-                    required
-                  >
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Col style={{padding: '5px 5px 15px 5px', textAlign: 'center' }}>
-              <Button type='submit' variant='primary'>
-                Add New Ingredient
-              </Button>
-            </Col>
-          </Form>
           <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{textAlign: 'center'}}>
             <Button
               variant='primary'

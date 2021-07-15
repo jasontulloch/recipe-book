@@ -28,6 +28,22 @@ const chefSchema = mongoose.Schema(
       type: String,
       required: false,
     },
+    connect_first_name: {
+      type: String,
+      required: false
+    },
+    connect_last_name: {
+      type: String,
+      required: false
+    },
+    connect_phone_number : {
+      type: String,
+      required: false,
+    },
+    connect_email: {
+      type: String,
+      required: false,
+    },
     password: {
       type: String,
       required: true

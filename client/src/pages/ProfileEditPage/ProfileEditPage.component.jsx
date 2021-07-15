@@ -20,6 +20,10 @@ const ProfileEditPage = ({ location, history, match }) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [phone_number, setPhoneNumber] = useState('')
+  const [connect_first_name, setConnectFirstName] = useState('')
+  const [connect_last_name, setConnectLastName] = useState('')
+  const [connect_email, setConnectEmail] = useState('')
+  const [connect_phone_number, setConnectPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isVegan, setIsVegan] = useState(false)
@@ -97,6 +101,10 @@ const ProfileEditPage = ({ location, history, match }) => {
         setUsername(chef.username)
         setEmail(chef.email)
         setPhoneNumber(chef.phone_number)
+        setConnectFirstName(chef.connect_first_name)
+        setConnectLastName(chef.connect_last_name)
+        setConnectEmail(chef.connect_email)
+        setConnectPhoneNumber(chef.connect_phone_number)
         setBio(chef.bio)
         setChefPicture(chef.chefPicture)
         setIsVisible(chef.isVisible)
@@ -160,6 +168,10 @@ const ProfileEditPage = ({ location, history, match }) => {
         username,
         email,
         phone_number,
+        connect_first_name,
+        connect_last_name,
+        connect_email,
+        connect_phone_number,
         password,
         bio,
         chefPicture,
@@ -431,6 +443,57 @@ const ProfileEditPage = ({ location, history, match }) => {
                 >
                 </Form.Control>
                 <Form.Text>We will never message you or share your phone number with anyone without your permission.</Form.Text>
+              </Form.Group>
+
+
+              <Form.Group controlId='connect_first_name'>
+                <Message style={{marginTop: '10px'}}>Ever wish you could text or email your grocery list or a recipe's ingredients directly to someone else? Yeah, so did we.</Message>
+                <Form.Label>Partner Chef First Name</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder="Enter your partner chef's first name"
+                  value={connect_first_name}
+                  onChange={(e) => setConnectFirstName(e.target.value)}
+                  required
+                >
+                </Form.Control>
+              </Form.Group>
+
+              <Form.Group controlId='connect_last_name'>
+                <Form.Label>Partner Chef Last Name</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder="Enter your partner chef's last name"
+                  value={connect_last_name}
+                  onChange={(e) => setConnectLastName(e.target.value)}
+                  required
+                >
+                </Form.Control>
+              </Form.Group>
+              <Form.Group controlId='connect_email'>
+                <Form.Label>Partner Chef Email</Form.Label>
+                <Form.Control
+                  type='email'
+                  placeholder="Enter your partner chef's email"
+                  value={connect_email}
+                  onChange={(e) => setConnectEmail(e.target.value)}
+                  required
+                >
+                </Form.Control>
+                <Form.Text>We will never email your partner chef or share their email with anyone. Providing an email will allow you to send recipes / ingredients to your partner chef throughout this application.</Form.Text>
+              </Form.Group>
+
+              <Form.Group controlId='connect_phone_number'>
+                <Form.Label>Partner Chef Phone Number</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder="Enter your partner chef's phone number"
+                  value={connect_phone_number}
+                  onChange={(e) => setConnectPhoneNumber(e.target.value)}
+                  required
+                >
+                </Form.Control>
+                <Form.Text>We will never text / call your partner chef or share their phone number with anyone. Providing a phone number will allow you to send recipes / ingredients to your partner chef throughout this application.</Form.Text>
               </Form.Group>
 
               <Form.Group controlId='password'>

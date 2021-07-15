@@ -126,10 +126,7 @@ const CookbookDetailsPage = ({ match , history }) => {
         recipeId
       }))
     }
-    console.log(recipeId)
   }
-
-  console.log(recipeId)
 
   return (
       <div className="chefRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
