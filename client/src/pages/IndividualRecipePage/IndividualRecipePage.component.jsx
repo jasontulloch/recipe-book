@@ -15,6 +15,7 @@ import {
   Badge,
   DropdownButton,
   Dropdown,
+  Popover
 } from 'react-bootstrap';
 import {
   listRecipeDetails,
@@ -806,53 +807,64 @@ const IndividualRecipePage = ({ history, match }) => {
                     </div>
                   </div>
                 </Form.Group>
-                <Form onSubmit={saveIngredientsHandler}>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    onClick={(e) => setSaveIngredients('')}
-                    disabled={(chefInfo == null) ? true : false}
+                  <Form onSubmit={saveIngredientsHandler}>
+                    <Button
+                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                      type='submit'
+                      onClick={(e) => setSaveIngredients('')}
+                      disabled={(chefInfo == null) ? true : false}
+                    >
+                      Add ingredients to grocery list
+                    </Button>
+                  </Form>
+                  <OverlayTrigger
+                    trigger="focus"
+                    placement="right"
+                    overlay={
+                      <Popover id='popover-positioned-right' style={{ backgroundColor: '#343a40', padding: '0px'}}>
+                        <Popover.Content style={{padding: '0px'}}>
+                          <Form onSubmit={textGroceryListHandler}>
+                            <Button
+                              style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                              type='submit'
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              Text Me Ingredients
+                            </Button>
+                          </Form>
+                          <Form onSubmit={emailGroceryListHandler}>
+                            <Button
+                              style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                              type='submit'
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              Email Me Ingredients
+                            </Button>
+                          </Form>
+                          <Form onSubmit={textGroceryListPartnerChefHandler}>
+                            <Button
+                              style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                              type='submit'
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              Text {chefInfo.connect_first_name} Ingredients
+                            </Button>
+                          </Form>
+                          <Form onSubmit={emailGroceryListPartnerChefHandler}>
+                            <Button
+                              style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                              type='submit'
+                              disabled={(chefInfo == null) ? true : false}
+                            >
+                              Email {chefInfo.connect_first_name} Ingredients
+                            </Button>
+                          </Form>
+                        </Popover.Content>
+                      </Popover>
+                    }
                   >
-                    Add ingredients to grocery list
-                  </Button>
-                </Form>
-                <Dropdown.Divider style={{marginTop: '0px', marginBottom: '0px'}} />
-                <Form onSubmit={textGroceryListHandler}>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    Text Me Ingredients
-                  </Button>
-                </Form>
-                <Form onSubmit={emailGroceryListHandler}>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    Email Me Ingredients
-                  </Button>
-                </Form>
-                <Form onSubmit={textGroceryListPartnerChefHandler}>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    Text {chefInfo.connect_first_name} Ingredients
-                  </Button>
-                </Form>
-                <Form onSubmit={emailGroceryListPartnerChefHandler}>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chefInfo == null) ? true : false}
-                  >
-                    Email {chefInfo.connect_first_name} Ingredients
-                  </Button>
-                </Form>
+                    <Button style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}>Share Recipe</Button>
+                  </OverlayTrigger>
                 <Dropdown.Divider style={{marginTop: '0px', marginBottom: '0px'}} />
                 <Form>
                   <Button

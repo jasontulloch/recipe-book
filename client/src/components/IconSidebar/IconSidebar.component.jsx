@@ -6,6 +6,7 @@ import { Navbar, Nav, Container, NavDropdown, OverlayTrigger, Popover } from 're
 import SearchBox from '../SearchBox/SearchBox.component';
 import AdvancedSearchBtn from '../AdvancedSearchBtn/AdvancedSearchBtn.component';
 import AllChefsBtn from '../AllChefsBtn/AllChefsBtn.component';
+import PopoverStickOnHover from '../PopoverStickOnHover/PopoverStickOnHover.component';
 import { GiBookmark, GiBookCover, GiCook } from 'react-icons/gi';
 import { IoMdCreate, IoMdAdd, IoIosMore, IoMdSearch } from 'react-icons/io'
 import { HiOutlineClipboardList } from 'react-icons/hi'
@@ -100,6 +101,17 @@ const IconSidebar = ({ history }) => {
             <Nav className="ml-auto">
               <Nav.Link style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', color: 'rgba(255,255,255,0.5)'}}>
                 <div>
+                  <PopoverStickOnHover
+                    component={<div>Holy guacamole! I'm Sticky.</div>}
+                    placement="right"
+                    onMouseEnter={() => { }}
+                    delay={500}
+                  >
+                    <div className="sidebarIcon">
+                      <IoMdSearch style={{ fontSize: '1.25rem' }}/>
+                      <span style={{paddingLeft: '15px'}}>Search</span>
+                    </div>
+                  </PopoverStickOnHover>
                   <OverlayTrigger
                     trigger="click"
                     placement="right"

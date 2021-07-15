@@ -201,7 +201,7 @@ const IndividualChefPage = ({ history, match }) => {
   }
 
   return (
-    <div className="individualChefPageMobile" style={{paddingLeft: '230px'}}>
+    <div className="individualChefPageMobile" style={{paddingLeft: '220px'}}>
       {initialLoader ? (
         <PancakeLoader>Gathering chef details...</PancakeLoader>
       ) : (
@@ -313,6 +313,11 @@ const IndividualChefPage = ({ history, match }) => {
                   <RecipeCard recipe={recipe}/>
                 </div>
               ))}
+            </div>
+          )}
+          {(recipes && recipes.length < 1) && (
+            <div style={{marginRight: '15px', marginTop: '50px', textAlign: 'center'}}>
+              <Message>Bummer... it looks like {chef.username} does not have any recipes yet.</Message>
             </div>
           )}
           <Row className="allChefsPageMobilePaginate">
