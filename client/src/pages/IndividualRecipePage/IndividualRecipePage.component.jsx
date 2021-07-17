@@ -44,6 +44,7 @@ import { RiHeartAddLine, RiHeartAddFill } from 'react-icons/ri';
 import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
 import Message from '../../components/Message/Message.component';
 import ClickableBadge from '../../components/ClickableBadge/ClickableBadge.component';
+import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
 import Fraction from 'fraction.js'
 
 import { isBrowser, isMobile } from 'react-device-detect';
@@ -72,8 +73,8 @@ const IndividualRecipePage = ({ history, match }) => {
   const [useKilograms, setUseKilograms] = useState(false)
   const [useCentimetres, setUseCentimetres] = useState(false)
   const [useMillimetres, setUseMillimetres] = useState(false)
-  const [temperatureF, setTemperatureF] = useState(0)
-  const [temperatureC, setTemperatureC] = useState(0)
+  const [temperatureF, setTemperatureF] = useState(163)
+  const [temperatureC, setTemperatureC] = useState(325)
 
   const [saveToCookbook, setSaveToCookbook] = useState('')
 
@@ -776,53 +777,90 @@ const IndividualRecipePage = ({ history, match }) => {
               </Row>
             </Col>
             <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
-              <DropdownButton title="More Features" style={{height: '25px', paddingRight: '5px'}}>
-                <Form.Group style={{ width: '100%', marginBottom: '0px'}}>
-                  <Button className="disabled-button" style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}>Serving Size:</Button>
-                  <div style={{height: '25px'}}>
-                    <div style={{ border: '2px solid #4bbf73', width: '33%', display: 'inline-block'}}>
-                      <Form.Control
-                          style={{padding: '5px', height: '21px'}}
-                          type='number'
-                          min={1}
-                          max={20}
-                          step={1}
-                          value={servingSize}
-                          onChange={(e) => setServingSize(e.target.value)}
-                          onKeyDown={handleKeypress}
-                          required
-                        >
-                      </Form.Control>
-                    </div>
-                    <div style={{ width: '67%', display: 'inline-block', paddingLeft: '5px'}}>
-                      <Form.Check
-                        type='switch'
-                        id='custom-switch'
-                        inline
-                        label='Metric?'
-                        checked={isMetric}
-                        onChange={(e) => setIsMetric(e.target.checked)}
+              <PopoverStickOnHover
+                component={
+                  <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
+                    <Form.Group style={{ width: '100%', marginBottom: '0px'}}>
+                      <Button className="disabled-button" style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}>Serving Size:</Button>
+                      <div style={{height: '25px'}}>
+                        <div style={{ border: '2px solid #4bbf73', width: '33%', display: 'inline-block'}}>
+                          <Form.Control
+                              style={{padding: '5px', height: '21px'}}
+                              type='number'
+                              min={1}
+                              max={20}
+                              step={1}
+                              value={servingSize}
+                              onChange={(e) => setServingSize(e.target.value)}
+                              onKeyDown={handleKeypress}
+                              required
+                            >
+                          </Form.Control>
+                        </div>
+                        <div style={{ width: '67%', display: 'inline-block', paddingLeft: '5px', backgroundColor: 'white'}}>
+                          <Form.Check
+                            type='switch'
+                            id='custom-switch'
+                            inline
+                            label='Metric?'
+                            checked={isMetric}
+                            onChange={(e) => setIsMetric(e.target.checked)}
+                            disabled={(chefInfo == null) ? true : false}
+                          />
+                        </div>
+                      </div>
+                    </Form.Group>
+                    {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
+                      <Form.Group as={Row} style={{ width: '100%', marginBottom: '0px', height: '25px'}}>
+                          <div style={{ border: '2px solid #4bbf73', width: '58.33px', display: 'inline-block', marginLeft: '15px'}}>
+                            <Form.Control
+                              style={{padding: '5px', height: '21px'}}
+                              type='number'
+                              placeholder='163'
+                              step={5}
+                              onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
+                            >
+                            </Form.Control>
+                          </div>
+                          <div style={{ display: 'inline-block', backgroundColor: 'white', width: '100px', height: '25px'}}>
+                            {temperatureC > 0 && (
+                            <Form.Label>&#176; C is {temperatureC.toFixed()}&#176; F</Form.Label>
+                            )}
+                          </div>
+                      </Form.Group>
+                    )}
+                    {recipe.steps && recipe.steps.flat().join('').includes('Fahrenheit' || 'fahrenheit' || ' F ') && (
+                      <Form.Group as={Row} style={{ width: '100%', marginBottom: '0px', height: '25px'}}>
+                          <div style={{ border: '2px solid #4bbf73', width: '58.33px', display: 'inline-block', marginLeft: '15px'}}>
+                            <Form.Control
+                              style={{padding: '5px', height: '21px'}}
+                              type='number'
+                              placeholder='325'
+                              step={5}
+                              onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
+                            >
+                            </Form.Control>
+                          </div>
+                          <div style={{ display: 'inline-block', backgroundColor: 'white', width: '100px', height: '25px'}}>
+                            {temperatureF > 0 && (
+                            <Form.Label>&#176; F is {temperatureF.toFixed()}&#176; C</Form.Label>
+                            )}
+                          </div>
+                      </Form.Group>
+                    )}
+                    <Form onSubmit={saveIngredientsHandler}>
+                      <Button
+                        style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                        type='submit'
+                        onClick={(e) => setSaveIngredients('')}
                         disabled={(chefInfo == null) ? true : false}
-                      />
-                    </div>
-                  </div>
-                </Form.Group>
-                  <Form onSubmit={saveIngredientsHandler}>
-                    <Button
-                      style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                      type='submit'
-                      onClick={(e) => setSaveIngredients('')}
-                      disabled={(chefInfo == null) ? true : false}
-                    >
-                      Add ingredients to grocery list
-                    </Button>
-                  </Form>
-                  <OverlayTrigger
-                    trigger="focus"
-                    placement="right"
-                    overlay={
-                      <Popover id='popover-positioned-right' style={{ backgroundColor: '#343a40', padding: '0px'}}>
-                        <Popover.Content style={{padding: '0px'}}>
+                      >
+                        Add ingredients to grocery list
+                      </Button>
+                    </Form>
+                    <PopoverStickOnHover
+                      component={
+                        <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
                           <Form onSubmit={textGroceryListHandler}>
                             <Button
                               style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
@@ -859,56 +897,91 @@ const IndividualRecipePage = ({ history, match }) => {
                               Email {chefInfo.connect_first_name} Ingredients
                             </Button>
                           </Form>
-                        </Popover.Content>
-                      </Popover>
-                    }
-                  >
-                    <Button style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}>Share Recipe</Button>
-                  </OverlayTrigger>
-                <Dropdown.Divider style={{marginTop: '0px', marginBottom: '0px'}} />
-                <Form>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    disabled={(chefInfo == null) ? true : false}
-                    onClick={(e) => history.push(`/chefs/${recipe.chef}/page/1`)}
-                  >
-                    View Chef Page
-                  </Button>
-                </Form>
-                <RecipeImagesModal recipe={recipe} style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}/>
-              </DropdownButton>
-              <DropdownButton title="Add to Cookbook" style={{height: '25px', paddingLeft: '5px'}}>
-                <Form onSubmit={saveToCookbookHandler}>
-                  {(cookbooks === undefined || cookbooks.length == 0) ? (
-                    <div></div>
-                  ) : (
-
-                    cookbooks.map(cookbook => (
+                        </div>
+                      }
+                      placement="right"
+                      onMouseEnter={() => { }}
+                      delay={200}
+                    >
                       <div className="sidebarIcon">
-                        {cookbook.cookbook_name.length > 25 ? (
-                          <Button
-                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                            type='submit'
-                            onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
-                            disabled={(chefInfo == null) ? true : false}
-                          >
-                            {cookbook.cookbook_name.slice(0, 25) + (cookbook.cookbook_name.length > 25 ? "..." : "")}
-                          </Button>
-                        ) : (
-                          <Button
-                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                            type='submit'
-                            onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
-                            disabled={(chefInfo == null) ? true : false}
-                          >
-                            {cookbook.cookbook_name}
-                          </Button>
-                        )}
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          disabled={(chefInfo == null) ? true : false}
+                        >
+                          Share
+                        </Button>
                       </div>
-                    ))
-                  )}
-                </Form>
-              </DropdownButton>
+                    </PopoverStickOnHover>
+                    <Dropdown.Divider style={{marginTop: '0px', marginBottom: '0px'}} />
+                    <Form>
+                      <Button
+                        style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                        disabled={(chefInfo == null) ? true : false}
+                        onClick={(e) => history.push(`/chefs/${recipe.chef}/page/1`)}
+                      >
+                        View Chef Page
+                      </Button>
+                    </Form>
+                    <RecipeImagesModal recipe={recipe} style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}/>
+                  </div>
+                }
+                placement="bottom"
+                onMouseEnter={() => { }}
+                delay={200}
+              >
+
+                <div className="sidebarIcon">
+                  <Button style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}>
+                    More Features
+                  </Button>
+                </div>
+              </PopoverStickOnHover>
+
+              <PopoverStickOnHover
+                component={
+                  <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
+                    <Form onSubmit={saveToCookbookHandler}>
+                      {(cookbooks === undefined || cookbooks.length == 0) ? (
+                        <div></div>
+                      ) : (
+
+                        cookbooks.map(cookbook => (
+                          <div className="sidebarIcon">
+                            {cookbook.cookbook_name.length > 25 ? (
+                              <Button
+                                style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                                type='submit'
+                                onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
+                                disabled={(chefInfo == null) ? true : false}
+                              >
+                                {cookbook.cookbook_name.slice(0, 25) + (cookbook.cookbook_name.length > 25 ? "..." : "")}
+                              </Button>
+                            ) : (
+                              <Button
+                                style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                                type='submit'
+                                onClick={(e) => { setSaveToCookbook(''); setCookbookId(cookbook._id) }}
+                                disabled={(chefInfo == null) ? true : false}
+                              >
+                                {cookbook.cookbook_name}
+                              </Button>
+                            )}
+                          </div>
+                        ))
+                      )}
+                    </Form>
+                  </div>
+                }
+                placement="right"
+                onMouseEnter={() => { }}
+                delay={200}
+              >
+              <div className="sidebarIcon">
+                <Button style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}>
+                  Add to Cookbook
+                </Button>
+              </div>
+              </PopoverStickOnHover>
             </Col>
             <Col xs={12} style={{borderBottom: 'dotted 3px'}}>
               <h6 style={{textAlign: 'center'}}>
@@ -926,74 +999,10 @@ const IndividualRecipePage = ({ history, match }) => {
                 ))}
               </h6>
             </Col>
-            <Col xs={12} style={{paddingTop: '20px'}}>
-              <Row style={{display: 'flex', justifyContent: 'center'}}>
-                <Col xs={12} md={12} style={{textAlign:'center'}}>
-                  <h5>Cook Time: {time_convert(recipe.cook_time)}</h5>
-                </Col>
-              </Row>
-            </Col>
-            <Col xs={12} style={{paddingTop: '7.5px', paddingLeft: '0px', marginLeft: '10px', display: 'flex', justifyContent: 'center'}}>
-              {recipe.steps && recipe.steps.flat().join('').includes('Celsius' || 'celsius' || ' C ') && (
-              <Form.Group as={Row} controlId='celsiusToFahrenheit' style={{ marginBottom: '0px', display: 'flex', justifyContent: 'center' }}>
-                <h5 className="individualRecipePageFontSizeMobile" style= {{ marginRight: '5px' }}>Celsius:</h5>
-                {(isBrowser) ? (
-                <div style={{border: '2px solid #4bbf73', height: '18px'}}>
-                  <Form.Control
-                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
-                    type='number'
-                    step={5}
-                    onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
-                  >
-                  </Form.Control>
-                </div>
-                ) : (
-                <div style={{border: '2px solid #4bbf73', height: '30px'}}>
-                  <Form.Control
-                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '0px', paddingBottom: '6px', width: '80px', height: '25px'}}
-                    type='number'
-                    onChange={(e) => setTemperatureC((eval(e.target.value) * 9 / 5) + 32 )}
-                    >
-                  </Form.Control>
-                </div>
-                )}
-                <div style={{paddingLeft: '5px'}}>
-                  {temperatureC > 0 && (
-                    <h5 className="individualRecipePageFontSizeMobile"> is {temperatureC.toFixed()} Degrees Fahrenheit</h5>
-                  )}
-                </div>
-              </Form.Group>
-              )}
-              {recipe.steps && recipe.steps.flat().join('').includes('Fahrenheit' || 'fahrenheit' || ' F ') && (
-              <Form.Group as={Row} controlId='fahrenheitToCelsius' style={{ marginBottom: '0px', display: 'flex', justifyContent: 'center' }}>
-                <h5 className="individualRecipePageFontSizeMobile" style= {{ marginRight: '5px' }}>Fahrenheit:</h5>
-                {(isBrowser) ? (
-                <div style={{border: '2px solid #4bbf73', height: '18px'}}>
-                  <Form.Control
-                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '7px', paddingBottom: '6px', width: '80px', height: '12px'}}
-                    type='number'
-                    step={5}
-                    onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
-                  >
-                  </Form.Control>
-                </div>
-                ) : (
-                <div style={{border: '2px solid #4bbf73', height: '30px'}}>
-                  <Form.Control
-                    style={{ paddingLeft: '3px', paddingRight: '3px', paddingTop: '0px', paddingBottom: '6px', width: '80px', height: '25px'}}
-                    type='number'
-                    onChange={(e) => setTemperatureF((eval(e.target.value) - 32) * 5 / 9 )}
-                  >
-                  </Form.Control>
-                </div>
-                )}
-                <div style={{paddingLeft: '5px'}}>
-                  {temperatureF > 0 && (
-                    <h5 className="individualRecipePageFontSizeMobile"> is {temperatureF.toFixed()} Degrees Celsius</h5>
-                  )}
-                </div>
-              </Form.Group>
-              )}
+            <Col xs={12} style={{paddingTop: '10px'}}>
+              <Message style={{paddingTop:'12px', paddingBottom: '0px', marginBottom: '0px'}}>
+                <h5 style={{textAlign: 'center', paddingBottom: '0px', marginBottom: '0px'}}>Cook Time: {time_convert(recipe.cook_time)}</h5>
+              </Message>
             </Col>
             <Col className="indvidualRecipePageIngredientsMobile" style={{ paddingTop: '15px'}} xs={12} md={6}>
               <Row>

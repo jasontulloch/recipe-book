@@ -102,53 +102,41 @@ const IconSidebar = ({ history }) => {
               <Nav.Link style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', color: 'rgba(255,255,255,0.5)'}}>
                 <div>
                   <PopoverStickOnHover
-                    component={<div>Holy guacamole! I'm Sticky.</div>}
+                    component={
+                      <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
+                        <Route render={({ history }) => <SearchBox history={history} />} />
+                        <LinkContainer to='/recipes/page/1' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
+                          <Nav.Link>
+                            <div className="sidebarIcon">
+                              <span>Search All Recipes</span>
+                            </div>
+                          </Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to='/chefs/page/1' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                          <Nav.Link>
+                            <div className="sidebarIcon">
+                              <span>Find Chefs</span>
+                            </div>
+                          </Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to='/recipes/advanced-search' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                          <Nav.Link>
+                            <div className="sidebarIcon">
+                              <span>Advanced Search</span>
+                            </div>
+                          </Nav.Link>
+                        </LinkContainer>
+                      </div>
+                    }
                     placement="right"
                     onMouseEnter={() => { }}
-                    delay={500}
+                    delay={200}
                   >
                     <div className="sidebarIcon">
                       <IoMdSearch style={{ fontSize: '1.25rem' }}/>
                       <span style={{paddingLeft: '15px'}}>Search</span>
                     </div>
                   </PopoverStickOnHover>
-                  <OverlayTrigger
-                    trigger="click"
-                    placement="right"
-                    overlay={
-                      <Popover id='popover-positioned-right' style={{ backgroundColor: '#343a40', fontSize: '.85rem' }}>
-                        <Popover.Content>
-                          <Route render={({ history }) => <SearchBox history={history} />} />
-                          <LinkContainer to='/recipes/page/1' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
-                            <Nav.Link>
-                              <div className="sidebarIcon">
-                                <span>Search All Recipes</span>
-                              </div>
-                            </Nav.Link>
-                          </LinkContainer>
-                          <LinkContainer to='/chefs/page/1' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
-                            <Nav.Link>
-                              <div className="sidebarIcon">
-                                <span>Find Chefs</span>
-                              </div>
-                            </Nav.Link>
-                          </LinkContainer>
-                          <LinkContainer to='/recipes/advanced-search' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
-                            <Nav.Link>
-                              <div className="sidebarIcon">
-                                <span>Advanced Search</span>
-                              </div>
-                            </Nav.Link>
-                          </LinkContainer>
-                        </Popover.Content>
-                      </Popover>
-                    }
-                  >
-                      <div className="sidebarIcon">
-                        <IoMdSearch style={{ fontSize: '1.25rem' }}/>
-                        <span style={{paddingLeft: '15px'}}>Search</span>
-                      </div>
-                  </OverlayTrigger>
                 </div>
               </Nav.Link>
               <LinkContainer
@@ -178,42 +166,41 @@ const IconSidebar = ({ history }) => {
                 </LinkContainer>
                 <Nav.Link style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
                   <div>
-                    <OverlayTrigger
-                      trigger="click"
-                      placement="right"
-                      overlay={
-                        <Popover id='popover-positioned-right' style={{ backgroundColor: '#343a40', fontSize: '.85rem' }}>
-                          <Popover.Content>
-                            <LinkContainer to='/mychefs/page/1' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
-                              <Nav.Link>
-                                <div className="sidebarIcon">
-                                  <span>Favorite Chefs</span>
-                                </div>
-                              </Nav.Link>
-                            </LinkContainer>
-                            <LinkContainer to='/grocerylist' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
-                              <Nav.Link>
-                                <div className="sidebarIcon">
-                                  <span>Grocery List</span>
-                                </div>
-                              </Nav.Link>
-                            </LinkContainer>
-                            <LinkContainer to='/myrecipes' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
-                              <Nav.Link>
-                                <div className="sidebarIcon">
-                                  <span>My Recipes</span>
-                                </div>
-                              </Nav.Link>
-                            </LinkContainer>
-                          </Popover.Content>
-                        </Popover>
-                      }
-                    >
-                        <div className="sidebarIcon">
-                          <IoIosMore style={{ fontSize: '1.25rem' }}/>
-                          <span style={{paddingLeft: '15px'}}>More</span>
+                    <PopoverStickOnHover
+                      component={
+                        <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
+                          <LinkContainer to='/mychefs/page/1' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '5px', color: 'rgba(255,255,255,0.5)' }}>
+                            <Nav.Link>
+                              <div className="sidebarIcon">
+                                <span>Favorite Chefs</span>
+                              </div>
+                            </Nav.Link>
+                          </LinkContainer>
+                          <LinkContainer to='/grocerylist' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                            <Nav.Link>
+                              <div className="sidebarIcon">
+                                <span>Grocery List</span>
+                              </div>
+                            </Nav.Link>
+                          </LinkContainer>
+                          <LinkContainer to='/myrecipes' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                            <Nav.Link>
+                              <div className="sidebarIcon">
+                                <span>My Recipes</span>
+                              </div>
+                            </Nav.Link>
+                          </LinkContainer>
                         </div>
-                    </OverlayTrigger>
+                      }
+                      placement="right"
+                      onMouseEnter={() => { }}
+                      delay={200}
+                    >
+                      <div className="sidebarIcon">
+                        <IoIosMore style={{ fontSize: '1.25rem' }}/>
+                        <span style={{paddingLeft: '15px'}}>More</span>
+                      </div>
+                    </PopoverStickOnHover>                    
                   </div>
                 </Nav.Link>
                 <div style={{paddingLeft: '10px', paddingTop: '15px', color: 'rgba(255,255,255,0.5)'}}>

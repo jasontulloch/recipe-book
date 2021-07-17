@@ -7,6 +7,7 @@ import { emailGroceryList, textGroceryList } from '../../actions/groceryListActi
 import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 
 import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
+import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
 import Message from '../../components/Message/Message.component';
 
 import axios from 'axios';
@@ -538,46 +539,63 @@ const SavedIngredientsPage = ({ history }) => {
           {savedIngredients.length !== 0 && (
           <Row style={{paddingTop: '15px'}}>
             <Col style={{textAlign: 'center'}}>
-              <DropdownButton className="groceryListDropdown" title="Send Grocery List" style={{paddingRight: '5px'}}>
-                <Form onSubmit={textGroceryListHandler}>
-                  <Button
-                    variant='primary'
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chef == null || chef.phone_number === '') ? true : false}
-                  >
-                    Text Me Grocery List
-                  </Button>
-                </Form>
-                <Form onSubmit={emailGroceryListHandler}>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chef == null || chef.email === '') ? true : false}
-                  >
-                    Email Me Grocery List
-                  </Button>
-                </Form>
-                <Form onSubmit={textGroceryListPartnerChefHandler}>
-                  <Button
-                    variant='primary'
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chef == null || chef.connect_phone_number === '') ? true : false}
-                  >
-                    Text {chef.connect_first_name} Grocery List
-                  </Button>
-                </Form>
-                <Form onSubmit={emailGroceryListPartnerChefHandler}>
-                  <Button
-                    style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                    type='submit'
-                    disabled={(chef == null || chef.connect_email === '') ? true : false}
-                  >
-                    Email {chef.connect_first_name} Grocery List
-                  </Button>
-                </Form>
-              </DropdownButton>
+              <div>
+                <PopoverStickOnHover
+                  component={
+                    <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
+                      <Form onSubmit={textGroceryListHandler}>
+                        <Button
+                          variant='primary'
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          disabled={(chef == null || chef.phone_number === '') ? true : false}
+                        >
+                          Text Me Grocery List
+                        </Button>
+                      </Form>
+                      <Form onSubmit={emailGroceryListHandler}>
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          disabled={(chef == null || chef.email === '') ? true : false}
+                        >
+                          Email Me Grocery List
+                        </Button>
+                      </Form>
+                      <Form onSubmit={textGroceryListPartnerChefHandler}>
+                        <Button
+                          variant='primary'
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          disabled={(chef == null || chef.connect_phone_number === '') ? true : false}
+                        >
+                          Text {chef.connect_first_name} Grocery List
+                        </Button>
+                      </Form>
+                      <Form onSubmit={emailGroceryListPartnerChefHandler}>
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          disabled={(chef == null || chef.connect_email === '') ? true : false}
+                        >
+                          Email {chef.connect_first_name} Grocery List
+                        </Button>
+                      </Form>
+                    </div>
+                  }
+                  placement="bottom"
+                  onMouseEnter={() => { }}
+                  delay={200}
+                >
+                  <div className="sidebarIcon">
+                    <Button
+                      style={{height: '25px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}
+                    >
+                      Send Grocery List
+                    </Button>
+                  </div>
+                </PopoverStickOnHover>
+              </div>
             </Col>
             <Col style={{textAlign: 'center'}}>
               <Button
