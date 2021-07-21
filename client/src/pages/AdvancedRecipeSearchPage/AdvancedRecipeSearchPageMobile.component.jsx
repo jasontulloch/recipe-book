@@ -43,7 +43,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                     <p style={{marginTop: '10px', marginBottom: '0px'}}>Find all recipes that are...</p>
                     <div style={{overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
                             <div style={{display: 'inline-block', height: '35px'}}>
-                                 <ClickableBadgeBooleans isVegan={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                                 <ClickableBadgeBooleans isVegan={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>Test</ClickableBadgeBooleans>
                                  <ClickableBadgeBooleans isVegetarian={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                                  <ClickableBadgeBooleans isGlutenFree={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                                  <ClickableBadgeBooleans isKetogenic={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
