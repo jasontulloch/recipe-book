@@ -1,0 +1,11 @@
+@media only screen and (max-width: 415px) {
+  col {
+    max-width: 300px !important;
+  }
+
+  div.recipeCardMobile {
+    width: 300px !important;
+    display: inline-block;
+  }
+
+}

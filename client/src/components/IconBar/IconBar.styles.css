@@ -1,0 +1,14 @@
+.sidebarIcon:hover {
+  color: white;
+}
+
+.sidebarScroller {
+  height: calc(100% - 30px);
+  margin-top: 200px;
+  overflow-y: scroll;
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  padding-left: 10px;
+  color: rgba(255,255,255,0.5);
+}

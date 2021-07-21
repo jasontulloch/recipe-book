@@ -1,0 +1,38 @@
+@media only screen and (max-width: 415px) {
+  div.allChefsPageMobileRow.row {
+    width: 95vw;
+  }
+
+  div.allChefsPageMobilePaginate.row {
+    width: 95vw;
+  }
+
+  div.allChefsSortButtonCol.col-12 {
+    padding-left: 0px;
+  }
+
+  div.allChefsPageMobile {
+    padding-top: 30px;
+  }
+
+  div.allChefsPageChefCardMobile.col {
+    min-width: 87.5vw !important;
+    max-width: 87.5vw !important;
+    height: 43.5vh;
+  }
+
+  div.allChefsPageMobile2Div {
+    padding-left: 0px !important;
+  }
+
+  img.card-img.chefCardMobile {
+    width: 87.5vw !important;
+    height: 30vh !important;
+  }
+
+  div.chefCardMobile {
+    width: 87.5vw !important;
+    height: 87.5vh !important;
+    padding-bottom: 10px !important;
+  }
+}

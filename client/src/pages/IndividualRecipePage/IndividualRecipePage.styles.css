@@ -1,0 +1,116 @@
+.upvote-btn {
+  display: inline-block;
+  overflow: hidden;
+  width: 40px;
+  height: 25px;
+  cursor: pointer;
+  background: url('http://i.stack.imgur.com/iqN2k.png');
+  background-position: 0 -25px;
+}
+
+.downvote-btn {
+  display: inline-block;
+  overflow: hidden;
+  width: 40px;
+  height: 25px;
+  cursor: pointer;
+  background: url('http://i.stack.imgur.com/iqN2k.png');
+  background-position: 0 2px;
+}
+
+.individualRecipeStepListOrder {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
+}
+
+.individualRecipeStepList:before {
+  content: "Step #" counter(elementcounter);
+  counter-increment: elementcounter;
+}
+
+@media only screen and (max-width: 415px) {
+  div.individualRecipePageFirstRowMobile.row {
+    padding-top: 30px;
+  }
+
+  h4.individualRecipePageFontSizeMobile {
+    font-size: .75rem;
+  }
+  h5.individualRecipePageFontSizeMobile {
+    font-size: 1rem;
+    padding-top: 5px;
+    text-align: center;
+  }
+  p.individualRecipePageFontSizeMobile {
+    font-size: .75rem;
+  }
+  li.individualRecipePageFontSizeMobile {
+    font-size: .75rem;
+  }
+
+  div.indvidualRecipePageChefMobile.col-12 {
+    padding-top: 50px;
+  }
+  form.individualRecipePageRecipeNameFormMobile {
+    height: 15px;
+    padding-left: 20px;
+    padding-right: auto;
+  }
+  form.individualRecipePageRating {
+    padding-left: auto;
+  }
+  div.individualRecipePageRatingFormGroupMobile.form-group.row {
+    padding-left: 25px;
+  }
+
+  div.individualRecipePageServingSizeColMobile.col-xl4.col-lg-4.col-md-6.col-sm-6.col-12 {
+    padding-left: 15px !important;
+  }
+
+  div.individualRecipePageMessagesMobile {
+    padding-top: 30px !important;
+    padding-right: 0px !important;
+  }
+
+  div.indvidualRecipePageIngredientsMobile.col-md-6.col-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  ul.indvidualRecipePageIngredientListMobile {
+    padding-left: 20px;
+  }
+
+  div.indvidualRecipePageStepsContainerMobile.col-md-6.col-12 {
+    padding-right: 0px;
+  }
+
+  ol.indvidualRecipePageStepsMobile {
+    padding-left: 20px;
+  }
+
+  div.indvidualRecipePageNotesMobile.col-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+}
+
+button.dropdown-toggle.btn.btn-primary {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+div.dropdown-menu.show {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+button.disabled-button.btn.btn-primary {
+  pointer-events: none;
+}
+
+label.custom-control-label {
+  padding-top: 2px;
+}

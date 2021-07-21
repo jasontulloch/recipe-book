@@ -1,0 +1,34 @@
+@media only screen and (max-width: 415px) {
+  // this helps keep the sort button centered
+  div.advancedRecipeSearchResultsSortButtonCol.col-12 {
+    padding-left: 0px;
+  }
+  div.advancedRecipeSearchResultsPageMobileRow.row {
+    width: 95vw;
+  }
+
+  // pushing all content down so header does not cut anything off
+  div.advancedRecipeSearchResultsPageMobile {
+    padding-top: 30px;
+  }
+
+  // Keep the recipe cards in line and organized neatly
+  div.advancedRecipeSearchResultsPageRecipeCardMobile.col {
+    min-width: 87.5vw !important;
+    max-width: 87.5vw !important;
+    height: 42.5vh;
+    padding: 0px;
+  }
+
+  // Making sure recipe card is in a good position
+  div.advancedRecipeSearchResultsPageMobile2Div {
+    padding-left: 0px !important;
+  }
+
+  // card footer font sizing
+  div.card-footer {
+    font-size: 20px !important;
+  }
+
+
+}

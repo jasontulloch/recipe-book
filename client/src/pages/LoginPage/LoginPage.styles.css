@@ -1,0 +1,8 @@
+@media only screen and (max-width: 415px) {
+  div.loginPageMobile {
+    padding-top: 40px;
+    padding-right: 75px;
+    width: 100vw;
+    margin-left: 20px !important;
+  }
+}

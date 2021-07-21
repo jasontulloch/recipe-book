@@ -1,0 +1,20 @@
+.react-multi-carousel-item{
+    max-width: 190px;
+    min-width: 190px;
+}
+
+@media only screen and (max-width: 415px) {
+  div.individualChefPageMobile {
+    padding-top: 40px;
+    padding-left: 40px !important;
+    padding-right: 10px;
+  }
+
+  div.recipeCardMobile {
+    height: 42.5vh !important
+  }
+
+  label.individualChefPageNameMobile.form-label {
+    margin-bottom: 0px !important;
+  }
+}

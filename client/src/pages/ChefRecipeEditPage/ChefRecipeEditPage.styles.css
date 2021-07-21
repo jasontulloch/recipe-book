@@ -1,0 +1,82 @@
+@media only screen and (max-width: 415px) {
+  div.chefRecipeEditPageMobile {
+    padding-top: 30px;
+  }
+  table.ingredientTable.table {
+    overflow-x: auto;
+  }
+  .ingredientTableSectionAmount {
+    width: auto;
+  }
+  .ingredientTableSectionMeasurement {
+    width: auto;
+  }
+  .ingredientsTableSectionIngredient{
+    width: auto;
+  }
+}
+
+.stepListOrder {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
+}
+
+.stepList:before {
+  content: "#" counter(elementcounter);
+  counter-increment: elementcounter;
+}
+
+.stepTableSection {
+  width: 90%;
+}
+
+.stepList {
+  margin-bottom: -25px;
+}
+
+.ingredientListOrder {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
+}
+
+.ingredientList:before {
+  content: "Ingredient #" counter(elementcounter);
+  counter-increment: elementcounter;
+}
+
+.ingredientTable {
+  width: 100%;
+}
+.ingredientTableSectionAmount {
+  width: 15%;
+}
+.ingredientTableSectionMeasurement {
+  width: 15%;
+}
+.ingredientsTableSectionIngredient{
+  width: 60%;
+}
+
+.ingredientList {
+  margin-bottom: -25px;
+}
+
+.dietsAndAllerginsGroup {
+  display: inline-block;
+  padding: 5px;
+}
+
+.allerginsLabel {
+  margin-top: 10px;
+}
+
+.recipeCoverImage {
+  height: 300px;
+  width: 300px;
+}
+
+.custom-file {
+  margin-top: 50px;
+}

@@ -1,0 +1,60 @@
+@media only screen and (max-width: 415px) {
+  // helping to center the sort button at the top
+  div.allRecipesPageMobileRow.row {
+    width: 95vw;
+  }
+  div.allRecipesSortButtonCol.col-12 {
+    padding-left: 0px;
+    text-align: center;
+  }
+
+  // center the pagination buttons
+  div.allRecipesPageMobilePaginate.row {
+    width: 95w;
+  }
+
+  // pushing all content down so header does not cut anything off
+  div.allRecipesPageMobile {
+    padding-top: 30px;
+  }
+
+  // Keep the recipe cards in line and organized neatly
+  div.allRecipesPageRecipeCardMobile.col {
+    min-width: 87.5vw !important;
+    max-width: 87.5vw !important;
+    height: 42.5vh;
+    padding: 0px;
+  }
+
+  // Making sure recipe card is in a good position
+  div.allRecipesPageMobile2Div {
+    padding-left: 0px !important;
+  }
+
+  // Actual recipe card image sizing
+  img.card-img.recipeCardMobile {
+    width: 87.5vw !important;
+    height: 30vh !important;
+  }
+
+  // Actual recipe card header and footer sizing
+  div.recipeCardMobile {
+    width: 87.5vw !important;
+    height: 87.5vh !important;
+  }
+
+  // recipe card font size
+  div.card-header {
+    font-size: 1rem !important;
+  }
+
+  // sort button font sizing
+  button#dropdown-item-button.dropdown-toggle.btn.btn-primary {
+    font-size: 1rem
+  }
+
+  // center dropdown button
+  div.dropdown {
+    text-align: center;
+  }
+}
