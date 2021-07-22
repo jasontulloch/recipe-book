@@ -16,9 +16,11 @@ import {
   RECIPE_SAVE_INGREDIENTS_REQUEST, RECIPE_SAVE_INGREDIENTS_SUCCESS, RECIPE_SAVE_INGREDIENTS_FAILURE, RECIPE_SAVE_INGREDIENTS_RESET,
   RECIPE_SAVE_TO_COOKBOOK_REQUEST, RECIPE_SAVE_TO_COOKBOOK_SUCCESS, RECIPE_SAVE_TO_COOKBOOK_FAILURE, RECIPE_SAVE_TO_COOKBOOK_RESET,
   RECIPE_REMOVE_FROM_COOKBOOK_REQUEST, RECIPE_REMOVE_FROM_COOKBOOK_SUCCESS, RECIPE_REMOVE_FROM_COOKBOOK_FAILURE, RECIPE_REMOVE_FROM_COOKBOOK_RESET,
+  RECIPE_LIST_MOST_RECENT_LIMITED_REQUEST, RECIPE_LIST_MOST_RECENT_LIMITED_SUCCESS, RECIPE_LIST_MOST_RECENT_LIMITED_FAILURE,
   RECIPE_LIST_MOST_RECENT_REQUEST, RECIPE_LIST_MOST_RECENT_SUCCESS, RECIPE_LIST_MOST_RECENT_FAILURE,
   RECIPE_LIST_HIGHEST_RATED_LIMITED_REQUEST, RECIPE_LIST_HIGHEST_RATED_LIMITED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_LIMITED_FAILURE,
   RECIPE_LIST_HIGHEST_RATED_REQUEST, RECIPE_LIST_HIGHEST_RATED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_FAILURE,
+  RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_REQUEST, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_SUCCESS, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE,
 } from '../constants/recipeConstants';
 
 // Returning recipes, pages, and page to match what is returned in the controller
@@ -276,7 +278,24 @@ export const recipeRemoveFromCookbookReducer = (state = {}, action) => {
   }
 }
 
-// Returning the 20 most recent recipes for mobile
+// Returning the 20 most recent recipes
+export const recipeListMostRecentLimitedReducer = (state = { mostRecentRecipesLimited: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_MOST_RECENT_LIMITED_REQUEST:
+      return { loading: true, mostRecentRecipesLimited: [] }
+    case RECIPE_LIST_MOST_RECENT_LIMITED_SUCCESS:
+      return {
+        loading: false,
+        mostRecentRecipesLimited: action.payload
+      }
+    case RECIPE_LIST_MOST_RECENT_LIMITED_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning the most recent recipes and sorted
 export const recipeListMostRecentReducer = (state = { mostRecentRecipes: [] }, action) => {
   switch (action.type) {
     case RECIPE_LIST_MOST_RECENT_REQUEST:
@@ -284,7 +303,9 @@ export const recipeListMostRecentReducer = (state = { mostRecentRecipes: [] }, a
     case RECIPE_LIST_MOST_RECENT_SUCCESS:
       return {
         loading: false,
-        mostRecentRecipes: action.payload
+        mostRecentRecipes: action.payload.mostRecentRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
       }
     case RECIPE_LIST_MOST_RECENT_FAILURE:
       return { loading: false, error: action.payload}
@@ -293,7 +314,7 @@ export const recipeListMostRecentReducer = (state = { mostRecentRecipes: [] }, a
   }
 }
 
-// Returning the 20 highest rated recipes for mobile
+// Returning the 20 highest rated recipes
 export const recipeListHighestRatedLimitedReducer = (state = { highestRatedRecipesLimited: [] }, action) => {
   switch (action.type) {
     case RECIPE_LIST_HIGHEST_RATED_LIMITED_REQUEST:
@@ -319,9 +340,31 @@ export const recipeListHighestRatedReducer = (state = { highestRatedRecipes: [] 
       return {
         loading: false,
         success: true,
-        highestRatedRecipes: action.payload
+        highestRatedRecipes: action.payload.highestRatedRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
       }
     case RECIPE_LIST_HIGHEST_RATED_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning recipes with five or fewer ingredients sorted by rating
+export const recipeListFiveIngredientsOrFewerReducer = (state = { fiveIngredientsOrFewerRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_REQUEST:
+      return { loading: true, fiveIngredientsOrFewerRecipes: [] }
+    case RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        fiveIngredientsOrFewerRecipes: action.payload.fiveIngredientsOrFewerRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
+    case RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE:
       return { loading: false, error: action.payload}
     default:
       return state

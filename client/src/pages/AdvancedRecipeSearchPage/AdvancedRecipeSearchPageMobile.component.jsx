@@ -3,10 +3,6 @@ import { Route, useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Button, Badge } from 'react-bootstrap';
 
-import {
-    listHighestRatedRecipes,
-  } from '../../actions/recipeActions';
-
 import SearchBox from '../../components/SearchBox/SearchBox.component';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 
@@ -20,17 +16,14 @@ const AdvancedRecipeSearchPageMobile = () => {
     const history = useHistory()
     const dispatch = useDispatch()
 
-    const recipeListHighestRated = useSelector(state => state.recipeListHighestRated)
-    const { 
-        success: successHighestRatedRecipes, 
-        highestRatedRecipes: highestRatedRecipes,
-    } = recipeListHighestRated
-
     const highestRatedRecipesHandler = () => {
-        history.push('/recipes/page/1', { netVotesSortState: -1, createdAtState: -1 })
+        history.push('/recipes/page/1', { netVotesState: true, netVotesSortState: -1 })
     }
     const newRecipesHandler = () => {
-        history.push('/recipes/page/1', { createdAtState: -1, netVotesSortState: -1 })
+        history.push('/recipes/page/1', { createdAtState: true, createdAtSortState: -1 })
+    }
+    const fiveIngredientsOrFewerRecipesHandler = () => {
+        history.push('/recipes/page/1', { fiveIngredientsOrFewerRecipesState: true, netVotesSortState: -1 })
     }
 
     return (
@@ -78,7 +71,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingLeft: '5px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/chefs`)}
+                        onClick={(e) => history.push(`/chefs/page/1`)}
                     >
                         <GiCook style={{marginRight: '5px'}}/>
                         Find Chefs
@@ -87,6 +80,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={12}>
                     <Button
                         style={{padding: '15px', width: '100%', marginTop: '10px' }}
+                        onClick={(e) => history.push(`/cookbooks/page/1`)}
                     >
                         <GiBookshelf style={{marginRight: '5px'}}/>
                         Cookbooks
@@ -138,7 +132,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingRight: '5px', paddingTop: '10px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/recipes`)}
+                        onClick={fiveIngredientsOrFewerRecipesHandler}
                     >
                     <RiBookReadLine style={{marginRight: '5px'}}/>
                         5 or Less Ingredients

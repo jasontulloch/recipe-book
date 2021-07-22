@@ -27,9 +27,11 @@ import {
   recipeSaveIngredientsReducer,
   recipeSaveToCookbookReducer,
   recipeRemoveFromCookbookReducer,
+  recipeListMostRecentLimitedReducer,
   recipeListMostRecentReducer,
   recipeListHighestRatedLimitedReducer,
   recipeListHighestRatedReducer,
+  recipeListFiveIngredientsOrFewerReducer,
 } from './reducers/recipeReducers';
 import {
   chefListReducer,
@@ -71,9 +73,11 @@ const reducer = combineReducers({
   recipeSaveIngredients: recipeSaveIngredientsReducer,
   recipeSaveToCookbook: recipeSaveToCookbookReducer,
   recipeRemoveFromCookbook: recipeRemoveFromCookbookReducer,
+  recipeListMostRecentLimited: recipeListMostRecentLimitedReducer,
   recipeListMostRecent: recipeListMostRecentReducer,
   recipeListHighestRatedLimited: recipeListHighestRatedLimitedReducer,
   recipeListHighestRated: recipeListHighestRatedReducer,
+  recipeListFiveIngredientsOrFewer: recipeListFiveIngredientsOrFewerReducer,
   chefList: chefListReducer,
   chefPublicDetails: chefPublicDetailsReducer,
   cookbookCreate: cookbookCreateReducer,

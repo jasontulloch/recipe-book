@@ -16,9 +16,11 @@ import {
   saveIngredients,
   saveRecipeToCookbook,
   removeRecipeFromCookbook,
+  getMostRecentRecipesLimited,
   getMostRecentRecipes,
   getHighestRatedRecipesLimited,
   getHighestRatedRecipes,
+  getFiveIngredientsOrFewerRecipes
 } from '../controllers/recipeController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
@@ -36,12 +38,16 @@ router.route('/myrecipes')
   .get(protect, getMyRecipes)
 router.route('/savedrecipes')
   .get(protect, getMySavedRecipes)
+router.route('/mostRecentRecipesLimited')
+  .get(getMostRecentRecipesLimited)
 router.route('/mostRecentRecipes')
   .get(getMostRecentRecipes)
 router.route('/highestRatedRecipesLimited')
   .get(getHighestRatedRecipesLimited)
 router.route('/highestRatedRecipes')
   .get(getHighestRatedRecipes)
+router.route('/fiveIngredientsOrFewerRecipes')
+  .get(getFiveIngredientsOrFewerRecipes)
 router.route('/:id/upvotes')
   .post(protect, createRecipeUpvote)
 router.route('/:id/downvotes')

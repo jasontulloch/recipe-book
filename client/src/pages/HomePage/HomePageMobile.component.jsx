@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     createRecipe,
-    listMostRecentRecipes,
+    listMostRecentRecipesLimited,
     listHighestRatedRecipesLimited,
   } from '../../actions/recipeActions';
 import { RECIPE_CREATE_RESET } from '../../constants/recipeConstants';
@@ -28,15 +28,15 @@ const HomePageMobile = () => {
       recipe: createdRecipe,
     } = recipeCreate
     
-    const recipeListMostRecent = useSelector(state => state.recipeListMostRecent)
-    const { mostRecentRecipes } = recipeListMostRecent
+    const recipeListMostRecentLimited = useSelector(state => state.recipeListMostRecentLimited)
+    const { mostRecentRecipesLimited } = recipeListMostRecentLimited
 
     const recipeListHighestRatedLimited = useSelector(state => state.recipeListHighestRatedLimited)
     const { highestRatedRecipesLimited } = recipeListHighestRatedLimited
 
     useEffect(() => {
         dispatch({ type: RECIPE_CREATE_RESET })
-        dispatch(listMostRecentRecipes())
+        dispatch(listMostRecentRecipesLimited())
         dispatch(listHighestRatedRecipesLimited())
 
         if(successCreate) {
@@ -116,7 +116,7 @@ const HomePageMobile = () => {
                     </Col>
                     <Col xs={12}>
                         <div style={{overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
-                            {mostRecentRecipes && mostRecentRecipes.map((recipe) => (
+                            {mostRecentRecipesLimited && mostRecentRecipesLimited.map((recipe) => (
                                 <div style={{display: 'inline-block', marginRight: '10px', height: '195px'}}>
                                     <RecipeCard recipe={recipe} />
                                 </div>

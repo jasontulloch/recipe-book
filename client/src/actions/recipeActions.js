@@ -16,9 +16,11 @@ import {
   RECIPE_SAVE_INGREDIENTS_REQUEST, RECIPE_SAVE_INGREDIENTS_SUCCESS, RECIPE_SAVE_INGREDIENTS_FAILURE,
   RECIPE_SAVE_TO_COOKBOOK_REQUEST, RECIPE_SAVE_TO_COOKBOOK_SUCCESS, RECIPE_SAVE_TO_COOKBOOK_FAILURE,
   RECIPE_REMOVE_FROM_COOKBOOK_REQUEST, RECIPE_REMOVE_FROM_COOKBOOK_SUCCESS, RECIPE_REMOVE_FROM_COOKBOOK_FAILURE,
+  RECIPE_LIST_MOST_RECENT_LIMITED_REQUEST, RECIPE_LIST_MOST_RECENT_LIMITED_SUCCESS, RECIPE_LIST_MOST_RECENT_LIMITED_FAILURE,
   RECIPE_LIST_MOST_RECENT_REQUEST, RECIPE_LIST_MOST_RECENT_SUCCESS, RECIPE_LIST_MOST_RECENT_FAILURE,
   RECIPE_LIST_HIGHEST_RATED_LIMITED_REQUEST, RECIPE_LIST_HIGHEST_RATED_LIMITED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_LIMITED_FAILURE,
   RECIPE_LIST_HIGHEST_RATED_REQUEST, RECIPE_LIST_HIGHEST_RATED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_FAILURE,
+  RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_REQUEST, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_SUCCESS, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE,
 } from '../constants/recipeConstants';
 
 export const listRecipes = (
@@ -554,6 +556,32 @@ export const removeRecipeFromCookbook = (id) => async (dispatch, getState) => {
   }
 }
 
+export const listMostRecentRecipesLimited = (
+  createdAtSort = -1,
+) => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_LIST_MOST_RECENT_LIMITED_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/mostRecentRecipesLimited?createdAtSort=${createdAtSort}`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_MOST_RECENT_LIMITED_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_MOST_RECENT_LIMITED_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
 export const listMostRecentRecipes = (
   createdAtSort = -1,
 ) => async (dispatch) => {
@@ -579,6 +607,7 @@ export const listMostRecentRecipes = (
     })
   }
 }
+
 
 export const listHighestRatedRecipesLimited = (
   netVotesSort = -1,
@@ -624,6 +653,32 @@ export const listHighestRatedRecipes = (
   } catch (error) {
     dispatch({
       type: RECIPE_LIST_HIGHEST_RATED_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listFiveIngredientsOrFewerRecipes = (
+  netVotesSort = -1,
+) => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/fiveIngredientsOrFewerRecipes?netVotesSort=${netVotesSort}`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE,
       payload:
         error.response && error.response.data.message
         ? error.response.data.message

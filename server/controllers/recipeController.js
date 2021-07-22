@@ -815,7 +815,7 @@ const removeRecipeFromCookbook = asyncHandler(async (req, res) => {
 // @description Fetch the 20 most recent recipes
 // @route GET /api/mostRecentRecipes
 // @access Public
-const getMostRecentRecipes = asyncHandler(async (req, res) => {
+const getMostRecentRecipesLimited = asyncHandler(async (req, res) => {
   const recipeLimit = 20
 
   const isPublished = true ? {
@@ -827,7 +827,7 @@ const getMostRecentRecipes = asyncHandler(async (req, res) => {
   // Sort by most recent
   const createdAtSort = -1
 
-  const mostRecentRecipes = await Recipe.find({
+  const mostRecentRecipesLimited = await Recipe.find({
     $and: [
       {...isPublished}
     ]
@@ -835,7 +835,42 @@ const getMostRecentRecipes = asyncHandler(async (req, res) => {
     .sort({'createdAt': createdAtSort})
     .limit(recipeLimit)
 
-  res.json(mostRecentRecipes)
+  res.json(mostRecentRecipesLimited)
+})
+
+// @description Fetch all recipes and sort by top rated
+// @route GET /api/highestRatedRecipes
+// @access Public
+const getMostRecentRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 20
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished}
+    ]
+  })
+
+  // Sort by most recent
+  const createdAtSort = -1
+
+  const mostRecentRecipes = await Recipe.find({
+    $and: [
+      {...isPublished}
+    ]
+  })
+    .sort({'_id':createdAtSort})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ mostRecentRecipes, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @description Fetch the 20 highest rated recipes
@@ -864,7 +899,7 @@ const getHighestRatedRecipesLimited = asyncHandler(async (req, res) => {
   res.json(highestRatedRecipesLimited)
 })
 
-// @description Fetch the top rated recipes
+// @description Fetch all recipes and sort by top rated
 // @route GET /api/highestRatedRecipes
 // @access Public
 const getHighestRatedRecipes = asyncHandler(async (req, res) => {
@@ -899,6 +934,41 @@ const getHighestRatedRecipes = asyncHandler(async (req, res) => {
   res.json({ highestRatedRecipes, page, pages: Math.ceil(count / pageSize) })
 })
 
+// @description Fetch all recipes with 5 or fewer ingredients and sort by top rated
+// @route GET /api/fiveIngredientsOrFewer
+// @access Public
+const getFiveIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 20
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {'ingredients.5': {$exists: false}}
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 6 exists and if it doesn't return the recipe
+  const fiveIngredientsOrFewerRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {'ingredients.5': {$exists: false}}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ fiveIngredientsOrFewerRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
 export {
   getRecipeNames,
   getRecipes,
@@ -916,7 +986,9 @@ export {
   saveIngredients,
   saveRecipeToCookbook,
   removeRecipeFromCookbook,
+  getMostRecentRecipesLimited,
   getMostRecentRecipes,
   getHighestRatedRecipesLimited,
   getHighestRatedRecipes,
+  getFiveIngredientsOrFewerRecipes,
 }
