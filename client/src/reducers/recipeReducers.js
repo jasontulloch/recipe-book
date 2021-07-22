@@ -21,6 +21,11 @@ import {
   RECIPE_LIST_HIGHEST_RATED_LIMITED_REQUEST, RECIPE_LIST_HIGHEST_RATED_LIMITED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_LIMITED_FAILURE,
   RECIPE_LIST_HIGHEST_RATED_REQUEST, RECIPE_LIST_HIGHEST_RATED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_FAILURE,
   RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_REQUEST, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_SUCCESS, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE,
+  RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_REQUEST, RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_SUCCESS, RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_FAILURE,
+  RECIPE_LIST_FIVE_STEPS_OR_FEWER_REQUEST, RECIPE_LIST_FIVE_STEPS_OR_FEWER_SUCCESS, RECIPE_LIST_FIVE_STEPS_OR_FEWER_FAILURE,
+  RECIPE_LIST_TEN_STEPS_OR_FEWER_REQUEST, RECIPE_LIST_TEN_STEPS_OR_FEWER_SUCCESS, RECIPE_LIST_TEN_STEPS_OR_FEWER_FAILURE,
+  RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_REQUEST, RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_SUCCESS, RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_FAILURE,
+  RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_REQUEST, RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_SUCCESS, RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_FAILURE,
 } from '../constants/recipeConstants';
 
 // Returning recipes, pages, and page to match what is returned in the controller
@@ -365,6 +370,106 @@ export const recipeListFiveIngredientsOrFewerReducer = (state = { fiveIngredient
         page: action.payload.page
       }
     case RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning recipes with ten or fewer ingredients sorted by rating
+export const recipeListTenIngredientsOrFewerReducer = (state = { tenIngredientsOrFewerRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_REQUEST:
+      return { loading: true, tenIngredientsOrFewerRecipes: [] }
+    case RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        tenIngredientsOrFewerRecipes: action.payload.tenIngredientsOrFewerRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
+    case RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning recipes with five or fewer steps sorted by rating
+export const recipeListFiveStepsOrFewerReducer = (state = { fiveStepsOrFewerRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_FIVE_STEPS_OR_FEWER_REQUEST:
+      return { loading: true, fiveStepsOrFewerRecipes: [] }
+    case RECIPE_LIST_FIVE_STEPS_OR_FEWER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        fiveStepsOrFewerRecipes: action.payload.fiveStepsOrFewerRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
+    case RECIPE_LIST_FIVE_STEPS_OR_FEWER_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning recipes with ten or fewer steps sorted by rating
+export const recipeListTenStepsOrFewerReducer = (state = { tenStepsOrFewerRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_TEN_STEPS_OR_FEWER_REQUEST:
+      return { loading: true, tenStepsOrFewerRecipes: [] }
+    case RECIPE_LIST_TEN_STEPS_OR_FEWER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        tenStepsOrFewerRecipes: action.payload.tenStepsOrFewerRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
+    case RECIPE_LIST_TEN_STEPS_OR_FEWER_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning recipes with cook times under 30 minutes sorted by rating
+export const recipeListThirtyMinutesAndUnderReducer = (state = { thirtyMinutesAndUnderRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_REQUEST:
+      return { loading: true, thirtyMinutesAndUnderRecipes: [] }
+    case RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        thirtyMinutesAndUnderRecipes: action.payload.thirtyMinutesAndUnderRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
+    case RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_FAILURE:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
+// Returning recipes with cook times under 60 minutes sorted by rating
+export const recipeListSixtyMinutesAndUnderReducer = (state = { sixtyMinutesAndUnderRecipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_REQUEST:
+      return { loading: true, sixtyMinutesAndUnderRecipes: [] }
+    case RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        sixtyMinutesAndUnderRecipes: action.payload.sixtyMinutesAndUnderRecipes,
+        pages: action.payload.pages,
+        page: action.payload.page
+      }
+    case RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_FAILURE:
       return { loading: false, error: action.payload}
     default:
       return state

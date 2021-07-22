@@ -21,6 +21,11 @@ import {
   RECIPE_LIST_HIGHEST_RATED_LIMITED_REQUEST, RECIPE_LIST_HIGHEST_RATED_LIMITED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_LIMITED_FAILURE,
   RECIPE_LIST_HIGHEST_RATED_REQUEST, RECIPE_LIST_HIGHEST_RATED_SUCCESS, RECIPE_LIST_HIGHEST_RATED_FAILURE,
   RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_REQUEST, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_SUCCESS, RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE,
+  RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_REQUEST, RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_SUCCESS, RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_FAILURE,
+  RECIPE_LIST_FIVE_STEPS_OR_FEWER_REQUEST, RECIPE_LIST_FIVE_STEPS_OR_FEWER_SUCCESS, RECIPE_LIST_FIVE_STEPS_OR_FEWER_FAILURE,
+  RECIPE_LIST_TEN_STEPS_OR_FEWER_REQUEST, RECIPE_LIST_TEN_STEPS_OR_FEWER_SUCCESS, RECIPE_LIST_TEN_STEPS_OR_FEWER_FAILURE,
+  RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_REQUEST, RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_SUCCESS, RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_FAILURE,
+  RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_REQUEST, RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_SUCCESS, RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_FAILURE,
 } from '../constants/recipeConstants';
 
 export const listRecipes = (
@@ -679,6 +684,136 @@ export const listFiveIngredientsOrFewerRecipes = (
   } catch (error) {
     dispatch({
       type: RECIPE_LIST_FIVE_INGREDIENTS_OR_FEWER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listTenIngredientsOrFewerRecipes = (
+  netVotesSort = -1,
+) => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/tenIngredientsOrFewerRecipes?netVotesSort=${netVotesSort}`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_TEN_INGREDIENTS_OR_FEWER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listFiveStepsOrFewerRecipes = (
+  netVotesSort = -1,
+) => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_LIST_FIVE_STEPS_OR_FEWER_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/fiveStepsOrFewerRecipes?netVotesSort=${netVotesSort}`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_FIVE_STEPS_OR_FEWER_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_FIVE_STEPS_OR_FEWER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listTenStepsOrFewerRecipes = (
+  netVotesSort = -1,
+) => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_LIST_TEN_STEPS_OR_FEWER_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/tenStepsOrFewerRecipes?netVotesSort=${netVotesSort}`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_TEN_STEPS_OR_FEWER_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_TEN_STEPS_OR_FEWER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listThirtyMinutesAndUnderRecipes = (
+  netVotesSort = -1,
+) => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/thirtyMinutesAndUnderRecipes?netVotesSort=${netVotesSort}`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_THIRTY_MINUTES_AND_UNDER_FAILURE,
+      payload:
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+export const listSixtyMinutesAndUnderRecipes = (
+  netVotesSort = -1,
+) => async (dispatch) => {
+
+  try {
+    dispatch({ type: RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_REQUEST })
+
+    const { data } = await axios.get(
+      `/api/recipes/sixtyMinutesAndUnderRecipes?netVotesSort=${netVotesSort}`
+    )
+
+    dispatch({
+      type: RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: RECIPE_LIST_SIXTY_MINUTES_AND_UNDER_FAILURE,
       payload:
         error.response && error.response.data.message
         ? error.response.data.message

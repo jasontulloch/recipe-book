@@ -935,7 +935,7 @@ const getHighestRatedRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes with 5 or fewer ingredients and sort by top rated
-// @route GET /api/fiveIngredientsOrFewer
+// @route GET /api/fiveIngredientsOrFewerRecipes
 // @access Public
 const getFiveIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 
@@ -969,6 +969,180 @@ const getFiveIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
   res.json({ fiveIngredientsOrFewerRecipes, page, pages: Math.ceil(count / pageSize) })
 })
 
+// @description Fetch all recipes with 10 or fewer ingredients and sort by top rated
+// @route GET /api/tenIngredientsOrFewerRecipes
+// @access Public
+const getTenIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 20
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {'ingredients.10': {$exists: false}}
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 11 exists and if it doesn't return the recipe
+  const tenIngredientsOrFewerRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {'ingredients.10': {$exists: false}}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ tenIngredientsOrFewerRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes with 5 or fewer steps and sort by top rated
+// @route GET /api/fiveStepsOrFewerRecipes
+// @access Public
+const getFiveStepsOrFewerRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 20
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {'steps.5': {$exists: false}}
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 6 exists and if it doesn't return the recipe
+  const fiveStepsOrFewerRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {'steps.5': {$exists: false}}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ fiveStepsOrFewerRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes with 10 or fewer steps and sort by top rated
+// @route GET /api/tenStepsOrFewerRecipes
+// @access Public
+const getTenStepsOrFewerRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 20
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {'steps.10': {$exists: false}}
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 11 exists and if it doesn't return the recipe
+  const tenStepsOrFewerRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {'steps.10': {$exists: false}}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ tenStepsOrFewerRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes with cook times under 30 minutes and sort by top rated
+// @route GET /api/thirtyMinutesAndUnderRecipes
+// @access Public
+const getThirtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 20
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {'cook_time': {$lte: 30}}
+    ]
+  })
+
+  const thirtyMinutesAndUnderRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {'cook_time': {$lte: 30}}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ thirtyMinutesAndUnderRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes with cook times under 60 minutes and sort by top rated
+// @route GET /api/tenMinutesAndUnderRecipes
+// @access Public
+const getSixtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 20
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {'cook_time': {$lte: 60}}
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 11 exists and if it doesn't return the recipe
+  const sixtyMinutesAndUnderRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {'cook_time': {$lte: 60}}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ sixtyMinutesAndUnderRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
 export {
   getRecipeNames,
   getRecipes,
@@ -991,4 +1165,9 @@ export {
   getHighestRatedRecipesLimited,
   getHighestRatedRecipes,
   getFiveIngredientsOrFewerRecipes,
+  getTenIngredientsOrFewerRecipes,
+  getFiveStepsOrFewerRecipes,
+  getTenStepsOrFewerRecipes,
+  getThirtyMinutesAndUnderRecipes,
+  getSixtyMinutesAndUnderRecipes,
 }

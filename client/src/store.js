@@ -32,6 +32,11 @@ import {
   recipeListHighestRatedLimitedReducer,
   recipeListHighestRatedReducer,
   recipeListFiveIngredientsOrFewerReducer,
+  recipeListTenIngredientsOrFewerReducer,
+  recipeListFiveStepsOrFewerReducer,
+  recipeListTenStepsOrFewerReducer,
+  recipeListThirtyMinutesAndUnderReducer,
+  recipeListSixtyMinutesAndUnderReducer,
 } from './reducers/recipeReducers';
 import {
   chefListReducer,
@@ -78,6 +83,11 @@ const reducer = combineReducers({
   recipeListHighestRatedLimited: recipeListHighestRatedLimitedReducer,
   recipeListHighestRated: recipeListHighestRatedReducer,
   recipeListFiveIngredientsOrFewer: recipeListFiveIngredientsOrFewerReducer,
+  recipeListTenIngredientsOrFewer: recipeListTenIngredientsOrFewerReducer,
+  recipeListFiveStepsOrFewer: recipeListFiveStepsOrFewerReducer,
+  recipeListTenStepsOrFewer: recipeListTenStepsOrFewerReducer,
+  recipeListThirtyMinutesAndUnder: recipeListThirtyMinutesAndUnderReducer,
+  recipeListSixtyMinutesAndUnder: recipeListSixtyMinutesAndUnderReducer,
   chefList: chefListReducer,
   chefPublicDetails: chefPublicDetailsReducer,
   cookbookCreate: cookbookCreateReducer,

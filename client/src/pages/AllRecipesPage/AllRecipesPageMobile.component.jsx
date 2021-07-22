@@ -5,7 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { Row, Col, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 import RecipeCardMobile from '../../components/RecipeCard/RecipeCardMobile.component';
 import { 
-  listRecipes, listHighestRatedRecipes, listMostRecentRecipes, listFiveIngredientsOrFewerRecipes,
+  listRecipes, listHighestRatedRecipes, listMostRecentRecipes, listFiveIngredientsOrFewerRecipes, listTenIngredientsOrFewerRecipes,
+  listFiveStepsOrFewerRecipes, listTenStepsOrFewerRecipes, listThirtyMinutesAndUnderRecipes, listSixtyMinutesAndUnderRecipes,
 } from '../../actions/recipeActions';
 import Paginate from '../../components/Paginate/Paginate.component';
 
@@ -22,7 +23,12 @@ const AllRecipesPageMobile = ({ match, history }) => {
   const { createdAtState } = location.state || { createdAtState: false }
   const { createdAtSortState } = location.state || { createdAtSortState: '' }
   const { fiveIngredientsOrFewerRecipesState } = location.state || { fiveIngredientsOrFewerRecipesState: false}
-  
+  const { tenIngredientsOrFewerRecipesState } = location.state || { tenIngredientsOrFewerRecipesState: false}
+  const { fiveStepsOrFewerRecipesState } = location.state || { fiveStepsOrFewerRecipesState: false}
+  const { tenStepsOrFewerRecipesState } = location.state || { tenStepsOrFewerRecipesState: false}
+  const { thirtyMinutesAndUnderRecipesState } = location.state || { thirtyMinutesAndUnderRecipesState: false}  
+  const { sixtyMinutesAndUnderRecipesState } = location.state || { sixtyMinutesAndUnderRecipesState: false}  
+
   // Sorting variables
   const [netVotesSort, setNetVotesSort] = useState(
     netVotesSortState || localStorage.getItem('netVotesSortLocalStorage') || ''
@@ -72,12 +78,78 @@ const AllRecipesPageMobile = ({ match, history }) => {
     page: pageFiveIngredientsOrFewer,
   } = recipeListFiveIngredientsOrFewer
 
+  const recipeListTenIngredientsOrFewer = useSelector(state => state.recipeListTenIngredientsOrFewer)
+  const { 
+    loading: loadingTenIngredientsOrFewer, 
+    error: errorTenIngredientsOrFewer, 
+    tenIngredientsOrFewerRecipes: tenIngredientsOrFewerRecipes, 
+    pages: pagesTenIngredientsOrFewer, 
+    page: pageTenIngredientsOrFewer,
+  } = recipeListTenIngredientsOrFewer
+
+  const recipeListFiveStepsOrFewer = useSelector(state => state.recipeListFiveStepsOrFewer)
+  const { 
+    loading: loadingFiveStepsOrFewer, 
+    error: errorFiveStepsOrFewer, 
+    fiveStepsOrFewerRecipes: fiveStepsOrFewerRecipes, 
+    pages: pagesFiveStepsOrFewer, 
+    page: pageFiveStepsOrFewer,
+  } = recipeListFiveStepsOrFewer
+
+  const recipeListTenStepsOrFewer = useSelector(state => state.recipeListTenStepsOrFewer)
+  const { 
+    loading: loadingTenStepsOrFewer, 
+    error: errorTenStepsOrFewer, 
+    tenStepsOrFewerRecipes: tenStepsOrFewerRecipes, 
+    pages: pagesTenStepsOrFewer, 
+    page: pageTenStepsOrFewer,
+  } = recipeListTenStepsOrFewer
+
+  const recipeListThirtyMinutesAndUnder = useSelector(state => state.recipeListThirtyMinutesAndUnder)
+  const { 
+    loading: loadingThirtyMinutesAndUnder, 
+    error: errorThirtyMinutesAndUnder, 
+    thirtyMinutesAndUnderRecipes: thirtyMinutesAndUnderRecipes, 
+    pages: pagesThirtyMinutesAndUnder, 
+    page: pageThirtyMinutesAndUnder,
+  } = recipeListThirtyMinutesAndUnder
+
+  const recipeListSixtyMinutesAndUnder = useSelector(state => state.recipeListSixtyMinutesAndUnder)
+  const { 
+    loading: loadingSixtyMinutesAndUnder, 
+    error: errorSixtyMinutesAndUnder, 
+    sixtyMinutesAndUnderRecipes: sixtyMinutesAndUnderRecipes, 
+    pages: pagesSixtyMinutesAndUnder, 
+    page: pageSixtyMinutesAndUnder,
+  } = recipeListSixtyMinutesAndUnder
+
   // This is firing off the action to get products in state
   useEffect(() => {
     dispatch(listRecipes(createdAtSort, netVotesSort, pageNumber))
-    dispatch(listMostRecentRecipes())
-    dispatch(listHighestRatedRecipes())
-    dispatch(listFiveIngredientsOrFewerRecipes())    
+    if(createdAtState === true) {
+      dispatch(listMostRecentRecipes())
+    }
+    if(netVotesState === true) {
+      dispatch(listHighestRatedRecipes())
+    }
+    if(fiveIngredientsOrFewerRecipesState === true) {
+      dispatch(listFiveIngredientsOrFewerRecipes())  
+    }
+    if(tenIngredientsOrFewerRecipesState === true) {
+      dispatch(listTenIngredientsOrFewerRecipes())
+    }
+    if(fiveStepsOrFewerRecipesState === true) {
+      dispatch(listFiveStepsOrFewerRecipes()) 
+    }
+    if(tenStepsOrFewerRecipesState === true) {
+      dispatch(listTenStepsOrFewerRecipes())   
+    }  
+    if(thirtyMinutesAndUnderRecipesState === true) {
+      dispatch(listThirtyMinutesAndUnderRecipes())   
+    } 
+    if(sixtyMinutesAndUnderRecipesState === true) {
+      dispatch(listSixtyMinutesAndUnderRecipes())   
+    }
     localStorage.setItem('createdAtSortLocalStorage', createdAtSort)
     localStorage.setItem('netVotesSortLocalStorage', netVotesSort)
     localStorage.setItem('sortButtonLabelLocalStorage', sortButtonLabel)
@@ -90,6 +162,11 @@ const AllRecipesPageMobile = ({ match, history }) => {
     netVotesSortState,
     sortButtonLabel,
     fiveIngredientsOrFewerRecipesState,
+    tenIngredientsOrFewerRecipesState,
+    fiveStepsOrFewerRecipesState,
+    tenStepsOrFewerRecipesState,
+    thirtyMinutesAndUnderRecipesState,
+    sixtyMinutesAndUnderRecipesState,
     pageNumber
   ])
 
@@ -141,33 +218,94 @@ const AllRecipesPageMobile = ({ match, history }) => {
                     </div>
                   </Col>
             </Row>
-            <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
-                {netVotesState === true && highestRatedRecipes && highestRatedRecipes.map((recipe) => (
+            {netVotesState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {highestRatedRecipes && highestRatedRecipes.map((recipe) => (
                   <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
                     <div>
                         <RecipeCardMobile recipe={recipe} />
                     </div>
                   </Col>
                 ))}
-            </Row>
-            <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
-                {createdAtState === true && mostRecentRecipes && mostRecentRecipes.map((recipe) => (
+              </Row>
+            )}
+            {createdAtState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {mostRecentRecipes && mostRecentRecipes.map((recipe) => (
                   <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
                     <div>
                         <RecipeCardMobile recipe={recipe} />
                     </div>
                   </Col>
                 ))}
-            </Row>
-            <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
-                {fiveIngredientsOrFewerRecipesState === true && fiveIngredientsOrFewerRecipes.map((recipe) => (
+              </Row>
+            )}
+            {fiveIngredientsOrFewerRecipesState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {fiveIngredientsOrFewerRecipes.map((recipe) => (
                   <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
                     <div>
                         <RecipeCardMobile recipe={recipe} />
                     </div>
                   </Col>
                 ))}
-            </Row>
+              </Row>
+            )}
+            {tenIngredientsOrFewerRecipesState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {tenIngredientsOrFewerRecipes.map((recipe) => (
+                  <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
+                    <div>
+                        <RecipeCardMobile recipe={recipe} />
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            )}
+            {fiveStepsOrFewerRecipesState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {fiveStepsOrFewerRecipes.map((recipe) => (
+                  <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
+                    <div>
+                        <RecipeCardMobile recipe={recipe} />
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            )}
+            {tenStepsOrFewerRecipesState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {tenStepsOrFewerRecipes.map((recipe) => (
+                  <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
+                    <div>
+                        <RecipeCardMobile recipe={recipe} />
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            )}
+            {thirtyMinutesAndUnderRecipesState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {thirtyMinutesAndUnderRecipes.map((recipe) => (
+                  <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
+                    <div>
+                        <RecipeCardMobile recipe={recipe} />
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            )}
+            {sixtyMinutesAndUnderRecipesState === true && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {sixtyMinutesAndUnderRecipes.map((recipe) => (
+                  <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
+                    <div>
+                        <RecipeCardMobile recipe={recipe} />
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            )}
             <Row style={{marginTop: '20px', marginBottom: '30px'}}>
                 <Col xs={12}>
                   <Paginate

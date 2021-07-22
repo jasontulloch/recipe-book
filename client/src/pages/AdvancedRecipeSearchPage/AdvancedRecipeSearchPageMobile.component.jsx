@@ -25,6 +25,21 @@ const AdvancedRecipeSearchPageMobile = () => {
     const fiveIngredientsOrFewerRecipesHandler = () => {
         history.push('/recipes/page/1', { fiveIngredientsOrFewerRecipesState: true, netVotesSortState: -1 })
     }
+    const tenIngredientsOrFewerRecipesHandler = () => {
+        history.push('/recipes/page/1', { tenIngredientsOrFewerRecipesState: true, netVotesSortState: -1 })
+    }
+    const fiveStepsOrFewerRecipesHandler = () => {
+        history.push('/recipes/page/1', { fiveStepsOrFewerRecipesState: true, netVotesSortState: -1 })
+    }
+    const tenStepsOrFewerRecipesHandler = () => {
+        history.push('/recipes/page/1', { tenStepsOrFewerRecipesState: true, netVotesSortState: -1 })
+    }
+    const thirtyMinutesAndUnderRecipesHandler = () => {
+        history.push('/recipes/page/1', { thirtyMinutesAndUnderRecipesState: true, netVotesSortState: -1 })
+    }
+    const sixtyMinutesAndUnderRecipesHandler = () => {
+        history.push('/recipes/page/1', { sixtyMinutesAndUnderRecipesState: true, netVotesSortState: -1 })
+    }
 
     return (
         <div>
@@ -114,7 +129,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingRight: '5px', paddingTop: '10px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/recipes`)}
+                        onClick={fiveStepsOrFewerRecipesHandler}
                     >
                     <RiBookReadLine style={{marginRight: '5px'}}/>
                         Less Than 5 Steps
@@ -123,7 +138,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingLeft: '5px', paddingTop: '10px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/cookbooks`)}
+                        onClick={tenStepsOrFewerRecipesHandler}
                     >
                         <GiBookshelf style={{marginRight: '5px'}}/>
                         Less Than 10 Steps
@@ -141,7 +156,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingLeft: '5px', paddingTop: '10px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/cookbooks`)}
+                        onClick={tenIngredientsOrFewerRecipesHandler}
                     >
                         <GiBookshelf style={{marginRight: '5px'}}/>
                         10 or Less Ingredients
@@ -150,7 +165,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingRight: '5px', paddingTop: '10px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/recipes`)}
+                        onClick={thirtyMinutesAndUnderRecipesHandler}
                     >
                     <RiBookReadLine style={{marginRight: '5px'}}/>
                         Under 30 Minutes
@@ -159,7 +174,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingLeft: '5px', paddingTop: '10px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/cookbooks`)}
+                        onClick={sixtyMinutesAndUnderRecipesHandler}
                     >
                         <GiBookshelf style={{marginRight: '5px'}}/>
                         Under 60 Minutes
