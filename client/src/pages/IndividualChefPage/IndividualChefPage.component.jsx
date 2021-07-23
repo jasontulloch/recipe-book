@@ -7,7 +7,9 @@ import {
   Image,
   Button,
   Form,
-  Badge
+  Badge,
+  Table,
+  Card
 } from 'react-bootstrap';
 import {
   getChefPublicDetails,
@@ -21,7 +23,6 @@ import { CHEF_FOLLOW_RESET } from '../../constants/chefConstants';
 import { CHEF_UNFOLLOW_RESET } from '../../constants/chefConstants';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import Message from '../../components/Message/Message.component';
-import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import PaginateIndividualChef from '../../components/PaginateIndividualChef/PaginateIndividualChef.component';
 import ClickableBadge from '../../components/ClickableBadge/ClickableBadge.component';
 
@@ -37,6 +38,9 @@ const IndividualChefPage = ({ match }) => {
   // Keep for now, need to figure out how to prevent refresh
   const [followed, setFollowed] = useState('')
   const [unfollowed, setUnfollowed] = useState('')
+
+  const [viewChefRecipes, setViewChefRecipes] = useState(true)
+  const [viewChefCookbooks, setViewChefCookbooks] = useState(false)
 
   const browserHistory = useHistory();
   const dispatch = useDispatch()
@@ -122,6 +126,16 @@ const IndividualChefPage = ({ match }) => {
     }))
   }
 
+const viewChefCookbooksHandler = () => {
+  setViewChefRecipes(false)
+  setViewChefCookbooks(true)
+}
+
+const viewChefRecipesHandler = () => {
+  setViewChefRecipes(true)
+  setViewChefCookbooks(false)
+}
+
   const Diets = []
   if (chef.isVegan === true) {
     Diets.push('Vegan')
@@ -159,34 +173,8 @@ const IndividualChefPage = ({ match }) => {
     Allergins.push('Wheat')
   }
 
-  // Recipe Carousel - required but overridden in css file
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    // min: 1024
-    desktop: {
-      breakpoint: { max: 3000, min: 1300 },
-      items: 5
-    },
-    // max: 1024
-    tablet: {
-      breakpoint: { max: 1300, min: 975 },
-      items: 4
-    },
-    mobile: {
-      breakpoint: { max: 975, min: 0 },
-      items: 2
-    }
-  }
-
   return (
     <div className="individualChefPageMobile" style={{paddingLeft: '220px'}}>
-      {initialLoader ? (
-        <PancakeLoader>Gathering chef details...</PancakeLoader>
-      ) : (
         <div>
         {(chefInfo && chef && (chef.id === chefInfo._id)) ? (
           <Col xs={12} style={{textAlign:'center'}}>
@@ -216,7 +204,7 @@ const IndividualChefPage = ({ match }) => {
         )}
         {chef && (chef.isVisible === true) && (
         <div>
-          <Row style={{paddingBottom: '10px', paddingLeft: '0px', paddingRight: '10px'}}>
+          <Row>
             <Col xs={12} md={7}>
               {chefInfo && chefChefPrivate && chefChefPrivate.following && chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef._id}) ? (
                 <Form onSubmit={unfollowHandler}>
@@ -278,23 +266,69 @@ const IndividualChefPage = ({ match }) => {
             </Col>
           </Row>
           {(isBrowser) ? (
-            <div>
-              <Row style={{display: 'flex', justifyContent: 'center'}}>
-                {recipes && recipes.map((recipe) => (
-                  <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
-                    <RecipeCard recipe={recipe}/>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-          ) : (
-            <div className="individualChefPageRecipeCardMobile">
-              <h4 style={{textAlign: 'center', paddingTop: '20px', borderTop: 'dotted 3px' }}>My Recipes</h4>
+            <Row style={{display: 'flex', justifyContent: 'center'}}>
               {recipes && recipes.map((recipe) => (
-                <div>
+                <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                   <RecipeCard recipe={recipe}/>
-                </div>
+                </Col>
               ))}
+            </Row>
+          ) : (
+            <div style={{marginBottom: '100px', marginTop: '15px'}}>
+                <div style={{overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap', paddingLeft: '15px', height: '35px', textAlign: 'center'}}>
+                  <Badge 
+                    pill variant={(viewChefRecipes) ? 'success' : 'primary' }
+                    style={{marginRight: '5px', marginTop: '5px'}}
+                    onClick={viewChefRecipesHandler}
+                  >
+                    Chef Recipes
+                  </Badge>
+                  <Badge 
+                    pill variant={(viewChefCookbooks) ? 'success' : 'primary' }
+                    style={{marginRight: '5px', marginTop: '5px'}}
+                    onClick={viewChefCookbooksHandler}
+                  >
+                    Chef Cookbooks
+                  </Badge>
+                </div>
+                <Col xs={12}>
+                    <Table hover responsive borderless className='table-sm'>
+                        {viewChefRecipes && recipes && recipes.map((recipe) => (         
+                            <tr key={recipe.id}>
+                                <Link
+                                    to={`/recipe/${recipe._id}`}
+                                    style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
+                                >
+                                <td style={{paddingLeft: '0px', paddingRight: '0px'}}>
+                                    <Card style={{border: 'none'}}>
+                                        <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px', borderRadius: '25px'}} />
+                                    </Card>
+                                </td>
+                                <td style={{paddingTop: '20.5px'}}>
+                                    {recipe.recipe_name.length > 20 ? (
+                                        <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
+                                            {recipe.recipe_name.slice(0, 40) + (recipe.recipe_name.length > 40 ? "..." : "")}
+                                        </div>
+                                    ) : (
+                                        <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
+                                            {recipe.recipe_name}
+                                        </div>
+                                    )}
+                                    {chef.username > 15 ? (
+                                    <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
+                                        {chef.username.slice(0, 15) + (chef.username > 15 ? "..." : "")}
+                                    </div>
+                                    ) : (
+                                    <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
+                                        {chef.username}
+                                    </div>
+                                    )}
+                                </td>
+                                </Link>
+                            </tr>
+                        ))}
+                      </Table>
+                    </Col>
             </div>
           )}
           {(recipes && recipes.length < 1) && (
@@ -314,7 +348,6 @@ const IndividualChefPage = ({ match }) => {
         </div>
         )}
       </div>
-      )}
     </div>
   )
 }

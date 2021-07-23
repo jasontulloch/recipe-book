@@ -393,7 +393,7 @@ const CookbookDetailsPage = ({ match , history }) => {
                 <div style={{marginLeft: '10px'}}>
                   <Form>
                     <Form.Label>
-                      <h3>
+                      <h3 style={{textAlign: 'center'}}>
                         {cookbook.cookbook_name}
                       </h3>
                     </Form.Label>
@@ -410,11 +410,11 @@ const CookbookDetailsPage = ({ match , history }) => {
                   </Form>
                 </div>
               ) : (
-                <div style={{marginLeft: '10px', width: '100%'}}>
+                <div style={{width: '100%'}}>
                   <Form inline onSubmit={submitHandler}>
                     <h3>
                       <Form.Control
-                        style={{width: '90vw',}}
+                        style={{width: '95vw'}}
                         inline
                         type='text'
                         placeholder={cookbook.cookbook_name}
@@ -427,7 +427,7 @@ const CookbookDetailsPage = ({ match , history }) => {
                     </h3>
                     <p>
                       <Form.Control
-                        style={{width: '90vw'}}
+                        style={{width: '95vw'}}
                         inline
                         as='textarea'
                         rows={3}
@@ -439,8 +439,7 @@ const CookbookDetailsPage = ({ match , history }) => {
                       >
                       </Form.Control>
                     </p>
-                    <Row>
-                      <div>
+                    <div style={{width: '95vw'}}>
                         <Form.Check
                           className="align-middle"
                           inline
@@ -451,30 +450,24 @@ const CookbookDetailsPage = ({ match , history }) => {
                           checked={isPrivate}
                           onChange={(e) => setIsPrivate(e.target.checked)}
                         />
-                      </div>
-                      <div>
                         <Button
                           type='submit'
                           variant='primary'
-                          className="align-middle"
-                          style={{marginBottom: '10px', marginLeft: '10px'}}
+                          style={{marginBottom: '10px', width: '50vw', height: '25px', padding: '0px 6px 6px 6px'}}
                           onChange={(e) => setEditCookbookDetails(false)}
                         >
                           Save Changes
                         </Button>
-                      </div>
-                    </Row>
-
+                    </div>             
                   </Form>
                 </div>
               )}
               
-              <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
+              <Table hover responsive borderless className='table-sm'>
                 <thead style={{borderBottom: 'solid 1px #dedede'}}>
                   <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
-                    <th style={{paddingRight: '0px', width: '115px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
-                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
-                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px', width: '10px'}}></th>
+                    <th style={{paddingRight: '0px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px'}}></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -483,27 +476,25 @@ const CookbookDetailsPage = ({ match , history }) => {
                   ) : (
                     myCookbookRecipes.map(recipe => (
                       <tr key={recipe.id}>
-                        <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
-                          <Card style={{border: 'none', maxWidth: '100px'}}>
-                            <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px'}} />
-                          </Card>
-                        </td>
-                        <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '0px'}}>
-                          <Link
-                            to={`/recipe/${recipe._id}`}
-                            style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
-                          >
-                            {recipe.recipe_name.length > 60 ? (
+                        <Link
+                          to={`/recipe/${recipe._id}`}
+                          style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
+                        >
+                          <td style={{paddingLeft: '0px', paddingRight: '0px'}}>
+                            <Card style={{border: 'none'}}>
+                              <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px', borderRadius: '25px'}} />
+                            </Card>
+                          </td>
+                          <td style={{paddingTop: '20.5px'}}>
+                            {recipe.recipe_name.length > 20 ? (
                               <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
-                                {recipe.recipe_name.slice(0, 60) + (recipe.recipe_name.length > 60 ? "..." : "")}
+                                {recipe.recipe_name.slice(0, 40) + (recipe.recipe_name.length > 40 ? "..." : "")}
                               </div>
                             ) : (
                               <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
                                 {recipe.recipe_name}
                               </div>
                             )}
-                          </Link>
-                          <Link to={`/chefs/${recipe.chef}/page/1`}>
                             {chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? (
                               <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
                                 {chefNames.find( ({ _id }) => _id === recipe.chef ).username.slice(0, 15) + (chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? "..." : "")}
@@ -513,8 +504,8 @@ const CookbookDetailsPage = ({ match , history }) => {
                                 {chefNames.find( ({ _id }) => _id === recipe.chef ).username}
                               </div>
                             )}
-                          </Link>
-                        </td>                      
+                          </td>
+                        </Link>
                       </tr>
                     ))
                   )

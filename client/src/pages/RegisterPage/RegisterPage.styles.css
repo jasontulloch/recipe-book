@@ -1,6 +1,6 @@
 @media only screen and (max-width: 415px) {
   div.registerPageMobile {
-    padding-top: 40px;
-    padding-left: 20px;
+    padding-top: 20px;
+    padding-left: 0px;
   }
 }

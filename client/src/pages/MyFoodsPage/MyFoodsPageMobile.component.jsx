@@ -20,6 +20,7 @@ import { COOKBOOK_CREATE_RESET } from '../../constants/cookbookConstants';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import ChefCard from '../../components/ChefCard/ChefCard.component';
 
+import { HiOutlineClipboardList } from 'react-icons/hi'
 import { GiBookmark, GiBookshelf, GiCook } from 'react-icons/gi';
 
 
@@ -158,6 +159,19 @@ const MyFoodsPageMobile = () => {
                         <i className='fas fa-plus' style={{paddingRight: '5px'}} />
                         New Cookbook
                     </Button>
+                </Col>
+                <Col xs={12}>
+                    <Link
+                        to={`/grocerylist`}
+                    >
+                        <Button
+                            style={{marginTop: '10px', padding: '5px', width: '100%', backgroundColor: '#343a40' }}
+                            onClick={createCookbookHandler}
+                        >
+                            <HiOutlineClipboardList style={{marginRight: '5px'}} />
+                            Go to Grocery List
+                        </Button>
+                    </Link>
                 </Col>
             </Row>
             <Row style={{margin: '15px 0px 30px 0px'}}>

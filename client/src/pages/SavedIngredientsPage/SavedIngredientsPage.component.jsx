@@ -10,6 +10,7 @@ import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.componen
 import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
 import Message from '../../components/Message/Message.component';
 
+import { isBrowser } from 'react-device-detect';
 import axios from 'axios';
 
 import './SavedIngredientsPage.styles.css';
@@ -468,77 +469,160 @@ const SavedIngredientsPage = ({ history }) => {
               {successEmailMessage}
             </Message>
           )}
-          <Row>
-            <Col>
-              <h3>MY GROCERY LIST</h3>
-            </Col>
-            {savedIngredients.length !== 0 && (
-              <Col style={{textAlign: 'right'}}>
-                <Form>
-                  <Form.Group controlId='groceryListLabel'>
-                    <Form.Check
-                      type='switch'
-                      id='custom-switch'
-                      style={{ padding: '5px', height: '15px'}}
-                      inline
-                      label='Hide Quantities?'
-                      checked={displayIngredientOnly}
-                      onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
-                    />
-                  </Form.Group>
-                </Form>
+          {(isBrowser) ? (
+          <div>
+            <Row>
+              <Col>
+                <h3>MY GROCERY LIST</h3>
               </Col>
-            )}
-          </Row>
-          <Row style={{borderBottom: 'dotted 1px', paddingBottom: '25px'}}>
-            <Form inline onSubmit={addNewIngredientHandler} style={{width: '100%'}}>
-              <div style={{width: '100px', marginRight: '5px'}}>
-                <Form.Control
-                  id='newIngredientQuantity'
-                  key='index'
-                  type='text'
-                  placeholder='1/3'
-                  required
-                  style={{width: '100%'}}
-                >
-                </Form.Control>
-              </div>
-              <div style={{width: '100px', marginRight: '5px'}}>
-                <Form.Control
-                  id='newIngredientMeasurement'
-                  key='index'
-                  type='text'
-                  placeholder='Cup'
-                  required
-                  style={{width: '100%'}}
-                >
-                </Form.Control>
-              </div>
-              <div style={{width: '24.5%', marginRight: '5px'}}>
-                <Form.Control
-                  id='newIngredientName'
-                  key='index'
-                  type='text'
-                  placeholder='Basmati Rice'
-                  required
-                  style={{width: '100%'}}
-                >
-                </Form.Control>
-              </div>
-              <div style={{right: '50px', position: 'absolute'}}>
-                <Button
-                  type='submit'
-                  variant='primary'
-                  style={{fontSize: '10px', lineHeight: '20px', paddingLeft: '5px', paddingRight: '5px', width: '100%'}}
-                >
-                  Add New Ingredient
-                </Button>
-              </div>
-            </Form>
-          </Row>
+              {savedIngredients.length !== 0 && (
+                <Col style={{textAlign: 'right'}}>
+                  <Form>
+                    <Form.Group controlId='groceryListLabel'>
+                      <Form.Check
+                        type='switch'
+                        id='custom-switch'
+                        style={{ padding: '5px', height: '15px'}}
+                        inline
+                        label='Hide Quantities?'
+                        checked={displayIngredientOnly}
+                        onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
+                      />
+                    </Form.Group>
+                  </Form>
+                </Col>
+              )}
+            </Row>
+            <Row style={{borderBottom: 'dotted 1px', paddingBottom: '25px'}}>
+              <Form inline onSubmit={addNewIngredientHandler} style={{width: '100%'}}>
+                <div style={{width: '100px', marginRight: '5px'}}>
+                  <Form.Control
+                    id='newIngredientQuantity'
+                    key='index'
+                    type='text'
+                    placeholder='1/3'
+                    required
+                    style={{width: '100%'}}
+                  >
+                  </Form.Control>
+                </div>
+                <div style={{width: '100px', marginRight: '5px'}}>
+                  <Form.Control
+                    id='newIngredientMeasurement'
+                    key='index'
+                    type='text'
+                    placeholder='Cup'
+                    required
+                    style={{width: '100%'}}
+                  >
+                  </Form.Control>
+                </div>
+                <div style={{width: '24.5%', marginRight: '5px'}}>
+                  <Form.Control
+                    id='newIngredientName'
+                    key='index'
+                    type='text'
+                    placeholder='Basmati Rice'
+                    required
+                    style={{width: '100%'}}
+                  >
+                  </Form.Control>
+                </div>
+                <div style={{right: '50px', position: 'absolute'}}>
+                  <Button
+                    type='submit'
+                    variant='primary'
+                    style={{fontSize: '10px', lineHeight: '20px', paddingLeft: '5px', paddingRight: '5px', width: '100%'}}
+                  >
+                    Add New Ingredient
+                  </Button>
+                </div>
+              </Form>
+            </Row>  
+          </div>            
+          ) : (
+          <div>
+            <Row>
+              <Col style={{textAlign: 'center'}} xs={12}>
+                <h3>MY GROCERY LIST</h3>
+              </Col>
+              {savedIngredients.length !== 0 && (
+                <Col style={{display: 'flex', justifyContent: 'center'}}>
+                  <Form> 
+                    <Form.Group>
+                      <Form.Check
+                        type='switch'
+                        id='custom-switch'
+                        style={{ marginLeft: '50px', padding: '5px', height: '15px'}}
+                        inline
+                        label='Hide Quantities?'
+                        checked={displayIngredientOnly}
+                        onChange={(e) => setDisplayIngredientOnly(e.target.checked)}
+                      />
+                    </Form.Group>
+                  </Form>
+                </Col>
+              )}
+            </Row>
+            <Row style={{borderBottom: 'dotted 1px', paddingBottom: '25px'}}>
+              <Form inline onSubmit={addNewIngredientHandler} style={{width: '100%'}}>
+              <Col xs={6}>
+                <div>
+                  <Form.Control
+                    id='newIngredientQuantity'
+                    key='index'
+                    type='text'
+                    placeholder='1/3'
+                    required
+                    style={{width: '100%'}}
+                  >
+                  </Form.Control>
+                </div>
+              </Col>
+              <Col xs={6}>
+                <div>
+                  <Form.Control
+                    id='newIngredientMeasurement'
+                    key='index'
+                    type='text'
+                    placeholder='Cup'
+                    required
+                    style={{width: '100%'}}
+                  >
+                  </Form.Control>
+                </div>
+              </Col>
+              <Col xs={12}>
+                <div style={{paddingTop: '10px'}}>
+                  <Form.Control
+                    id='newIngredientName'
+                    key='index'
+                    type='text'
+                    placeholder='Basmati Rice'
+                    required
+                    style={{width: '100%'}}
+                  >
+                  </Form.Control>
+                </div>             
+              </Col>                
+              <Col xs={12}>
+                <div style={{paddingTop: '10px'}}>
+                  <Button
+                    type='submit'
+                    variant='primary'
+                    style={{fontSize: '10px', lineHeight: '20px', paddingLeft: '5px', paddingRight: '5px', width: '100%'}}
+                  >
+                    Add New Ingredient
+                  </Button>
+                </div>
+              </Col>
+              </Form>
+            </Row>  
+          </div>   
+          )}
           {savedIngredients.length !== 0 && (
           <Row style={{paddingTop: '15px'}}>
-            <Col style={{textAlign: 'center'}}>
+            <Col xs={6} style={{textAlign: 'center'}}>
               <div>
                 <PopoverStickOnHover
                   component={
@@ -589,21 +673,21 @@ const SavedIngredientsPage = ({ history }) => {
                 >
                   <div className="sidebarIcon">
                     <Button
-                      style={{height: '25px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}
+                      style={{height: '25px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center', width: '100%'}}
                     >
-                      Send Grocery List
+                      Share
                     </Button>
                   </div>
                 </PopoverStickOnHover>
               </div>
             </Col>
-            <Col style={{textAlign: 'center'}}>
+            <Col xs={6} style={{textAlign: 'center'}}>
               <Button
                 variant='primary'
-                style={{padding: '5px', lineHeight: '10px', height: '24px'}}
+                style={{padding: '4px', lineHeight: '10px', height: '24px', width: '100%'}}
                 onClick={clearAllIngredientsHandler}
               >
-                Clear All Ingredients
+                Clear All
               </Button>
             </Col>
             <Col xs={12} style={{paddingTop: '10px', textAlign: 'center'}}>
