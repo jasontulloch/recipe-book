@@ -208,16 +208,27 @@ const AllRecipesPageMobile = ({ match, history }) => {
     return (
         <div>
             <Row>
-                  <Col xs={12} style={{textAlign: 'center'}}>
+              <Col xs={12} style={{textAlign: 'center'}}>
+                <div>
+                  <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
+                    <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent (UPDATE)</Dropdown.Item>
+                    <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated (UPDATE)</Dropdown.Item>
+                    <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated (UPDATE)</Dropdown.Item>
+                  </DropdownButton>
+                </div>
+              </Col>
+            </Row>
+            {location.state === undefined && (
+              <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
+                {recipesRecipeList && recipesRecipeList.map((recipe) => (
+                  <Col xs={6} key={recipe._id} style={{padding: '5px'}}>
                     <div>
-                        <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
-                            <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent (UPDATE)</Dropdown.Item>
-                            <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated (UPDATE)</Dropdown.Item>
-                            <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated (UPDATE)</Dropdown.Item>
-                        </DropdownButton>
+                        <RecipeCardMobile recipe={recipe} />
                     </div>
                   </Col>
-            </Row>
+                ))}
+              </Row>
+            )}
             {netVotesState === true && (
               <Row style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'}}>
                 {highestRatedRecipes && highestRatedRecipes.map((recipe) => (

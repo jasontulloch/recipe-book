@@ -566,10 +566,10 @@ const IndividualRecipePage = ({ history, match }) => {
   }
 
   return (
-    <div style={{paddingLeft: '200px'}} className="individualRecipePageMobile">
+    <div style={{paddingLeft: '200px', paddingRight:'30px'}} className="individualRecipePage">
       {recipe.isPublished === true ? (
-        <div >
-          <div style={{paddingLeft: '0px'}}>
+        <div>
+          <div className="individualRecipePageMessagesMobile" style={{paddingLeft: '30px'}}>
             {warningMessage !== '' && (
               <Message className="indvidualRecipePageMessageMobile" variant='danger'>{warningMessage}</Message>
             )}
@@ -600,16 +600,16 @@ const IndividualRecipePage = ({ history, match }) => {
             )}
           </div>
 
-          <Row style={{marginLeft: '20px', marginRight: '20px'}} className="individualRecipePageFirstRowMobile">
+          <Row style={{marginLeft: '20px', marginRight: '10px'}} className="individualRecipePageFirstRowMobile">
             <Col xs={12} style={{textAlign: 'center'}}>
-                <h2>{recipe.recipe_name}</h2>
+                <h2 className="individualRecipePageFontSizeMobile" style={{ marginLeft: '25px'}}>{recipe.recipe_name}</h2>
                 <div>
                   <span>
-                    <h5 style={{fontStyle: 'italic', display: 'inline'}}>Crafted By </h5>
+                    <h5 className="individualRecipePageFontSizeMobile" style={{fontStyle: 'italic', display: 'inline'}}>Crafted By </h5>
                   </span>
                   <span>
                     <LinkContainer to={`/chefs/${chefId}`} style={{cursor: 'pointer', display: 'inline'}}>
-                      <h5 style={{fontStyle: 'italic'}}>{chefUsername}</h5>
+                      <h5 className="individualRecipePageFontSizeMobile" style={{fontStyle: 'italic'}}>{chefUsername}</h5>
                     </LinkContainer>
                   </span>
                 </div>
@@ -931,7 +931,7 @@ const IndividualRecipePage = ({ history, match }) => {
               >
 
                 <div className="sidebarIcon">
-                  <Button className="individualRecipePageMoreButtonsMobile" style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}>
+                  <Button style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}>
                     More Features
                   </Button>
                 </div>
@@ -972,12 +972,12 @@ const IndividualRecipePage = ({ history, match }) => {
                     </Form>
                   </div>
                 }
-                placement="bottom"
+                placement="right"
                 onMouseEnter={() => { }}
                 delay={200}
               >
               <div className="sidebarIcon">
-                <Button className="individualRecipePageMoreButtonsMobile" style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}>
+                <Button style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}>
                   Add to Cookbook
                 </Button>
               </div>

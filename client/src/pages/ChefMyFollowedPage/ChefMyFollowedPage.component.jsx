@@ -16,6 +16,8 @@ import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.componen
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 import PaginateMyChefs from '../../components/PaginateMyChefs/PaginateMyChefs.component';
 
+import { isBrowser } from 'react-device-detect';
+
 import './ChefMyFollowedPage.styles.css';
 
 const ChefMyFollowedPage = ({ match , history }) => {
@@ -59,6 +61,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
             <Row>
               <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
                 <thead style={{borderBottom: 'solid 1px #dedede'}}>
+                  {(isBrowser) ? (
                   <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
                     <th style={{paddingRight: '0px', width: '115px'}}><IoPeople style={{width: '20px', height: '20px'}}/></th>
                     <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
@@ -71,6 +74,13 @@ const ChefMyFollowedPage = ({ match , history }) => {
                     <th></th>
                     <th></th>
                   </tr>
+                  ) : (
+                  <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
+                    <th style={{paddingRight: '0px', width: '115px'}}><IoPeople style={{width: '20px', height: '20px'}}/></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px', width: '10px'}}></th>
+                  </tr>                   
+                  )}
                 </thead>
                 <tbody>
                   {(chefs === undefined || chefs.length == 0) ? (

@@ -110,7 +110,7 @@ const HomePageMobile = () => {
             </div>
             )}
             <div>
-                <Row style={{margin: '15px 0px 0px 0px'}}>
+                <Row style={{margin: '15px 0px 35px 0px'}}>
                     <Col xs={12}>
                         <h3>New Recipes</h3>
                     </Col>

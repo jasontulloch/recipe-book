@@ -13,6 +13,8 @@ import { GiBookshelf } from 'react-icons/gi'
 import { RiBookReadLine } from 'react-icons/ri'
 import { MdDelete } from 'react-icons/md'
 
+import { isBrowser } from 'react-device-detect';
+
 import './ChefCookbooksListPage.styles.css';
 
 const ChefCookbooksListPage = ({ match , history }) => {
@@ -73,12 +75,12 @@ const ChefCookbooksListPage = ({ match , history }) => {
   }
 
   return (
-      <div className="chefRecipesListPageMobile" style={{paddingLeft: '220px', paddingRight: '10px'}}>
+      <div className="chefCookbooksListPageMobile" style={{paddingLeft: '220px', paddingRight: '10px'}}>
         {initialLoader ?  (
           <PancakeLoader>Collecting all of your cookbooks...</PancakeLoader>
         ) : (
           <Row>
-            <Col className="recipeListButtonMobile" xs={12} style={{ textAlign: 'center', paddingBottom: '15px', paddingLeft: '0px' }}>
+            <Col xs={12} style={{ textAlign: 'center', paddingBottom: '15px', paddingLeft: '0px' }}>
               <Button
                 style={{margin: '5px', padding: '15px', width: '100%', backgroundColor: '#343a40' }}
                 onClick={createCookbookHandler}
@@ -89,14 +91,16 @@ const ChefCookbooksListPage = ({ match , history }) => {
             </Col>
             <Table hover responsive borderless className='table-sm' style={{width: '100vw'}}>
               <thead style={{borderBottom: 'solid 1px #dedede'}}>
-                <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
-                  <th style={{paddingRight: '0px', width: '25px'}}><GiBookshelf style={{width: '20px', height: '20px'}}/></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><RiBookReadLine style={{width: '20px', height: '20px'}}/></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}>Private</th>
-                  <th></th>
-                  <th></th>
-                </tr>
+                {(isBrowser) && (
+                  <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
+                    <th style={{paddingRight: '0px', width: '25px'}}><GiBookshelf style={{width: '20px', height: '20px'}}/></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><RiBookReadLine style={{width: '20px', height: '20px'}}/></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}>Private</th>
+                    <th></th>
+                    <th></th>  
+                  </tr>
+                )}  
               </thead>
               <tbody>
                 {(cookbooks === undefined || cookbooks.length === 0) ? (
@@ -155,7 +159,7 @@ const ChefCookbooksListPage = ({ match , history }) => {
                         >
                           <MdDelete style={{width: '20px', height: '20px'}}/>
                         </Button>
-                      </td>
+                      </td>    
                     </tr>
                   ))
                 )

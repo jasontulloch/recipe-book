@@ -23,6 +23,7 @@ import WorldMapPage from './pages/WorldMapPage/WorldMapPage.component';
 import AllChefsPage from './pages/AllChefsPage/AllChefsPage.component';
 import IndividualChefPage from './pages/IndividualChefPage/IndividualChefPage.component';
 import ChefMyFollowedPage from './pages/ChefMyFollowedPage/ChefMyFollowedPage.component';
+import MyFoodsPage from './pages/MyFoodsPage/MyFoodsPage.component';
 
 import CookbookDetailsPage from './pages/CookbookDetailsPage/CookbookDetailsPage.component';
 import ChefCookbooksListPage from './pages/ChefCookbooksListPage/ChefCookbooksListPage.component';
@@ -103,7 +104,7 @@ const App = () => {
           <Route path='/mychefs/page/:pageNumber' component={ChefMyFollowedPage} exact />
           <Route path='/cookbooks/:id' component={CookbookDetailsPage} exact />
           <Route path='/mycookbooks' component={ChefCookbooksListPage} exact />
-          <Route path='/worldmap' component={WorldMapPage} />
+          <Route path='/myfoods' component={MyFoodsPage} />
 
           {(filtersUrl) && filtersUrl.map((items) =>
             <Route path={`/recipes/advanced-search-results${items}/page/:pageNumber`} component={AdvancedRecipeSearchResultsPage} exact/>

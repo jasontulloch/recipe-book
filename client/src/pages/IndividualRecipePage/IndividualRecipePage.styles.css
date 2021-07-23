@@ -30,8 +30,13 @@
 }
 
 @media only screen and (max-width: 415px) {
-  div.individualRecipePageFirstRowMobile.row {
-    padding-top: 30px;
+
+  div.individualRecipePageMobile {
+    padding-left: 0px !important;
+    margin-bottom: 20px;
+  }
+  button.individualRecipePageMoreButtonsMobile.btn.btn-primary {
+    height: 50px !important;
   }
 
   h4.individualRecipePageFontSizeMobile {
