@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import { Row, Col, Button, Table, Card, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -25,10 +25,13 @@ import { GiBookmark, GiBookshelf, GiCook } from 'react-icons/gi';
 
 const MyFoodsPageMobile = () => {
 
-    const [viewLikedRecipes, setViewLikedRecipes] = useState(true)
+    const location = useLocation()
+    const { myRecipesListPageMobileState } = location.state || { myRecipesListPageMobileState: false }
+
+    const [viewLikedRecipes, setViewLikedRecipes] = useState(!myRecipesListPageMobileState)
     const [viewFavoriteChefs, setViewFavoriteChefs] = useState(false)
     const [viewSavedCookbooks, setViewSavedCookbooks] = useState(false)
-    const [viewMyRecipes, setViewMyRecipes] = useState(false)
+    const [viewMyRecipes, setViewMyRecipes] = useState(myRecipesListPageMobileState)
     const [viewMyCookbooks, setViewMyCookbooks] = useState(false)
     
     const history = useHistory()

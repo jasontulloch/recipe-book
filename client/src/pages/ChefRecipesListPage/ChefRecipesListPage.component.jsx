@@ -17,6 +17,8 @@ import { BiInfoCircle } from 'react-icons/bi'
 import { GiBookmark, GiRank3, GiFoodTruck } from 'react-icons/gi'
 import { MdTimer, MdFormatListNumbered, MdLocalGroceryStore, MdDelete, MdPublish } from 'react-icons/md'
 
+import { isMobile } from 'react-device-detect';
+
 import './ChefRecipesListPage.styles.css';
 
 const ChefRecipesListPage = ({ match , history }) => {
@@ -48,6 +50,10 @@ const ChefRecipesListPage = ({ match , history }) => {
   useEffect(() => {
     dispatch({ type: RECIPE_CREATE_RESET })
 
+    if(isMobile) {
+      history.push('/myfoods', { myRecipesListPageMobileState: true })
+    }
+
     if(!chefInfo) {
       history.push('/login')
     }
@@ -63,7 +69,8 @@ const ChefRecipesListPage = ({ match , history }) => {
     chefInfo,
     successCreate,
     successDelete,
-    createdRecipe
+    createdRecipe,
+    isMobile
   ])
 
   const deleteHandler = (id) => {
@@ -77,12 +84,9 @@ const ChefRecipesListPage = ({ match , history }) => {
   }
 
   return (
-      <div className="chefRecipesListPageMobile" style={{paddingLeft: '220px', paddingRight: '10px'}}>
-        {initialLoader ?  (
-          <PancakeLoader>Collecting all of your recipes...</PancakeLoader>
-        ) : (
+      <div style={{paddingLeft: '220px', paddingRight: '10px'}}>
           <Row>
-            <Col className="recipeListButtonMobile" xs={12} style={{ textAlign: 'center', paddingBottom: '15px', paddingLeft: '0px' }}>
+            <Col xs={12} style={{ textAlign: 'center', paddingBottom: '15px', paddingLeft: '0px' }}>
               <Button
                 style={{margin: '5px', padding: '15px', width: '100%', backgroundColor: '#343a40' }}
                 onClick={createRecipeHandler}
@@ -257,7 +261,6 @@ const ChefRecipesListPage = ({ match , history }) => {
               </tbody>
             </Table>
           </Row>
-        )}
       </div>
   )
 }

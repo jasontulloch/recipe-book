@@ -11,7 +11,6 @@ import {
 import {
   removeRecipeFromCookbook,
 } from '../../actions/recipeActions';
-import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import Message from '../../components/Message/Message.component';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 import { IoLocationOutline } from 'react-icons/io5'
@@ -22,6 +21,8 @@ import { MdTimer, MdFormatListNumbered, MdLocalGroceryStore, MdDelete } from 're
 
 import { RECIPE_REMOVE_FROM_COOKBOOK_RESET } from '../../constants/recipeConstants';
 import { COOKBOOK_UPDATE_RESET, COOKBOOK_DETAILS_RESET } from '../../constants/cookbookConstants';
+
+import { isBrowser } from 'react-device-detect';
 
 import './CookbookDetailsPage.styles.css';
 
@@ -128,22 +129,21 @@ const CookbookDetailsPage = ({ match , history }) => {
   }
 
   return (
-      <div className="chefRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
-        {initialLoader ?  (
-          <PancakeLoader>Loading cookbook...</PancakeLoader>
-        ) : (
-          <Row>
-            {warningMessage !== '' && (
-              <Message variant='danger'>{warningMessage}</Message>
-            )}
-            {successMessage !== '' && (
-              <Message variant='success'>{successMessage}</Message>
-            )}
-            {(myCookbookRecipes === undefined || myCookbookRecipes.length == 0 && chefInfo._id === cookbook.chef) && (
-              <div style={{marginLeft: '30px', width: '100%', textAlign: 'center'}}>
-                <Message variant='warning'>Looks like your cookbook does not have any recipes yet. Go to any recipe page to add it to this cookbook...</Message>
-              </div>
-            )}
+      <div className="cookbookDetailsPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
+        <Row>
+          {warningMessage !== '' && (
+            <Message variant='danger'>{warningMessage}</Message>
+          )}
+          {successMessage !== '' && (
+            <Message variant='success'>{successMessage}</Message>
+          )}
+          {(myCookbookRecipes === undefined || myCookbookRecipes.length == 0 && chefInfo._id === cookbook.chef) && (
+            <div style={{marginLeft: '30px', width: '100%', textAlign: 'center'}}>
+              <Message variant='warning'>Looks like your cookbook does not have any recipes yet. Go to any recipe page to add it to this cookbook...</Message>
+            </div>
+          )}
+          {(isBrowser) ? (
+            <div>
             {editCookbookDetails === false ? (
               <div style={{marginLeft: '30px'}}>
                 <Form>
@@ -219,6 +219,7 @@ const CookbookDetailsPage = ({ match , history }) => {
                 </Row>
               </div>
             )}
+            
             <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
               <thead style={{borderBottom: 'solid 1px #dedede'}}>
                 <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
@@ -385,8 +386,144 @@ const CookbookDetailsPage = ({ match , history }) => {
               }
               </tbody>
             </Table>
+            </div>
+            ) : (
+            <div>
+              {editCookbookDetails === false ? (
+                <div style={{marginLeft: '10px'}}>
+                  <Form>
+                    <Form.Label>
+                      <h3>
+                        {cookbook.cookbook_name}
+                      </h3>
+                    </Form.Label>
+                    <p>{cookbook.description}</p>
+                    <Form.Check
+                      className="align-middle"
+                      inline
+                      style={{paddingBottom: '10px'}}
+                      type="switch"
+                      id="custom-switch"
+                      label="Edit"
+                      onChange={(e) => setEditCookbookDetails(true)}
+                    />
+                  </Form>
+                </div>
+              ) : (
+                <div style={{marginLeft: '10px', width: '100%'}}>
+                  <Form inline onSubmit={submitHandler}>
+                    <h3>
+                      <Form.Control
+                        style={{width: '90vw',}}
+                        inline
+                        type='text'
+                        placeholder={cookbook.cookbook_name}
+                        value={cookbook_name}
+                        maxLength={40}
+                        minLength={5}
+                        onChange={(e) => setCookbookName(e.target.value)}
+                      >
+                      </Form.Control>
+                    </h3>
+                    <p>
+                      <Form.Control
+                        style={{width: '90vw'}}
+                        inline
+                        as='textarea'
+                        rows={3}
+                        placeholder={cookbook.description}
+                        value={description}
+                        maxLength={300}
+                        minLength={0}
+                        onChange={(e) => setDescription(e.target.value)}
+                      >
+                      </Form.Control>
+                    </p>
+                    <Row>
+                      <div>
+                        <Form.Check
+                          className="align-middle"
+                          inline
+                          style={{paddingBottom: '10px', marginLeft: '20px'}}
+                          label="Share?"
+                          type="switch"
+                          id="custom-switch"
+                          checked={isPrivate}
+                          onChange={(e) => setIsPrivate(e.target.checked)}
+                        />
+                      </div>
+                      <div>
+                        <Button
+                          type='submit'
+                          variant='primary'
+                          className="align-middle"
+                          style={{marginBottom: '10px', marginLeft: '10px'}}
+                          onChange={(e) => setEditCookbookDetails(false)}
+                        >
+                          Save Changes
+                        </Button>
+                      </div>
+                    </Row>
+
+                  </Form>
+                </div>
+              )}
+              
+              <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
+                <thead style={{borderBottom: 'solid 1px #dedede'}}>
+                  <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
+                    <th style={{paddingRight: '0px', width: '115px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
+                    <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px', width: '10px'}}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(myCookbookRecipes === undefined || myCookbookRecipes.length == 0) ? (
+                    <div></div>
+                  ) : (
+                    myCookbookRecipes.map(recipe => (
+                      <tr key={recipe.id}>
+                        <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
+                          <Card style={{border: 'none', maxWidth: '100px'}}>
+                            <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px'}} />
+                          </Card>
+                        </td>
+                        <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '0px'}}>
+                          <Link
+                            to={`/recipe/${recipe._id}`}
+                            style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
+                          >
+                            {recipe.recipe_name.length > 60 ? (
+                              <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
+                                {recipe.recipe_name.slice(0, 60) + (recipe.recipe_name.length > 60 ? "..." : "")}
+                              </div>
+                            ) : (
+                              <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
+                                {recipe.recipe_name}
+                              </div>
+                            )}
+                          </Link>
+                          <Link to={`/chefs/${recipe.chef}/page/1`}>
+                            {chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? (
+                              <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
+                                {chefNames.find( ({ _id }) => _id === recipe.chef ).username.slice(0, 15) + (chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? "..." : "")}
+                              </div>
+                            ) : (
+                              <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
+                                {chefNames.find( ({ _id }) => _id === recipe.chef ).username}
+                              </div>
+                            )}
+                          </Link>
+                        </td>                      
+                      </tr>
+                    ))
+                  )
+                }
+                </tbody>
+              </Table>
+            </div>
+            )}
           </Row>
-        )}
       </div>
   )
 }

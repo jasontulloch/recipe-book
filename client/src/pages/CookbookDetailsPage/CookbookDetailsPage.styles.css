@@ -1,5 +1,5 @@
 @media only screen and (max-width: 415px) {
-  div.recipeListButtonMobile.col-12 {
-    padding-top: 20px;
+  div.cookbookDetailsPageMobile {
+    padding-left: 20px !important;
   }
 }

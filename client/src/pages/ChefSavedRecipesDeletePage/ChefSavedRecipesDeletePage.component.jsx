@@ -8,6 +8,8 @@ import {
 } from '../../actions/recipeActions';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 
+import { isMobile } from 'react-device-detect';
+
 import './ChefSavedRecipesDeletePage.styles.css';
 
 const ChefSavedRecipesListPage = ({ match , history }) => {
@@ -27,6 +29,10 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   useEffect(() => {
     if(!chefInfo) {
       history.push('/login')
+    }
+
+    if(isMobile) {
+      history.push('/myfoods')
     }
 
     if(successRecipeUnsave) {
