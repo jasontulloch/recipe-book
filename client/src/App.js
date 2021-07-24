@@ -1,11 +1,12 @@
-import React from 'react';
+// Can remove lazy loading, but eventually should test will all the routes first, should enhance performace
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Header from './components/Header/Header.component';
 import IconBar from './components/IconBar/IconBar.component';
 import Footer from './components/Footer/Footer.component';
 
-import HomePage from './pages/HomePage/HomePage.component';
+//import HomePage from './pages/HomePage/HomePage.component';
 import LoginPage from './pages/LoginPage/LoginPage.component';
 import RegisterPage from './pages/RegisterPage/RegisterPage.component';
 import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage.component';
@@ -27,6 +28,10 @@ import MyFoodsPage from './pages/MyFoodsPage/MyFoodsPage.component';
 
 import CookbookDetailsPage from './pages/CookbookDetailsPage/CookbookDetailsPage.component';
 import ChefCookbooksListPage from './pages/ChefCookbooksListPage/ChefCookbooksListPage.component';
+
+import AllRecipesLazyPage from './pages/AllRecipesLazyPage/AllRecipesLazyPage.component';
+
+const HomePage = React.lazy(() => import('./pages/HomePage/HomePage.component'))
 
 const App = () => {
 
@@ -85,6 +90,7 @@ const App = () => {
       <IconBar />
       <main className="py-2" style={{maxWidth: '100vw', overflowX: 'hidden'}}>
         <div style={{paddingTop: '40px'}}>
+          <Suspense fallback={<div>Loading...</div>}>
           <Route path='/login' component={LoginPage} />
           <Route path='/register' component={RegisterPage} />
           <Route path='/profile' component={ProfileEditPage} />
@@ -98,8 +104,7 @@ const App = () => {
           <Route path='/advanced-search' component={AdvancedRecipeSearchPage} exact />
           <Route path='/recipes/search/keywordRecipeName=:keywordRecipeName/page/:pageNumber' component={AllRecipesPage} />
           <Route path='/grocerylist' component={SavedIngredientsPage} exact />
-          <Route path='/recipes/page/:pageNumber' component={AllRecipesPage} exact />
-          <Route path='/chefs/page/:pageNumber' component={AllChefsPage} exact />
+          <Route path='/chefs' component={AllChefsPage} exact />
           <Route path='/chefs/:id/page/:pageNumber' component={IndividualChefPage} exact />
           <Route path='/mychefs/page/:pageNumber' component={ChefMyFollowedPage} exact />
           <Route path='/cookbooks/:id' component={CookbookDetailsPage} exact />
@@ -193,6 +198,7 @@ const App = () => {
           <Route path='/recipes/advanced-search-results/keywordCookTimeMin=:keywordCookTimeMin/keywordCookTimeMax=:keywordCookTimeMax/keywordIsVegan=:keywordIsVegan/keywordIsVegetarian=:keywordIsVegetarian/keywordIsGlutenFree=:keywordIsGlutenFree/keywordIsKetogenic=:keywordIsKetogenic/keywordIsPescatarian=:keywordIsPescatarian/keywordIsDairy=:keywordIsDairy/keywordIsEgg=:keywordIsEgg/keywordIsNuts=:keywordIsNuts/keywordIsShellfish=:keywordIsShellfish/keywordIsSoy=:keywordIsSoy/keywordIsWheat=:keywordIsWheat/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/keywordIsMainDish=:keywordIsMainDish/keywordIsSideSauce=:keywordIsSideSauce/keywordIsDessert=:keywordIsDessert/keywordIsSnack=:keywordIsSnack/keywordIsAppetizer=:keywordIsAppetizer/keywordIsDrink=:keywordIsDrink/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
 
           <Route path='/' component={HomePage} exact />
+          </Suspense>
         </div>
       </main>
     </Router>

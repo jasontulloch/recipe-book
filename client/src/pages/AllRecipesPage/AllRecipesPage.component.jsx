@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { Row, Col, DropdownButton, Dropdown, Button } from 'react-bootstrap';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
@@ -18,7 +19,8 @@ import AllRecipesPageMobile from './AllRecipesPageMobile.component';
 
 const AllRecipesPage = ({ match, history }) => {
   const keywordRecipeName = match.params.keywordRecipeName
-  const pageNumber = match.params.pageNumber || 1
+  //const pageNumber = match.params.pageNumber || 1
+  const [pageNumber, setPageNumber] = useState(1);
   const urlBaseRecipes = true
 
   // Okay this is cool --- we are passing netVotesSortButton from the other page to this page
@@ -130,15 +132,50 @@ const AllRecipesPage = ({ match, history }) => {
     localStorage.setItem('sortButtonLabelLocalStorage', 'Lowest Ranking')
   }
 
+  // Lazy Loading!!!
+  const [currentRecipeList, setCurrentRecipeList] = useState([]);
+	const [isFetching, setIsFetching] = useState(false);
+
+	useEffect(() => {
+		fetchData();
+		window.addEventListener('scroll', handleScroll);
+	}, []);
+
+	const handleScroll = () => {
+		if (
+			Math.ceil(window.innerHeight + document.documentElement.scrollTop) !== document.documentElement.offsetHeight ||
+			isFetching
+		)
+			return;
+		setIsFetching(true);
+	};
+
+	const fetchData = async () => {
+		setTimeout(async () => {
+      const result = await axios.get(`/api/recipes?pageNumber=${pageNumber}`)
+      const data = await result.data.recipes
+      setPageNumber(pageNumber + 1)
+      setCurrentRecipeList(() => {
+        return [...currentRecipeList, ...data];
+      });
+      localStorage.setItem('pageNumber', pageNumber)
+		}, 1000);
+	};
+
+	useEffect(() => {
+		if (!isFetching) return;
+      fetchMoreListItems()
+	}, [isFetching]);
+
+	const fetchMoreListItems = () => {
+		fetchData();
+		setIsFetching(false);
+	};
+
   return (
     <div>
       {(isBrowser) ? (
         <div>
-          {initialLoader ?  (
-            <PancakeLoader className="allRecipesPagePancakeMobile">Finding yummy recipes...</PancakeLoader>
-          ) : errorRecipeList ? (
-            <Message>{errorRecipeList}</Message>
-          ) : (
             <div style={{paddingLeft: '200px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allRecipesPageMobile2Div">
               <Row className="allRecipesPageMobileRow">
                 {((highestRatedRecipes && highestRatedRecipes.length > 1) || (mostRecentRecipes && mostRecentRecipes.length > 1)) && (
@@ -150,6 +187,13 @@ const AllRecipesPage = ({ match, history }) => {
                     </DropdownButton>
                   </Col>
                 )}
+                {currentRecipeList.map((recipe) => (
+                  <Col className="allRecipesPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                    <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
+                      <RecipeCard recipe={recipe} />
+                    </Suspense>
+                  </Col>
+                ))}
                 {netVotesSortState === -1 && highestRatedRecipes.length > 1 && highestRatedRecipes.map((recipe) => (
                   <Col className="allRecipesPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                     <RecipeCard recipe={recipe} />
@@ -165,7 +209,7 @@ const AllRecipesPage = ({ match, history }) => {
                     <RecipeCard recipe={recipe} />
                   </Col>
                 ))}
-                {(mostRecentRecipes.length === 0 && highestRatedRecipes.length === 0) && (
+                {(false) && (
                   <Col style={{textAlign: 'center', paddingTop: '100px'}}>
                     <p >Looks like we couldn't find any recipes, add your own or update your search!</p>
                     <LinkContainer to={`/myrecipes`}>
@@ -181,23 +225,19 @@ const AllRecipesPage = ({ match, history }) => {
                   </Col>
                 )}
               </Row>
-              <Row className="allRecipesPageMobilePaginate">
-                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <Paginate
-                    pages={pagesRecipeList}
-                    page={pageRecipeList}
-                    keywordRecipeName={keywordRecipeName ? keywordRecipeName : ''}
-                    urlBaseRecipes={urlBaseRecipes}
-                  />
-                </Col>
-              </Row>
             </div>
-          )}
-        </div>
+            <div>
+              <Col xs={12} style={{paddingLeft: '210px', textAlign: 'center'}}>
+                <Message>Simply scroll down to view more recipes!</Message>
+              </Col>
+            </div>
+          </div>
       ) : (
         <AllRecipesPageMobile />
       )}
+
     </div>
+
   )
 }
 

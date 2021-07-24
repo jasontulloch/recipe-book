@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card } from 'react-bootstrap';
@@ -38,11 +39,6 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
 
-  const [initialLoader, setInitialLoader] = useState(true)
-  if (loading !== true) {
-    setTimeout(() => setInitialLoader(false), 2000)
-  }
-
   useEffect(() => {
     if(!chefInfo) {
       history.push('/login')
@@ -68,6 +64,48 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
     successRecipeUnsave
   ])
 
+  // Lazy Loading!!!
+  const [pageNumber, setPageNumber] = useState(1);
+  const [currentMySavedRecipesList, setCurrentMySavedRecipesList] = useState([]);
+	const [isFetching, setIsFetching] = useState(false);
+
+	useEffect(() => {
+		fetchData();
+		window.addEventListener('scroll', handleScroll);
+	}, []);
+
+	const handleScroll = () => {
+		if (
+			Math.ceil(window.innerHeight + document.documentElement.scrollTop) !== document.documentElement.offsetHeight ||
+			isFetching
+		)
+			return;
+		setIsFetching(true);
+	};
+
+	const fetchData = async () => {
+		setTimeout(async () => {
+      const result = await axios.get(`/api/recipes/savedRecipes?pageNumber=${pageNumber}`)
+      const data = await result.data.savedRecipes
+      console.log(result)
+      setPageNumber(pageNumber + 1)
+      setCurrentMySavedRecipesList(() => {
+        return [...currentMySavedRecipesList, ...data];
+      });
+      localStorage.setItem('pageNumber', pageNumber)
+		}, 1000);
+	};
+
+	useEffect(() => {
+		if (!isFetching) return;
+      fetchMoreListItems()
+	}, [isFetching]);
+
+	const fetchMoreListItems = () => {
+		fetchData();
+		setIsFetching(false);
+	};
+
   // Need to update to remove recipe from liked recipes on page (vs new window)
   //const unsaveHandler = (e) => {
   //  e.preventDefault()
@@ -76,22 +114,21 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   //  }))
   //}
 
+
   return (
       <div className="chefSavedRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
-        {initialLoader ?  (
-          <PancakeLoader>Finding the recipes you already love...</PancakeLoader>
-        ) : savedRecipes.length > 0 ? (
+        {currentMySavedRecipesList.length > 0 ? (
           <Row className="chefSavedRecipesMobileRow" style={{paddingLeft: '30px'}}>
             <div style={{marginLeft: '10px'}}>
               <span>
                 <h3>Liked Recipes</h3>
               </span>
             </div>
-            <Table hover responsive borderless className='table-sm' style={{marginLeft: '10px'}}>
+            <Table responsive borderless className='table-sm' style={{marginLeft: '10px'}}>
               <thead style={{borderBottom: 'solid 1px #dedede'}}>
                 <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
-                  <th style={{paddingRight: '0px', width: '115px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
+                  <th style={{paddingRight: '0px', width: '115px', paddingBottom: '5px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
+                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', }}></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px', width: '10px'}}></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><IoLocationOutline style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><MdTimer style={{width: '20px', height: '20px'}}/></th>
@@ -104,14 +141,19 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                 </tr>
               </thead>
               <tbody>
-                {savedRecipes.map(recipe => (
+                {currentMySavedRecipesList.map(recipe => (
                   <tr key={recipe.id}>
-                    <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
-                      <Card style={{border: 'none', maxWidth: '100px'}}>
-                        <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px'}} />
-                      </Card>
-                    </td>
-                    <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '0px'}}>
+                    <Link
+                      to={`/recipe/${recipe._id}`}
+                      style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
+                    >
+                      <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
+                        <Card style={{border: 'none', maxWidth: '100px'}}>
+                          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px', borderRadius: '25px'}} />
+                        </Card>
+                      </td>
+                    </Link>
+                    <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '10px'}}>
                       <Link
                         to={`/recipe/${recipe._id}`}
                         style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}

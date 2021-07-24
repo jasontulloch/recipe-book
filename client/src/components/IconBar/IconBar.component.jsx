@@ -98,14 +98,14 @@ const IconBar = ({ history }) => {
                     component={
                       <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
                         <Route render={({ history }) => <SearchBox history={history} />} />
-                        <LinkContainer to='/recipes/page/1' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
+                        <LinkContainer to='/recipes' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
                           <Nav.Link>
                             <div className="sidebarIcon">
                               <span>Search All Recipes</span>
                             </div>
                           </Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to='/chefs/page/1' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                        <LinkContainer to='/chefs' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
                           <Nav.Link>
                             <div className="sidebarIcon">
                               <span>Find Chefs</span>

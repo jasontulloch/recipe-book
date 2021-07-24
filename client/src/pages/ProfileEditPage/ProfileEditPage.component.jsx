@@ -449,7 +449,6 @@ const ProfileEditPage = ({ location, history, match }) => {
                   placeholder="Enter your partner chef's first name"
                   value={connect_first_name}
                   onChange={(e) => setConnectFirstName(e.target.value)}
-                  required
                 >
                 </Form.Control>
               </Form.Group>
@@ -461,7 +460,6 @@ const ProfileEditPage = ({ location, history, match }) => {
                   placeholder="Enter your partner chef's last name"
                   value={connect_last_name}
                   onChange={(e) => setConnectLastName(e.target.value)}
-                  required
                 >
                 </Form.Control>
               </Form.Group>
@@ -472,7 +470,6 @@ const ProfileEditPage = ({ location, history, match }) => {
                   placeholder="Enter your partner chef's email"
                   value={connect_email}
                   onChange={(e) => setConnectEmail(e.target.value)}
-                  required
                 >
                 </Form.Control>
                 <Form.Text>We will never email your partner chef or share their email with anyone. Providing an email will allow you to send recipes / ingredients to your partner chef throughout this application.</Form.Text>
@@ -485,7 +482,6 @@ const ProfileEditPage = ({ location, history, match }) => {
                   placeholder="Enter your partner chef's phone number"
                   value={connect_phone_number}
                   onChange={(e) => setConnectPhoneNumber(e.target.value)}
-                  required
                 >
                 </Form.Control>
                 <Form.Text>We will never text / call your partner chef or share their phone number with anyone. Providing a phone number will allow you to send recipes / ingredients to your partner chef throughout this application.</Form.Text>

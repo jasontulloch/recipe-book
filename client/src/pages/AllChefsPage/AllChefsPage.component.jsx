@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { Row, Col, Button } from 'react-bootstrap';
 import ChefCard from '../../components/ChefCard/ChefCard.component';
 import { listChefs } from '../../actions/chefPublicActions';
-import PaginateAllChefs from '../../components/PaginateAllChefs/PaginateAllChefs.component';
 
-import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import Message from '../../components/Message/Message.component';
 
 import { isBrowser } from 'react-device-detect';
@@ -15,67 +14,67 @@ import AllChefsPageMobile from './AllChefsPageMobile.component';
 import './AllChefsPage.styles.css';
 
 const AllChefsPage = ({ match }) => {
-  const pageNumber = match.params.pageNumber || 1
 
   const dispatch = useDispatch()
 
-  const chefList = useSelector(state => state.chefList)
-  const { loading, error, chefs, pages, page } = chefList
+  // Lazy loading section
+  const [pageNumber, setPageNumber] = useState(1);
+  const [currentChefList, setCurrentChefList] = useState([]);
+	const [isFetching, setIsFetching] = useState(false);
 
-  // This is firing off the action to get products in state
-  useEffect(() => {
-    dispatch(listChefs(pageNumber))
-  }, [dispatch, pageNumber])
+	useEffect(() => {
+		fetchData();
+		window.addEventListener('scroll', handleScroll);
+	}, []);
 
-  const [initialLoader, setInitialLoader] = useState(true)
-  if (loading !== true) {
-    setTimeout(() => setInitialLoader(false), 3000)
-  }
+	const handleScroll = () => {
+		if (
+			Math.ceil(window.innerHeight + document.documentElement.scrollTop) !== document.documentElement.offsetHeight ||
+			isFetching
+		)
+			return;
+		setIsFetching(true);
+	};
+
+	const fetchData = async () => {
+		setTimeout(async () => {
+      const result = await axios.get(`/api/chefs?pageNumber=${pageNumber}`)
+      const data = await result.data.chefs
+      setPageNumber(pageNumber + 1)
+      setCurrentChefList(() => {
+        return [...currentChefList, ...data];
+      });
+      localStorage.setItem('pageNumber', pageNumber)
+		}, 1000);
+	};
+
+	useEffect(() => {
+		if (!isFetching) return;
+      fetchMoreListItems()
+	}, [isFetching]);
+
+	const fetchMoreListItems = () => {
+		fetchData();
+		setIsFetching(false);
+	};
 
 
   return (
     <div>
       {(isBrowser) ? (
-        <div>
-          {initialLoader ?  (
-            <PancakeLoader>Finding great chefs...</PancakeLoader>
-          ) : error ? (
-            <Message>{error}</Message>
-          ) : (
-            <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allChefsPageMobile2Div">
+            <div style={{paddingLeft: '200px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allChefsPageMobile2Div">
               <Row className="allChefsPageMobileRow">
-                {chefs && chefs.map((chef) => (
+                {currentChefList && currentChefList.map((chef) => (
                   <Col className="allChefsPageChefCardMobile" key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                     <ChefCard chef={chef} />
                   </Col>
                 ))}
-                {(chefs.length === 0 && loading !== true) && (
-                  <Col style={{textAlign: 'center', paddingTop: '100px'}}>
-                    <p >Looks like we couldn't find any chefs, view the chefs you are following or find a new one!</p>
-                    <LinkContainer to={`/mychefs`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-plus'>My Favorite Chefs</i>
-                      </Button>
-                    </LinkContainer>
-                    <LinkContainer to={`/chefs/advanced-search`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-search'>New Chef Search</i>
-                      </Button>
-                    </LinkContainer>
-                  </Col>
-                )}
-              </Row>
-              <Row className="allChefsPageMobilePaginate">
-                <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <PaginateAllChefs
-                    pages={pages}
-                    page={page}
-                  />
+                <Col xs={12} style={{textAlign: 'center', paddingRight: '20px'}}>
+                  <Message>Simply scroll down to view more chefs!</Message>
                 </Col>
               </Row>
+              
             </div>
-          )}
-        </div>
       ) : (
         <AllChefsPageMobile />
       )}

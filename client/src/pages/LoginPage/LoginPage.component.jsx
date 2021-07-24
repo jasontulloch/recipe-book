@@ -64,7 +64,7 @@ const LoginPage = ({ location, history }) => {
           <Row className='py-3'>
             <Col>
               New to RecipeBook?{' '}
-              <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+              <Link to={'/register'}>
                 Register
               </Link>
             </Col>

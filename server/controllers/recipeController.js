@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Recipe from '../models/recipeModel.js';
 import Chef from '../models/chefModel.js';
 import Cookbook from '../models/cookbookModel.js';
+import pkg from 'mongodb';
 
 // @description Fetch all recipe names
 // @route GET /api/recipeNames
@@ -29,7 +30,7 @@ const getRecipeNames = asyncHandler(async (req, res) => {
 // @route GET /api/recipes
 // @access Public
 const getRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 20
+  const pageSize = 10
   const page = Number(req.query.pageNumber) || 1
 
   // If there is a keyword query, then return
@@ -66,7 +67,7 @@ const getRecipes = asyncHandler(async (req, res) => {
       {...isPublished}
     ]
   })
-    .sort({'_id': createdAtSort, 'netVotes':netVotesSort})
+    // .sort({'_id': createdAtSort, 'netVotes':netVotesSort})
     .limit(pageSize)
     .skip(pageSize * (page - 1))
 
@@ -77,7 +78,7 @@ const getRecipes = asyncHandler(async (req, res) => {
 // @route GET /api/recipes/search
 // @access Public
 const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
-  const pageSize = 20
+  const pageSize = 10
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -351,6 +352,8 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
 // @route GET /api/recipe/myrecipes
 // @access Private
 const getMyRecipes = asyncHandler(async (req, res) => {
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
   // Returns all recipes
   const recipes = await Recipe.find({})
   // Returns the current chef
@@ -363,26 +366,41 @@ const getMyRecipes = asyncHandler(async (req, res) => {
   const myRecipes = recipes.filter(function(recipe) {
     return myRecipesIdToString.indexOf(recipe._id) !== -1
   })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
   // Returns the filtered array as a JSON object
-  res.json(myRecipes)
+  res.json({ myRecipes, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @description Fetch my saved recipes
 // @route GET /api/recipe/savedrecipes
 // @access Private
 const getMySavedRecipes = asyncHandler(async (req, res) => {
+  const { ObjectId } = pkg;
+
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
   // Returns all recipes
-  const recipes = await Recipe.find({})
+  //const recipes = await Recipe.find({})
   // Returns the current chef
   const chef = await Chef.findById(req.chef._id)
   // Returns all distinct values as an array
-  const mySavedRecipesId = await [... new Set(chef.savedRecipes.map(id => id._id))]
+  const mySavedRecipesId = await [... new Set(chef.savedRecipes.map(id => ObjectId(id._id)))]
   // Convert the array values to a string
-  const mySavedRecipesIdToString = mySavedRecipesId.toString()
+  //const mySavedRecipesIdToString = mySavedRecipesId.toString()
   // Filter all recipes to find the ones that match the array of string IDs
-  const mySavedRecipes = recipes.filter(function(recipe) {
-    return mySavedRecipesIdToString.indexOf(recipe._id) !== -1
-  })
+  //const mySavedRecipes = recipes.filter(function(recipe) {
+  // return mySavedRecipesIdToString.indexOf(recipe._id) !== -1
+  //})
+  const mySavedRecipes = await Recipe.find(
+    {
+      "_id": {
+        "$in": mySavedRecipesId
+      }
+    }
+  ) 
+  .limit(pageSize)
+  .skip(pageSize * (page - 1))
 
   // Returns all distinct recipe chef id values as an array
   const savedRecipeChefIds = await [... new Set(mySavedRecipes.map(recipe => recipe.chef))]
@@ -394,7 +412,7 @@ const getMySavedRecipes = asyncHandler(async (req, res) => {
   })
 
   // Returns the filtered array as a JSON object
-  res.json({ mySavedRecipes, chefNames })
+  res.json({ mySavedRecipes, chefNames, page })
 })
 
 // matching the Recipe Model Id with whats in the URL

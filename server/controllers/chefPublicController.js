@@ -6,7 +6,7 @@ import Chef from '../models/chefModel.js';
 // @route GET /api/chefs
 // @access Public
 const getChefs = asyncHandler(async (req, res) => {
-  const pageSize = 20
+  const pageSize = 9
   const page = Number(req.query.pageNumber) || 1
 
   const isVisible = true ? {
