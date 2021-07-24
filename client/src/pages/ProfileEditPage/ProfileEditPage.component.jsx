@@ -351,7 +351,7 @@ const ProfileEditPage = ({ location, history, match }) => {
   }
 
   return (
-    <div style={{paddingLeft: '200px', paddingRight: '30px'}}>
+    <div style={{paddingLeft: '200px', paddingRight: '30px'}} className="chefProfileMobile">
       <FormContainer className="profileEditPage">
         <Col xs={12} className="chefProfileMobile" style={{textAlign: 'center'}}>
           {warningMessage !== '' && (

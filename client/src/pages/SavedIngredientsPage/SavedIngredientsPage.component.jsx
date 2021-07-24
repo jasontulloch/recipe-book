@@ -675,7 +675,7 @@ const SavedIngredientsPage = ({ history }) => {
                     <Button
                       style={{height: '25px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center', width: '100%'}}
                     >
-                      Share
+                      Share 
                     </Button>
                   </div>
                 </PopoverStickOnHover>
