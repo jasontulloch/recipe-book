@@ -66,17 +66,16 @@ const ChefMyFollowedPage = ({ match , history }) => {
                 </Button>
               </Col>
               {(isBrowser) ? (
-                <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
+                <Table responsive borderless className='table-sm' style={{marginLeft: '10px'}}>
                   <thead style={{borderBottom: 'solid 1px #dedede'}}>
                     <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
                       <th style={{paddingRight: '0px', width: '115px'}}><IoPeople style={{width: '20px', height: '20px'}}/></th>
-                      <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
+                      <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left'}}></th>
                       <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px', width: '10px'}}></th>
                       <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><GiBookshelf style={{width: '20px', height: '20px'}}/></th>
                       <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><RiBookReadLine style={{width: '20px', height: '20px'}}/></th>
                       <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><GiFoodTruck style={{width: '20px', height: '20px'}}/></th>
                       <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><RiUserFollowLine style={{width: '20px', height: '20px'}}/></th>
-                      <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}>Metric</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -111,10 +110,10 @@ const ChefMyFollowedPage = ({ match , history }) => {
                         <tr key={chef.id}>
                           <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
                             <Card style={{border: 'none', maxWidth: '100px'}}>
-                              <Card.Img src={chef.chefPicture} alt={chef.username} style={{height: '77px', width: '100px'}} />
+                              <Card.Img src={chef.chefPicture} alt={chef.username} style={{height: '77px', width: '100px', borderRadius: '50%'}} />
                             </Card>
                           </td>
-                          <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '0px'}}>
+                          <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '10px'}}>
                             <Link
                               to={`/chefs/${chef._id}/page/1`}
                               style={chef.isVisible === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
@@ -198,13 +197,6 @@ const ChefMyFollowedPage = ({ match , history }) => {
                             ))}
                           </td>
                           <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>Update for # of followers</td>
-                          <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>
-                            {chef.isMetric === true ? (
-                              <i className='fas fa-check'></i>
-                            ): (
-                              <i className='fas fa-times'></i>
-                            )}
-                          </td>
                         </tr>
                       ))
                     )}

@@ -8,9 +8,7 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import { 
   listRecipes, listHighestRatedRecipes, listMostRecentRecipes
 } from '../../actions/recipeActions';
-import Paginate from '../../components/Paginate/Paginate.component';
 
-import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import Message from '../../components/Message/Message.component';
 
 import { isBrowser } from 'react-device-detect';
@@ -72,7 +70,7 @@ const AllRecipesPage = ({ match, history }) => {
 
   // This is firing off the action to get products in state
   useEffect(() => {
-    dispatch(listRecipes(keywordRecipeName, createdAtSort, netVotesSort, pageNumber))
+    //dispatch(listRecipes(keywordRecipeName, createdAtSort, netVotesSort, pageNumber))
     if(createdAtState === -1) {
       dispatch(listMostRecentRecipes())
     }
@@ -91,7 +89,7 @@ const AllRecipesPage = ({ match, history }) => {
     netVotesSort,
     netVotesSortState,
     sortButtonLabel,
-    pageNumber
+    pageNumber,
   ])
 
   const [initialLoader, setInitialLoader] = useState(true)
@@ -154,10 +152,12 @@ const AllRecipesPage = ({ match, history }) => {
 		setTimeout(async () => {
       const result = await axios.get(`/api/recipes?pageNumber=${pageNumber}`)
       const data = await result.data.recipes
-      setPageNumber(pageNumber + 1)
+      //const data = await recipesRecipeList
+      //console.log(data)
       setCurrentRecipeList(() => {
         return [...currentRecipeList, ...data];
       });
+      setPageNumber(pageNumber + 1)
       localStorage.setItem('pageNumber', pageNumber)
 		}, 1000);
 	};

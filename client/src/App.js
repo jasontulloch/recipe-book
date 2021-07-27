@@ -29,8 +29,6 @@ import MyFoodsPage from './pages/MyFoodsPage/MyFoodsPage.component';
 import CookbookDetailsPage from './pages/CookbookDetailsPage/CookbookDetailsPage.component';
 import ChefCookbooksListPage from './pages/ChefCookbooksListPage/ChefCookbooksListPage.component';
 
-import AllRecipesLazyPage from './pages/AllRecipesLazyPage/AllRecipesLazyPage.component';
-
 const HomePage = React.lazy(() => import('./pages/HomePage/HomePage.component'))
 
 const App = () => {

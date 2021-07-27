@@ -130,7 +130,6 @@ const CookbookDetailsPage = ({ match , history }) => {
 
   return (
       <div className="cookbookDetailsPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
-        <Row>
           {warningMessage !== '' && (
             <Message variant='danger'>{warningMessage}</Message>
           )}
@@ -220,12 +219,12 @@ const CookbookDetailsPage = ({ match , history }) => {
               </div>
             )}
             
-            <Table hover responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
+            <Table responsive borderless className='table-sm' style={{marginLeft: '20px'}}>
               <thead style={{borderBottom: 'solid 1px #dedede'}}>
                 <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
                   <th style={{paddingRight: '0px', width: '115px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', width: '115px'}}></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px', width: '10px'}}></th>
+                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px'}}></th>
+                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px'}}></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><IoLocationOutline style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><MdTimer style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><GiFoodTruck style={{width: '20px', height: '20px'}}/></th>
@@ -244,10 +243,10 @@ const CookbookDetailsPage = ({ match , history }) => {
                     <tr key={recipe.id}>
                       <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
                         <Card style={{border: 'none', maxWidth: '100px'}}>
-                          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px'}} />
+                          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px', borderRadius: '25px'}} />
                         </Card>
                       </td>
-                      <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '0px'}}>
+                      <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '10px'}}>
                         <Link
                           to={`/recipe/${recipe._id}`}
                           style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
@@ -463,7 +462,7 @@ const CookbookDetailsPage = ({ match , history }) => {
                 </div>
               )}
               
-              <Table hover responsive borderless className='table-sm'>
+              <Table responsive borderless className='table-sm'>
                 <thead style={{borderBottom: 'solid 1px #dedede'}}>
                   <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
                     <th style={{paddingRight: '0px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
@@ -514,7 +513,6 @@ const CookbookDetailsPage = ({ match , history }) => {
               </Table>
             </div>
             )}
-          </Row>
       </div>
   )
 }

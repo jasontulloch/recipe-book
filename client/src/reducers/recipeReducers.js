@@ -103,7 +103,9 @@ export const recipeMySavedReducer = (state = { savedRecipes: [] }, action) => {
       return {
         loading: false,
         savedRecipes: action.payload.mySavedRecipes,
-        chefNames: action.payload.chefNames
+        chefNames: action.payload.chefNames,
+        pages: action.payload.pages,
+        page: action.payload.page
       }
     case RECIPE_MYSAVED_FAILURE:
       return { loading: false, error: action.payload}

@@ -19,8 +19,21 @@ const AllChefsPage = ({ match }) => {
 
   // Lazy loading section
   const [pageNumber, setPageNumber] = useState(1);
-  const [currentChefList, setCurrentChefList] = useState([]);
 	const [isFetching, setIsFetching] = useState(false);
+
+  const chefList = useSelector(state => state.chefList)
+  const { loading, error, chefs, pages, page } = chefList
+
+  useEffect(() => {
+    dispatch(listChefs(pageNumber))
+  }, [
+    dispatch,
+    pageNumber,
+  ])
+
+  const [currentChefList, setCurrentChefList] = useState([]);
+  console.log(currentChefList)
+
 
 	useEffect(() => {
 		fetchData();
@@ -39,11 +52,12 @@ const AllChefsPage = ({ match }) => {
 	const fetchData = async () => {
 		setTimeout(async () => {
       const result = await axios.get(`/api/chefs?pageNumber=${pageNumber}`)
-      const data = await result.data.chefs
-      setPageNumber(pageNumber + 1)
+      const data = result.data.chefs
+      console.log(chefs)
       setCurrentChefList(() => {
         return [...currentChefList, ...data];
       });
+      setPageNumber(pageNumber + 1)
       localStorage.setItem('pageNumber', pageNumber)
 		}, 1000);
 	};

@@ -160,7 +160,7 @@ export const listMyRecipes = () => async (dispatch, getState) => {
   }
 }
 
-export const listMySavedRecipes = () => async (dispatch, getState) => {
+export const listMySavedRecipes = (pageNumber = '') => async (dispatch, getState) => {
   try {
     dispatch({ type: RECIPE_MYSAVED_REQUEST })
 
@@ -173,7 +173,7 @@ export const listMySavedRecipes = () => async (dispatch, getState) => {
       }
     }
 
-    const { data } = await axios.get('/api/recipes/savedrecipes', config)
+    const { data } = await axios.get(`/api/recipes/savedrecipes?pageNumber=${pageNumber}`, config)
 
     dispatch({
       type: RECIPE_MYSAVED_SUCCESS,

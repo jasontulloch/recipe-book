@@ -402,8 +402,24 @@ const getMySavedRecipes = asyncHandler(async (req, res) => {
   .limit(pageSize)
   .skip(pageSize * (page - 1))
 
+  const count = await Recipe.countDocuments(
+    {
+      "_id": {
+        "$in": mySavedRecipesId
+      }
+    }
+  )
+
+  const mySavedRecipesChefNames = await Recipe.find(
+    {
+      "_id": {
+        "$in": mySavedRecipesId
+      }
+    }
+  ) 
+
   // Returns all distinct recipe chef id values as an array
-  const savedRecipeChefIds = await [... new Set(mySavedRecipes.map(recipe => recipe.chef))]
+  const savedRecipeChefIds = await [... new Set(mySavedRecipesChefNames.map(recipe => recipe.chef))]
   // For each chef id return the id and the username --- filtering to get the name on the front end
   const chefNames = await Chef.find({
     "_id": { "$in": savedRecipeChefIds }
@@ -412,7 +428,7 @@ const getMySavedRecipes = asyncHandler(async (req, res) => {
   })
 
   // Returns the filtered array as a JSON object
-  res.json({ mySavedRecipes, chefNames, page })
+  res.json({ mySavedRecipes, chefNames, page, pages: Math.ceil(count / pageSize) })
 })
 
 // matching the Recipe Model Id with whats in the URL

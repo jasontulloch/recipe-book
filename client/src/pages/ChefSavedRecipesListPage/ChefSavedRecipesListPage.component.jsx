@@ -14,8 +14,8 @@ import { IoLocationOutline } from 'react-icons/io5'
 import { IoMdCreate } from 'react-icons/io'
 import { GiBookmark, GiRank3, GiFoodTruck } from 'react-icons/gi'
 import { MdTimer, MdFormatListNumbered, MdLocalGroceryStore, MdDelete } from 'react-icons/md'
-import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
+import Message from '../../components/Message/Message.component';
 
 import { isMobile } from 'react-device-detect';
 
@@ -85,13 +85,18 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
 
 	const fetchData = async () => {
 		setTimeout(async () => {
-      const result = await axios.get(`/api/recipes/savedRecipes?pageNumber=${pageNumber}`)
-      const data = await result.data.savedRecipes
-      console.log(result)
-      setPageNumber(pageNumber + 1)
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${chefInfo.token}`
+        }
+      }
+      const result = await axios.get(`/api/recipes/savedRecipes?pageNumber=${pageNumber}`, config)
+      const recipeData = await result.data.mySavedRecipes
       setCurrentMySavedRecipesList(() => {
-        return [...currentMySavedRecipesList, ...data];
+        return [...currentMySavedRecipesList, ...recipeData];
       });
+      setPageNumber(pageNumber + 1)
       localStorage.setItem('pageNumber', pageNumber)
 		}, 1000);
 	};
@@ -118,6 +123,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   return (
       <div className="chefSavedRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
         {currentMySavedRecipesList.length > 0 ? (
+          <div>
           <Row className="chefSavedRecipesMobileRow" style={{paddingLeft: '30px'}}>
             <div style={{marginLeft: '10px'}}>
               <span>
@@ -280,6 +286,12 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
               </tbody>
             </Table>
           </Row>
+          <Row>
+            <Col xs={12} style={{paddingLeft: '30px', textAlign: 'center'}}>
+              <Message>Simply scroll down to view more recipes!</Message>
+            </Col>
+          </Row>
+          </div>
         ) : (
           <Row>
             <Col style={{textAlign: 'center', paddingTop: '100px'}}>
