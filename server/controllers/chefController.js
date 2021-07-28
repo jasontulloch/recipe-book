@@ -568,7 +568,7 @@ const unfollowChef = asyncHandler(async (req, res) => {
 const getMyFollowedChefs = asyncHandler(async (req, res) => {
   // Setting number of recipes and chefs to be pulled (defined with limit below)
 
-  const pageChefSize = 10
+  const pageChefSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   // Returns the current chef

@@ -104,7 +104,7 @@ const App = () => {
           <Route path='/grocerylist' component={SavedIngredientsPage} exact />
           <Route path='/chefs' component={AllChefsPage} exact />
           <Route path='/chefs/:id/page/:pageNumber' component={IndividualChefPage} exact />
-          <Route path='/mychefs/page/:pageNumber' component={ChefMyFollowedPage} exact />
+          <Route path='/mychefs' component={ChefMyFollowedPage} exact />
           <Route path='/cookbooks/:id' component={CookbookDetailsPage} exact />
           <Route path='/mycookbooks' component={ChefCookbooksListPage} exact />
           <Route path='/myfoods' component={MyFoodsPage} />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card } from 'react-bootstrap';
@@ -8,13 +9,14 @@ import {
 } from '../../actions/chefActions';
 import { BiInfoCircle } from 'react-icons/bi'
 import { GoSignIn } from 'react-icons/go'
-import { IoMdCreate} from 'react-icons/io'
+import { IoMdCreate, IoIosMore } from 'react-icons/io'
 import { IoPeople } from 'react-icons/io5'
+import { MdDelete } from 'react-icons/md'
 import { GiCook, GiBookshelf, GiFoodTruck } from 'react-icons/gi';
 import { RiBookReadLine, RiUserFollowLine } from 'react-icons/ri';
-import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
-import PaginateMyChefs from '../../components/PaginateMyChefs/PaginateMyChefs.component';
+import Message from '../../components/Message/Message.component';
+import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
 
 import { isBrowser } from 'react-device-detect';
 
@@ -23,7 +25,8 @@ import './ChefMyFollowedPage.styles.css';
 const ChefMyFollowedPage = ({ match , history }) => {
 
   const [unfollow, setUnfollow] = useState('')
-  const pageNumber = match.params.pageNumber || 1
+  //const pageNumber = match.params.pageNumber || 1
+  const [pageNumber, setPageNumber] = useState(1);
 
   const dispatch = useDispatch()
 
@@ -42,15 +45,60 @@ const ChefMyFollowedPage = ({ match , history }) => {
     if(!chefInfo) {
       history.push('/login')
     }
-    dispatch(listMyFollowedChefs(match.params.id, pageNumber))
+    dispatch(listMyFollowedChefs())
 
   }, [
     dispatch,
     history,
     match,
     chefInfo,
-    pageNumber
   ])
+
+  // Lazy Loading!!!
+  const [currentMyChefsList, setCurrentMyChefsList] = useState([]);
+	const [isFetching, setIsFetching] = useState(false);
+
+	useEffect(() => {
+		fetchData();
+		window.addEventListener('scroll', handleScroll);
+	}, []);
+
+	const handleScroll = () => {
+		if (
+			Math.ceil(window.innerHeight + document.documentElement.scrollTop) !== document.documentElement.offsetHeight ||
+			isFetching
+		)
+			return;
+		setIsFetching(true);
+	};
+
+	const fetchData = async () => {
+		setTimeout(async () => {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${chefInfo.token}`
+        }
+      }
+      const result = await axios.get(`/api/chef/${chefInfo._id}/mychefs?pageNumber=${pageNumber}`, config)
+      const followedChefData = await result.data.chefs
+      setCurrentMyChefsList(() => {
+        return [...currentMyChefsList, ...followedChefData];
+      });
+      setPageNumber(pageNumber + 1)
+      localStorage.setItem('pageNumber', pageNumber)
+		}, 1000);
+	};
+
+	useEffect(() => {
+		if (!isFetching) return;
+      fetchMoreListItems()
+	}, [isFetching]);
+
+	const fetchMoreListItems = () => {
+		fetchData();
+		setIsFetching(false);
+	};
 
   return (
       <div className="chefMyFollowedPageMobile" style={{paddingLeft: '220px', paddingRight: '10px'}}>
@@ -81,7 +129,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {(chefs === undefined || chefs.length == 0) ? (
+                    {(currentMyChefsList === undefined || currentMyChefsList.length == 0) ? (
                       <div>
                         <Col style={{textAlign: 'center', paddingTop: '100px'}}>
                           <p>It does not look like you are following any chefs yet... let us find you some!</p>
@@ -106,7 +154,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                         </Col>
                       </div>
                     ) : (
-                      chefs.map(chef => (
+                      currentMyChefsList.map(chef => (
                         <tr key={chef.id}>
                           <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
                             <Card style={{border: 'none', maxWidth: '100px'}}>
@@ -197,6 +245,35 @@ const ChefMyFollowedPage = ({ match , history }) => {
                             ))}
                           </td>
                           <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>Update for # of followers</td>
+                          <td className="align-middle" style={{textAlign: 'center', width: '50px', padding: '0px'}}>
+                            <PopoverStickOnHover
+                              component={
+                                <div style={{ fontSize: '.85rem', textAlign: 'center', marginLeft: '0px', marginRight: '0px' }}>
+                                  <Col xs={12}>
+                                    <LinkContainer to={`/chefs/${chef._id}/page/1`}>
+                                      <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}>
+                                        <span>View Chef</span>
+                                      </Button>
+                                    </LinkContainer>                     
+                                  </Col>
+                                  <Col xs={12}>
+                                    <LinkContainer to={`/chefs/${chef._id}/page/1`}>
+                                      <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}>
+                                        <span>Unfollow Chef</span>
+                                      </Button>
+                                    </LinkContainer>                     
+                                  </Col>
+                                </div>
+                              }
+                              placement="left"
+                              onMouseEnter={() => { }}
+                              delay={200}
+                            >
+                              <div>
+                                <IoIosMore style={{ fontSize: '1.25rem' }}/>
+                              </div>
+                            </PopoverStickOnHover>      
+                          </td>
                         </tr>
                       ))
                     )}
@@ -211,7 +288,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {(chefs === undefined || chefs.length == 0) ? (
+                    {(currentMyChefsList === undefined || currentMyChefsList.length == 0) ? (
                       <div>
                         <Col style={{textAlign: 'center', paddingTop: '100px'}}>
                           <p>It does not look like you are following any chefs yet... let us find you some!</p>
@@ -236,7 +313,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                         </Col>
                       </div>
                     ) : (
-                      chefs.map(chef => (
+                      currentMyChefsList.map(chef => (
                         <tr key={chef.id}>
                           <Link
                               to={`/chefs/${chef._id}/page/1`}
@@ -267,11 +344,8 @@ const ChefMyFollowedPage = ({ match , history }) => {
               )}
             </Row>
             <Row>
-              <Col xs={12}>
-                <PaginateMyChefs
-                  pages={pages}
-                  page={page}
-                />
+              <Col xs={12} style={{paddingLeft: '10px', textAlign: 'center'}}>
+                <Message>Simply scroll down to view more of the chefs you love!</Message>
               </Col>
             </Row>
       </div>
