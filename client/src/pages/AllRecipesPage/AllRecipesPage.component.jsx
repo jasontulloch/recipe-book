@@ -10,6 +10,7 @@ import {
 } from '../../actions/recipeActions';
 
 import Message from '../../components/Message/Message.component';
+import InfiniteScrollLoader from '../../components/InfiniteScrollLoader/InfiniteScrollLoader.component';
 
 import { isBrowser } from 'react-device-detect';
 import './AllRecipesPage.styles.css';
@@ -70,7 +71,7 @@ const AllRecipesPage = ({ match, history }) => {
 
   // This is firing off the action to get products in state
   useEffect(() => {
-    //dispatch(listRecipes(keywordRecipeName, createdAtSort, netVotesSort, pageNumber))
+    dispatch(listRecipes(pageNumber))
     if(createdAtState === -1) {
       dispatch(listMostRecentRecipes())
     }
@@ -133,6 +134,7 @@ const AllRecipesPage = ({ match, history }) => {
   // Lazy Loading!!!
   const [currentRecipeList, setCurrentRecipeList] = useState([]);
 	const [isFetching, setIsFetching] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
 
 	useEffect(() => {
 		fetchData();
@@ -152,8 +154,8 @@ const AllRecipesPage = ({ match, history }) => {
 		setTimeout(async () => {
       const result = await axios.get(`/api/recipes?pageNumber=${pageNumber}`)
       const data = await result.data.recipes
-      //const data = await recipesRecipeList
-      //console.log(data)
+      setTotalPages(result.data.pages)
+      if (pageNumber > totalPages) return
       setCurrentRecipeList(() => {
         return [...currentRecipeList, ...data];
       });
@@ -171,6 +173,8 @@ const AllRecipesPage = ({ match, history }) => {
 		fetchData();
 		setIsFetching(false);
 	};
+
+  console.log(pageNumber)
 
   return (
     <div>
@@ -228,7 +232,7 @@ const AllRecipesPage = ({ match, history }) => {
             </div>
             <div>
               <Col xs={12} style={{paddingLeft: '210px', textAlign: 'center'}}>
-                <Message>Simply scroll down to view more recipes!</Message>
+                <InfiniteScrollLoader pageNumber={pageNumber} pages={totalPages} loading={loadingRecipeList} />
               </Col>
             </div>
           </div>

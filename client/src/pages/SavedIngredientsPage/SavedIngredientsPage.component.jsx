@@ -501,7 +501,6 @@ const SavedIngredientsPage = ({ history }) => {
                     key='index'
                     type='text'
                     placeholder='1/3'
-                    required
                     style={{width: '100%'}}
                   >
                   </Form.Control>
@@ -512,7 +511,6 @@ const SavedIngredientsPage = ({ history }) => {
                     key='index'
                     type='text'
                     placeholder='Cup'
-                    required
                     style={{width: '100%'}}
                   >
                   </Form.Control>
@@ -641,7 +639,8 @@ const SavedIngredientsPage = ({ history }) => {
                         <Button
                           style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
                           type='submit'
-                          disabled={(chef == null || chef.email === '') ? true : false}
+                          disabled
+                          // disabled={(chef == null || chef.email === '') ? true : false}
                         >
                           Email Me Grocery List
                         </Button>
@@ -660,7 +659,8 @@ const SavedIngredientsPage = ({ history }) => {
                         <Button
                           style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
                           type='submit'
-                          disabled={(chef == null || chef.connect_email === '') ? true : false}
+                          disabled
+                          // disabled={(chef == null || chef.connect_email === '') ? true : false}
                         >
                           Email {chef.connect_first_name} Grocery List
                         </Button>

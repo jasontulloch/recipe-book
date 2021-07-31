@@ -90,7 +90,7 @@ const ChefCookbooksListPage = ({ match , history }) => {
               </Button>
             </Col>
             {(isBrowser) ? (
-              <Table hover responsive borderless className='table-sm' style={{width: '100vw'}}>
+              <Table responsive borderless className='table-sm' style={{width: '100vw'}}>
                 <thead style={{borderBottom: 'solid 1px #dedede'}}>
                   <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
                     <th style={{paddingRight: '0px', width: '25px'}}><GiBookshelf style={{width: '20px', height: '20px'}}/></th>

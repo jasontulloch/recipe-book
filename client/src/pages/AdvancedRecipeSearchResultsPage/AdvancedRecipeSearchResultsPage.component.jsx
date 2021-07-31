@@ -7,7 +7,6 @@ import FilterBtn from '../../components/FilterBtn/FilterBtn.component';
 import { listAdvancedSearchRecipes } from '../../actions/recipeActions';
 
 import AdvancedSearchPaginate from '../../components/AdvancedSearchPaginate/AdvancedSearchPaginate.component';
-import PancakeLoader from '../../components/PancakeLoader/PancakeLoader.component';
 import Message from '../../components/Message/Message.component';
 
 import './AdvancedRecipeSearchResultsPage.styles.css';
@@ -160,10 +159,8 @@ const AdvancedRecipeSearchResultsPage = ({ match }) => {
   // }
 
   return (
-    <div className="advancedRecipeSearchResultsPageMobile" style={{paddingLeft: '30px', paddingRight: '30px'}}>
-      {initialLoader ?  (
-        <PancakeLoader>Finding recipes exactly how you like them...</PancakeLoader>
-      ) : error ? (
+    <div className="advancedRecipeSearchResultsPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
+      {error ? (
         <Message>{error}</Message>
       ) : (
         <div style={{paddingLeft: '30px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="advancedRecipeSearchResultsPageMobile2Div">

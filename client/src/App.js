@@ -33,54 +33,52 @@ const HomePage = React.lazy(() => import('./pages/HomePage/HomePage.component'))
 
 const App = () => {
 
-  const filters = [
-    '/keywordRecipeName=:keywordRecipeName',
-    '/keywordCountry=:keywordCountry',
-    '/keywordIsVegan=:keywordIsVegan',
-    '/keywordIsVegetarian=:keywordIsVegetarian',
-    '/keywordIsGlutenFree=:keywordIsGlutenFree',
-    '/keywordIsKetogenic=:keywordIsKetogenic',
-    '/keywordIsPescatarian=:keywordIsPescatarian',
-    '/keywordIsDairy=:keywordIsDairy',
-    '/keywordIsEgg=:keywordIsEgg',
-    '/keywordIsNuts=:keywordIsNuts',
-  ]
-  const filtersLength = 10
-  const filtersUrl = []
-  for (var h = 0; h < filtersLength; h++) {
-    filtersUrl.push(filters[h]);
-  }
-  for (var i = 0; i < filtersLength - 1; i++) {
-    for (var j = i + 1; j < filtersLength; j++) {
-      filtersUrl.push(filters[i] + filters[j]);
-      for (var k = j + 1; k < filtersLength; k++) {
-        filtersUrl.push(filters[i] + filters[j] + filters[k]);
-        for (var l = k + 1; l < filtersLength; l++) {
-          filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l]);
-          for (var m = l + 1; m < filtersLength; m++) {
-            filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m]);
-            for (var n = m + 1; n < filtersLength; n++) {
-              filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n]);
-              for (var o = n + 1; o < filtersLength; o++) {
-                filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o]);
-                for (var p = o + 1; p < filtersLength; p++) {
-                  filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p]);
-                  for (var q = p + 1; q < filtersLength; q++) {
-                    filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p] + filters[q]);
-                    for (var r = q + 1; r < filtersLength; r++) {
-                      filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p] + filters[q] + filters[r]);
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  console.log(filtersUrl)
+  // const filters = [
+  //   '/keywordRecipeName=:keywordRecipeName',
+  //   '/keywordCountry=:keywordCountry',
+  //   '/keywordIsVegan=:keywordIsVegan',
+  //   '/keywordIsVegetarian=:keywordIsVegetarian',
+  //   '/keywordIsGlutenFree=:keywordIsGlutenFree',
+  //   '/keywordIsKetogenic=:keywordIsKetogenic',
+  //   '/keywordIsPescatarian=:keywordIsPescatarian',
+  //   '/keywordIsDairy=:keywordIsDairy',
+  //   '/keywordIsEgg=:keywordIsEgg',
+  //   '/keywordIsNuts=:keywordIsNuts',
+  // ]
+  // const filtersLength = 10
+  // const filtersUrl = []
+  // for (var h = 0; h < filtersLength; h++) {
+  //   filtersUrl.push(filters[h]);
+  // }
+  // for (var i = 0; i < filtersLength - 1; i++) {
+  //   for (var j = i + 1; j < filtersLength; j++) {
+  //     filtersUrl.push(filters[i] + filters[j]);
+  //     for (var k = j + 1; k < filtersLength; k++) {
+  //       filtersUrl.push(filters[i] + filters[j] + filters[k]);
+  //       for (var l = k + 1; l < filtersLength; l++) {
+  //         filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l]);
+  //         for (var m = l + 1; m < filtersLength; m++) {
+  //           filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m]);
+  //           for (var n = m + 1; n < filtersLength; n++) {
+  //             filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n]);
+  //             for (var o = n + 1; o < filtersLength; o++) {
+  //               filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o]);
+  //               for (var p = o + 1; p < filtersLength; p++) {
+  //                 filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p]);
+  //                 for (var q = p + 1; q < filtersLength; q++) {
+  //                   filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p] + filters[q]);
+  //                   for (var r = q + 1; r < filtersLength; r++) {
+  //                     filtersUrl.push(filters[i] + filters[j] + filters[k] + filters[l] + filters[m] + filters[n] + filters[o] + filters[p] + filters[q] + filters[r]);
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   return (
     <Router>
@@ -109,11 +107,12 @@ const App = () => {
           <Route path='/mycookbooks' component={ChefCookbooksListPage} exact />
           <Route path='/myfoods' component={MyFoodsPage} />
 
-          {(filtersUrl) && filtersUrl.map((items) =>
+          {/* {(filtersUrl) && filtersUrl.map((items) =>
             <Route path={`/recipes/advanced-search-results${items}/page/:pageNumber`} component={AdvancedRecipeSearchResultsPage} exact/>
-          )}
+          )} */}
 
-          <Route path='/recipes/advanced-search-results/:keywordRecipeName?/:keywordCountry?/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
+          {/* <Route path='/recipes/advanced-search-results/:keywordRecipeName?/:keywordCountry?/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/> */}
+          <Route path='/recipes/advanced-search-results/keywordCountry=:keywordCountry/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
 
           <Route path='/recipes/advanced-search-results/keywordIsAppetizer=:keywordIsAppetizer/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>
           <Route path='/recipes/advanced-search-results/keywordIsBreakfastBrunch=:keywordIsBreakfastBrunch/page/:pageNumber' component={AdvancedRecipeSearchResultsPage} exact/>

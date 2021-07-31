@@ -17,6 +17,7 @@ import { RiBookReadLine, RiUserFollowLine } from 'react-icons/ri';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 import Message from '../../components/Message/Message.component';
 import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
+import InfiniteScrollLoader from '../../components/InfiniteScrollLoader/InfiniteScrollLoader.component';
 
 import { isBrowser } from 'react-device-detect';
 
@@ -57,6 +58,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
   // Lazy Loading!!!
   const [currentMyChefsList, setCurrentMyChefsList] = useState([]);
 	const [isFetching, setIsFetching] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
 
 	useEffect(() => {
 		fetchData();
@@ -82,6 +84,8 @@ const ChefMyFollowedPage = ({ match , history }) => {
       }
       const result = await axios.get(`/api/chef/${chefInfo._id}/mychefs?pageNumber=${pageNumber}`, config)
       const followedChefData = await result.data.chefs
+      setTotalPages(result.data.pages)
+      if (pageNumber > totalPages) return
       setCurrentMyChefsList(() => {
         return [...currentMyChefsList, ...followedChefData];
       });
@@ -106,7 +110,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
               <Col xs={12} style={{ textAlign: 'center', paddingBottom: '15px', paddingLeft: '0px' }}>
                 <Button
                   style={{margin: '5px', padding: '15px', width: '100%', backgroundColor: '#343a40' }}
-                  onClick={(e) => history.push(`/chefs/page/1`)}
+                  onClick={(e) => history.push(`/chefs`)}
                   variant='outline-success'
                 >
                   <GiCook style={{marginRight: '5px'}}/>
@@ -129,39 +133,14 @@ const ChefMyFollowedPage = ({ match , history }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {(currentMyChefsList === undefined || currentMyChefsList.length == 0) ? (
-                      <div>
-                        <Col style={{textAlign: 'center', paddingTop: '100px'}}>
-                          <p>It does not look like you are following any chefs yet... let us find you some!</p>
-                          <LinkContainer to={`/chefs`}>
-                            <Button>
-                              <GiCook style={{fontSize: '25px'}}/>All Chefs
-                            </Button>
-                          </LinkContainer>
-                        </Col>
-                        <Col style={{textAlign: 'center', paddingTop: '100px'}}>
-                          <p>Log into your account to see the chefs you love or create an account to start following our amazing chefs!</p>
-                          <LinkContainer to={`/login`}>
-                            <Button>
-                              <GoSignIn style={{paddingRight: '5px', fontSize: '25px'}}/>Login
-                            </Button>
-                          </LinkContainer>
-                          <LinkContainer to={`/register`} style={{marginLeft: '10px'}}>
-                            <Button>
-                              <IoMdCreate style={{paddingRight: '5px', fontSize: '25px'}}/>Register
-                            </Button>
-                          </LinkContainer>
-                        </Col>
-                      </div>
-                    ) : (
-                      currentMyChefsList.map(chef => (
+                    {(currentMyChefsList && currentMyChefsList.map(chef => (
                         <tr key={chef.id}>
                           <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
                             <Card style={{border: 'none', maxWidth: '100px'}}>
                               <Card.Img src={chef.chefPicture} alt={chef.username} style={{height: '77px', width: '100px', borderRadius: '50%'}} />
                             </Card>
                           </td>
-                          <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '10px'}}>
+                          <td className="align-middle" style={{width: '100px', paddingLeft: '10px'}}>
                             <Link
                               to={`/chefs/${chef._id}/page/1`}
                               style={chef.isVisible === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
@@ -209,7 +188,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                               <div>{chef.myRecipes.length} Recipes</div>
                             )}
                           </td>
-                          <td className="align-middle" style={{width: '250px', textAlign: 'center'}}>
+                          <td className="align-middle" style={{textAlign: 'center', minWidth: '225px', maxWidth: '225px'}}>
                             {(chef.isVegan === true && (
                               <ClickableBadgeBooleans isVegan={chef.isVegan} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                             ))}
@@ -345,7 +324,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
             </Row>
             <Row>
               <Col xs={12} style={{paddingLeft: '10px', textAlign: 'center'}}>
-                <Message>Simply scroll down to view more of the chefs you love!</Message>
+                <InfiniteScrollLoader pageNumber={pageNumber} pages={totalPages} loading={false} />
               </Col>
             </Row>
       </div>

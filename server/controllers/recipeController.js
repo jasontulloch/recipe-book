@@ -361,13 +361,32 @@ const getMyRecipes = asyncHandler(async (req, res) => {
   // Returns all distinct values as an array
   const myRecipesId = await [... new Set(chef.myRecipes.map(id => id._id))]
   // Convert the array values to a string
-  const myRecipesIdToString = myRecipesId.toString()
+  //onst myRecipesIdToString = myRecipesId.toString()
   // Filter all recipes to find the ones that match the array of string IDs
-  const myRecipes = recipes.filter(function(recipe) {
-    return myRecipesIdToString.indexOf(recipe._id) !== -1
-  })
+  // const myRecipes = recipes.filter(function(recipe) {
+  //   return myRecipesIdToString.indexOf(recipe._id) !== -1
+  // })
+  //   .limit(pageSize)
+  //   .skip(pageSize * (page - 1))
+  
+  const myRecipes = await Recipe.find(
+    {
+      "_id": {
+        "$in": myRecipesId
+      }
+    }
+  ) 
     .limit(pageSize)
     .skip(pageSize * (page - 1))
+  
+  const count = await Recipe.countDocuments(
+    {
+      "_id": {
+        "$in": myRecipesId
+      }
+    }
+  )
+
   // Returns the filtered array as a JSON object
   res.json({ myRecipes, page, pages: Math.ceil(count / pageSize) })
 })

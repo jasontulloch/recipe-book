@@ -13,8 +13,9 @@ import {
 } from '../../actions/recipeActions';
 import Message from '../../components/Message/Message.component';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
+import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
 import { IoLocationOutline } from 'react-icons/io5'
-import { IoMdCreate } from 'react-icons/io'
+import { IoMdCreate, IoIosMore } from 'react-icons/io'
 import { BiInfoCircle } from 'react-icons/bi'
 import { GiBookmark, GiRank3, GiFoodTruck } from 'react-icons/gi'
 import { MdTimer, MdFormatListNumbered, MdLocalGroceryStore, MdDelete } from 'react-icons/md'
@@ -223,11 +224,11 @@ const CookbookDetailsPage = ({ match , history }) => {
               <thead style={{borderBottom: 'solid 1px #dedede'}}>
                 <tr style={{paddingTop: '2px', paddingBottom: '2px'}}>
                   <th style={{paddingRight: '0px', width: '115px'}}><GiBookmark style={{width: '20px', height: '20px'}}/></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px'}}></th>
+                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'left', paddingRight: '0px', minWidth: '200px'}}></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', paddingRight: '0px'}}></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><IoLocationOutline style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><MdTimer style={{width: '20px', height: '20px'}}/></th>
-                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><GiFoodTruck style={{width: '20px', height: '20px'}}/></th>
+                  <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center', minWidth: '300px'}}><GiFoodTruck style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><GiRank3 style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><MdFormatListNumbered style={{width: '20px', height: '20px'}}/></th>
                   <th style={{paddingTop: '2px', paddingBottom: '5px', textAlign: 'center'}}><MdLocalGroceryStore style={{width: '20px', height: '20px'}}/></th>
@@ -236,16 +237,18 @@ const CookbookDetailsPage = ({ match , history }) => {
                 </tr>
               </thead>
               <tbody>
-                {(myCookbookRecipes === undefined || myCookbookRecipes.length == 0) ? (
-                  <div></div>
-                ) : (
-                  myCookbookRecipes.map(recipe => (
+                {(myCookbookRecipes && myCookbookRecipes.map(recipe => (
                     <tr key={recipe.id}>
-                      <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
-                        <Card style={{border: 'none', maxWidth: '100px'}}>
-                          <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px', borderRadius: '25px'}} />
-                        </Card>
-                      </td>
+                      <Link
+                          to={`/recipe/${recipe._id}`}
+                          style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
+                      >
+                        <td className="align-middle" style={{paddingRight: '0px', paddingLeft: '0px', paddingBottom: '0px'}}>
+                          <Card style={{border: 'none', maxWidth: '100px'}}>
+                            <Card.Img src={recipe.recipe_cover_image} alt={recipe.recipe_name} style={{height: '77px', width: '100px', borderRadius: '25px'}} />
+                          </Card>
+                        </td>
+                      </Link>
                       <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '10px'}}>
                         <Link
                           to={`/recipe/${recipe._id}`}
@@ -289,7 +292,7 @@ const CookbookDetailsPage = ({ match , history }) => {
                       </td>
                       <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.country < 1 ? 'n/a' : recipe.country}</td>
                       <td className="align-middle" style={{textAlign: 'center', width: '35px'}}>{recipe.cook_time}</td>
-                      <td className="align-middle" style={{width: '225px'}}>
+                      <td className="align-middle" style={{minWidth: '150px', maxWidth: '150px'}}>
                         {(recipe.isVegan === true && (
                           <ClickableBadgeBooleans isVegan={recipe.isVegan} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                         ))}
@@ -353,36 +356,53 @@ const CookbookDetailsPage = ({ match , history }) => {
                         {recipe.ingredients.length} Ingredients
                       </td>
                       <td className="align-middle" style={{textAlign: 'center', width: '50px', padding: '0px'}}>
-                        {(chefInfo && recipe.chef === chefInfo._id) && (
-                          <LinkContainer to={`/myrecipes/${recipe._id}/edit`} style={{paddingLeft: '5px', paddingRight: '5px'}}>
-                            <Button variant='light' className='btn-sm' style={{width: '30px', height: '30px'}}>
-                              <IoMdCreate style={{width: '20px', height: '20px'}}/>
-                            </Button>
-                          </LinkContainer>
-                        )}
-                      </td>
-                      <td className="align-middle" style={{textAlign: 'center', width: '50px', padding: '0px', paddingRight: '20px'}}>
-                        {(chefInfo && cookbook.chef === chefInfo._id) && (
-                          <Form 
-                            onSubmit={removeRecipeFromCookbookHandler}
-                            style={{paddingLeft: '5px', paddingRight: '5px'}}
-                          >
-                            <Button
-                              variant='light'
-                              type='submit'
-                              className='btn-sm'
-                              style={{width: '30px', height: '30px'}}
-                              onClick={(e) => setRemoveFromCookbook('')}
-                            >
-                              <MdDelete style={{width: '20px', height: '20px'}}/>
-                            </Button>
-                          </Form>
-                        )}
+                        <PopoverStickOnHover
+                          component={
+                            <div style={{ fontSize: '.85rem', textAlign: 'center', marginLeft: '0px', marginRight: '0px' }}>
+                              {(recipe.isPublished) && (
+                              <Col xs={12}>
+                                <LinkContainer to={`/recipe/${recipe._id}`}>
+                                  <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}>
+                                    View Recipe
+                                  </Button>
+                                </LinkContainer>                     
+                              </Col>
+                              )} 
+                              <Col xs={12}>
+                              {(chefInfo && recipe.chef === chefInfo._id) && (
+                                <LinkContainer to={`/myrecipes/${recipe._id}/edit`} style={{paddingLeft: '5px', paddingRight: '5px'}}>
+                                  <Button variant='light' className='btn-sm' style={{width: '30px', height: '30px'}}>
+                                    Edit Recipe
+                                  </Button>
+                                </LinkContainer>
+                              )}                 
+                              </Col>
+                              <Col xs={12}>
+                                {(chefInfo && cookbook.chef === chefInfo._id) && (
+                                    <Button 
+                                    variant='light' 
+                                    className='btn-sm' 
+                                    style={{width: '100%', height: '30px'}}
+                                    onClick={() => removeRecipeFromCookbookHandler(recipe._id)}
+                                    disabled
+                                  >
+                                    Remove Recipe
+                                  </Button>
+                                )}
+                              </Col>
+                            </div>
+                          }
+                          placement="left"
+                          onMouseEnter={() => { }}
+                          delay={200}
+                        >
+                          <div>
+                            <IoIosMore style={{ fontSize: '1.25rem' }}/>
+                          </div>
+                        </PopoverStickOnHover>      
                       </td>
                     </tr>
-                  ))
-                )
-              }
+                  )))}
               </tbody>
             </Table>
             </div>

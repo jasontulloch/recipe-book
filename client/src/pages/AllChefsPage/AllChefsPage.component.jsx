@@ -7,6 +7,7 @@ import ChefCard from '../../components/ChefCard/ChefCard.component';
 import { listChefs } from '../../actions/chefPublicActions';
 
 import Message from '../../components/Message/Message.component';
+import InfiniteScrollLoader from '../../components/InfiniteScrollLoader/InfiniteScrollLoader.component';
 
 import { isBrowser } from 'react-device-detect';
 import AllChefsPageMobile from './AllChefsPageMobile.component';
@@ -53,7 +54,7 @@ const AllChefsPage = ({ match }) => {
 		setTimeout(async () => {
       const result = await axios.get(`/api/chefs?pageNumber=${pageNumber}`)
       const data = result.data.chefs
-      console.log(chefs)
+      if (pageNumber > pages) return
       setCurrentChefList(() => {
         return [...currentChefList, ...data];
       });
@@ -72,7 +73,6 @@ const AllChefsPage = ({ match }) => {
 		setIsFetching(false);
 	};
 
-
   return (
     <div>
       {(isBrowser) ? (
@@ -83,8 +83,8 @@ const AllChefsPage = ({ match }) => {
                     <ChefCard chef={chef} />
                   </Col>
                 ))}
-                <Col xs={12} style={{textAlign: 'center', paddingRight: '20px'}}>
-                  <Message>Simply scroll down to view more chefs!</Message>
+                <Col xs={12} style={{textAlign: 'center', paddingRight: '30px'}}>
+                  <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={loading} />
                 </Col>
               </Row>
               

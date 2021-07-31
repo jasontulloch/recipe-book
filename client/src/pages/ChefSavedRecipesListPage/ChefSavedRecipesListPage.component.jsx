@@ -17,6 +17,7 @@ import { MdTimer, MdFormatListNumbered, MdLocalGroceryStore, MdDelete } from 're
 import { RiBookReadLine } from 'react-icons/ri';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 import Message from '../../components/Message/Message.component';
+import InfiniteScrollLoader from '../../components/InfiniteScrollLoader/InfiniteScrollLoader.component';
 import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
 
 import { isMobile } from 'react-device-detect';
@@ -68,6 +69,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
 
   // Lazy Loading!!!
   const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [currentMySavedRecipesList, setCurrentMySavedRecipesList] = useState([]);
 	const [isFetching, setIsFetching] = useState(false);
 
@@ -95,6 +97,8 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
       }
       const result = await axios.get(`/api/recipes/savedRecipes?pageNumber=${pageNumber}`, config)
       const recipeData = await result.data.mySavedRecipes
+      setTotalPages(result.data.pages)
+      if (pageNumber > totalPages) return
       setCurrentMySavedRecipesList(() => {
         return [...currentMySavedRecipesList, ...recipeData];
       });
@@ -121,12 +125,20 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
   //  }))
   //}
 
-
   return (
       <div className="chefSavedRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
-        {currentMySavedRecipesList.length > 0 ? (
           <div>
           <Row className="chefSavedRecipesMobileRow" style={{paddingLeft: '30px'}}>
+            <Col xs={12} style={{ textAlign: 'center', paddingBottom: '15px', paddingLeft: '0px' }}>
+              <Button
+                style={{margin: '5px', padding: '15px', width: '100%', backgroundColor: '#343a40' }}
+                onClick={(e) => history.push(`/recipes`)}
+                variant='outline-success'
+              >
+                <GiBookmark style={{marginRight: '5px'}}/>
+                Find New Recipes
+              </Button>
+            </Col>
             <div style={{marginLeft: '10px'}}>
               <span>
                 <h3>Liked Recipes</h3>
@@ -148,7 +160,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                 </tr>
               </thead>
               <tbody>
-                {currentMySavedRecipesList.map(recipe => (
+                {currentMySavedRecipesList && currentMySavedRecipesList.map(recipe => (
                   <tr key={recipe.id}>
                     <Link
                       to={`/recipe/${recipe._id}`}
@@ -160,7 +172,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                         </Card>
                       </td>
                     </Link>
-                    <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '10px'}}>
+                    <td className="align-middle" style={{maxWidth: '200px', paddingLeft: '10px', minWidth: '225px', maxWidth: '225px'}}>
                       <Link
                         to={`/recipe/${recipe._id}`}
                         style={recipe.isPublished === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
@@ -203,7 +215,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                     </td>
                     <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>{recipe.country < 1 ? 'n/a' : recipe.country}</td>
                     <td className="align-middle" style={{textAlign: 'center', width: '35px'}}>{recipe.cook_time}</td>
-                    <td className="align-middle" style={{width: '225px'}}>
+                    <td className="align-middle" style={{minWidth: '225px', maxWidth: '225px'}}>
                       {(recipe.isVegan === true && (
                         <ClickableBadgeBooleans isVegan={recipe.isVegan} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>VEGAN</ClickableBadgeBooleans>
                       ))}
@@ -314,27 +326,10 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
           </Row>
           <Row>
             <Col xs={12} style={{paddingLeft: '30px', textAlign: 'center'}}>
-              <Message>Simply scroll down to view more recipes!</Message>
+              <InfiniteScrollLoader pageNumber={pageNumber} pages={totalPages} loading={loading} />
             </Col>
           </Row>
           </div>
-        ) : (
-          <Row>
-            <Col style={{textAlign: 'center', paddingTop: '100px'}}>
-              <p >Looks like you don't have any recipes saved yet, let's find you some!</p>
-              <LinkContainer to={`/recipes`}>
-                <Button variant='light' className='btn-sm'>
-                  <i className='fas fa-search'>Explore all Recipes!</i>
-                </Button>
-              </LinkContainer>
-              <LinkContainer to={`/recipes/advanced-search`}>
-                <Button variant='light' className='btn-sm'>
-                  <i className='fas fa-search'>Find the Exact Recipe you are Looking For!</i>
-                </Button>
-              </LinkContainer>
-            </Col>
-          </Row>
-        )}
       </div>
   )
 }

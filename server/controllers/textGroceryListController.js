@@ -30,7 +30,7 @@ const textGroceryList = asyncHandler(async (req, res) => {
 
   const cleanedSavedIngredients = (savedIngredients.length > 0) && (
     sortedIngredients.map((groceries) =>
-      new Fraction(eval(groceries[0])).toFraction(true) + ' ' + groceries[1] + ' ' + groceries[2] + "\n"
+      (' ' + new Fraction(eval(groceries[0])).toFraction(true)+ ' ').replace(' 0 ', '') + groceries[1] + ' ' + groceries[2] + "\n"
     ).join('')
   )
 
