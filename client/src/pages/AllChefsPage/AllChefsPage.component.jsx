@@ -33,8 +33,6 @@ const AllChefsPage = ({ match }) => {
   ])
 
   const [currentChefList, setCurrentChefList] = useState([]);
-  console.log(currentChefList)
-
 
 	useEffect(() => {
 		fetchData();
@@ -76,22 +74,21 @@ const AllChefsPage = ({ match }) => {
   return (
     <div>
       {(isBrowser) ? (
-            <div style={{paddingLeft: '200px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allChefsPageMobile2Div">
-              <Row className="allChefsPageMobileRow">
-                {currentChefList && currentChefList.map((chef) => (
-                  <Col className="allChefsPageChefCardMobile" key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
-                    <ChefCard chef={chef} />
-                  </Col>
-                ))}
-                <Col xs={12} style={{textAlign: 'center', paddingRight: '30px'}}>
-                  <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={loading} />
-                </Col>
-              </Row>
-              
-            </div>
+        <div style={{paddingLeft: '200px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allChefsPageMobile2Div">
+          <Row className="allChefsPageMobileRow">
+            {currentChefList && currentChefList.map((chef) => (
+              <Col className="allChefsPageChefCardMobile" key={chef._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                <ChefCard chef={chef} />
+              </Col>
+            ))}
+          </Row>        
+        </div>
       ) : (
-        <AllChefsPageMobile />
+        <AllChefsPageMobile currentChefList={currentChefList} />
       )}
+      <div className='allChefsPageMobileInfiniteScroll' style={{textAlign: 'center', paddingLeft: '210px', paddingRight: '10px'}}>
+        <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={loading} />
+      </div>
     </div>
   )
 }
