@@ -941,11 +941,7 @@ const IndividualRecipePage = ({ history, match }) => {
                 component={
                   <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
                     <Form onSubmit={saveToCookbookHandler}>
-                      {(cookbooks === undefined || cookbooks.length == 0) ? (
-                        <div></div>
-                      ) : (
-
-                        cookbooks.map(cookbook => (
+                      {(cookbooks.myCookbooks.map(cookbook => (
                           <div className="sidebarIcon">
                             {cookbook.cookbook_name.length > 25 ? (
                               <Button
