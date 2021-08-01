@@ -17,28 +17,28 @@ const AdvancedRecipeSearchPageMobile = () => {
     const dispatch = useDispatch()
 
     const highestRatedRecipesHandler = () => {
-        history.push('/recipes/page/1', { netVotesState: true, netVotesSortState: -1 })
+        history.push('/recipes', { netVotesState: true, netVotesSortState: -1 })
     }
     const newRecipesHandler = () => {
-        history.push('/recipes/page/1', { createdAtState: true, createdAtSortState: -1 })
+        history.push('/recipes', { createdAtState: true, createdAtSortState: -1 })
     }
     const fiveIngredientsOrFewerRecipesHandler = () => {
-        history.push('/recipes/page/1', { fiveIngredientsOrFewerRecipesState: true, netVotesSortState: -1 })
+        history.push('/recipes', { fiveIngredientsOrFewerRecipesState: true, netVotesSortState: -1 })
     }
     const tenIngredientsOrFewerRecipesHandler = () => {
-        history.push('/recipes/page/1', { tenIngredientsOrFewerRecipesState: true, netVotesSortState: -1 })
+        history.push('/recipes', { tenIngredientsOrFewerRecipesState: true, netVotesSortState: -1 })
     }
     const fiveStepsOrFewerRecipesHandler = () => {
-        history.push('/recipes/page/1', { fiveStepsOrFewerRecipesState: true, netVotesSortState: -1 })
+        history.push('/recipes', { fiveStepsOrFewerRecipesState: true, netVotesSortState: -1 })
     }
     const tenStepsOrFewerRecipesHandler = () => {
-        history.push('/recipes/page/1', { tenStepsOrFewerRecipesState: true, netVotesSortState: -1 })
+        history.push('/recipes', { tenStepsOrFewerRecipesState: true, netVotesSortState: -1 })
     }
     const thirtyMinutesAndUnderRecipesHandler = () => {
-        history.push('/recipes/page/1', { thirtyMinutesAndUnderRecipesState: true, netVotesSortState: -1 })
+        history.push('/recipes', { thirtyMinutesAndUnderRecipesState: true, netVotesSortState: -1 })
     }
     const sixtyMinutesAndUnderRecipesHandler = () => {
-        history.push('/recipes/page/1', { sixtyMinutesAndUnderRecipesState: true, netVotesSortState: -1 })
+        history.push('/recipes', { sixtyMinutesAndUnderRecipesState: true, netVotesSortState: -1 })
     }
 
     return (
@@ -51,7 +51,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                     <p style={{marginTop: '10px', marginBottom: '0px'}}>Find all recipes that are...</p>
                     <div style={{overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
                             <div style={{display: 'inline-block', height: '35px'}}>
-                                 <ClickableBadgeBooleans isVegan={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>Test</ClickableBadgeBooleans>
+                                 <ClickableBadgeBooleans isVegan={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                                  <ClickableBadgeBooleans isVegetarian={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                                  <ClickableBadgeBooleans isGlutenFree={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
                                  <ClickableBadgeBooleans isKetogenic={true} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
@@ -86,7 +86,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={6} style={{paddingLeft: '5px'}}>
                     <Button 
                         style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                        onClick={(e) => history.push(`/chefs/page/1`)}
+                        onClick={(e) => history.push(`/chefs`)}
                     >
                         <GiCook style={{marginRight: '5px'}}/>
                         Find Chefs
@@ -95,7 +95,7 @@ const AdvancedRecipeSearchPageMobile = () => {
                 <Col xs={12}>
                     <Button
                         style={{padding: '15px', width: '100%', marginTop: '10px' }}
-                        onClick={(e) => history.push(`/cookbooks/page/1`)}
+                        onClick={(e) => history.push(`/cookbooks`)}
                     >
                         <GiBookshelf style={{marginRight: '5px'}}/>
                         Cookbooks

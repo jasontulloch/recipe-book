@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useHistory, Link, useLocation } from 'react-router-dom';
 import { Row, Col, Button, Table, Card, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +21,8 @@ import { COOKBOOK_CREATE_RESET } from '../../constants/cookbookConstants';
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
 import ChefCard from '../../components/ChefCard/ChefCard.component';
 
+import InfiniteScrollLoader from '../../components/InfiniteScrollLoader/InfiniteScrollLoader.component';
+
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { GiBookmark, GiBookshelf, GiCook } from 'react-icons/gi';
 
@@ -27,13 +30,15 @@ import { GiBookmark, GiBookshelf, GiCook } from 'react-icons/gi';
 const MyFoodsPageMobile = () => {
 
     const location = useLocation()
+    const { mySavedRecipesListPageMobileState } = location.state || { mySavedRecipesListPageMobileState: false }
     const { myRecipesListPageMobileState } = location.state || { myRecipesListPageMobileState: false }
+    const { myChefsListPageMobileState } = location.state || { myChefsListPageMobileState: false }
+    const { myCookboksListPageMobileState } = location.state || { myCookboksListPageMobileState: false }
 
-    const [viewLikedRecipes, setViewLikedRecipes] = useState(!myRecipesListPageMobileState)
-    const [viewFavoriteChefs, setViewFavoriteChefs] = useState(false)
-    const [viewSavedCookbooks, setViewSavedCookbooks] = useState(false)
+    const [viewLikedRecipes, setViewLikedRecipes] = useState(mySavedRecipesListPageMobileState)
+    const [viewFavoriteChefs, setViewFavoriteChefs] = useState(myChefsListPageMobileState)
     const [viewMyRecipes, setViewMyRecipes] = useState(myRecipesListPageMobileState)
-    const [viewMyCookbooks, setViewMyCookbooks] = useState(false)
+    const [viewMyCookbooks, setViewMyCookbooks] = useState(myCookboksListPageMobileState)
     
     const history = useHistory()
     const dispatch = useDispatch()
@@ -68,9 +73,9 @@ const MyFoodsPageMobile = () => {
         if(viewLikedRecipes) {
             dispatch(listMySavedRecipes())
         } 
-        if(viewFavoriteChefs) {
-            dispatch(listMyFollowedChefs())
-        }
+        // if(viewFavoriteChefs) {
+        //     dispatch(listMyFollowedChefs())
+        // }
         if(viewMyRecipes) {
             dispatch(listMyRecipes())
         } 
@@ -104,38 +109,131 @@ const MyFoodsPageMobile = () => {
     const viewLikedRecipesHandler = () => {
         setViewLikedRecipes(true)
         setViewFavoriteChefs(false)
-        setViewSavedCookbooks(false)
         setViewMyRecipes(false)
         setViewMyCookbooks(false)
     }
     const viewFavoriteChefsHandler = () => {
         setViewLikedRecipes(false)
         setViewFavoriteChefs(true)
-        setViewSavedCookbooks(false)
-        setViewMyRecipes(false)
-        setViewMyCookbooks(false)
-    }
-    const viewSavedCookbooksHandler = () => {
-        setViewLikedRecipes(false)
-        setViewFavoriteChefs(false)
-        setViewSavedCookbooks(true)
         setViewMyRecipes(false)
         setViewMyCookbooks(false)
     }
     const viewMyRecipesHandler = () => {
         setViewLikedRecipes(false)
         setViewFavoriteChefs(false)
-        setViewSavedCookbooks(false)
         setViewMyRecipes(true)
         setViewMyCookbooks(false)
     }
     const viewMyCookbooksHandler = () => {
         setViewLikedRecipes(false)
         setViewFavoriteChefs(false)
-        setViewSavedCookbooks(false)
         setViewMyRecipes(false)
         setViewMyCookbooks(true)
     }
+
+    // Lazy Loading!!!
+    const [savedRecipePageNumber, setSavedRecipePageNumber] = useState(1);
+    const [totalSavedRecipesPages, setTotalSavedRecipesPages] = useState(1);
+    const [currentSavedRecipesResult, setCurrentSavedRecipesResult] = useState([]);
+    const [currentChefNamesResult, setCurrentChefNamesResult] = useState([]);
+
+    const [followedChefsPageNumber, setFollowedChefsPageNumber] = useState(1);
+    const [totalFollowedChefsPages, setTotalFollowedChefsPages] = useState(1);
+    const [currentFollowedChefsResult, setCurrentFollowedChefsResult] = useState([]);
+
+    const [myRecipesPageNumber, setMyRecipesPageNumber] = useState(1);
+    const [totalMyRecipesPages, setTotalMyRecipesPages] = useState(1);
+    const [currentMyRecipesResult, setCurrentMyRecipesResult] = useState([]);
+
+    const [myCookbooksPageNumber, setMyCookbooksPageNumber] = useState(1);
+    const [totalMyCookbooksPages, setTotalMyCookbooksPages] = useState(1);
+    const [currentMyCookbooksResult, setCurrentMyCookbooksResult] = useState([]);
+
+    const [isFetching, setIsFetching] = useState(false);
+  
+    useEffect(() => {
+      fetchData();
+      window.addEventListener('scroll', handleScroll);
+    }, []);
+  
+    const handleScroll = () => {
+      if (
+        Math.ceil(window.innerHeight + document.documentElement.scrollTop) !== document.documentElement.offsetHeight ||
+        isFetching
+      )
+        return;
+      setIsFetching(true);
+    };
+  
+    const fetchData = async () => {
+      setTimeout(async () => {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${chefInfo.token}`
+          }
+        }
+        if (setViewLikedRecipes) {
+            const savedRecipesResult = await axios.get(`/api/recipes/savedRecipes?pageNumber=${savedRecipePageNumber}`, config)
+            const savedRecipeData = await savedRecipesResult.data.mySavedRecipes
+            setTotalSavedRecipesPages(savedRecipesResult.data.pages)
+            //if (savedRecipePageNumber > totalSavedRecipesPages) return
+            setCurrentSavedRecipesResult(() => {
+                return [...currentSavedRecipesResult, ...savedRecipeData];
+            });
+            const chefNamesData = await savedRecipesResult.data.chefNames
+            setCurrentChefNamesResult(() => {
+                return [...currentChefNamesResult, ...chefNamesData];
+            });
+            setSavedRecipePageNumber(savedRecipePageNumber + 1)
+            //localStorage.setItem('savedRecipePageNumber', savedRecipePageNumber)
+        }
+        if (setViewFavoriteChefs) {
+            const followedChefsResult = await axios.get(`/api/chef/${chefInfo._id}/mychefs?pageNumber=${followedChefsPageNumber}`, config)
+            const followedChefData = await followedChefsResult.data.chefs
+            setTotalFollowedChefsPages(followedChefsResult.data.pages)
+            //if (followedChefsPageNumber > totalFollowedChefsPages) return
+            setCurrentFollowedChefsResult(() => {
+                return [...currentFollowedChefsResult, ...followedChefData];
+            });
+            setFollowedChefsPageNumber(followedChefsPageNumber + 1)
+            console.log(followedChefsPageNumber)
+           //localStorage.setItem('followedChefsPageNumber', followedChefsPageNumber)
+        }
+        if (setViewMyRecipes) {
+            const myRecipesResult = await axios.get(`/api/recipes/myRecipes?pageNumber=${myRecipesPageNumber}`, config)
+            const myRecipesData = await myRecipesResult.data.myRecipes
+            setTotalMyRecipesPages(myRecipesResult.data.pages)
+            //if (myRecipesPageNumber > totalMyRecipesPages) return
+            setCurrentMyRecipesResult(() => {
+                return [...currentMyRecipesResult, ...myRecipesData];
+            });
+            setMyRecipesPageNumber(myRecipesPageNumber + 1)
+            //localStorage.setItem('myRecipesPageNumber', myRecipesPageNumber)
+        }
+        if (setViewMyCookbooks) {
+            const myCookbooksResult = await axios.get(`/api/cookbooks/myCookbooks?pageNumber=${myCookbooksPageNumber}`, config)
+            const myCookbooksData = await myCookbooksResult.data.myCookbooks
+            setTotalMyCookbooksPages(myCookbooksResult.data.pages)
+            //if (myCookbooksPageNumber > totalMyCookbooksPages) return
+            setCurrentMyCookbooksResult(() => {
+                return [...currentMyCookbooksResult, ...myCookbooksData];
+            });
+            setMyCookbooksPageNumber(myCookbooksPageNumber + 1)
+            //localStorage.setItem('myCookbooksPageNumber', myCookbooksPageNumber)
+        }              
+      }, 1000);
+    };
+  
+    useEffect(() => {
+      if (!isFetching) return;
+        fetchMoreListItems()
+    }, [isFetching]);
+  
+    const fetchMoreListItems = () => {
+      fetchData();
+      setIsFetching(false);
+    };
 
     return (
         <div>
@@ -177,7 +275,7 @@ const MyFoodsPageMobile = () => {
             <Row style={{margin: '15px 0px 30px 0px'}}>
                 <div style={{overflowX: 'scroll', overflowY: 'hidden', whiteSpace: 'nowrap', paddingLeft: '15px', height: '35px'}}>
                     <Badge 
-                        pill variant={(viewLikedRecipes) ? 'success' : 'primary' }
+                        pill variant={(viewLikedRecipes || (!viewFavoriteChefs && !viewMyRecipes && !viewMyCookbooks)) ? 'success' : 'primary' }
                         style={{marginRight: '5px', marginTop: '5px'}}
                         onClick={viewLikedRecipesHandler}
                     >
@@ -189,13 +287,6 @@ const MyFoodsPageMobile = () => {
                         onClick={viewFavoriteChefsHandler}
                     >
                         Favorite Chefs
-                    </Badge>
-                    <Badge 
-                        pill variant={(viewSavedCookbooks) ? 'success' : 'primary' }
-                        style={{marginRight: '5px', marginTop: '5px'}}
-                        onClick={viewSavedCookbooksHandler}
-                    >
-                        Saved Cookbooks
                     </Badge>
                     <Badge 
                         pill variant={(viewMyRecipes) ? 'success' : 'primary' }
@@ -213,8 +304,9 @@ const MyFoodsPageMobile = () => {
                     </Badge>
                 </div>
                 <Col xs={12}>
-                    <Table hover responsive borderless className='table-sm'>
-                        {viewLikedRecipes && savedRecipes && savedRecipes.map((recipe) => (         
+                    <Table responsive borderless className='table-sm'>
+                        <tbody>
+                        {(viewLikedRecipes || (!viewFavoriteChefs && !viewMyRecipes && !viewMyCookbooks)) && currentSavedRecipesResult && currentSavedRecipesResult.map((recipe) => (         
                             <tr key={recipe.id}>
                                 <Link
                                     to={`/recipe/${recipe._id}`}
@@ -235,20 +327,23 @@ const MyFoodsPageMobile = () => {
                                             {recipe.recipe_name}
                                         </div>
                                     )}
-                                    {chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? (
+                                    {currentChefNamesResult.length > 0 && currentChefNamesResult.find( ({ _id }) => _id === recipe.chef ).username > 15 ? (
                                     <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
-                                        {chefNames.find( ({ _id }) => _id === recipe.chef ).username.slice(0, 15) + (chefNames.find( ({ _id }) => _id === recipe.chef ).username > 15 ? "..." : "")}
+                                        {currentChefNamesResult.find( ({ _id }) => _id === recipe.chef ).username.slice(0, 15) + (currentChefNamesResult.find( ({ _id }) => _id === recipe.chef ).username > 15 ? "..." : "")}
                                     </div>
                                     ) : (
                                     <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
-                                        {chefNames.find( ({ _id }) => _id === recipe.chef ).username}
+                                        {currentChefNamesResult.length > 0 && currentChefNamesResult.find( ({ _id }) => _id === recipe.chef ).username}
                                     </div>
                                     )}
                                 </td>
                                 </Link>
                             </tr>
                         ))}
-                        {viewFavoriteChefs && chefs && chefs.map((chef) => (         
+                        {(viewLikedRecipes || (!viewFavoriteChefs && !viewMyRecipes && !viewMyCookbooks)) && (
+                            <InfiniteScrollLoader pageNumber={savedRecipePageNumber} pages={totalSavedRecipesPages} loading={false} />
+                        )}
+                        {viewFavoriteChefs && currentFollowedChefsResult && currentFollowedChefsResult.map((chef) => (         
                             <tr key={chef.id}>
                                 <Link
                                     to={`/chefs/${chef._id}/page/1`}
@@ -273,7 +368,10 @@ const MyFoodsPageMobile = () => {
                                 </Link>
                             </tr>
                         ))}
-                        {viewMyRecipes && myRecipes && myRecipes.map((recipe) => (         
+                        {viewFavoriteChefs && (
+                            <InfiniteScrollLoader pageNumber={followedChefsPageNumber} pages={totalFollowedChefsPages} loading={false} />
+                        )}
+                        {viewMyRecipes && currentMyRecipesResult && currentMyRecipesResult.map((recipe) => (         
                             <tr key={recipe.id}>
                                 <Link
                                     to={`/recipe/${recipe._id}`}
@@ -307,7 +405,46 @@ const MyFoodsPageMobile = () => {
                                 </Link>
                             </tr>
                         ))}
-                        
+                        {viewMyRecipes && (
+                            <InfiniteScrollLoader pageNumber={myRecipesPageNumber} pages={totalMyRecipesPages} loading={false} />
+                        )}
+                        {viewMyCookbooks && currentMyCookbooksResult && currentMyCookbooksResult.map((cookbook) => (         
+                            <tr key={cookbook.id}>
+                                <Link
+                                    to={`/cookbook/${cookbook._id}`}
+                                >
+                                <td style={{paddingLeft: '0px', paddingRight: '0px'}}>
+                                    <Card style={{border: 'none'}}>
+                                        <Card.Img src={cookbook.cookbook_cover_image} alt={cookbook.cookbook_name} style={{height: '77px', width: '100px', borderRadius: '25px'}} />
+                                    </Card>
+                                </td>
+                                <td style={{paddingTop: '20.5px'}}>
+                                    {cookbook.cookbook_name.length > 20 ? (
+                                        <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
+                                            {cookbook.cookbook_name.slice(0, 40) + (cookbook.cookbook_name.length > 40 ? "..." : "")}
+                                        </div>
+                                    ) : (
+                                        <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontWeight: 'bold'}}>
+                                            {cookbook.cookbook_name}
+                                        </div>
+                                    )}
+                                    {chefInfo.username > 15 ? (
+                                    <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
+                                        {chefInfo.username.slice(0, 15) + (chefInfo.username > 15 ? "..." : "")}
+                                    </div>
+                                    ) : (
+                                    <div style={{top: '50%', position: 'relative', wordWrap: 'break-word', fontStyle: 'italic'}}>
+                                        {chefInfo.username}
+                                    </div>
+                                    )}
+                                </td>
+                                </Link>
+                            </tr>
+                        ))}
+                        {viewMyCookbooks && (
+                            <InfiniteScrollLoader pageNumber={myCookbooksPageNumber} pages={totalMyCookbooksPages} loading={false} />
+                        )}
+                        </tbody>                        
                     </Table>        
                 </Col>
             </Row>

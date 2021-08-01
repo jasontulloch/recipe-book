@@ -80,7 +80,7 @@ const HomePageMobile = () => {
                     <Col xs={6} style={{marginTop: '10px', paddingLeft: '5px'}}>                      
                         <Button 
                             style={{width: '100%', fontSize: '.75rem', padding: '6px'}}
-                            onClick={(e) => history.push(`/mychefs/page/1`)}
+                            onClick={(e) => history.push(`/mychefs`)}
                         >
                             <GiCook style={{marginRight: '5px'}} />
                             Favorite Chefs

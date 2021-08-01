@@ -19,7 +19,7 @@ import Message from '../../components/Message/Message.component';
 import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
 import InfiniteScrollLoader from '../../components/InfiniteScrollLoader/InfiniteScrollLoader.component';
 
-import { isBrowser } from 'react-device-detect';
+import { isBrowser, isMobile } from 'react-device-detect';
 
 import './ChefMyFollowedPage.styles.css';
 
@@ -46,6 +46,11 @@ const ChefMyFollowedPage = ({ match , history }) => {
     if(!chefInfo) {
       history.push('/login')
     }
+
+    if(isMobile) {
+      history.push('/myfoods', { myChefsListPageMobileState: true })
+    }
+
     dispatch(listMyFollowedChefs())
 
   }, [
@@ -323,7 +328,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
               )}
             </Row>
             <Row>
-              <Col xs={12} style={{paddingLeft: '10px', textAlign: 'center'}}>
+              <Col xs={12} style={{paddingLeft: '10px', paddingBottom: '30px', textAlign: 'center'}}>
                 <InfiniteScrollLoader pageNumber={pageNumber} pages={totalPages} loading={false} />
               </Col>
             </Row>

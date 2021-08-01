@@ -217,10 +217,7 @@ const IconBar = ({ history }) => {
                   </Nav.Link>
                 </LinkContainer>
                 <div className='sidebarScroller'>
-                  {(cookbooks === undefined || cookbooks.length == 0) ? (
-                    <div></div>
-                  ) : (
-                    cookbooks.map(cookbook => (
+                  {(cookbooks.myCookbooks && cookbooks.myCookbooks.map(cookbook => (
                       <div className="sidebarIcon" style={{paddingTop: '5px'}}>
                         {cookbook.cookbook_name.length > 17 ? (
                           <LinkContainer to={`/cookbooks/${cookbook._id}`} style={{paddingLeft: '0px', paddingBottom: '0px', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>

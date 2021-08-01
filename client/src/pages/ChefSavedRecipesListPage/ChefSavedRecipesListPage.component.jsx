@@ -48,7 +48,7 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
     }
 
     if(isMobile) {
-      history.push('/myfoods')
+      history.push('/myfoods', { mySavedRecipesListPageMobileState: true })
     }
 
     if(successRecipeUnsave) {

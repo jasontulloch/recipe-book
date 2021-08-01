@@ -41,23 +41,44 @@ const createCookbook = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch my cookbooks
-// @route GET /api/recipe/mycookbooks
+// @route GET /api/cookbooks/mycookbooks
 // @access Private
 const getMyCookbooks = asyncHandler(async (req, res) => {
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
   // Returns all cookbooks
   const cookbooks = await Cookbook.find({})
   // Returns the current chef
   const chef = await Chef.findById(req.chef._id)
   // Returns all distinct values as an array
-  const myCookbookId = await [... new Set(chef.cookbooks.map(id => id._id))]
+  const myCookbooksId = await [... new Set(chef.cookbooks.map(id => id._id))]
   // Convert the array values to a string
-  const myCookbookIdToString = myCookbookId.toString()
+  //const myCookbookIdToString = myCookbookId.toString()
   // Filter all cookbooks to find the ones that match the array of string IDs
-  const myCookbooks = cookbooks.filter(function(cookbook) {
-    return myCookbookIdToString.indexOf(cookbook._id) !== -1
-  })
+  // const myCookbooks = cookbooks.filter(function(cookbook) {
+  //   return myCookbookIdToString.indexOf(cookbook._id) !== -1
+  // })
   // Returns the filtered array as a JSON object
-  res.json(myCookbooks)
+  const myCookbooks = await Cookbook.find(
+    {
+      "_id": {
+        "$in": myCookbooksId
+      }
+    }
+  ) 
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  const count = await Cookbook.countDocuments(
+    {
+      "_id": {
+        "$in": myCookbooksId
+      }
+    }
+  )
+
+  // Returns the filtered array as a JSON object
+  res.json({ myCookbooks, page, pages: Math.ceil(count / pageSize) })
 })
 
 // matching the Cookbook Model Id with whats in the URL

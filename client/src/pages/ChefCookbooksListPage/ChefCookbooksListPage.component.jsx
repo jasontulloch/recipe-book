@@ -13,7 +13,7 @@ import { GiBookshelf } from 'react-icons/gi'
 import { RiBookReadLine } from 'react-icons/ri'
 import { MdDelete } from 'react-icons/md'
 
-import { isBrowser } from 'react-device-detect';
+import { isBrowser, isMobile } from 'react-device-detect';
 
 import './ChefCookbooksListPage.styles.css';
 
@@ -48,6 +48,10 @@ const ChefCookbooksListPage = ({ match , history }) => {
 
     if(!chefInfo) {
       history.push('/login')
+    }
+
+    if(isMobile) {
+      history.push('/myfoods', { myCookboksListPageMobileState: true })
     }
 
     if(successCreate) {

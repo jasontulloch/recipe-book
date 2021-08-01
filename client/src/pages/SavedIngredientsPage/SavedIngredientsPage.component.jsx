@@ -571,7 +571,6 @@ const SavedIngredientsPage = ({ history }) => {
                     key='index'
                     type='text'
                     placeholder='1/3'
-                    required
                     style={{width: '100%'}}
                   >
                   </Form.Control>
@@ -584,7 +583,6 @@ const SavedIngredientsPage = ({ history }) => {
                     key='index'
                     type='text'
                     placeholder='Cup'
-                    required
                     style={{width: '100%'}}
                   >
                   </Form.Control>
