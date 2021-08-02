@@ -6,6 +6,8 @@ import { listRecipeNames } from '../../actions/recipeActions';
 import { useSelector, useDispatch } from 'react-redux';
 import './SearchBox.styles.css';
 
+import { isBrowser, isMobile } from 'react-device-detect';
+
 const SearchBox = ({ history }) => {
   const [keywordRecipeName, setKeywordRecipeName] = useState('')
 
@@ -13,9 +15,12 @@ const SearchBox = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    if(keywordRecipeName.trim()) {
+    console.log(isBrowser)
+    if (isBrowser && keywordRecipeName.trim()) {
       history.push(`/recipes/search/keywordRecipeName=${keywordRecipeName}/page/1`)
       // Need to set keyword recipe name to another variable and then clear
+    } else if (isMobile && keywordRecipeName.trim()) {
+      history.push('/recipes', { nameRecipe: keywordRecipeName })
     } else {
       history.push('/recipes/page/1')
     }
@@ -66,7 +71,11 @@ const SearchBox = ({ history }) => {
   const searchRecipeNameHandler = (e) => {
     if (e) {
       setKeywordRecipeName(e.value)
-      history.push(`/recipes/search/keywordRecipeName=${e.value}/page/1`)
+      if (isBrowser) {
+        history.push(`/recipes/search/keywordRecipeName=${e.value}/page/1`)
+      } else {
+        history.push('/recipes', { nameRecipe: e.value })
+      }
     }
   }
 

@@ -11,9 +11,9 @@ const RecipeCardMobile= ({ recipe }) => {
     <div style={{paddingBottom: '0px'}}>
       <Card className="text-light" style={{ border: 'none'}}>
         <Card.Header style={{textAlign: 'center', padding: '5px', backgroundColor: '#71881B', borderTopRightRadius: '50px', borderTopLeftRadius: '50px', fontSize: '10px' }}>
-          {recipe.recipe_name.length > 25 ? (
+          {recipe.recipe_name.length > 21 ? (
               <span>
-                {recipe.recipe_name.slice(0, 25) + (recipe.recipe_name.length > 25 ? "..." : "")}
+                {recipe.recipe_name.slice(0, 21) + (recipe.recipe_name.length > 21 ? "..." : "")}
               </span>
           ) : (
             <span>

@@ -174,8 +174,6 @@ const AllRecipesPage = ({ match, history }) => {
 		setIsFetching(false);
 	};
 
-  console.log(pageNumber)
-
   return (
     <div>
       {(isBrowser) ? (

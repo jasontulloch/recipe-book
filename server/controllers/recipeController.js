@@ -866,7 +866,7 @@ const removeRecipeFromCookbook = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch the 20 most recent recipes
-// @route GET /api/mostRecentRecipes
+// @route GET /api/recipes/mostRecentRecipes
 // @access Public
 const getMostRecentRecipesLimited = asyncHandler(async (req, res) => {
   const recipeLimit = 20
@@ -892,11 +892,11 @@ const getMostRecentRecipesLimited = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes and sort by top rated
-// @route GET /api/highestRatedRecipes
+// @route GET /api/recipes/highestRatedRecipes
 // @access Public
 const getMostRecentRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -927,7 +927,7 @@ const getMostRecentRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch the 20 highest rated recipes
-// @route GET /api/highestRatedRecipes
+// @route GET /api/recipes/highestRatedRecipes
 // @access Public
 const getHighestRatedRecipesLimited = asyncHandler(async (req, res) => {
   const recipeLimit = 20
@@ -953,11 +953,11 @@ const getHighestRatedRecipesLimited = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes and sort by top rated
-// @route GET /api/highestRatedRecipes
+// @route GET /api/recipes/highestRatedRecipes
 // @access Public
 const getHighestRatedRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -988,11 +988,11 @@ const getHighestRatedRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes with 5 or fewer ingredients and sort by top rated
-// @route GET /api/fiveIngredientsOrFewerRecipes
+// @route GET /api/recipes/fiveIngredientsOrFewerRecipes
 // @access Public
 const getFiveIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1023,11 +1023,11 @@ const getFiveIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes with 10 or fewer ingredients and sort by top rated
-// @route GET /api/tenIngredientsOrFewerRecipes
+// @route GET /api/recipes/tenIngredientsOrFewerRecipes
 // @access Public
 const getTenIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1058,11 +1058,11 @@ const getTenIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes with 5 or fewer steps and sort by top rated
-// @route GET /api/fiveStepsOrFewerRecipes
+// @route GET /api/recipes/fiveStepsOrFewerRecipes
 // @access Public
 const getFiveStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1093,11 +1093,11 @@ const getFiveStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes with 10 or fewer steps and sort by top rated
-// @route GET /api/tenStepsOrFewerRecipes
+// @route GET /api/recipes/tenStepsOrFewerRecipes
 // @access Public
 const getTenStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1128,11 +1128,11 @@ const getTenStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes with cook times under 30 minutes and sort by top rated
-// @route GET /api/thirtyMinutesAndUnderRecipes
+// @route GET /api/recipes/thirtyMinutesAndUnderRecipes
 // @access Public
 const getThirtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1162,11 +1162,11 @@ const getThirtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
 })
 
 // @description Fetch all recipes with cook times under 60 minutes and sort by top rated
-// @route GET /api/tenMinutesAndUnderRecipes
+// @route GET /api/recipes/tenMinutesAndUnderRecipes
 // @access Public
 const getSixtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 20
+  const pageSize = 5
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1196,6 +1196,326 @@ const getSixtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
   res.json({ sixtyMinutesAndUnderRecipes, page, pages: Math.ceil(count / pageSize) })
 })
 
+// @description Fetch all recipes from typed name and sort by top rated
+// @route GET /api/recipes/nameRecipes
+// @access Public
+const getNameRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const keywordRecipeName = req.query.nameRecipe ? {
+    recipe_name: {
+      $regex: req.query.nameRecipe,
+      $options: 'i'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {...keywordRecipeName}
+    ]
+  })
+
+  const nameRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {...keywordRecipeName}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ nameRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes from selected country and sort by top rated
+// @route GET /api/recipes/countryRecipes
+// @access Public
+const getCountryRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
+  const countryName = req.query.countryName || ''
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {'country': {$eq: countryName}}
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 11 exists and if it doesn't return the recipe
+  const countryRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {'country': {$eq: countryName}}
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ countryRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes from selected diet and sort by top rated
+// @route GET /api/recipes/dietRecipes
+// @access Public
+const getDietRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const keywordIsVegan = req.query.isVegan ? {
+    isVegan: {
+      $eq: req.query.isVegan
+    }
+  } : {}
+
+  const keywordIsVegetarian = req.query.isVegetarian ? {
+    isVegetarian: {
+      $eq: req.query.isVegetarian
+    }
+  } : {}
+
+  const keywordIsGlutenFree = req.query.isGlutenFree ? {
+    isGlutenFree: {
+      $eq: req.query.isGlutenFree
+    }
+  } : {}
+
+  const keywordIsKetogenic = req.query.isKetogenic ? {
+    isKetogenic: {
+      $eq: req.query.isKetogenic
+    }
+  } : {}
+
+  const keywordIsPescatarian = req.query.isPescatarian ? {
+    isPescatarian: {
+      $eq: req.query.isPescatarian
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {...keywordIsVegan},
+      {...keywordIsVegetarian},
+      {...keywordIsGlutenFree},
+      {...keywordIsKetogenic},
+      {...keywordIsPescatarian},
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 11 exists and if it doesn't return the recipe
+  const dietRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {...keywordIsVegan},
+      {...keywordIsVegetarian},
+      {...keywordIsGlutenFree},
+      {...keywordIsKetogenic},
+      {...keywordIsPescatarian},
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ dietRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes from selected allergins and sort by top rated
+// @route GET /api/recipes/allerginRecipes
+// @access Public
+const getAllerginRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const keywordIsDairy = req.query.isDairy ? {
+    isDairy: {
+      $eq: !req.query.isDairy
+    }
+  } : {}
+
+  const keywordIsEgg = req.query.isEgg ? {
+    isEgg: {
+      $eq: !req.query.isEgg
+    }
+  } : {}
+
+  const keywordIsNuts = req.query.isNuts ? {
+    isNuts: {
+      $eq: !req.query.isNuts
+    }
+  } : {}
+
+  const keywordIsShellfish = req.query.isShellfish ? {
+    isShellfish: {
+      $eq: !req.query.isShellfish
+    }
+  } : {}
+
+  const keywordIsSoy = req.query.isSoy ? {
+    isSoy: {
+      $eq: !req.query.isSoy
+    }
+  } : {}
+
+  const keywordIsWheat = req.query.isWheat ? {
+    isWheat: {
+      $eq: !req.query.isWheat
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {...keywordIsDairy},
+      {...keywordIsEgg},
+      {...keywordIsNuts},
+      {...keywordIsShellfish},
+      {...keywordIsSoy},
+      {...keywordIsWheat},
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 11 exists and if it doesn't return the recipe
+  const allerginRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {...keywordIsDairy},
+      {...keywordIsEgg},
+      {...keywordIsNuts},
+      {...keywordIsShellfish},
+      {...keywordIsSoy},
+      {...keywordIsWheat},
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ allerginRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
+// @description Fetch all recipes from selected meal type and sort by top rated
+// @route GET /api/recipes/mealTypeRecipes
+// @access Public
+const getMealTypeRecipes = asyncHandler(async (req, res) => {
+
+  const pageSize = 5
+  const page = Number(req.query.pageNumber) || 1
+
+  const isPublished = true ? {
+    isPublished: {
+      $eq: 'true'
+    }
+  } : {}
+
+  const keywordIsBreakfastBrunch = req.query.isBreakfastBrunch ? {
+    isBreakfastBrunch: {
+      $eq: req.query.isBreakfastBrunch
+    }
+  } : {}
+
+  const keywordIsMainDish = req.query.isMainDish ? {
+    isMainDish: {
+      $eq: req.query.isMainDish
+    }
+  } : {}
+
+  const keywordIsSideSauce = req.query.isSideSauce ? {
+    isSideSauce: {
+      $eq: req.query.isSideSauce
+    }
+  } : {}
+
+  const keywordIsDessert = req.query.isDessert ? {
+    isDessert: {
+      $eq: req.query.isDessert
+    }
+  } : {}
+
+  const keywordIsSnack = req.query.isSnack ? {
+    isSnack: {
+      $eq: req.query.isSnack
+    }
+  } : {}
+
+  const keywordIsAppetizer = req.query.isAppetizer ? {
+    isAppetizer: {
+      $eq: req.query.isAppetizer
+    }
+  } : {}
+
+  const keywordIsDrink = req.query.isDrink ? {
+    isDrink: {
+      $eq: req.query.isDrink
+    }
+  } : {}
+
+  const count = await Recipe.countDocuments({
+    $and: [
+      {...isPublished},
+      {...keywordIsBreakfastBrunch},
+      {...keywordIsMainDish},
+      {...keywordIsSideSauce},
+      {...keywordIsDessert},
+      {...keywordIsSnack},
+      {...keywordIsAppetizer},
+      {...keywordIsDrink},
+    ]
+  })
+
+  // Okay this is cool too. What we are doing is seeing if the index position 11 exists and if it doesn't return the recipe
+  const mealTypeRecipes = await Recipe.find({
+    $and: [
+      {...isPublished},
+      {...keywordIsBreakfastBrunch},
+      {...keywordIsMainDish},
+      {...keywordIsSideSauce},
+      {...keywordIsDessert},
+      {...keywordIsSnack},
+      {...keywordIsAppetizer},
+      {...keywordIsDrink},
+    ]
+  })
+    .sort({'netVotes':-1})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  
+  res.json({ mealTypeRecipes, page, pages: Math.ceil(count / pageSize) })
+})
+
 export {
   getRecipeNames,
   getRecipes,
@@ -1223,4 +1543,9 @@ export {
   getTenStepsOrFewerRecipes,
   getThirtyMinutesAndUnderRecipes,
   getSixtyMinutesAndUnderRecipes,
+  getNameRecipes,
+  getCountryRecipes,
+  getDietRecipes,
+  getAllerginRecipes,
+  getMealTypeRecipes,
 }

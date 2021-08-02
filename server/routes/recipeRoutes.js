@@ -26,6 +26,11 @@ import {
   getTenStepsOrFewerRecipes,
   getThirtyMinutesAndUnderRecipes,
   getSixtyMinutesAndUnderRecipes,
+  getNameRecipes,
+  getCountryRecipes,
+  getDietRecipes,
+  getAllerginRecipes,
+  getMealTypeRecipes,
 } from '../controllers/recipeController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
@@ -49,6 +54,11 @@ router.route('/fiveStepsOrFewerRecipes').get(getFiveStepsOrFewerRecipes)
 router.route('/tenStepsOrFewerRecipes').get(getTenStepsOrFewerRecipes)
 router.route('/thirtyMinutesAndUnderRecipes').get(getThirtyMinutesAndUnderRecipes)
 router.route('/sixtyMinutesAndUnderRecipes').get(getSixtyMinutesAndUnderRecipes)
+router.route('/nameRecipes').get(getNameRecipes)
+router.route('/countryRecipes').get(getCountryRecipes)
+router.route('/dietRecipes').get(getDietRecipes)
+router.route('/allerginRecipes').get(getAllerginRecipes)
+router.route('/mealTypeRecipes').get(getMealTypeRecipes)
 router.route('/:id/upvotes').post(protect, createRecipeUpvote)
 router.route('/:id/downvotes').post(protect, createRecipeDownvote)
 router.route('/:id/save')
