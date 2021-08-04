@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -7,6 +8,15 @@ import { AiOutlineHome } from 'react-icons/ai'
 import { GiFoodTruck } from 'react-icons/gi'
 
 const IconBarMobile = () => {
+
+    const chefLogin = useSelector(state => state.chefLogin)
+    const { chefInfo } = chefLogin
+
+    useEffect(() => {
+    
+      }, [
+        chefInfo,
+    ])
 
     return (
         <Navbar bg="dark" variant="dark" fixed="bottom" style={{padding: '0px'}}>
@@ -27,14 +37,16 @@ const IconBarMobile = () => {
                         </div>
                     </Nav.Link>
                 </LinkContainer>   
-                <LinkContainer to='/myfoods'>
-                <Nav.Link>
-                    <div>
-                        <GiFoodTruck style={{marginRight: '5px'}}/>
-                        Foods
-                    </div>
-                  </Nav.Link>
-                </LinkContainer>     
+                {chefInfo && (
+                    <LinkContainer to='/myfoods'>
+                        <Nav.Link>
+                            <div>
+                                <GiFoodTruck style={{marginRight: '5px'}}/>
+                                Foods
+                            </div>
+                        </Nav.Link>
+                    </LinkContainer>                   
+                )}
             </Nav> 
         </Navbar>
     )

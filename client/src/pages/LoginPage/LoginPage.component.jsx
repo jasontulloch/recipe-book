@@ -6,6 +6,9 @@ import FormContainer from '../../components/FormContainer/FormContainer.componen
 import { login } from '../../actions/chefActions';
 
 import './LoginPage.styles.css';
+import { HiStop } from 'react-icons/hi';
+
+import { isBrowser, isMobile } from 'react-device-detect';
 
 const LoginPage = ({ location, history }) => {
   const [email, setEmail] = useState('')
@@ -19,7 +22,10 @@ const LoginPage = ({ location, history }) => {
   const redirect = location.search ? location.search.split('=')[1] : '/recipes'
 
   useEffect(() => {
-    if (chefInfo) {
+    if (isMobile && chefInfo) {
+      history.push('/')
+    }
+    if (isBrowser && chefInfo) {
       history.push(redirect)
     }
   }, [history, chefInfo, redirect])

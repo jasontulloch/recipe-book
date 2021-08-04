@@ -238,12 +238,8 @@ const IconBar = ({ history }) => {
                 </div>
             </Nav>
           </div>
-      ) : (chefInfo) ? (
-        <IconBarMobile />
       ) : (
-        <div>
-
-        </div>
+        <IconBarMobile />
       )}
     </div>
 

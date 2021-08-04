@@ -10,6 +10,7 @@ import {
 import { RECIPE_CREATE_RESET } from '../../constants/recipeConstants';
 
 import RecipeCard from '../../components/RecipeCard/RecipeCard.component';
+import Message from '../../components/Message/Message.component';
 
 import { GiBookmark, GiBookshelf, GiCook } from 'react-icons/gi';
 import { RiBookReadLine } from 'react-icons/ri';
@@ -56,7 +57,7 @@ const HomePageMobile = () => {
 
     return (
         <div>
-            {(chefInfo) && (
+            {(chefInfo) ? (
             <div>
                 <Row style={{margin: '0px'}}>
                     <Col xs={12}>
@@ -108,6 +109,10 @@ const HomePageMobile = () => {
                     </Col>              
                 </Row>  
             </div>
+            ) : (
+                <div style={{paddingLeft: '10px', paddingRight: '10px', textAlign: 'center'}}>
+                    <Message>Welcome to RecipeBook! Log in or create an account for the best cooking experience.</Message>
+                </div>
             )}
             <div>
                 <Row style={{margin: '15px 0px 35px 0px'}}>
