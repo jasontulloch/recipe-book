@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import MyFoodsPageMobile from './MyFoodsPageMobile.component';
 import { useSelector } from 'react-redux';
 
-import { isMobile } from 'react-device-detect';
+import { isMobile, isBrowser } from 'react-device-detect';
 
 const MyFoodsPage = ({ history }) => {
 
@@ -13,6 +13,10 @@ const MyFoodsPage = ({ history }) => {
         if(!chefInfo) {
             history.push('/login')
         }
+        if(isBrowser) {
+            history.push('/savedrecipes')
+        }
+
       }, [
         chefInfo,
     ])

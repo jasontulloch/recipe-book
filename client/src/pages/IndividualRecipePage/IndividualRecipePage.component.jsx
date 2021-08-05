@@ -885,7 +885,7 @@ const IndividualRecipePage = ({ history, match }) => {
                               type='submit'
                               disabled={(chefInfo == null) ? true : false}
                             >
-                              Text {chefInfo.connect_first_name} Ingredients
+                              Text {(chefInfo) ? chefInfo.connect_first_name : 'Friend'} Ingredients
                             </Button>
                           </Form>
                           <Form onSubmit={emailGroceryListPartnerChefHandler}>
@@ -894,7 +894,7 @@ const IndividualRecipePage = ({ history, match }) => {
                               type='submit'
                               disabled={(chefInfo == null) ? true : false}
                             >
-                              Email {chefInfo.connect_first_name} Ingredients
+                              Email {(chefInfo) ? chefInfo.connect_first_name : 'Friend'} Ingredients
                             </Button>
                           </Form>
                         </div>
@@ -941,7 +941,7 @@ const IndividualRecipePage = ({ history, match }) => {
                 component={
                   <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
                     <Form onSubmit={saveToCookbookHandler}>
-                      {(cookbooks.myCookbooks.map(cookbook => (
+                      {(cookbooks && cookbooks.myCookbooks.map(cookbook => (
                           <div className="sidebarIcon">
                             {cookbook.cookbook_name.length > 25 ? (
                               <Button

@@ -80,17 +80,7 @@ const IconBar = ({ history }) => {
   return (
     <div>
       {(chefInfo && isBrowser) ? (
-          <div
-            style={{
-              height: '100%',
-              width: '200px',
-              position: 'fixed',
-              top: '0',
-              left: '0',
-              paddingTop: '50px',
-              backgroundColor: '#343a40',
-            }}
-          >
+          <div style={{ height: '100%', width: '200px', position: 'fixed', top: '0', left: '0', paddingTop: '50px', backgroundColor: '#343a40' }}>
             <Nav className="ml-auto">
               <Nav.Link style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', color: 'rgba(255,255,255,0.5)'}}>
                 <div>
@@ -217,7 +207,7 @@ const IconBar = ({ history }) => {
                   </Nav.Link>
                 </LinkContainer>
                 <div className='sidebarScroller'>
-                  {(cookbooks.myCookbooks && cookbooks.myCookbooks.map(cookbook => (
+                  {(cookbooks && cookbooks.myCookbooks && cookbooks.myCookbooks.map(cookbook => (
                       <div className="sidebarIcon" style={{paddingTop: '5px'}}>
                         {cookbook.cookbook_name.length > 17 ? (
                           <LinkContainer to={`/cookbooks/${cookbook._id}`} style={{paddingLeft: '0px', paddingBottom: '0px', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
@@ -236,6 +226,37 @@ const IconBar = ({ history }) => {
                     ))
                   )}
                 </div>
+            </Nav>
+          </div>
+      ) : (isBrowser) ? (
+        <div style={{ height: '100%', width: '200px', position: 'fixed', top: '0', left: '0', paddingTop: '50px', backgroundColor: '#343a40' }}>
+            <Nav className="ml-auto">
+              <Nav.Link style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', color: 'rgba(255,255,255,0.5)'}}>
+                <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px' }}>
+                  <Route render={({ history }) => <SearchBox history={history} />} />
+                  <LinkContainer to='/recipes' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
+                    <Nav.Link>
+                      <div className="sidebarIcon">
+                        <span>Search All Recipes</span>
+                      </div>
+                    </Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to='/chefs' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                    <Nav.Link>
+                      <div className="sidebarIcon">
+                        <span>Find Chefs</span>
+                      </div>
+                    </Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to='/advanced-search' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                    <Nav.Link>
+                      <div className="sidebarIcon">
+                        <span>Advanced Search</span>
+                      </div>
+                    </Nav.Link>
+                  </LinkContainer>
+                </div>
+              </Nav.Link>
             </Nav>
           </div>
       ) : (

@@ -36,7 +36,7 @@ const LoginPage = ({ location, history }) => {
   }
 
   return (
-    <div className="loginPageMobile">
+    <div className="loginPageMobile" style={{paddingLeft: '200px'}}>
       <FormContainer>
           <h1>Sign In</h1>
           <Form onSubmit={submitHandler}>

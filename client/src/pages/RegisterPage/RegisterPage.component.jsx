@@ -40,7 +40,7 @@ const RegisterPage = ({ location, history }) => {
   }
 
   return (
-    <div className="registerPageMobile">
+    <div className="registerPageMobile" style={{paddingLeft: '200px'}}>
       <FormContainer>
         <h1>Sign Up</h1>
         <Form onSubmit={submitHandler}>
