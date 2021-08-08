@@ -1,5 +1,5 @@
-import React, { memo } from "react";
-import { Link } from 'react-router-dom'
+import React, { memo, useState, useEffect } from "react";
+import { Link, withRouter } from 'react-router-dom'
 import {
   ComposableMap,
   Geographies,
@@ -8,17 +8,22 @@ import {
 
 const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-const WorldMap = ({ setTooltipContent }) => {
+const WorldMap = ({ setTooltipContent, history }) => {
+
+  const countryRecipesHandler = (e) => { 
+    history.push('/recipes', { countryName: e }) 
+  }
+
   return (
     <div>
       <ComposableMap data-tip="" projectionConfig={{ scale: 225 }}>
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map(geo => (
-                <Link to={`/recipes/advanced-search-results/keywordCountry=${geo.properties.NAME}/page/1`}>
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
+                    onClick={(e) => countryRecipesHandler(geo.properties.NAME)}
                     onMouseEnter={() => {
                       const { NAME } = geo.properties;
                       setTooltipContent(`${NAME}`);
@@ -42,7 +47,6 @@ const WorldMap = ({ setTooltipContent }) => {
                       }
                     }}
                   />
-                </Link>
               ))
             }
           </Geographies>
@@ -51,4 +55,4 @@ const WorldMap = ({ setTooltipContent }) => {
   );
 };
 
-export default memo(WorldMap);
+export default withRouter(memo(WorldMap));

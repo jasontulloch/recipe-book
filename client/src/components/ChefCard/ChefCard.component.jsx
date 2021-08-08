@@ -15,7 +15,7 @@ const ChefCard = ({ chef }) => {
             {chef.username.slice(0, 25) + (chef.username > 25 ? "..." : "")}
           </span>
         </Card.Header>
-        <Link to={`/chefs/${chef._id}/page/1`} style={{zIndex: '2'}}>
+        <Link to={`/chefs/${chef._id}`} style={{zIndex: '2'}}>
           <Card.Img className="chefCardMobile" src={chef.chefPicture} alt={chef.chefPicture} style={{height: '136px', width: '175px', backgroundColor: '#B2D732' }}/>
         </Link>
         <Card.Footer style={{fontSize: '12.5px', paddingTop: '2px', paddingBottom: '2px', backgroundColor: '#71881B', borderBottomRightRadius: '50px', borderBottomLeftRadius: '50px'}}>

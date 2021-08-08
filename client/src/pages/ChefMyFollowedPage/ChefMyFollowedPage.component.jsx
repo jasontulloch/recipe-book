@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
-import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card } from 'react-bootstrap';
+import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Badge, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  listMyFollowedChefs
+  listMyFollowedChefs,
+  unfollowChef
 } from '../../actions/chefActions';
 import { BiInfoCircle } from 'react-icons/bi'
 import { GoSignIn } from 'react-icons/go'
@@ -14,6 +15,7 @@ import { IoPeople } from 'react-icons/io5'
 import { MdDelete } from 'react-icons/md'
 import { GiCook, GiBookshelf, GiFoodTruck } from 'react-icons/gi';
 import { RiBookReadLine, RiUserFollowLine } from 'react-icons/ri';
+import { CHEF_UNFOLLOW_RESET } from '../../constants/chefConstants';
 import ClickableBadgeBooleans from '../../components/ClickableBadgeBooleans/ClickableBadgeBooleans.component';
 import Message from '../../components/Message/Message.component';
 import PopoverStickOnHover from '../../components/PopoverStickOnHover/PopoverStickOnHover.component';
@@ -29,6 +31,18 @@ const ChefMyFollowedPage = ({ match , history }) => {
   //const pageNumber = match.params.pageNumber || 1
   const [pageNumber, setPageNumber] = useState(1);
 
+  const veganRecipesHandler = (e) => { history.push('/recipes', { isVegan: true, isVegetarian: '', isGlutenFree: '', isKetogenic: '', isPescatarian: '' }) }
+  const vegetarianRecipesHandler = (e) => { history.push('/recipes', { isVegan: '', isVegetarian: true, isGlutenFree: '', isKetogenic: '', isPescatarian: '' }) }
+  const glutenFreeRecipesHandler = (e) => { history.push('/recipes', { isVegan: '', isVegetarian: '', isGlutenFree: true, isKetogenic: '', isPescatarian: '' }) }
+  const ketogenicRecipesHandler = (e) => { history.push('/recipes', { isVegan: '', isVegetarian: '', isGlutenFree: '', isKetogenic: true, isPescatarian: '' }) }
+  const pescatarianRecipesHandler = (e) => { history.push('/recipes', { isVegan: '', isVegetarian: '', isGlutenFree: '', isKetogenic: '', isPescatarian: true }) }
+  const dairyRecipesHandler = (e) => { history.push('/recipes', { isDairy: true, isEgg: '', isNuts: '', isShellfish: '', isSoy: '', isWheat: '' }) }
+  const eggRecipesHandler = (e) => { history.push('/recipes', { isDairy: '', isEgg: true, isNuts: '', isShellfish: '', isSoy: '', isWheat: '' }) }
+  const nutsRecipesHandler = (e) => { history.push('/recipes', { isDairy: '', isEgg: '', isNuts: true, isShellfish: '', isSoy: '', isWheat: '' }) }
+  const shellfishRecipesHandler = (e) => { history.push('/recipes', { isDairy: '', isEgg: '', isNuts: '', isShellfish: true, isSoy: '', isWheat: '' }) }
+  const soyRecipesHandler = (e) => { history.push('/recipes', { isDairy: '', isEgg: '', isNuts: '', isShellfish: '', isSoy: true, isWheat: '' }) }
+  const wheatRecipesHandler = (e) => { history.push('/recipes', { isDairy: '', isEgg: '', isNuts: '', isShellfish: '', isSoy: '', isWheat: true }) }
+
   const dispatch = useDispatch()
 
   const chefMyFollowed = useSelector(state => state.chefMyFollowed)
@@ -36,6 +50,16 @@ const ChefMyFollowedPage = ({ match , history }) => {
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
+
+  const chefPublicDetails = useSelector(state => state.chefPublicDetails)
+  const {
+    chef,
+  } = chefPublicDetails
+
+  const chefUnfollow = useSelector(state => state.chefUnfollow)
+  const {
+    success: successChefUnfollow
+  } = chefUnfollow
 
   const [initialLoader, setInitialLoader] = useState(true)
   if (loading !== true) {
@@ -46,9 +70,12 @@ const ChefMyFollowedPage = ({ match , history }) => {
     if(!chefInfo) {
       history.push('/login')
     }
-
     if(isMobile) {
       history.push('/myfoods', { myChefsListPageMobileState: true })
+    }
+    if(successChefUnfollow) {
+      dispatch({ type: CHEF_UNFOLLOW_RESET })
+      dispatch(listMyFollowedChefs())
     }
 
     dispatch(listMyFollowedChefs())
@@ -58,6 +85,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
     history,
     match,
     chefInfo,
+    successChefUnfollow,
   ])
 
   // Lazy Loading!!!
@@ -102,12 +130,24 @@ const ChefMyFollowedPage = ({ match , history }) => {
 	useEffect(() => {
 		if (!isFetching) return;
       fetchMoreListItems()
-	}, [isFetching]);
+	}, [isFetching, currentMyChefsList]);
 
 	const fetchMoreListItems = () => {
 		fetchData();
 		setIsFetching(false);
 	};
+
+  const [chefId, setChefId] = useState('')
+  const unfollowHandler = (e) => {
+    e.preventDefault()
+    const index = currentMyChefsList.findIndex(x => x._id === chefId)
+    dispatch(unfollowChef(chefId, {
+      chef
+    }))
+    setCurrentMyChefsList(() => {
+      return [...currentMyChefsList.slice(0, index), ...currentMyChefsList.splice(index+1)]
+    })
+  }
 
   return (
       <div className="chefMyFollowedPageMobile" style={{paddingLeft: '220px', paddingRight: '10px'}}>
@@ -147,7 +187,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                           </td>
                           <td className="align-middle" style={{width: '100px', paddingLeft: '10px'}}>
                             <Link
-                              to={`/chefs/${chef._id}/page/1`}
+                              to={`/chefs/${chef._id}`}
                               style={chef.isVisible === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
                             >
                               {chef.username.length > 20 ? (
@@ -195,37 +235,37 @@ const ChefMyFollowedPage = ({ match , history }) => {
                           </td>
                           <td className="align-middle" style={{textAlign: 'center', minWidth: '225px', maxWidth: '225px'}}>
                             {(chef.isVegan === true && (
-                              <ClickableBadgeBooleans isVegan={chef.isVegan} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={veganRecipesHandler}>Vegan</Badge> 
                             ))}
                             {(chef.isVegetarian === true && (
-                              <ClickableBadgeBooleans isVegetarian={chef.isVegetarian} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={vegetarianRecipesHandler}>Vegetarian</Badge> 
                             ))}
                             {(chef.isGlutenFree === true && (
-                              <ClickableBadgeBooleans isGlutenFree={chef.isGlutenFree} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={glutenFreeRecipesHandler}>Gluten Free</Badge>                                                               
                             ))}
                             {(chef.isKetogenic === true && (
-                              <ClickableBadgeBooleans isKetogenic={chef.isKetogenic} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={ketogenicRecipesHandler}>Ketogenic</Badge>    
                             ))}
                             {(chef.isPescatarian === true && (
-                              <ClickableBadgeBooleans isPescatarian={chef.isPescatarian} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={pescatarianRecipesHandler}>Pescatarian</Badge>     
                             ))}
                             {(chef.isDairy === true && (
-                              <ClickableBadgeBooleans isDairy={chef.isDairy} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={dairyRecipesHandler}>Dairy Free</Badge>    
                             ))}
                             {(chef.isEgg === true && (
-                              <ClickableBadgeBooleans isEgg={chef.isEgg} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={eggRecipesHandler}>Egg Free</Badge>                                   
                             ))}
                             {(chef.isNuts === true && (
-                              <ClickableBadgeBooleans isNuts={chef.isNuts} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={nutsRecipesHandler}>Nuts Free</Badge>                                  
                             ))}
                             {(chef.isShellfish === true && (
-                              <ClickableBadgeBooleans isShellfish={chef.isShellfish} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={shellfishRecipesHandler}>Shellfish Free</Badge>                                  
                             ))}
                             {(chef.isSoy === true && (
-                              <ClickableBadgeBooleans isSoy={chef.isSoy} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={soyRecipesHandler}>Soy Free</Badge>                                  
                             ))}
                             {(chef.isWheat === true && (
-                              <ClickableBadgeBooleans isWheat={chef.isWheat} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}></ClickableBadgeBooleans>
+                              <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={wheatRecipesHandler}>Wheat Free</Badge>
                             ))}
                           </td>
                           <td className="align-middle" style={{textAlign: 'center', width: '50px'}}>Update for # of followers</td>
@@ -241,11 +281,14 @@ const ChefMyFollowedPage = ({ match , history }) => {
                                     </LinkContainer>                     
                                   </Col>
                                   <Col xs={12}>
-                                    <LinkContainer to={`/chefs/${chef._id}/page/1`}>
-                                      <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}>
-                                        <span>Unfollow Chef</span>
+                                    <Form onSubmit={unfollowHandler}>
+                                      <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}
+                                        type='submit'
+                                        onClick={(e) => setChefId(chef._id)}
+                                      >
+                                        Unfollow
                                       </Button>
-                                    </LinkContainer>                     
+                                    </Form>                  
                                   </Col>
                                 </div>
                               }

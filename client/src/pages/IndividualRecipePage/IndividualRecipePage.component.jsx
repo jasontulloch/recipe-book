@@ -37,8 +37,10 @@ import { RECIPE_SAVE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_INGREDIENTS_RESET } from '../../constants/recipeConstants';
 import { RECIPE_SAVE_TO_COOKBOOK_RESET } from '../../constants/recipeConstants';
+import { CHEF_UPDATE_PROFILE_RESET } from '../../constants/chefConstants';
 import Unitz from 'unitz'
 import './IndividualRecipePage.styles.css';
+import { AiOutlineInfoCircle } from 'react-icons/ai'
 import { FaThumbsUp, FaThumbsDown, FaBookMedical, FaTimes, FaFileDownload } from 'react-icons/fa';
 import { RiHeartAddLine, RiHeartAddFill } from 'react-icons/ri';
 import RecipeImagesModal from '../../components/RecipeImagesModal/RecipeImagesModal.component';
@@ -150,21 +152,27 @@ const IndividualRecipePage = ({ history, match }) => {
 
   }
 
+
+
   const [showLikeBtn, setShowLikeBtn] = useState(doesVoteExist)
 
   let wasSaved = Boolean
   try {
     if (chefInfo.savedRecipes && recipe) {
-      wasSaved = Boolean(chefInfo.savedRecipes.find(function(chefRecipe) {
+      wasSaved = chefInfo.savedRecipes.find(function(chefRecipe) {
         return chefRecipe._id === recipe._id
-      }))
+      })
+      if (wasSaved) {
+        wasSaved = true
+      } else {
+        wasSaved = false
+      }
     }
   } catch (err) {
 
   }
 
-
-  const [isRecipeSaved, setIsRecipeSaved] = useState(wasSaved)
+  const [isRecipeSaved, setIsRecipeSaved] = useState(false)
 
   useEffect(() => {
     if(successRecipeUpvote) {
@@ -179,12 +187,10 @@ const IndividualRecipePage = ({ history, match }) => {
     }
     if(successRecipeSave) {
       setSave('')
-      setIsRecipeSaved(true)
       dispatch({ type: RECIPE_SAVE_RESET })
     }
     if(successRecipeUnsave) {
       setUnsave('')
-      setIsRecipeSaved(false)
       dispatch({ type: RECIPE_UNSAVE_RESET })
     }
     if(successRecipeSaveIngredients) {
@@ -219,6 +225,7 @@ const IndividualRecipePage = ({ history, match }) => {
     successRecipeSaveToCookbook,
     errorRecipeSaveToCookbook,
     isMetric,
+    chefInfo,
   ])
 
   const upvoteHandler = (e) => {
@@ -242,10 +249,6 @@ const IndividualRecipePage = ({ history, match }) => {
       save
     }))
     setIsRecipeSaved(true)
-    setSuccessMessage('Recipe successfully saved to your RecipeBook.')
-    setTimeout(function() {
-      setSuccessMessage('')
-    }, 5000)
   }
 
   // If statemet is temporarily, just lets me click the button and if error will toggle to save
@@ -255,10 +258,6 @@ const IndividualRecipePage = ({ history, match }) => {
       unsave
     }))
     setIsRecipeSaved(false)
-    setSuccessMessage('Recipe successfully removed from your RecipeBook.')
-    setTimeout(function() {
-      setSuccessMessage('')
-    }, 5000)
   }
 
   // Save ingredients
@@ -565,11 +564,59 @@ const IndividualRecipePage = ({ history, match }) => {
     }))
   }
 
+  const countryRecipesHandler = (e) => { history.push('/recipes', { countryName: e.target.textContent }) }
+  const dietsRecipesHandler = (diet) => {
+    if (diet.target.innerText === 'VEGAN') {
+      history.push('/recipes', { isVegan: true, isVegetarian: '', isGlutenFree: '', isKetogenic: '', isPescatarian: '' })
+    } else if (diet.target.innerText === 'VEGETARIAN') {
+      history.push('/recipes', { isVegan: '', isVegetarian: true, isGlutenFree: '', isKetogenic: '', isPescatarian: '' })
+    } else if (diet.target.innerText === 'GLUTEN FREE') {
+      history.push('/recipes', { isVegan: '', isVegetarian: '', isGlutenFree: true, isKetogenic: '', isPescatarian: '' })
+    } else if (diet.target.innerText === 'KETOGENIC') {
+      history.push('/recipes', { isVegan: '', isVegetarian: '', isGlutenFree: '', isKetogenic: true, isPescatarian: '' })
+    } else {
+      history.push('/recipes', { isVegan: '', isVegetarian: '', isGlutenFree: '', isKetogenic: '', isPescatarian: true })
+    }
+  }
+  const allerginsRecipesHandler = (allergin) => {
+    if (allergin.target.innerText === 'DAIRY') {
+      history.push('/recipes', { isDairy: true, isEgg: '', isNuts: '', isShellfish: '', isSoy: '', isWheat: '' })
+    } else if (allergin.target.innerText === 'EGG') {
+      history.push('/recipes', { isDairy: '', isEgg: true, isNuts: '', isShellfish: '', isSoy: '', isWheat: '' })
+    } else if (allergin.target.innerText === 'NUTS') {
+      history.push('/recipes', { isDairy: '', isEgg: '', isNuts: true, isShellfish: '', isSoy: '', isWheat: '' })
+    } else if (allergin.target.innerText === 'SHELLFISH') {
+      history.push('/recipes', { isDairy: '', isEgg: '', isNuts: '', isShellfish: true, isSoy: '', isWheat: '' })
+    } else if (allergin.target.innerText === 'SOY') {
+      history.push('/recipes', { isDairy: '', isEgg: '', isNuts: '', isShellfish: '', isSoy: true, isWheat: '' })
+    } else {
+      history.push('/recipes', { isDairy: '', isEgg: '', isNuts: '', isShellfish: '', isSoy: '', isWheat: true })
+    }
+  }
+  const mealtypesRecipesHandler = (mealtype) => {
+    if (mealtype.target.innerText === 'BREAKFAST OR BRUNCH') {
+      history.push('/recipes', { isBreakfastBrunch: true, isMainDish: '', isSideSauce: '', isDessert: '', isSnack: '', isAppetizer: '', isDrink: '' })
+    } else if (mealtype.target.innerText === 'MAIN DISH') {
+      history.push('/recipes', { isBreakfastBrunch: '', isMainDish: true, isSideSauce: '', isDessert: '', isSnack: '', isAppetizer: '', isDrink: '' })
+    } else if (mealtype.target.innerText === 'SIDE OR SAUCE') {
+      history.push('/recipes', { isBreakfastBrunch: '', isMainDish: '', isSideSauce: true, isDessert: '', isSnack: '', isAppetizer: '', isDrink: '' })
+    } else if (mealtype.target.innerText === 'DESSERT') {
+      history.push('/recipes', { isBreakfastBrunch: '', isMainDish: '', isSideSauce: '', isDessert: true, isSnack: '', isAppetizer: '', isDrink: '' })
+    } else if (mealtype.target.innerText === 'SNACK') {
+      history.push('/recipes', { isBreakfastBrunch: '', isMainDish: '', isSideSauce: '', isDessert: '', isSnack: true, isAppetizer: '', isDrink: '' })
+    } else if (mealtype.target.innerText === 'APPETIZER') {
+      history.push('/recipes', { isBreakfastBrunch: '', isMainDish: '', isSideSauce: '', isDessert: '', isSnack: '', isAppetizer: true, isDrink: '' })
+    } else {
+      history.push('/recipes', { isBreakfastBrunch: '', isMainDish: '', isSideSauce: '', isDessert: '', isSnack: '', isAppetizer: '', isDrink: true })
+    }
+  }
+
+
   return (
     <div style={{paddingLeft: '200px'}} className="individualRecipePageMobile">
       {recipe.isPublished === true ? (
         <div >
-          <div style={{paddingLeft: '0px'}}>
+          <div style={{paddingLeft: '10px', paddingRight: '10px'}}>
             {warningMessage !== '' && (
               <Message className="indvidualRecipePageMessageMobile" variant='danger'>{warningMessage}</Message>
             )}
@@ -614,166 +661,13 @@ const IndividualRecipePage = ({ history, match }) => {
                   </span>
                 </div>
             </Col>
-
-
             <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
               <Row style={{height: '40px'}}>
-                {(chefInfo) ? (
-                  <div>
-                    {(recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === 1) ? (
-                      <Row>
-                        {(isRecipeSaved) ? (
-                          <Form onSubmit={unsaveHandler}>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setSave('')}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <RiHeartAddFill style={{marginRight: '25px'}}/>
-                            </Button>
-                          </Form>
-                        ) : (
-                          <Form onSubmit={saveHandler}>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setSave('')}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <RiHeartAddLine style={{marginRight: '25px'}}/>
-                            </Button>
-                          </Form>
-                        )}
-                        <Form onSubmit={downvoteHandler}>
-                          <Form.Group as={Row}>
-                            <Form.Label>
-                              <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
-                            </Form.Label>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setVote(-1)}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <FaThumbsDown style={{ marginLeft: '5px'}}/>
-                            </Button>
-                          </Form.Group>
-                        </Form>
-                      </Row>
-                    ) : (recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === -1) ? (
-                      <Row>
-                        {(isRecipeSaved) ? (
-                          <Form onSubmit={unsaveHandler}>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setSave('')}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <RiHeartAddFill style={{marginRight: '25px'}}/>
-                            </Button>
-                          </Form>
-                        ) : (
-                          <Form onSubmit={saveHandler}>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setSave('')}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <RiHeartAddLine style={{marginRight: '25px'}}/>
-                            </Button>
-                          </Form>
-                        )}
-                        <Form onSubmit={upvoteHandler}>
-                          <Form.Group as={Row}>
-                            <Form.Label>
-                              <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
-                            </Form.Label>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setVote(1)}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <FaThumbsUp style={{ marginLeft: '5px'}}/>
-                            </Button>
-                          </Form.Group>
-                        </Form>
-                      </Row>
-                    ) : (
-                      <Row>
-                        {(isRecipeSaved) ? (
-                          <Form onSubmit={unsaveHandler}>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setSave('')}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <RiHeartAddFill style={{marginRight: '25px'}}/>
-                            </Button>
-                          </Form>
-                        ) : (
-                          <Form onSubmit={saveHandler}>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setSave('')}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <RiHeartAddLine style={{marginRight: '25px'}}/>
-                            </Button>
-                          </Form>
-                        )}
-                        <Form onSubmit={upvoteHandler}>
-                          <Form.Group as={Row}>
-                            <Form.Label>
-                              <p style={{ marginTop: '3px'}}>RATING | {recipe.netVotes}</p>
-                            </Form.Label>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px', marginLeft: '10px', marginRight: '40px'}}
-                              type='submit'
-                              onClick={(e) => setVote(1)}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <FaThumbsUp style={{ }}/>
-                            </Button>
-                          </Form.Group>
-                        </Form>
-                        <Form onSubmit={downvoteHandler}>
-                          <Form.Group as={Row}>
-                            <Button
-                              variant='link'
-                              style={{ padding: 0, height: '25px'}}
-                              type='submit'
-                              onClick={(e) => setVote(-1)}
-                              disabled={(chefInfo == null) ? true : false}
-                            >
-                              <FaThumbsDown style={{ }} />
-                            </Button>
-                          </Form.Group>
-                        </Form>
-                      </Row>
-                    )}
-                  </div>
-                ) : (
                   <Form>
                     <Form.Label>
                       <p>RATING | {recipe.netVotes}</p>
                     </Form.Label>
                   </Form>
-                )}
               </Row>
             </Col>
             <Col xs={12} style={{display: 'flex', justifyContent: 'center'}}>
@@ -858,6 +752,103 @@ const IndividualRecipePage = ({ history, match }) => {
                         Add ingredients to grocery list
                       </Button>
                     </Form>
+                    {(chefInfo && isRecipeSaved) ? (
+                      <Form onSubmit={unsaveHandler}>
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          onClick={(e) => setSave('')}
+                          disabled={(chefInfo == null) ? true : false}
+                        >
+                          Unsave Recipe
+                        </Button>
+                      </Form>
+                    ) : (chefInfo) ? (
+                      <Form onSubmit={saveHandler}>
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          onClick={(e) => setSave('')}
+                          disabled={(chefInfo == null) ? true : false}
+                        >
+                          Save Recipe
+                        </Button>
+                      </Form>
+                    ) : (
+                      <Form>
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          disabled
+                        >
+                          Save Recipe
+                        </Button>
+                      </Form>                     
+                    )}
+                    {(chefInfo && recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === 1) ? (
+                      <Form onSubmit={downvoteHandler}>
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          onClick={(e) => setVote(-1)}
+                          disabled={(chefInfo == null) ? true : false}
+                        >
+                          Downvote Recipe
+                        </Button>
+                      </Form>
+                    ) : (chefInfo && recipe.votes.length > 0 && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0] && recipe.votes.filter(chefId => chefId.chef.toString() === chefInfo._id.toString())[0].rating === -1) ? (
+                      <Form onSubmit={upvoteHandler}>
+                        <Button
+                          style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                          type='submit'
+                          onClick={(e) => setVote(1)}
+                          disabled={(chefInfo == null) ? true : false}
+                        >
+                          Upvote Recipe
+                        </Button>
+                      </Form>
+                    ) : (chefInfo) ? (
+                      <div>
+                        <Form onSubmit={upvoteHandler}>
+                          <Button
+                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                            type='submit'
+                            onClick={(e) => setVote(1)}
+                            disabled={(chefInfo == null) ? true : false}
+                          >
+                            Upvote Recipe
+                          </Button>
+                        </Form>
+                        <Form onSubmit={downvoteHandler}>
+                          <Button
+                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                            type='submit'
+                            onClick={(e) => setVote(-1)}
+                            disabled={(chefInfo == null) ? true : false}
+                          >
+                            Downvote Recipe
+                          </Button>
+                        </Form>
+                      </div>
+                    ) : (
+                      <div>
+                        <Form>
+                          <Button
+                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                            disabled
+                          >
+                            Upvote Recipe
+                          </Button>
+                        </Form>
+                        <Form>
+                          <Button
+                            style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
+                            disabled
+                          >
+                            Downvote Recipe
+                          </Button>
+                        </Form>
+                      </div>                     
+                    )}
                     <PopoverStickOnHover
                       component={
                         <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
@@ -916,8 +907,7 @@ const IndividualRecipePage = ({ history, match }) => {
                     <Form>
                       <Button
                         style={{fontSize: '10px', lineHeight: '10px', width: '100%', paddingLeft: '5px', paddingRight: '5px'}}
-                        disabled={(chefInfo == null) ? true : false}
-                        onClick={(e) => history.push(`/chefs/${recipe.chef}/page/1`)}
+                        onClick={(e) => history.push(`/chefs/${recipe.chef}`)}
                       >
                         View Chef Page
                       </Button>
@@ -973,7 +963,11 @@ const IndividualRecipePage = ({ history, match }) => {
                 delay={200}
               >
               <div className="sidebarIcon">
-                <Button className="individualRecipePageMoreButtonsMobile" style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}>
+                <Button 
+                  className="individualRecipePageMoreButtonsMobile" 
+                  style={{height: '25px', marginRight: '5px', paddingTop: '0px', paddingBottom: '0px', textAlign: 'center'}}
+                  disabled={(chefInfo == null) ? true : false}
+                >
                   Add to Cookbook
                 </Button>
               </div>
@@ -982,16 +976,44 @@ const IndividualRecipePage = ({ history, match }) => {
             <Col xs={12} style={{borderBottom: 'dotted 3px'}}>
               <h6 style={{textAlign: 'center'}}>
                 {(recipe.country && recipe.country.length > 1) && (
-                  <ClickableBadge country={recipe.country} style={{marginRight: '5px', marginBottom: '3px'}}>{recipe.country}</ClickableBadge>
+                  <Badge 
+                    pill 
+                    variant='primary'
+                    style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}}
+                    onClick={countryRecipesHandler}
+                  >
+                    {recipe.country}
+                  </Badge>
                 )}
                 {MealTypes.length > 0 && MealTypes.map((mealtype) => (
-                  <ClickableBadge mealtype={mealtype} style={{marginRight: '5px', marginBottom: '3px'}}>{mealtype}</ClickableBadge>
+                  <Badge 
+                    pill 
+                    variant='primary'
+                    style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}}
+                    onClick={mealtypesRecipesHandler}
+                  >
+                    {mealtype}
+                  </Badge>
                 ))}
                 {Diets.length > 0 && Diets.map((diet) => (
-                  <ClickableBadge diet={diet} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{diet}</ClickableBadge>
+                  <Badge 
+                    pill 
+                    variant='primary'
+                    style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}}
+                    onClick={dietsRecipesHandler}
+                  >
+                    {diet}
+                  </Badge>
                 ))}
                 {Allergins.length > 0 && Allergins.map((allergin) => (
-                  <ClickableBadge allergin={allergin} pill variant='primary' style={{marginRight: '5px', marginBottom: '3px'}}>{allergin}</ClickableBadge>
+                  <Badge 
+                    pill 
+                    variant='primary'
+                    style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}}
+                    onClick={allerginsRecipesHandler}
+                  >
+                    {allergin}
+                  </Badge>
                 ))}
               </h6>
             </Col>

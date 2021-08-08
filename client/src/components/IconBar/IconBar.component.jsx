@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Nav } from 'react-bootstrap';
+import { Nav, Button } from 'react-bootstrap';
 import SearchBox from '../SearchBox/SearchBox.component';
 import PopoverStickOnHover from '../PopoverStickOnHover/PopoverStickOnHover.component';
 import IconBarMobile from './IconBarMobile.component';
@@ -27,6 +27,8 @@ import './IconBar.styles.css';
 
 const IconBar = ({ history }) => {
   const dispatch = useDispatch()
+
+  const allRecipesHandler = () => { history.push('/recipes', { allRecipesState: true })}
 
   const chefLogin = useSelector(state => state.chefLogin)
   const { chefInfo } = chefLogin
@@ -237,7 +239,7 @@ const IconBar = ({ history }) => {
                   <LinkContainer to='/recipes' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
                     <Nav.Link>
                       <div className="sidebarIcon">
-                        <span>Search All Recipes</span>
+                        <span >Search All Recipes</span>
                       </div>
                     </Nav.Link>
                   </LinkContainer>
@@ -267,4 +269,4 @@ const IconBar = ({ history }) => {
   )
 };
 
-export default IconBar;
+export default withRouter(IconBar);

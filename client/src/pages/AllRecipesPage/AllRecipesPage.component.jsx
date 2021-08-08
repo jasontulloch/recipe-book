@@ -15,126 +15,49 @@ import InfiniteScrollLoader from '../../components/InfiniteScrollLoader/Infinite
 import { isBrowser } from 'react-device-detect';
 import './AllRecipesPage.styles.css';
 import AllRecipesPageMobile from './AllRecipesPageMobile.component';
+import { set } from 'mongoose';
 
 const AllRecipesPage = ({ match, history }) => {
-  const keywordRecipeName = match.params.keywordRecipeName
-  //const pageNumber = match.params.pageNumber || 1
-  const [pageNumber, setPageNumber] = useState(1);
-  const urlBaseRecipes = true
 
   // Okay this is cool --- we are passing netVotesSortButton from the other page to this page
   // Then in our sorting variables, we see if it exists, if it does we use it, if not, nah!
   // We also need to change the button label to say we are sorting for the highest rated
   const location = useLocation()
-  const { netVotesSortState } = location.state || {netVotesSortState: '' }
-  const { createdAtState } = location.state || {createdAtState: '' }
+  const { allRecipesState } = location.state || { allRecipesState: false}
+  const { countryName } = location.state || { countryName: ''}
+  const { isVegan } = location.state || { isVegan: '' }
+  const { isVegetarian } = location.state || { isVegetarian: '' }
+  const { isGlutenFree } = location.state || { isGlutenFree: '' }
+  const { isKetogenic } = location.state || { isKetogenic: '' }
+  const { isPescatarian } = location.state || { isPescatarian: '' }
+  const { isDairy } = location.state || { isDairy: '' }
+  const { isEgg } = location.state || { isEgg: '' }
+  const { isNuts } = location.state || { isNuts: '' }
+  const { isShellfish } = location.state || { isShellfish: '' }
+  const { isSoy } = location.state || { isSoy: '' }
+  const { isWheat } = location.state || { isWheat: '' }
+  const { isBreakfastBrunch } = location.state || { isBreakfastBrunch: '' }
+  const { isMainDish } = location.state || { isMainDish: '' }
+  const { isSideSauce } = location.state || { isSideSauce: '' }
+  const { isDessert } = location.state || { isDessert: '' }
+  const { isSnack } = location.state || { isSnack: '' }
+  const { isAppetizer } = location.state || { isAppetizer: '' }
+  const { isDrink } = location.state || { isDrink: '' }
 
-  // Sorting variables
-  const [netVotesSort, setNetVotesSort] = useState(
-    netVotesSortState || localStorage.getItem('netVotesSortLocalStorage') || ''
-  )
-  const [createdAtSort, setCreatedAtSort] = useState(
-    createdAtState || localStorage.getItem('createdAtSortLocalStorage') || -1
-  )
-  const [sortButtonLabel, setSortButtonLabel] = useState(
-    localStorage.getItem('sortButtonLabelLocalStorage') || 'Most Recent'
-  )
+  console.log(location)
 
   const dispatch = useDispatch()
 
-  const recipeList = useSelector(state => state.recipeList)
-  const { 
-    loading: loadingRecipeList, 
-    error: errorRecipeList, 
-    recipes: recipesRecipeList, 
-    pages: pagesRecipeList, 
-    page: pageRecipeList 
-  } = recipeList
-
-  const recipeListMostRecent = useSelector(state => state.recipeListMostRecent)
-  const { 
-    loading: loadingMostRecent, 
-    error: errorMostRecent, 
-    mostRecentRecipes: mostRecentRecipes, 
-    pages: pagesMostRecent, 
-    page: pageMostRecent,
-  } = recipeListMostRecent
-
-  const recipeListHighestRated = useSelector(state => state.recipeListHighestRated)
-  const { 
-    loading: loadingHighestRated, 
-    error: errorHighestRated, 
-    highestRatedRecipes: highestRatedRecipes, 
-    pages: pagesHighestRated, 
-    page: pageHighestRated,
-  } = recipeListHighestRated
-
-  // This is firing off the action to get products in state
-  useEffect(() => {
-    dispatch(listRecipes(pageNumber))
-    if(createdAtState === -1) {
-      dispatch(listMostRecentRecipes())
-    }
-    if(netVotesSortState === -1) {
-      dispatch(listHighestRatedRecipes())
-    }
-    localStorage.setItem('createdAtSortLocalStorage', createdAtSort)
-    localStorage.setItem('netVotesSortLocalStorage', netVotesSort)
-    localStorage.setItem('sortButtonLabelLocalStorage', sortButtonLabel)
-
-  }, [
-    dispatch,
-    keywordRecipeName,
-    createdAtSort,
-    createdAtState,
-    netVotesSort,
-    netVotesSortState,
-    sortButtonLabel,
-    pageNumber,
-  ])
-
-  const [initialLoader, setInitialLoader] = useState(true)
-  if (loadingRecipeList !== true) {
-    setTimeout(() => setInitialLoader(false), 3000)
-  }
-
-  const handleMostRecent = (e) => {
-    e.preventDefault()
-    history.push('/recipes/page/1')
-    setCreatedAtSort(-1)
-    localStorage.setItem('createdAtSortLocalStorage', -1)
-    setNetVotesSort('')
-    localStorage.setItem('netVotesSortLocalStorage', '')
-    setSortButtonLabel('Most Recent')
-    localStorage.setItem('sortButtonLabelLocalStorage', 'Most Recent')
-  }
-
-  const handleHighestRanking = (e) => {
-    e.preventDefault()
-    history.push('/recipes/page/1')
-    setNetVotesSort(-1)
-    localStorage.setItem('netVotesSortLocalStorage', -1)
-    setCreatedAtSort('')
-    localStorage.setItem('createdAtSortLocalStorage', '')
-    setSortButtonLabel('Highest Ranking')
-    localStorage.setItem('sortButtonLabelLocalStorage', 'Highest Ranking')
-  }
-
-  const handleLowestRanking = (e) => {
-    e.preventDefault()
-    history.push('/recipes/page/1')
-    setNetVotesSort(1)
-    localStorage.setItem('netVotesSortLocalStorage', 1)
-    setCreatedAtSort('')
-    localStorage.setItem('createdAtSortLocalStorage', '')
-    setSortButtonLabel('Lowest Ranking')
-    localStorage.setItem('sortButtonLabelLocalStorage', 'Lowest Ranking')
-  }
-
   // Lazy Loading!!!
-  const [currentRecipeList, setCurrentRecipeList] = useState([]);
-	const [isFetching, setIsFetching] = useState(false);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentAllRecipesList, setCurrentAllRecipesList] = useState([]);
+  const [currentCountryRecipesList, setCurrentCountryRecipesList] = useState([]);
+  const [currentDietRecipesList, setCurrentDietRecipesList] = useState([]);
+  const [currentAllerginRecipesList, setCurrentAllerginRecipesList] = useState([]);
+  const [currentMealTypeRecipesList, setCurrentMealTypeRecipesList] = useState([]);
+
+  const [isFetching, setIsFetching] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pages, setPages] = useState(1);
 
 	useEffect(() => {
 		fetchData();
@@ -152,17 +75,59 @@ const AllRecipesPage = ({ match, history }) => {
 
 	const fetchData = async () => {
 		setTimeout(async () => {
-      const result = await axios.get(`/api/recipes?pageNumber=${pageNumber}`)
-      const data = await result.data.recipes
-      setTotalPages(result.data.pages)
-      if (pageNumber > totalPages) return
-      setCurrentRecipeList(() => {
-        return [...currentRecipeList, ...data];
-      });
-      setPageNumber(pageNumber + 1)
-      localStorage.setItem('pageNumber', pageNumber)
+      if (true) {
+        const result = await axios.get(`/api/recipes?pageNumber=${pageNumber}`)
+        const data = await result.data.recipes
+        setPages(result.data.pages)
+        if (pageNumber > pages) return
+        setCurrentAllRecipesList(() => {
+          return [...currentAllRecipesList, ...data];
+        });
+        setPageNumber(pageNumber + 1)
+      }
+      if (countryName !== '') {
+        const result = await axios.get(`/api/recipes/countryRecipes?countryName=${countryName}&pageNumber=${pageNumber}`)
+        const data = await result.data.countryRecipes
+        setPages(result.data.pages)
+        if (pageNumber > pages) return
+        setCurrentCountryRecipesList(() => {
+          return [...currentCountryRecipesList, ...data];
+        });
+        setPageNumber(pageNumber + 1)
+      }
+      if (isVegan || isVegetarian || isGlutenFree || isKetogenic || isPescatarian) {
+        const result = await axios.get(`/api/recipes/dietRecipes?isVegan=${isVegan}&isVegetarian=${isVegetarian}&isGlutenFree=${isGlutenFree}&isKetogenic=${isKetogenic}&isPescatarian=${isPescatarian}&pageNumber=${pageNumber}`)
+        const data = await result.data.dietRecipes
+        setPages(result.data.pages)
+        if (pageNumber > pages) return
+        setCurrentDietRecipesList(() => {
+          return [...currentDietRecipesList, ...data];
+        });
+        setPageNumber(pageNumber + 1)
+      }
+      if (isDairy || isEgg || isNuts || isShellfish || isSoy || isWheat) {
+        const result = await axios.get(`/api/recipes/allerginRecipes?isDairy=${isDairy}&isEgg=${isEgg}&isNuts=${isNuts}&isShellfish=${isShellfish}&isSoy=${isSoy}&isWheat=${isWheat}&pageNumber=${pageNumber}`)
+        const data = await result.data.allerginRecipes
+        setPages(result.data.pages)
+        if (pageNumber > pages) return
+        setCurrentAllerginRecipesList(() => {
+          return [...currentAllerginRecipesList, ...data];
+        });
+        setPageNumber(pageNumber + 1)
+      }
+      if (isBreakfastBrunch || isMainDish || isSideSauce || isDessert || isSnack || isAppetizer || isDrink) {
+        const result = await axios.get(`/api/recipes/mealTypeRecipes?isBreakfastBrunch=${isBreakfastBrunch}&isMainDish=${isMainDish}&isSideSauce=${isSideSauce}&isDessert=${isDessert}&isSnack=${isSnack}&isAppetizer=${isAppetizer}&isDrink=${isDrink}&pageNumber=${pageNumber}`)
+        const data = await result.data.mealTypeRecipes
+        setPages(result.data.pages)
+        if (pageNumber > pages) return
+        setCurrentMealTypeRecipesList(() => {
+          return [...currentMealTypeRecipesList, ...data];
+        });
+        setPageNumber(pageNumber + 1)
+      }
 		}, 1000);
 	};
+
 
 	useEffect(() => {
 		if (!isFetching) return;
@@ -177,63 +142,79 @@ const AllRecipesPage = ({ match, history }) => {
   return (
     <div>
       {(isBrowser) ? (
-        <div>
             <div style={{paddingLeft: '200px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allRecipesPageMobile2Div">
-              <Row className="allRecipesPageMobileRow">
-                {((highestRatedRecipes && highestRatedRecipes.length > 1) || (mostRecentRecipes && mostRecentRecipes.length > 1)) && (
-                  <Col className="allRecipesSortButtonCol" xs={12} style={{paddingBottom: '10px', textAlign: 'left'}}>
-                    <DropdownButton id="dropdown-item-button" title={sortButtonLabel}>
-                      <Dropdown.Item as="button" onClick={handleMostRecent}>Most Recent</Dropdown.Item>
-                      <Dropdown.Item as="button" onClick={handleHighestRanking}>Highest Rated</Dropdown.Item>
-                      <Dropdown.Item as="button" onClick={handleLowestRanking}>Lowest Rated</Dropdown.Item>
-                    </DropdownButton>
-                  </Col>
+                {countryName === '' && (
+                  <Row>
+                    {currentAllRecipesList && currentAllRecipesList.map((recipe) => (
+                      <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                        <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
+                          <RecipeCard recipe={recipe} />
+                        </Suspense>
+                      </Col>
+                    ))}
+                    <Col xs={12} style={{paddingLeft: '10px', paddingRight: '30px', paddingBottom: '30px', textAlign: 'center'}}>
+                      <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={false} />
+                    </Col>
+                  </Row>
                 )}
-                {currentRecipeList.map((recipe) => (
-                  <Col className="allRecipesPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
-                    <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
-                      <RecipeCard recipe={recipe} />
-                    </Suspense>
-                  </Col>
-                ))}
-                {netVotesSortState === -1 && highestRatedRecipes.length > 1 && highestRatedRecipes.map((recipe) => (
-                  <Col className="allRecipesPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
-                    <RecipeCard recipe={recipe} />
-                  </Col>
-                ))}
-                {createdAtState === -1 && mostRecentRecipes.length > 1 && mostRecentRecipes.map((recipe) => (
-                  <Col className="allRecipesPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
-                    <RecipeCard recipe={recipe} />
-                  </Col>
-                ))}
-                {createdAtState !== -1 && netVotesSortState !== -1 && recipesRecipeList.map((recipe) => (
-                  <Col className="allRecipesPageRecipeCardMobile" key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
-                    <RecipeCard recipe={recipe} />
-                  </Col>
-                ))}
-                {(false) && (
-                  <Col style={{textAlign: 'center', paddingTop: '100px'}}>
-                    <p >Looks like we couldn't find any recipes, add your own or update your search!</p>
-                    <LinkContainer to={`/myrecipes`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-plus'>Add New Recipe</i>
-                      </Button>
-                    </LinkContainer>
-                    <LinkContainer to={`/recipes/advanced-search`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-search'>New Search</i>
-                      </Button>
-                    </LinkContainer>
-                  </Col>
+                {countryName && (
+                  <Row>
+                    {currentCountryRecipesList && currentCountryRecipesList.map((recipe) => (
+                      <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                        <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
+                          <RecipeCard recipe={recipe} />
+                        </Suspense>
+                      </Col>
+                    ))}
+                    <Col xs={12} style={{paddingLeft: '10px', paddingRight: '30px', paddingBottom: '30px', textAlign: 'center'}}>
+                      <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={false} />
+                    </Col>
+                  </Row>
                 )}
-              </Row>
+                {(isVegan || isVegetarian || isGlutenFree || isKetogenic || isPescatarian) && (
+                  <Row>
+                    {currentDietRecipesList && currentDietRecipesList.map((recipe) => (
+                      <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                        <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
+                          <RecipeCard recipe={recipe} />
+                        </Suspense>
+                      </Col>
+                    ))}
+                    <Col xs={12} style={{paddingLeft: '10px', paddingRight: '30px', paddingBottom: '30px', textAlign: 'center'}}>
+                      <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={false} />
+                    </Col>
+                  </Row>
+                )}
+                {(isDairy || isEgg || isNuts || isShellfish || isSoy || isWheat) && (
+                  <Row>
+                    {currentAllerginRecipesList && currentAllerginRecipesList.map((recipe) => (
+                      <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                        <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
+                          <RecipeCard recipe={recipe} />
+                        </Suspense>
+                      </Col>
+                    ))}
+                    <Col xs={12} style={{paddingLeft: '10px', paddingRight: '30px', paddingBottom: '30px', textAlign: 'center'}}>
+                      <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={false} />
+                    </Col>
+                  </Row>
+                )}
+                {(isBreakfastBrunch || isMainDish || isSideSauce || isDessert || isSnack || isAppetizer || isDrink) && (
+                  <Row>
+                    {currentMealTypeRecipesList && currentMealTypeRecipesList.map((recipe) => (
+                      <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                        <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
+                          <RecipeCard recipe={recipe} />
+                        </Suspense>
+                      </Col>
+                    ))}
+                    <Col xs={12} style={{paddingLeft: '10px', paddingRight: '30px', paddingBottom: '30px', textAlign: 'center'}}>
+                      <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={false} />
+                    </Col>
+                  </Row>
+                )}
+
             </div>
-            <div>
-              <Col xs={12} style={{paddingLeft: '210px', textAlign: 'center'}}>
-                <InfiniteScrollLoader pageNumber={pageNumber} pages={totalPages} loading={loadingRecipeList} />
-              </Col>
-            </div>
-          </div>
       ) : (
         <AllRecipesPageMobile />
       )}
