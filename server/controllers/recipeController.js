@@ -706,9 +706,6 @@ const createRecipeDownvote = asyncHandler(async (req, res) => {
 // @route POST /api/recipes/:id/save
 // @access Private
 const saveRecipe = asyncHandler(async (req, res) => {
-  const {
-    recipe_name
-  } = req.body
 
   const recipe = await Recipe.findById(req.params.id)
   const chef = await Chef.findById(req.chef._id)
@@ -723,11 +720,7 @@ const saveRecipe = asyncHandler(async (req, res) => {
       throw new Error('Recipe has already been saved')
     }
 
-    const savedRecipe = {
-      recipe_name: req.recipe
-    }
-
-    chef.savedRecipes.push(recipe)
+    chef.savedRecipes.push(recipe._id)
 
     await chef.save()
 

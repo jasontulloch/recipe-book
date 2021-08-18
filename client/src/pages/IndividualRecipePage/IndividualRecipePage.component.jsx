@@ -621,7 +621,7 @@ const IndividualRecipePage = ({ history, match }) => {
               <Message className="indvidualRecipePageMessageMobile" variant='danger'>{warningMessage}</Message>
             )}
             {(chefInfo == null) && (
-              <Message className="indvidualRecipePageMessageMobile" variant='danger'>
+              <Message className="indvidualRecipePageMessageMobile" variant='warning'>
                 <Link to='/login' style={{ paddingRight: '5px' }}>
                   Sign in
                 </Link>

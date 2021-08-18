@@ -225,37 +225,35 @@ const viewChefRecipesHandler = () => {
     }))
   }
 
+  console.log(chefInfo.savedRecipes)
+
   return (
-    <div className="individualChefPageMobile" style={{paddingLeft: '220px'}}>
+    <div className="individualChefPageMobile" style={{paddingLeft: '210px'}}>
         <div>
-        {(chefInfo && chef && (chef.id === chefInfo._id)) ? (
-          <Col xs={12} style={{textAlign:'center'}}>
+        {(chefInfo && (chefInfo._id === chefId)) ? (
+          <Col xs={12} style={{paddingLeft: '0px', paddingRight: '10px'}}>
             <Message variant='warning'>
-              <Form.Text className='muted'>
-                Looks like you found your public profile! Want to make a change?
-                <Link to='/profile' style={{ paddingLeft: '5px' }}>
-                  Edit you profile
-                </Link>
-                .
-              </Form.Text>
+              Looks like you found your public profile! Want to make a change?
+              <Link to='/profile' style={{ paddingLeft: '5px' }}>
+                Edit you profile
+              </Link>
+              .
             </Message>
           </Col>
         ) : (chefInfo == null) ? (
-          <Col xs={12} style={{textAlign:'center'}}>
+          <Col xs={12} style={{paddingLeft: '0px', paddingRight: '10px'}}>
             <Message variant='warning'>
-              <Form.Text className='muted'>
-                <Link to='/login' style={{ paddingRight: '5px' }}>
-                  Sign in
-                </Link>
-                to follow a chef
-              </Form.Text>
+              <Link to='/login' style={{ paddingRight: '5px' }}>
+                Sign in
+              </Link>
+              to follow a chef
             </Message>
           </Col>
         ) : (
           <div></div>
         )}
         {chef && (chef.isVisible === true) && (
-        <div>
+        <div style={{marginRight: '10px'}}>
           <Row>
             <Col xs={12} md={7}>
               {chefInfo && chefChefPrivate && chefChefPrivate.following && chefChefPrivate.following.some(function(chefId){ return chefId.chef === chef._id}) ? (
@@ -298,13 +296,40 @@ const viewChefRecipesHandler = () => {
                 </Form>
               )}
               <h6 style={{textAlign: 'center'}}>
-                {Diets.length > 0 && Diets.map((diet) => (
-                  <ClickableBadge diet={diet} style={{marginRight: '5px', marginTop: '5px'}}>{diet}</ClickableBadge>
+                {(chef.isVegan === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={veganRecipesHandler}>Vegan</Badge> 
+                ))}
+                {(chef.isVegetarian === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={vegetarianRecipesHandler}>Vegetarian</Badge> 
+                ))}
+                {(chef.isGlutenFree === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={glutenFreeRecipesHandler}>Gluten Free</Badge>                                                               
+                ))}
+                {(chef.isKetogenic === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={ketogenicRecipesHandler}>Ketogenic</Badge>    
+                ))}
+                {(chef.isPescatarian === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={pescatarianRecipesHandler}>Pescatarian</Badge>     
                 ))}
               </h6>
               <h6 style={{paddingBottom: '10px', borderBottom: 'dotted 3px', textAlign: 'center'}}>
-                {Allergins.length > 0 && Allergins.map((allergin) => (
-                  <ClickableBadge allergin={allergin} style={{marginRight: '5px', marginTop: '5px'}}></ClickableBadge>
+                {(chef.isDairy === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={dairyRecipesHandler}>Dairy Free</Badge>    
+                ))}
+                {(chef.isEgg === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={eggRecipesHandler}>Egg Free</Badge>                                   
+                ))}
+                {(chef.isNuts === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={nutsRecipesHandler}>Nuts Free</Badge>                                  
+                ))}
+                {(chef.isShellfish === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={shellfishRecipesHandler}>Shellfish Free</Badge>                                  
+                ))}
+                {(chef.isSoy === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={soyRecipesHandler}>Soy Free</Badge>                                  
+                ))}
+                {(chef.isWheat === true && (
+                  <Badge pill variant='primary' style={{marginRight: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={wheatRecipesHandler}>Wheat Free</Badge>
                 ))}
               </h6>
               <p>{chef.bio}</p>
@@ -476,18 +501,8 @@ const viewChefRecipesHandler = () => {
                                 </LinkContainer>
                               )}                       
                             </Col>
-                            {/* <Col xs={12}>
-                              <Form onSubmit={unsaveHandler}>
-                                <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}
-                                  type='submit'
-                                  onClick={(e) => setRecipeId(recipe._id)}
-                                >
-                                  Save Recipe
-                                </Button>
-                              </Form>                  
-                            </Col> */}
                             <Col>
-                              {(chefInfo && chefInfo.savedRecipes.find(chefRecipe => chefRecipe._id === recipe._id) ? (
+                              {(chefInfo && chefInfo.savedRecipes.indexOf(recipe._id) > -1 ? (
                                 <Form onSubmit={unsaveHandler}>
                                   <Button
                                     variant='light'
@@ -495,7 +510,8 @@ const viewChefRecipesHandler = () => {
                                     style={{width: '100%', height: '30px'}}
                                     type='submit'
                                     onClick={(e) => setRecipeId(recipe._id)}
-                                    disabled={(chefInfo == null) ? true : false}
+                                    // disabled={(chefInfo == null) ? true : false}
+                                    disabled
                                   >
                                     Unsave Recipe
                                   </Button>
@@ -508,7 +524,8 @@ const viewChefRecipesHandler = () => {
                                     style={{width: '100%', height: '30px'}}
                                     type='submit'
                                     onClick={(e) => setRecipeId(recipe._id)}
-                                    disabled={(chefInfo == null) ? true : false}
+                                    // disabled={(chefInfo == null) ? true : false}
+                                    disabled
                                   >
                                     Save Recipe
                                   </Button>

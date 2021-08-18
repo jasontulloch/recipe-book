@@ -346,7 +346,7 @@ const MyFoodsPageMobile = () => {
                         {viewFavoriteChefs && currentFollowedChefsResult && currentFollowedChefsResult.map((chef) => (         
                             <tr key={chef.id}>
                                 <Link
-                                    to={`/chefs/${chef._id}/page/1`}
+                                    to={`/chefs/${chef._id}`}
                                     style={chef.isVisible === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
                                 >
                                 <td style={{paddingLeft: '0px', paddingRight: '0px'}}>
