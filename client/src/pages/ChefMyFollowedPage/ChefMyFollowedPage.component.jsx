@@ -274,7 +274,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                               component={
                                 <div style={{ fontSize: '.85rem', textAlign: 'center', marginLeft: '0px', marginRight: '0px' }}>
                                   <Col xs={12}>
-                                    <LinkContainer to={`/chefs/${chef._id}/page/1`}>
+                                    <LinkContainer to={`/chefs/${chef._id}`}>
                                       <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}>
                                         <span>View Chef</span>
                                       </Button>
@@ -343,7 +343,7 @@ const ChefMyFollowedPage = ({ match , history }) => {
                       currentMyChefsList.map(chef => (
                         <tr key={chef.id}>
                           <Link
-                              to={`/chefs/${chef._id}/page/1`}
+                              to={`/chefs/${chef._id}`}
                               style={chef.isVisible === false ? {pointerEvents: "none", textDecoration: 'none'} : {}}
                           >
                           <td style={{paddingLeft: '0px', paddingRight: '0px'}}>

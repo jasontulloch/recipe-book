@@ -16,13 +16,10 @@ const SearchBox = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     console.log(isBrowser)
-    if (isBrowser && keywordRecipeName.trim()) {
-      history.push(`/recipes/search/keywordRecipeName=${keywordRecipeName}/page/1`)
-      // Need to set keyword recipe name to another variable and then clear
-    } else if (isMobile && keywordRecipeName.trim()) {
+    if (keywordRecipeName.trim()) {
       history.push('/recipes', { nameRecipe: keywordRecipeName })
     } else {
-      history.push('/recipes/page/1')
+      history.push('/recipes')
     }
     setKeywordRecipeName('')
   }
@@ -72,7 +69,7 @@ const SearchBox = ({ history }) => {
     if (e) {
       setKeywordRecipeName(e.value)
       if (isBrowser) {
-        history.push(`/recipes/search/keywordRecipeName=${e.value}/page/1`)
+        history.push('/recipes', { nameRecipe: e.value })
       } else {
         history.push('/recipes', { nameRecipe: e.value })
       }

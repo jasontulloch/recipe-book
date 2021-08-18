@@ -149,6 +149,20 @@ const CookbookDetailsPage = ({ match , history }) => {
     }
   }
 
+    // Need to update to remove recipe from liked recipes on page (vs new window)
+  //const [recipeId, setRecipeId] = useState('')
+  // const [unsave, setUnsave] = useState('')
+  // const unsaveHandler = (e) => {
+  //   e.preventDefault()
+  //   const index = currentMySavedRecipesList.findIndex(x => x._id === recipeId)
+  //   dispatch(unsaveRecipe(recipeId, {
+  //     unsave
+  //   }))
+  //   setCurrentMySavedRecipesList(() => {
+  //     return [...currentMySavedRecipesList.slice(0, index), ...currentMySavedRecipesList.splice(index+1)]
+  //   })
+  // }
+
   return (
       <div className="cookbookDetailsPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
           {warningMessage !== '' && (

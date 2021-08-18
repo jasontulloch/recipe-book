@@ -30,7 +30,7 @@ const getRecipeNames = asyncHandler(async (req, res) => {
 // @route GET /api/recipes
 // @access Public
 const getRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 10
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   // If there is a keyword query, then return
@@ -78,7 +78,7 @@ const getRecipes = asyncHandler(async (req, res) => {
 // @route GET /api/recipes/search
 // @access Public
 const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
-  const pageSize = 10
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -352,7 +352,7 @@ const getRecipesAdvancedSearchAll = asyncHandler(async (req, res) => {
 // @route GET /api/recipe/myrecipes
 // @access Private
 const getMyRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
   // Returns all recipes
   const recipes = await Recipe.find({})
@@ -397,7 +397,7 @@ const getMyRecipes = asyncHandler(async (req, res) => {
 const getMySavedRecipes = asyncHandler(async (req, res) => {
   const { ObjectId } = pkg;
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
   // Returns all recipes
   //const recipes = await Recipe.find({})
@@ -896,7 +896,7 @@ const getMostRecentRecipesLimited = asyncHandler(async (req, res) => {
 // @access Public
 const getMostRecentRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -957,7 +957,7 @@ const getHighestRatedRecipesLimited = asyncHandler(async (req, res) => {
 // @access Public
 const getHighestRatedRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -992,7 +992,7 @@ const getHighestRatedRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getFiveIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1027,7 +1027,7 @@ const getFiveIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getTenIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1062,7 +1062,7 @@ const getTenIngredientsOrFewerRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getFiveStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1097,7 +1097,7 @@ const getFiveStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getTenStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1132,7 +1132,7 @@ const getTenStepsOrFewerRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getThirtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1166,7 +1166,7 @@ const getThirtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getSixtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1201,7 +1201,7 @@ const getSixtyMinutesAndUnderRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getNameRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1242,7 +1242,7 @@ const getNameRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getCountryRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
   const countryName = req.query.countryName || ''
 
@@ -1278,7 +1278,7 @@ const getCountryRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getDietRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1351,7 +1351,7 @@ const getDietRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getAllerginRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {
@@ -1432,7 +1432,7 @@ const getAllerginRecipes = asyncHandler(async (req, res) => {
 // @access Public
 const getMealTypeRecipes = asyncHandler(async (req, res) => {
 
-  const pageSize = 5
+  const pageSize = 20
   const page = Number(req.query.pageNumber) || 1
 
   const isPublished = true ? {

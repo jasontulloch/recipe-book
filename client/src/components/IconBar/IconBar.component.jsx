@@ -89,8 +89,8 @@ const IconBar = ({ history }) => {
                   <PopoverStickOnHover
                     component={
                       <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px', textAlign: 'center' }}>
-                        <Route render={({ history }) => <SearchBox history={history} />} />
-                        <LinkContainer to='/recipes' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
+                        {/* <Route render={({ history }) => <SearchBox history={history} />} /> */}
+                        <LinkContainer to='/recipes' style={{paddingLeft: '5px', paddingRight: '5px', paddingTop: '10px', marginTop: '0px', width: '100%', color: 'rgba(255,255,255,0.5)' }}>
                           <Nav.Link>
                             <div className="sidebarIcon">
                               <span>Search All Recipes</span>
@@ -104,13 +104,13 @@ const IconBar = ({ history }) => {
                             </div>
                           </Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to='/advanced-search' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                        {/* <LinkContainer to='/advanced-search' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
                           <Nav.Link>
                             <div className="sidebarIcon">
                               <span>Advanced Search</span>
                             </div>
                           </Nav.Link>
-                        </LinkContainer>
+                        </LinkContainer> */}
                       </div>
                     }
                     placement="right"
@@ -235,8 +235,8 @@ const IconBar = ({ history }) => {
             <Nav className="ml-auto">
               <Nav.Link style={{paddingLeft: '5px', paddingRight: '5px', width: '100%', color: 'rgba(255,255,255,0.5)'}}>
                 <div style={{ backgroundColor: '#343a40', fontSize: '.85rem', width: '175px' }}>
-                  <Route render={({ history }) => <SearchBox history={history} />} />
-                  <LinkContainer to='/recipes' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '10px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
+                  {/* <Route render={({ history }) => <SearchBox history={history} />} /> */}
+                  <LinkContainer to='/recipes' style={{paddingLeft: '5px', paddingRight: '5px', marginTop: '0px', width: '100%', paddingTop: '0px', color: 'rgba(255,255,255,0.5)' }}>
                     <Nav.Link>
                       <div className="sidebarIcon">
                         <span >Search All Recipes</span>
@@ -250,13 +250,13 @@ const IconBar = ({ history }) => {
                       </div>
                     </Nav.Link>
                   </LinkContainer>
-                  <LinkContainer to='/advanced-search' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
+                  {/* <LinkContainer to='/advanced-search' style={{paddingLeft: '5px', paddingRight: '5px', width: '100%',paddingTop: '0px', color: 'rgba(255,255,255,0.5)'}}>
                     <Nav.Link>
                       <div className="sidebarIcon">
                         <span>Advanced Search</span>
                       </div>
                     </Nav.Link>
-                  </LinkContainer>
+                  </LinkContainer> */}
                 </div>
               </Nav.Link>
             </Nav>

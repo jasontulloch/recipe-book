@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
-import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Badge } from 'react-bootstrap';
+import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Badge, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   listMyRecipes,
@@ -99,11 +99,11 @@ const ChefRecipesListPage = ({ match , history }) => {
     isMobile
   ])
 
-  const deleteHandler = (id) => {
-    if(window.confirm('Are you sure? You can not undo this action.')) {
-      dispatch(deleteRecipe(id))
-    }
-  }
+  // const deleteHandler = (id) => {
+  //   if(window.confirm('Are you sure? You can not undo this action.')) {
+  //     dispatch(deleteRecipe(id))
+  //   }
+  // }
 
   const createRecipeHandler = () => {
     dispatch(createRecipe())
@@ -158,6 +158,19 @@ const ChefRecipesListPage = ({ match , history }) => {
       fetchData();
       setIsFetching(false);
     };
+
+  // Permanately delete a chef created recipe
+  const [recipeId, setRecipeId] = useState('')
+  const deleteHandler = (e) => {
+    e.preventDefault()
+    const index = currentMyRecipesList.findIndex(x => x._id === recipeId)
+    if(window.confirm('Are you sure? You can not undo this action.')) {
+      dispatch(deleteRecipe(recipeId))
+      setCurrentMyRecipesList(() => {
+        return [...currentMyRecipesList.slice(0, index), ...currentMyRecipesList.splice(index+1)]
+      })
+    }
+  }
 
   return (
       <div style={{paddingLeft: '220px', paddingRight: '10px'}}>
@@ -330,7 +343,7 @@ const ChefRecipesListPage = ({ match , history }) => {
                                   </Button>
                                 </LinkContainer>                     
                               </Col>
-                              <Col xs={12}>
+                              {/* <Col xs={12}>
                                 <Button 
                                   variant='light' 
                                   className='btn-sm' 
@@ -339,6 +352,16 @@ const ChefRecipesListPage = ({ match , history }) => {
                                 >
                                   Remove Recipe
                                 </Button>
+                              </Col> */}
+                              <Col xs={12}>
+                                <Form onSubmit={deleteHandler}>
+                                  <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}
+                                    type='submit'
+                                    onClick={(e) => setRecipeId(recipe._id)}
+                                  >
+                                    Remove Recipe
+                                  </Button>
+                                </Form>                  
                               </Col>
                             </div>
                           }

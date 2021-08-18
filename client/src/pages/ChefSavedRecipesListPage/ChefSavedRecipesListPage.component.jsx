@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
-import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Badge } from 'react-bootstrap';
+import { Table, Button, Row, Col, OverlayTrigger, Tooltip, Card, Badge, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   listMySavedRecipes,
-  //unsaveRecipe
+  unsaveRecipe
 } from '../../actions/recipeActions';
 import { RECIPE_UNSAVE_RESET } from '../../constants/recipeConstants';
 import { BiInfoCircle } from 'react-icons/bi'
@@ -72,8 +72,6 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
     }
 
     if(successRecipeUnsave) {
-      alert('Recipe removed')
-      //setUnsave('')
       dispatch({ type: RECIPE_UNSAVE_RESET })
     }
 
@@ -138,12 +136,18 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
 	};
 
   // Need to update to remove recipe from liked recipes on page (vs new window)
-  //const unsaveHandler = (e) => {
-  //  e.preventDefault()
-  //  dispatch(unsaveRecipe(unsave, {
-  //    unsave
-  //  }))
-  //}
+  const [recipeId, setRecipeId] = useState('')
+  const [unsave, setUnsave] = useState('')
+  const unsaveHandler = (e) => {
+    e.preventDefault()
+    const index = currentMySavedRecipesList.findIndex(x => x._id === recipeId)
+    dispatch(unsaveRecipe(recipeId, {
+      unsave
+    }))
+    setCurrentMySavedRecipesList(() => {
+      return [...currentMySavedRecipesList.slice(0, index), ...currentMySavedRecipesList.splice(index+1)]
+    })
+  }
 
   return (
       <div className="chefSavedRecipesListPageMobile" style={{paddingLeft: '200px', paddingRight: '30px'}}>
@@ -324,13 +328,23 @@ const ChefSavedRecipesListPage = ({ match , history }) => {
                                 </LinkContainer>
                               )}                       
                             </Col>
-                            <Col xs={12}>
+                            {/* <Col xs={12}>
                               <LinkContainer to={`/savedrecipes/${recipe._id}`}>
                                 <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}>
                                   <MdDelete style={{width: '20px', height: '20px'}}/>
                                   <span style={{paddingLeft: '5px'}}>Remove Recipe</span>
                                 </Button>
                               </LinkContainer>                     
+                            </Col> */}
+                            <Col xs={12}>
+                              <Form onSubmit={unsaveHandler}>
+                                <Button variant='light' className='btn-sm' style={{width: '100%', height: '30px'}}
+                                  type='submit'
+                                  onClick={(e) => setRecipeId(recipe._id)}
+                                >
+                                  Remove Recipe
+                                </Button>
+                              </Form>                  
                             </Col>
                           </div>
                         }

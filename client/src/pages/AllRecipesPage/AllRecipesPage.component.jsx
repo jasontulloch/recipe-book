@@ -24,6 +24,7 @@ const AllRecipesPage = ({ match, history }) => {
   // We also need to change the button label to say we are sorting for the highest rated
   const location = useLocation()
   const { allRecipesState } = location.state || { allRecipesState: false}
+  const { nameRecipe } = location.state || { nameRecipe: ''}
   const { countryName } = location.state || { countryName: ''}
   const { isVegan } = location.state || { isVegan: '' }
   const { isVegetarian } = location.state || { isVegetarian: '' }
@@ -50,6 +51,7 @@ const AllRecipesPage = ({ match, history }) => {
 
   // Lazy Loading!!!
   const [currentAllRecipesList, setCurrentAllRecipesList] = useState([]);
+  const [currentNameRecipesList, setCurrentNameRecipesList] = useState([]);
   const [currentCountryRecipesList, setCurrentCountryRecipesList] = useState([]);
   const [currentDietRecipesList, setCurrentDietRecipesList] = useState([]);
   const [currentAllerginRecipesList, setCurrentAllerginRecipesList] = useState([]);
@@ -82,6 +84,16 @@ const AllRecipesPage = ({ match, history }) => {
         if (pageNumber > pages) return
         setCurrentAllRecipesList(() => {
           return [...currentAllRecipesList, ...data];
+        });
+        setPageNumber(pageNumber + 1)
+      }
+      if (nameRecipe) {
+        const result = await axios.get(`/api/recipes/nameRecipes?nameRecipe=${nameRecipe}&pageNumber=${pageNumber}`)
+        const data = await result.data.nameRecipes
+        setPages(result.data.pages)
+        if (pageNumber > pages) return
+        setCurrentNameRecipesList(() => {
+          return [...currentNameRecipesList, ...data];
         });
         setPageNumber(pageNumber + 1)
       }
@@ -132,7 +144,7 @@ const AllRecipesPage = ({ match, history }) => {
 	useEffect(() => {
 		if (!isFetching) return;
       fetchMoreListItems()
-	}, [isFetching]);
+	}, [isFetching, nameRecipe]);
 
 	const fetchMoreListItems = () => {
 		fetchData();
@@ -143,9 +155,23 @@ const AllRecipesPage = ({ match, history }) => {
     <div>
       {(isBrowser) ? (
             <div style={{paddingLeft: '200px', display: 'block', marginRight: 'auto', marginLeft: '20px'}} className="allRecipesPageMobile2Div">
-                {countryName === '' && (
+                {countryName === '' && nameRecipe === '' && (
                   <Row>
                     {currentAllRecipesList && currentAllRecipesList.map((recipe) => (
+                      <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
+                        <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
+                          <RecipeCard recipe={recipe} />
+                        </Suspense>
+                      </Col>
+                    ))}
+                    <Col xs={12} style={{paddingLeft: '10px', paddingRight: '30px', paddingBottom: '30px', textAlign: 'center'}}>
+                      <InfiniteScrollLoader pageNumber={pageNumber} pages={pages} loading={false} />
+                    </Col>
+                  </Row>
+                )}
+                {nameRecipe && (
+                  <Row>
+                    {currentNameRecipesList && currentNameRecipesList.map((recipe) => (
                       <Col key={recipe._id} style={{maxWidth: '190px', minWidth: '190px'}}>
                         <Suspense fallback={<img src={recipe.recipe_cover_image} alt='Avatar' style={{ width: '50%' }} />}>
                           <RecipeCard recipe={recipe} />
